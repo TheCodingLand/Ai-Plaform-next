@@ -5,7 +5,7 @@ import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import RunTrainingCard from "../../components/Training/RunTrainingCard";
 import withStyles from "@material-ui/core/styles/withStyles";
-import Context from 'components/Context/Context'
+
 import SocketProvider from 'components/Context/SocketProvider'
 
 const styles = theme => ({})
@@ -17,7 +17,7 @@ class TrainingPage extends React.Component {
   }
     startTraining = (data) => {
 
-      console.log(this.props.context)
+      //console.log(this.props.context)
     }
 
     startTesting(data) {
@@ -51,10 +51,10 @@ return (
 
 }}
 
-
+export default TrainingPage
 
     
-
+/* 
     export default withStyles(styles)(React.forwardRef((props, ref) => (
       <Context.Consumer>
         {context => <TrainingPage {...props} context={context} ref={ref} />}
@@ -62,5 +62,5 @@ return (
     ))
   )
 
-
+ */
     

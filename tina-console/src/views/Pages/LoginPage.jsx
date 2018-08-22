@@ -19,7 +19,7 @@ import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
-import Context from 'components/Context/Context'
+import {UserContext} from 'components/Context/UserProvider'
 import { Link, withRouter } from "react-router-dom";
 import loginPageStyle from "assets/jss/ctg-ai-lab/views/loginPageStyle.jsx";
 
@@ -129,11 +129,11 @@ class LoginPage extends React.Component {
 
                   <CardFooter className={classes.justifyContentCenter}>
                   {this.state.loggingIn ?<CircularProgress size={50} />:
-                  <Context.Consumer>{ context => 
+                  <UserContext.Consumer>{ context => 
                     <Button disabled={this.state.loggingIn} onClick={() => this.login(context)} color="rose" simple size="lg" block>
                       Let's Go
                     </Button>}
-                    </Context.Consumer>}
+                    </UserContext.Consumer>}
                   </CardFooter>
                   
                 </Card>

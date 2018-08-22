@@ -18,7 +18,7 @@ import Search from "@material-ui/icons/Search";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 
-import Context from 'components/Context/Context'
+import {UserContext} from 'components/Context/UserProvider'
 import headerLinksStyle from "assets/jss/ctg-ai-lab/components/headerLinksStyle";
 import Typography from "@material-ui/core/Typography";
 
@@ -43,9 +43,9 @@ class HeaderLinks extends React.Component {
     const { open } = this.state;
     return (
       <div>
-      <Context.Consumer>{context =>
-        <Typography className={classes.linkText}>Welcome : <b>{context.user}</b></Typography>}
-</Context.Consumer>
+      <UserContext.Consumer>{context =>
+        <Typography className={classes.linkText}>Welcome : <b>{context.user.name}</b></Typography>}
+      </UserContext.Consumer>
         <div className={classes.searchWrapper}>
         
           <CustomInput

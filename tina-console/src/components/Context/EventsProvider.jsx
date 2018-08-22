@@ -1,24 +1,32 @@
 import React from 'react'
 
 
-const EventsContext = React.createContext()
+export const EventsContext = React.createContext()
 
 
 class EventsProvider extends React.Component {
     constructor() {
         super()
-        //this.props.socket.on
-
     
     this.state = {
-        events : []
-
+        events : [],
+        action : this.action
     }
     
     
     }
+    subcribe = (event) => {
+        this.props.websocket.on(event, (obj) => this.setState(obj))
+    }
 
-    compo
+    //Actions:
+    action = (action, obj) => {
+        //this.setState({loading:true})
+        console.log('getting all events')
+        this.props.websocket.emit(action,obj)
+        
+    }
+    
 
     gotEvent = (event) => {
     console.log(event)
@@ -41,17 +49,10 @@ class EventsProvider extends React.Component {
 
     render () {
         this.props.websocket.on('event', this.gotEvent)
-        this.props.websocket.on('allevent', this.gotEvents)
+        this.props.websocket.on('allevents', this.gotEvents)
         console.log(this.props)
         return (
-            <EventsContext.Provider value = {{
-                Events : this.state.Events,
-                update: this.update,
-                
-
-
-            }}
-            >
+            <EventsContext.Provider value={this.state}>
             {this.props.children}
 
             </EventsContext.Provider>

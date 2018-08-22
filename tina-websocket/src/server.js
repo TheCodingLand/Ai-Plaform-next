@@ -8,6 +8,11 @@ io.on('connection', function (socket) {
         console.log("recieved getstats")
         console.log('answering to ', from)
     })
+    socket.on('training', function (msg,from) {
+        console.log("recieved Training data")
+        console.log('answering to ', from)
+        console.log(msg)
+    })
 })
 
 

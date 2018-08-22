@@ -18,7 +18,7 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-import Context from 'components/Context/Context'
+import {EventsContext} from 'components/Context/EventsProvider'
 
 const styles = theme => ({
   cardCategoryWhite: {
@@ -60,7 +60,8 @@ class RunTrainingCard extends React.Component {
 
   
 }
-  startTraining = (context) => { context.sendObject({ 
+  startTraining = (context) => { console.log('fired onclick')
+    context.action('training', { 
     action : `training`, 
     dataset : this.state.dataset, 
     model:this.state.model,
@@ -158,9 +159,9 @@ return (
               
             </CardBody>
             <CardFooter>
-            <Context.Consumer>{context =>
-              <Button onClick={() => this.props.startTraining(context)} color="primary">Start training</Button>
-            }</Context.Consumer>
+            <EventsContext.Consumer>{context =>
+              <Button onClick={() => this.startTraining(context)} color="primary">Start training</Button>
+            }</EventsContext.Consumer>
             </CardFooter>
           </Card>
     
