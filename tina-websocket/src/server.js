@@ -29,8 +29,7 @@ let redisEventsToListenTo = ['trainingresult', 'trainingstats', 'loginresult','p
 
 const makeRedisObj = (channel,message) => {
     if (channel === 'training') {
-        return { training:
-    {
+        return {
     key:'ft.training.'+message.dataset, 
     action : 'training',
     dataset: message.dataset,
@@ -42,7 +41,7 @@ const makeRedisObj = (channel,message) => {
     epochs: message.epochs,
     splitlang: message.splitlang  }
 
-}}}
+}}
 
 const redisBroadCast = new redisBroadCaster(io,redisSub,redisIn,redisEventsToListenTo)
 redisBroadCast.start()
