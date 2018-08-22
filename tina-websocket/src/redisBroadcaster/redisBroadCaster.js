@@ -1,5 +1,5 @@
 
-export default class redisWssBroadCaster {
+export default class redisBroadCaster {
 
     constructor(wss, redisSub, redisClient, channels) {
         this.wss = wss
@@ -16,6 +16,7 @@ export default class redisWssBroadCaster {
             
         }
     
+
 
         getRedisKey(channel, key) 
             {
