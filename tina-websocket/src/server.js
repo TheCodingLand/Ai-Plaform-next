@@ -24,9 +24,26 @@ const publishToredis = (data) => {
 
 let io = srv(3001)
 
-let eventsToListenTo = ['getstats','training','testing', 'optimize', 'upload', 'login', 'datasetlist']
+let eventsToListenTo = ['getstats','training','testing', 'optimize', 'upload', 'login', 'datasetlist', 'state']
 let redisEventsToListenTo = ['trainingresult', 'trainingstats', 'loginresult','predictionresult', 'stats', 'datasetcolumns', 'notifications']
 
+
+//gets app workers state from a static redis key called state on client request
+const getState = (socket) => {
+    redisIn.hgetall('state', (err,result) => {
+    if (!err) {
+            console.log(state)
+            socket.emit('state', JSON.stringify(result))}})
+//Updates the state of workers typically this would be done from elsewhere, like the workers themselves
+const setState = (mods) => {
+    let state = redisIn.hgetall('state', (err,result) => {
+        if (!err) {
+                state= Object.assign({}, result, mods)
+        }})
+        //state is always on db 1
+        console.log(state)
+        redisIn.hmset('state', state)
+    }
 
 //Transforms web request into a valid command for our workers
 const makeRedisObj = (channel,message) => {

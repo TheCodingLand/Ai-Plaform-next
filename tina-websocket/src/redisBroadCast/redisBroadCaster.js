@@ -30,6 +30,7 @@ export default class redisBroadCaster {
                     
                         //result = {key:key, action : "training started"}
                         this.wss.emit(this.channel, JSON.stringify(result))}})
-                    
+                        this.redisClient.expire(key,10)
             }
+            
 }

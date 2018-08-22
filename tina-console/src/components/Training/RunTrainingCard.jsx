@@ -55,12 +55,15 @@ class RunTrainingCard extends React.Component {
     splitlang: false,
     epochs : 200,
     version : '1', 
+    trainingStarted: false
   };
   this.handleChangeDataset = this.handleChangeDataset.bind(this)
 
   
 }
-  startTraining = (context) => { console.log('fired onclick')
+  startTraining = (context) => { 
+    this.setState({trainingStarted:true})
+    console.log('fired onclick')
     context.action('training', { 
     action : `training`, 
     dataset : this.state.dataset, 
@@ -160,7 +163,7 @@ return (
             </CardBody>
             <CardFooter>
             <EventsContext.Consumer>{context =>
-              <Button onClick={() => this.startTraining(context)} color="primary">Start training</Button>
+             this.state.trainingStarted ? <Button disabled>In Progress</Button> : <Button onClick={() => this.startTraining(context)} color="primary">Start training</Button>
             }</EventsContext.Consumer>
             </CardFooter>
           </Card>
