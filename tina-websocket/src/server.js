@@ -2,17 +2,44 @@ import srv from 'socket.io'
 
 let io = srv(3001)
 
-io.on('connection', function (socket) {
-    console.log('connexion started')
-    socket.on('getstats', function (msg,from) {
-        console.log("recieved getstats")
-        console.log('answering to ', from)
-    })
-    socket.on('training', function (msg,from) {
-        console.log("recieved Training data")
-        console.log('answering to ', from)
+eventsToListenTo = ['getstats','training','testing', 'optimize', 'upload']
+
+listenTo(channel, socket) 
+{
+    socket.on(channel, function (msg) {
+        console.log(`recieved ${channel} data`)
         console.log(msg)
     })
+}
+
+io.on('connection', function (socket) {
+    //registering listening channels
+    console.log('connexion started')
+    eventsToListenTo.forEach(channel => {
+        listenTo(channel, socket)
+    });
+    /* socket.on('getstats', function (msg) {
+        console.log("recieved getstats")
+        console.log(msg)
+    })
+    socket.on('training', function (msg) {
+        console.log("recieved Training data")
+        console.log(msg)
+    })
+    socket.on('testing', function (msg) {
+        console.log("recieved testing data")
+        console.log(msg)
+    })
+    socket.on('optimize', function (msg) {
+        console.log("recieved optimoize command")
+        console.log(msg)
+    })
+    socket.on('upload', function (msg) {
+        console.log("recieved upload")
+        console.log(msg)
+    }) */
+
+    //
 })
 
 
