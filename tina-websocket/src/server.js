@@ -1,6 +1,6 @@
 import srv from 'socket.io'
 import redis from 'redis'
-import redisBroadCaster from './redisBroadCaster/redisBroadCaster'
+import redisBroadCaster from 'redisBroadCast/redisBroadCaster'
 
 const redis_host= process.env.REDIS_HOST
 const host = "redis://" + redis_host + ":6379";
