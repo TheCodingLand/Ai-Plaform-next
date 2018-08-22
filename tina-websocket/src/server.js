@@ -29,21 +29,32 @@ let redisEventsToListenTo = ['trainingresult', 'trainingstats', 'loginresult','p
 
 const makeRedisObj = (channel,message) => {
     if (channel === 'training') {
-        return {
-    ...message,
-    key:'ft.training.'+message.dataset, 
+        var obj = Object.assign(
+            message, 
+            {key:'ft.training.'+message.dataset, 
     action : 'training',
     //dataset: message.dataset,
     learningRate: 0.2,
     ngrams: 3, 
-    datasetversion: '2', 
+    datasetversion: '2',
+            }
+  )
+
+        return { obj }
+    
+    /////key:'ft.training.'+message.dataset, 
+    ////action : 'training',
+    //dataset: message.dataset,
+  //  learningRate: 0.2,
+   // ngrams: 3, 
+   // datasetversion: '2', 
     //model : message.model, 
     //version: message.version, 
     //epochs: message.epochs,
     //splitlang: message.splitlang  
 }
 
-}}
+}
 
 const redisBroadCast = new redisBroadCaster(io,redisSub,redisIn,redisEventsToListenTo)
 redisBroadCast.start()
