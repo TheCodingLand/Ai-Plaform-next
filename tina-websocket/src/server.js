@@ -8,17 +8,17 @@ const host = "redis://" + redis_host + ":6379";
 //redisclient will read keys from server, we get notified of new keys from redisSub
 const redisIn = redis.createClient(host)
 const redisSub = redis.createClient(host)
-redisClient.select(2)
+redisIn.select(2)
 // redisServer will send keys mainly to the workers, pub notifies listeners of the new key
 const redisOut = redis.createClient(host)
 const redisPub = redis.createClient(host)
-redisServer.select(1)
+redisOut.select(1)
 
 
 
 const publishToredis = (data) => {
-    this.redisOut.hmset(data.key)
-    this.redisPub.publish(data.key)    
+    redisOut.hmset(data.key)
+    redisPub.publish(data.key)    
 }
 
 
