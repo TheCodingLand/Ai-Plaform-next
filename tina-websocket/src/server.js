@@ -29,7 +29,7 @@ let redisEventsToListenTo = ['trainingresult', 'trainingstats', 'loginresult','p
 
 const makeRedisObj = (channel,message) => {
     if (channel === 'training') {
-        var obj = Object.assign(
+        var obj = Object.assign({},
             message, 
             {key:'ft.training.'+message.dataset, 
     action : 'training',
@@ -39,8 +39,8 @@ const makeRedisObj = (channel,message) => {
     datasetversion: '2',
             }
   )
-
-        return { obj }
+        console.log(obj)        
+        return obj
     
     /////key:'ft.training.'+message.dataset, 
     ////action : 'training',
