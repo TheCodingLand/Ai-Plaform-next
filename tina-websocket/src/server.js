@@ -27,7 +27,7 @@ let io = srv(3001)
 let eventsToListenTo = ['getstats','training','testing', 'optimize', 'upload', 'login', 'datasetlist']
 let redisEventsToListenTo = ['trainingresult', 'trainingstats', 'loginresult','predictionresult', 'stats', 'datasetcolumns', 'notifications']
 
-const makeRedisObj = (channel,msg) => {
+const makeRedisObj = (channel,message) => {
     if (channel === 'training') {
         return { training:
     {
