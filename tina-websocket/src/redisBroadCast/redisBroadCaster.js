@@ -25,9 +25,7 @@ export default class redisBroadCaster {
             console.log(channel)
             console.log(key)
             this.redisClient.hgetall(key, (err,result) => {
-                if (!err) {
-                    
-                    
+                if (!err) {  
                         //result = {key:key, action : "training started"}
                         this.wss.emit(this.channel, JSON.stringify(result))}})
                         this.redisClient.expire(key,10)

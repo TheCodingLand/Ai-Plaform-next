@@ -61,10 +61,21 @@ class RunTrainingCard extends React.Component {
 
   
 }
+makeid = () => {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
   startTraining = (context) => { 
-    this.setState({trainingStarted:true})
+    let id = this.makeid()
+    this.setState({trainingStarted:true, id:id})
     console.log('fired onclick')
     context.action('training', { 
+    id:id,
     action : `training`, 
     dataset : this.state.dataset, 
     model:this.state.model,

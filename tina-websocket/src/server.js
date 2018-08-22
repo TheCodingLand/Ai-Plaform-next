@@ -25,7 +25,7 @@ const publishToredis = (data) => {
 let io = srv(3001)
 
 let eventsToListenTo = ['getstats','training','testing', 'optimize', 'upload', 'login', 'datasetlist', 'state']
-let redisEventsToListenTo = ['trainingresult', 'trainingstats', 'loginresult','predictionresult', 'stats', 'datasetcolumns', 'notifications']
+let redisEventsToListenTo = ['trainingresult', 'trainingstats', 'loginresult','predictionresult', 'stats', 'datasetcolumns', 'notifications','state']
 
 
 //gets app workers state from a static redis key called state on client request
@@ -45,19 +45,38 @@ const setState = (mods) => {
         redisIn.hmset('state', state)
     }
 
+clientSpecificRedisSub = (client,key) => {
+    redisSub.psubscribe(key)
+    redisSub.on('pmessage', (channel, key) => { redisIn.hgetall(key, (err,result) => {
+        if (!err) {  
+            //result = {key:key, action : "training started"}
+            client.emit(channel, JSON.stringify(result))}}
+            
+        )
+        redisIn.expire(key,10)
+
+           
+        })
+
+    }
+
+
+}
+
 //Transforms web request into a valid command for our workers
-const makeRedisObj = (channel,message) => {
+const makeRedisObj = (client,channel,message) => {
     if (channel === 'training') {
         var obj = Object.assign({},
             message, 
-            {key:'ft.training.'+message.dataset, 
+            {key:'ft.training.'+message.id, 
             action : 'training',
             learningRate: 0.2,
             ngrams: 3, 
             datasetversion: '2',
             }
             )
-        console.log(obj)        
+        console.log(obj)
+        clientSpecificRedisSub(client, obj.key)
         return obj  
 
         }
@@ -83,7 +102,7 @@ const listenTo = (channel, socket) => {
     socket.on(channel, function (msg) {
         console.log(`recieved ${channel} data`)
         console.log(msg)
-        let obj = makeRedisObj(channel,msg)
+        let obj = makeRedisObj(socket,channel,msg)
         publishToredis(obj)
     })
 }
