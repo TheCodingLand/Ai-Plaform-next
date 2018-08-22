@@ -69,6 +69,8 @@ services:
     - MONGO_INITDB_ROOT_PASSWORD=example
   ports :
     - "27017:27017"
+  volumes: 
+    - tina_data:/data/db
   networks:
    - ai-internal
    - ai-web
@@ -276,6 +278,7 @@ services:
 volumes:
   portainer_data:
   tina_data:
+  
     
 
 networks:
