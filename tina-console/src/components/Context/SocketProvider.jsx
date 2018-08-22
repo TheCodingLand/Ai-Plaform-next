@@ -23,7 +23,7 @@ websocket = () => {
      
     }
     let SOCKET_URL = `http://ws.${gethost()}`
-    SOCKET_URL = 'http://localhost:3000' //TEMPORARY, DEBUG
+    //SOCKET_URL = 'http://localhost:3000' //TEMPORARY, DEBUG
     let socket = io.connect(SOCKET_URL)
 
     return socket
