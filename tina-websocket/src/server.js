@@ -2,10 +2,9 @@ import srv from 'socket.io'
 
 let io = srv(3001)
 
-eventsToListenTo = ['getstats','training','testing', 'optimize', 'upload']
+let eventsToListenTo = ['getstats','training','testing', 'optimize', 'upload']
 
-listenTo(channel, socket) 
-{
+const listenTo = (channel, socket) => {
     socket.on(channel, function (msg) {
         console.log(`recieved ${channel} data`)
         console.log(msg)
