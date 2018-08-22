@@ -45,6 +45,8 @@ const setState = (mods) => {
         redisIn.hmset('state', state)
     }
 
+
+}
 const clientSpecificRedisSub = (client,key) => {
     redisSub.psubscribe(key)
     redisSub.on('pmessage', (channel, key) => { redisIn.hgetall(key, (err,result) => {
@@ -60,8 +62,6 @@ const clientSpecificRedisSub = (client,key) => {
 
     }
 
-
-}
 
 //Transforms web request into a valid command for our workers
 const makeRedisObj = (client,channel,message) => {
