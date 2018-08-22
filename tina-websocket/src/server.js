@@ -18,7 +18,7 @@ redisOut.select(1)
 
 const publishToredis = (data) => {
     redisOut.hmset(data.key,data)
-    redisPub.publish(data.key)    
+    redisPub.publish(data.key, data.key)    
 }
 
 
