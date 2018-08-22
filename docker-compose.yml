@@ -70,7 +70,7 @@ services:
   ports :
     - "27017:27017"
   volumes: 
-    - tina_data:/data/db
+    - mongo_db:/data/db
   networks:
    - ai-internal
    - ai-web
@@ -278,6 +278,7 @@ services:
 volumes:
   portainer_data:
   tina_data:
+  mongo_db:
   
     
 
