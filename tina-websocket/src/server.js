@@ -2,7 +2,9 @@ import srv from 'socket.io'
 
 let io = srv(3001)
 
-let eventsToListenTo = ['getstats','training','testing', 'optimize', 'upload']
+let eventsToListenTo = ['getstats','training','testing', 'optimize', 'upload', 'login', 'datasetlist']
+let redisEventsToListenTo = ['trainingresult', 'trainingstats', 'loginresult','predictionresult', 'stats', 'datasetcolumns']
+
 
 const listenTo = (channel, socket) => {
     socket.on(channel, function (msg) {
