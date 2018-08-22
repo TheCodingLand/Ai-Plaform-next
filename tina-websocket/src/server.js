@@ -51,7 +51,7 @@ const listenTo = (channel, socket) => {
     socket.on(channel, function (msg) {
         console.log(`recieved ${channel} data`)
         console.log(msg)
-        obj = makeRedisObj(channel,msg)
+        let obj = makeRedisObj(channel,msg)
         publishToredis(obj)
     })
 }
