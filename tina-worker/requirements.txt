@@ -1,0 +1,4 @@
+pybind11
+Cython
+redis
+pymongo

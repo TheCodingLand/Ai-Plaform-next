@@ -1,0 +1,285 @@
+version: '3'
+
+
+services:
+
+ #####PROXY#####
+ tina-traefik:
+  image: traefik:latest
+  restart: always
+  ports:
+   - 80:80
+   - 443:443
+   - 8081:8081
+   - 8082:8082
+  
+  labels:
+   - "traefik.backend=proxy"
+   - "traefik.frontend.rule=Host:proxy.${D_HOST}"
+   - "traefik.frontend.entryPoints=http"
+   - "traefik.port=8081"
+   - "traefik.enable=true"
+   
+  networks:
+   - ai-web
+   - ai-internal
+  volumes:
+   - /var/run/docker.sock:/var/run/docker.sock
+   - ./traefik/traefik.toml:/etc/traefik/traefik.toml
+   - ./traefik/acme.json:/etc/traefik/acme.json
+ #####CONTAINER MANAGEMENT#####
+ tina-portainer:
+    image: portainer/portainer
+    labels:
+      - "traefik.backend=portainer"
+      - "traefik.docker.network=ai-web"
+      - "traefik.enable=true"
+      - "traefik.port=9000"
+      - "traefik.frontend.rule=Host:portainer.${D_HOST}"
+      - "traefik.frontend.entryPoints=http"
+    volumes:
+      - ./data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9000:9000
+  
+    networks:
+      - ai-internal
+      - ai-web
+ 
+
+
+ #####Automatic rolling updates for containers#####
+#  watchtower:
+#     image: v2tec/watchtower
+#     command: --cleanup portainer-app portainer-watchtower portainer/templates
+#     networks:
+#       - ai-internal
+#     volumes:
+#       - /var/run/docker.sock:/var/run/docker.sock
+
+
+
+ tina-mongodb:
+  image: mongo
+  restart: always
+  environment:
+    
+    - MONGO_INITDB_ROOT_USERNAME=root
+    - MONGO_INITDB_ROOT_PASSWORD=example
+  ports :
+    - "27017:27017"
+  networks:
+   - ai-internal
+   - ai-web
+ #####NODE SERVER WEBSOCKET#####
+ tina-websocket:
+  
+  build: ./tina-websocket/
+  environment:
+   - REDIS_HOST=${REDIS_HOST}
+   
+  labels:
+   - "traefik.backend=websocket"
+   - "traefik.docker.network=ai-web"
+   - "traefik.enable=true"
+   - "traefik.port=3001"
+   - "traefik.frontend.rule=Host:ws.${D_HOST}"
+   - "traefik.frontend.entryPoints=http"
+  #test debug ws and traefik
+  expose:
+    - "3001"
+  ports :
+    - "3001:3001"
+  
+  networks:
+   - ai-internal
+   - ai-web
+  
+  
+ #####REDIS MESSAGE QUEUE#####
+ tina-redis:
+  restart: always
+  image: redis:latest
+  expose:
+   - "6379"
+  ports:
+   - "6379:6379"
+  volumes:
+   - ./redis:/data
+  networks:
+   - ai-internal
+
+ #####REDIS ADMIN SERVER#####
+ tina-redis-admin:
+
+  image: faktiva/php-redis-admin
+
+  environment:
+   - PHPREDMIN_DATABASE_REDIS_0_HOST=${REDIS_HOST}
+  
+  labels:
+   - "traefik.backend=pra"
+   - "traefik.docker.network=ai-web"
+   - "traefik.enable=true"
+   - "traefik.port=80"
+   - "traefik.frontend.rule=Host:pra.${D_HOST}"
+   - "traefik.frontend.entryPoints=http"
+  expose:
+   - "80"
+
+  depends_on:
+   - tina-redis
+  networks:
+   - ai-web
+   - ai-internal
+
+ ### WORKERS 
+ training-worker:
+    build: ./tina-worker
+    volumes:
+      - tina_data:/data/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - ACTION=training
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
+
+ prediction-worker:
+    build: ./tina-worker
+    volumes:
+      - tina_data:/data/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - ACTION=predict
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
+
+ tina-api:
+    build: ./tina-api
+    volumes:
+      - tina_data:/data/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+    labels:
+      - "traefik.backend=api"
+      - "traefik.docker.network=ai-web"
+      - "traefik.enable=true"
+      - "traefik.port=5000"
+      - "traefik.frontend.rule=Host:api.${D_HOST}"
+      - "traefik.frontend.entryPoints=http"
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
+      - ai-web
+   
+      
+ tina-console:
+    build: ./tina-console
+    labels:
+        - "traefik.backend=console"
+        - "traefik.docker.network=web"
+        - "traefik.enable=true"
+        - "traefik.port=8080"
+        - "traefik.frontend.rule=Host:console.${D_HOST}"
+        - "traefik.frontend.entryPoints=http"
+        
+    expose:
+      - "8080"
+    networks:
+      - ai-web
+      
+
+ tina-upload:
+    environment:
+      - DESTINATION=/data
+    build: ./tina-upload/
+    labels:
+        - "traefik.backend=upload"
+        - "traefik.docker.network=web"
+        - "traefik.enable=true"
+        - "traefik.port=8080"
+        - "traefik.frontend.rule=Host:upload.${D_HOST}"
+        - "traefik.frontend.entryPoints=http"
+    expose:
+      - "8080"
+    volumes:
+      - '/media/docs:/data'
+    networks:
+      - ai-web
+    working_dir : /usr/src/app
+    command: sh -c 'node ./src/index.js'
+
+#  tina-models:
+
+#     build: ./tina-models
+#     expose:
+#      - "8888"
+#     command: sh -c 'python3 manage.py makemigrations && python3 manage.py migrate --run-syncdb && python3 createsuperuser.py && python3 eventmanager.py & gunicorn mydjango.wsgi:application -w 2 -b :8888'
+#     working_dir: /data/tina-list/mydjango
+#     environment:
+#       - CREATE_SUPER_USER=${CREATE_SUPER_USER}
+#       - SUPER_USER=${SUPER_USER}
+#       - SUPER_USER_PASSWORD=${SUPER_USER_PASSWORD}
+#       - SUPER_USER_EMAIL=${SUPER_USER_EMAIL}
+#       - DB_NAME=${TINA_DB_NAME}
+#       - DB_USER=${TINA_DB_USER}
+#       - DB_PASS=${TINA_DB_PASS}
+#       - DB_SERVICE=${TINA_DB_SERVICE}
+#       - DB_PORT=${TINA_DB_PORT}
+#     volumes:
+#       - ./tina-models:/data/tina-models/mydjango
+    
+#     labels:
+#       - "traefik.docker.network=web"
+#       - "traefik.enable=true"
+#       - "traefik.port=8888"
+#       - "traefik.frontend.rule=Host:models.${D_HOST}"
+#       - "traefik.frontend.entryPoints=http"
+#     depends_on:
+#       - tina-db
+#     networks:
+#       - ai-web
+#     restart: always
+
+
+#  tina-db:
+#     restart: always
+#     image: postgres:latest
+#     ports:
+#       - 5432:5432
+#     environment:
+#       - POSTGRES_DB=${TINA_DB_NAME}
+#       - POSTGRES_USER=${TINA_DB_USER}
+#       - POSTGRES_PASSWORD=${TINA_DB_PASS}
+#     labels:
+#       - "traefik.docker.network=web"
+#       - "traefik.frontend.rule=Host:db.${D_HOST}"
+#       - "traefik.enable=true"
+#       - "traefik.port=5432"
+#       - "traefik.frontend.entryPoints=http"
+#     networks:
+#       - ai-web
+
+#     volumes:
+#       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+#     expose:
+#       - "5432"
+
+
+
+volumes:
+  portainer_data:
+  tina_data:
+    
+
+networks:
+  ai-web:
+    external: true
+  ai-internal:
+    external: false
