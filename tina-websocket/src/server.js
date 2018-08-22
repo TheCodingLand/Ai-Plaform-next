@@ -45,7 +45,7 @@ const setState = (mods) => {
         redisIn.hmset('state', state)
     }
 
-clientSpecificRedisSub = (client,key) => {
+const clientSpecificRedisSub = (client,key) => {
     redisSub.psubscribe(key)
     redisSub.on('pmessage', (channel, key) => { redisIn.hgetall(key, (err,result) => {
         if (!err) {  
