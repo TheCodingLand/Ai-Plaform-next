@@ -76,7 +76,7 @@ services:
    - ai-web
  #####NODE SERVER WEBSOCKET#####
  tina-websocket:
-  
+  restart: always
   build: ./tina-websocket/
   environment:
    - REDIS_HOST=${REDIS_HOST}
