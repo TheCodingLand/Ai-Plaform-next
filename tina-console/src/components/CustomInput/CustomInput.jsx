@@ -22,6 +22,7 @@ function CustomInput({ ...props }) {
     inputProps,
     error,
     onChange,
+    disabled,
     success
   } = props;
 
@@ -59,6 +60,7 @@ function CustomInput({ ...props }) {
         }}
         onChange={onChange}
         id={id}
+        disabled={disabled}
         {...inputProps}
       />
       {error ? (

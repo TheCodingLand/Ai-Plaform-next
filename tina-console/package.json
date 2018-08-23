@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^1.4.1",
     "@material-ui/icons": "^2.0.0",
+    "@material-ui/lab": "^1.0.0-alpha.11",
     "chartist": "^0.11.0",
     "history": "^4.7.2",
     "perfect-scrollbar": "^1.4.0",
