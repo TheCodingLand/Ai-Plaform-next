@@ -11,6 +11,7 @@ from .db import db
 
 logger = logging.getLogger(__name__)
 
+database =db()
 
 DATADIR = "/data/datafiles"
 MODELDIR =  "/data/models"
@@ -140,7 +141,7 @@ class model(object):
             else:
                 model.skipgram(input=trainingfile.fullpath, output='model', epoch=self.config.epochs, lr=self.config.learningRate)
             logger.warning("Finished training model")
-            db.writeModel(self)
+            database.writeModel(self)
 
 
         if self.splitTestDataAt!=None:
