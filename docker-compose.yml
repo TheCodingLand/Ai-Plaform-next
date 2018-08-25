@@ -124,7 +124,7 @@ services:
    - ME_CONFIG_BASICAUTH_PASSWORD=${ME_CONFIG_BASICAUTH_PASSWORD}
   
   labels:
-   - "traefik.backend=pra"
+   - "traefik.backend=mongo"
    - "traefik.docker.network=ai-web"
    - "traefik.enable=true"
    - "traefik.port=8081"
@@ -133,8 +133,6 @@ services:
   expose:
    - "8081"
 
-  depends_on:
-   - tina-redis
   networks:
    - ai-web
    - ai-internal
