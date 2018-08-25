@@ -96,7 +96,7 @@ class RunTrainingCard extends React.Component {
       splitlang: this.state.splitlang,
       epochs: this.state.epochs,
       version: this.state.version,
-      learningrate: this.learningrate,
+      learningRate: this.learningrate,
       ngrams: this.ngrams
     })
   }
