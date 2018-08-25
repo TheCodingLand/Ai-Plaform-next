@@ -146,11 +146,11 @@ class ftConverter():
                     ftdata.write(txt)
             ftdata.close()
     def buildFromMongoCollection(self):
-        cursor = collection_bnp.find({})
+    
     
         i = 0
         ftdata = open(f'{self.filename}{self.classificationcolomn}.fasttext', 'w', encoding='utf-8')
-        for entry in cursor:
+        for entry in collection_bnp.find():
     # do stuff with your record
         #raw should be an array of objevts with fields dict["Title"] dict["Description"] and dict["AssociatedCategory"] for example
             
