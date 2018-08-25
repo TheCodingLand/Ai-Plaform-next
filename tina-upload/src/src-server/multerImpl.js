@@ -1,3 +1,6 @@
+
+
+
 module.exports = (app) => {
     const multer = require('multer');
     const path = require('path');
@@ -14,7 +17,7 @@ module.exports = (app) => {
         // Mimetype stores the file type, set extensions according to filetype
         //let name = path.parse(file.originalname).name
   
-        cb(null, 'data.' + ext);
+        cb(null, 'datafile.' + ext);
       }
     });
     const upload = multer({storage: storage});
@@ -24,7 +27,6 @@ module.exports = (app) => {
         console.log(`Received file ${req.file.originalname}`);
         console.log(`Received data ${req.body}`);
       }
-  
       res.send({ responseText: req.file.path }); // You can send any response to the user here
     });
     app.post('/getstatus', function (req, res, next) {
