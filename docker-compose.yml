@@ -173,6 +173,7 @@ services:
     environment:
       - REDIS_HOST=${REDIS_HOST}
       - ACTION=training
+      - MONGODB_SERVER=${MONGODB_SERVER}
     links:
       - tina-redis
     networks:
@@ -185,6 +186,7 @@ services:
     environment:
       - REDIS_HOST=${REDIS_HOST}
       - ACTION=predict
+      - MONGODB_SERVER=${MONGODB_SERVER}
     links:
       - tina-redis
     networks:

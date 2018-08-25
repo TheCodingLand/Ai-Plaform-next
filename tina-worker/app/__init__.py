@@ -1,2 +1,4 @@
 from pymongo import MongoClient
-client = MongoClient('mongodb', 27017)
+import os
+mongohost = os.environ.get('MONGODB_SERVER')
+client = MongoClient(mongohost, 27017)
