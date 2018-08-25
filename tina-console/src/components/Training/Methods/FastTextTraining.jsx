@@ -149,7 +149,6 @@ class RunTrainingCard extends React.Component {
                 labelText="Dataset version"
                 id="datasetverson"
                 disabled
-               
                 formControlProps={{
                   fullWidth: true
                 }}
