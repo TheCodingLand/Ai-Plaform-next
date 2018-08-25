@@ -1,24 +1,41 @@
 
-from pymongo import MongoClient
+from app import client
 
-
-class bd():
-    client = MongoClient('mongodb', 27017)
-    db = client.ft
+class db():
+    
+    client = client
 
     def getFtModels(self):
-        return self.db.models
+        return self.client.models
     def getFtDatasets(self):
-        return self.db.datasets
+        return self.client.datasets
     def getFtStats(self):
-        return self.db.stats
+        return self.client.stats
     
-    def writeModel(self,model):
-        self.db.model.insert_one(model)
+    def writeModel(self,aimodel):
+        model = {"model" :
+        {
+            "name" : aimodel.name,
+            "version" : aimodel.version,
+            "supervised": aimodel.supervised,
+            "ft": aimodel.ft,
+            "quantized": aimodel.quantized,
+            "filepath": aimodel.filepath,
+            "config" : {
+                "bias" : aimodel.config.bias,
+                "ngrams" : aimodel.config.ngrams,
+                "learningRate" : aimodel.config.learningRate,
+                "epochs": aimodel.config.epochs,
+                "method": aimodel.config.method
+            }
+        }
+        }
+        self.client.models.find_one_and_replace(filter=model, replacement=model, upsert=True)
+            
     def writeStat(self,stat):
-        self.db.stats.insert_one(stat)
+        self.client.stats.insert_one(stat)
     def writeDataSet(self,dataset):
-        self.db.datasets.insert_one(dataset)
+        self.client.datasets.insert_one(dataset)
         
     
 

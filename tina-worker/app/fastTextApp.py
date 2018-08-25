@@ -5,6 +5,8 @@ from pyfasttext import FastText
 import logging
 import glob, os
 from app.stats import prediction
+from db import db
+
 #need to move this to a worker instance, for now we simulate
 
 logger = logging.getLogger(__name__)
@@ -138,6 +140,8 @@ class model(object):
             else:
                 model.skipgram(input=trainingfile.fullpath, output='model', epoch=self.config.epochs, lr=self.config.learningRate)
             logger.warning("Finished training model")
+            db.writeModel(self)
+
 
         if self.splitTestDataAt!=None:
             logging.error(self.testRun(.75,testpath))

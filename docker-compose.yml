@@ -118,7 +118,7 @@ services:
   image: mongo-express
 
   environment:
-   - ME_CONFIG_MONGODB_SERVER=${ME_CONFIG_MONGODB_SERVER}
+   - ME_CONFIG_MONGODB_SERVER=${MONGODB_SERVER}
    - ME_CONFIG_OPTIONS_EDITORTHEME=${ME_CONFIG_OPTIONS_EDITORTHEME}
    - ME_CONFIG_BASICAUTH_USERNAME=${ME_CONFIG_BASICAUTH_USERNAME}
    - ME_CONFIG_BASICAUTH_PASSWORD=${ME_CONFIG_BASICAUTH_PASSWORD}
@@ -195,6 +195,7 @@ services:
       - tina_data:/data/
     environment:
       - REDIS_HOST=${REDIS_HOST}
+      - MONGODB_SERVER=${MONGODB_SERVER}
     labels:
       - "traefik.backend=api"
       - "traefik.docker.network=ai-web"
