@@ -40,7 +40,7 @@ def manageActions(keyname, key, ft):
         splitTrainingAt = key.get('splitTraining')
         
         label = key.get('label') #will be just used for metadata of the model, so we know why we trained this model for, what to predict
-        m = model(modelname, version, True, False, learningRate, epochs, 3,95) #quantized will be implemented later
+        m = model(id,modelname, version, True, False, learningRate, epochs, 3,95) #quantized will be implemented later
         data = datafile('datafile.ft', datasetname, True, datasetversion, label)
         result = m.train(data)
         return result

@@ -96,7 +96,8 @@ class model(object):
     config = None
     filepath =""
 
-    def __init__(self, name, version, supervised, quantized, learningRate=0.2, epochs=200, ngrams=3, splitTestDataAt=None):
+    def __init__(self, id, name, version, supervised, quantized, learningRate=0.2, epochs=200, ngrams=3, splitTestDataAt=None):
+        self.id=id
         self.name = name
         self.version = version
         self.supervised = supervised
