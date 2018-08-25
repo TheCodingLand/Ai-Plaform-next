@@ -5,7 +5,7 @@ from pyfasttext import FastText
 import logging
 import glob, os
 from app.stats import prediction
-from db import db
+from .db import db
 
 #need to move this to a worker instance, for now we simulate
 
