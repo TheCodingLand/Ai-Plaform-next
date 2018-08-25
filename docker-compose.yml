@@ -93,7 +93,8 @@ services:
     - "3001"
   ports :
     - "3001:3001"
-  
+  depends_on: 
+    - tina-redis
   networks:
    - ai-internal
    - ai-web
