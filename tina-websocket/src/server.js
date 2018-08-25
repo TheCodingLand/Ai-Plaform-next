@@ -70,9 +70,7 @@ const makeRedisObj = (client,channel,message) => {
             message, 
             {key:'ft.training.'+message.id, 
             action : 'training',
-            learningRate: 0.2,
-            ngrams: 3, 
-            datasetversion: '2',
+            datasetversion: '2'
             }
             )
         console.log(obj)
