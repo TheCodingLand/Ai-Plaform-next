@@ -129,7 +129,7 @@ class model(object):
             testpath=trainingfile.fullpath+'.test'
             trainingfile.fullpath=trainingfile.fullpath+'.train'
         skipTraining=False #debug for testing models quickly
-        if skipTraining==True:
+        if skipTraining==False:
             logging.error(trainingfile.fullpath)
             logger.info(f'Training started with : learningRate:{self.config.learningRate!s}, epochs:{self.config.epochs!s}, ngrams :{self.config.ngrams!s}')
             model = FastText()
