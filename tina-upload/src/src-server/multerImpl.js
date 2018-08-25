@@ -1,3 +1,4 @@
+var shell = require('shelljs');
 
 
 
@@ -8,7 +9,9 @@ module.exports = (app) => {
       destination: function (req, file, cb) {
         
         let root = app.get('destination')
-        root = `${root} + /${req.body.type}/${req.body.name}/${req.body.version}/`
+        
+        root = `${root}/${req.body.type}/${req.body.name}/${req.body.version}/`
+        shell.mkdir('-p', root)
         cb(null, root)
       },
       
