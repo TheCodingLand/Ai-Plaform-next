@@ -28,7 +28,7 @@ module.exports = (app) => {
     app.post('/uploadHandler', upload.single('file'), function (req, res, next) {
       if (req.file && req.file.originalname) {
         console.log(`Received file ${req.file.originalname}`);
-        console.log(`Received data ${req.body}`);
+        console.log('Received data', req.body);
       }
       res.send({ responseText: req.file.path }); // You can send any response to the user here
     });
