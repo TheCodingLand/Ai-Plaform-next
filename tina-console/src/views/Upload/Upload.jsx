@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import DropzoneComponent from 'react-dropzone-component';
-
+import Button from 'components/CustomButtons/Button'
 import 'react-dropzone-component/styles/filepicker.css'
 
 
@@ -8,20 +8,64 @@ export default class Upload extends Component {
    
     constructor(props) {
         super(props);
+        this.state = {
+            datasetname: "",
+            valid:true
+        }
 
         // For a full list of possible configurations,
         // please consult http://www.dropzonejs.com/#configuration
         this.djsConfig = {
             addRemoveLinks: true,
-            acceptedFiles: ".zip,.csv,.iso",
+            acceptedFiles: "*.*",
             maxFilesize: 50000,
+            autoProcessQueue: false
         };
 
         this.componentConfig = {
-            iconFiletypes: ['.zip', '.csv', '.iso'],
-            showFiletypeIcon: true,
+            iconFiletypes: [],
+            showFiletypeIcon: false,
             postUrl: 'http://upload.tina.ctg.lu/uploadHandler'
         };
+
+
+
+
+
+
+
+
+        this.added = (file) => {this.setState({visible:'None', filesize:file.size, uploading:true})} 
+        
+        this.send = (file, xhr, formData) => {
+        this.setState({links:[]})
+        
+        let currentdate = new Date()
+        let s = Date.now();
+        s = s.toString()
+        s = s + file.name
+
+        let token = btoa(s)
+        if (token.length<25){
+        token = token.slice(8,19)
+    }   else{token = token.slice(8,24)}
+        this.setState({token:token})
+        formData.append('token', token)
+        //localStorage.setItem(this.state)
+    }
+
+
+
+
+
+
+
+
+
+
+    
+
+
 
         // If you want to attach multiple callbacks, simply
         // create an array filled with all your callbacks.
@@ -42,6 +86,13 @@ export default class Upload extends Component {
         this.dropzone = null;
     }
 
+
+    handlePost() {
+        this.dropzone.processQueue();
+    }
+
+
+
     render() {
         const config = this.componentConfig;
         const djsConfig = this.djsConfig;
@@ -50,12 +101,13 @@ export default class Upload extends Component {
         const eventHandlers = {
             init: dz => this.dropzone = dz,
             drop: this.callbackArray,
-            addedfile: this.callback,
+            addedfile: this.added,
             success: this.success,
-            removedfile: this.removedfile
+            removedfile: this.removedfile,
+            sending: this.send
         }
 
-
+        
 
 
             return (
@@ -66,7 +118,7 @@ export default class Upload extends Component {
                 </div>
                 <aside>
                   <ul>
-                  
+                    {this.state.valid ? <Button onClick={this.handlePost.bind(this)}>Start Upload</Button> :""}
                   </ul>
                 </aside>
               </section>
