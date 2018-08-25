@@ -3,12 +3,14 @@
 
 
 def manageActions(keyname, key, ft):
+    id = key.get('id')
     #action="predict",name=name, version=version, text=text, nbofresults=nbofresults
     if key.get("action")=="predict":
         modelname = key.get('name')
         version = key.get('version')
         text= key.get('text')
         nbofresults  = key.get('nbofresults')
+        
         seletedmodel = None
         for model in ft.loadedmodels:
             if model.name == modelname and model.version == version:
@@ -28,7 +30,7 @@ def manageActions(keyname, key, ft):
         
         from app.fastTextApp import model
         from app.fastTextApp import datafile
-
+        
         modelname = key.get('model')
         version = key.get('version')
         datasetname = key.get('dataset')

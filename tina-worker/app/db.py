@@ -30,7 +30,7 @@ class db():
             }
         }
         }
-        self.client.models.find_one_and_replace(filter=model, replacement=model, upsert=True)
+        self.client.ft.models.find_one_and_replace(filter=model, replacement=model, upsert=True)
             
     def writeStat(self,stat):
         self.client.stats.insert_one(stat)
