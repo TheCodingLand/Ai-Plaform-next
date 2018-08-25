@@ -68,7 +68,7 @@ class RunTrainingCard extends React.Component {
       epochs: 200,
       version: '1',
       ngrams: 3,
-      learningrate: .2,
+      learningRate: .2,
       trainingStarted: false
     };
     this.handleChangeDataset = this.handleChangeDataset.bind(this)
@@ -96,8 +96,8 @@ class RunTrainingCard extends React.Component {
       splitlang: this.state.splitlang,
       epochs: this.state.epochs,
       version: this.state.version,
-      learningRate: this.learningrate,
-      ngrams: this.ngrams
+      learningRate: this.state.learningRate,
+      ngrams: this.state.ngrams
     })
   }
 
@@ -180,11 +180,11 @@ class RunTrainingCard extends React.Component {
               <Typography className={classes.sliders} id="learningratelabel">Learning Rate</Typography>
               <GridContainer>
                 <GridItem xs={10} sm={10} md={10}>
-                  <Slider value={this.state.learningrate} aria-labelledby="learningratelabel" min={0} max={1} step={.1} onChange={this.handleChangeSlider('learningrate')} />
+                  <Slider value={this.state.learningRate} aria-labelledby="learningratelabel" min={0} max={1} step={.1} onChange={this.handleChangeSlider('learningRate')} />
                 </GridItem>
 
                 <GridItem xs={2} sm={2} md={2}>
-                  <Typography>{this.state.learningrate.toFixed(2)}</Typography>
+                  <Typography>{this.state.learningRate.toFixed(2)}</Typography>
                 </GridItem>
 
               </GridContainer>
