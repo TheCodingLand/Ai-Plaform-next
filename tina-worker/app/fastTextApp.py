@@ -58,6 +58,8 @@ class datafile(object):
         self.label= label
         self.fullpath = f"{DATADIR}/{name}/{version}/{filename}"
     
+
+    
     
         
         
@@ -80,12 +82,27 @@ class model(object):
     learningRate = .2
     epochs = 200
     method = ""
+    model=None
+    id=""
 
     def __init__(self, id=None):
         if id!=None:
-            database.getFtModel(id)
+            m = database.getFtModel(id)
+            self.id = id
+            self.initFromDict(m)
 
+    def initFromDict(data):
 
+        
+        self.name = data['name']
+        self.version = data['version']
+        self.supervised = True
+        self.quantized = False
+        self.learningRate=data['learningRate']
+        self.epochs=data['epochs']
+        self.ngrams=data['ngrams']
+        self.splitAt=data['splitAt']
+           
     
     def quantize(self):
             logger.error("TODO")
@@ -100,21 +117,10 @@ class model(object):
         return "success"
 
 
-    def train(self, ftmodel,trainingfile):
+    def train(self,trainingfile):
         """Starts model building"""
         
 
-        self.id=id
-        self.name = ftmodel['name']
-        self.version = ftmodel['version']
-        self.supervised = True
-        self.quantized = False
-        self.learningRate=['learningRate']
-        self.epochs=ftmodel['epochs']
-        self.ngrams=ftmodel['ngrams']
-        self.splitAt=ftmodel['splitAt']
-        
-        
         self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"
         
         if not os.path.exists(f"{MODELDIR}/{self.name}/{self.version!s}"):
@@ -145,11 +151,13 @@ class model(object):
 
         return "finished"
     
-    def testRun(self, dataf, threshold):
+    def testRun(self, ftmodel=self.model,dataf, threshold):
         """this takes a model, and tests it with various paramaters. returns a result dictionnary, 
         { total : 133, threshold: 85, ignoredEntries : 10, success: 110, failures : 13 }"""
         
-
+        self.name = ftmodel['name']
+        self.version = ftmodel['version']
+        self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"
         logging.error(self.filepath)
         
         

@@ -5,7 +5,7 @@ import json
 
 
 def manageActions(keyname, key, ft):
-    id = key.get('id')
+    token = key.get('id')
     #action="predict",name=name, version=version, text=text, nbofresults=nbofresults
     if key.get("action")=="predict":
         modelname = key.get('name')
@@ -36,20 +36,19 @@ def manageActions(keyname, key, ft):
         
         ftmodel=json.loads(key.get('model'))
         dataset=json.loads(key.get('dataset'))
-        
+        testmodel = key.get('testmodel')
         confidence = int(key.get('confidence'))
    
-        splitAt= int(key.get('splitAt'))
+      
 
-        runtest = key.get('runTests')
         
          #will be just used for metadata of the model, so we know why we trained this model for, what to predict
-        m = model(id,model,dataset,splitAt) #quantized will be implemented later
+        m = model(ftmodel) 
         
         data = datafile('datafile.ft', dataset['dataset']['name'], True, dataset['dataset']['version'], dataset['dataset']['classifier'])
             
         m.train(data)
-        if runtest == 'true':
+        if testmodel == 'true':
             m.testRun(data,confidence)
         return result
 
@@ -62,10 +61,10 @@ def manageActions(keyname, key, ft):
         ftmodel=json.loads(key.get('model'))
         dataset=json.loads(key.get('dataset'))
         confidence = int(key.get('confidence'))
-        splitAt= int(key.get('splitAt'))
+        
         
          #will be just used for metadata of the model, so we know why we trained this model for, what to predict
-        m = model(id,ftmodel, dataset, splitAt) #quantized will be implemented later
+        m = model(ftmodel) #quantized will be implemented later
         #data = datafile('datafile.ft', datasetname, True, datasetversion, label)
         data = datafile('datafile.ft', dataset['dataset']['name'], True, dataset['dataset']['version'], dataset['dataset']['classifier'])
         result = m.testRun(data, confidence)

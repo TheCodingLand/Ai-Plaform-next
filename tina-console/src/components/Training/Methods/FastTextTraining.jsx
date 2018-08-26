@@ -79,12 +79,12 @@ class RunTrainingCard extends React.Component {
           version: '1',
           ngrams: 3,
           learningRate: .2,
+          splitAt:95
       }},
-      
+    
+    testmodel:true,
     confidence: 90,
-      
-      splitAt: 95,
-      trainingStarted: false
+    trainingStarted: false
     };
     this.handleChangeDataset = this.handleChangeDataset.bind(this)
 
@@ -108,7 +108,8 @@ class RunTrainingCard extends React.Component {
       action: `training`,
       dataset: this.state.dataset,
       model: this.state.model,
-      splitAt: this.state.splitAt,
+     
+      testmodel: this.state.model.testmodel,
       confidence: this.state.confidence
     })
   }
