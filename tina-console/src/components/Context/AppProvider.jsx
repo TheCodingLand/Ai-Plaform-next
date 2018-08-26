@@ -1,10 +1,10 @@
 import React from 'react'
-import axios from axios
+import axios from 'axios'
 
 export const AppContext = React.createContext()
 
 
-class AppProvider extends React.Component {
+export class AppProvider extends React.Component {
     constructor() {
         super()
     

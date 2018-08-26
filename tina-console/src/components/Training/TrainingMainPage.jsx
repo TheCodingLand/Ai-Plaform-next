@@ -10,7 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import { Paper } from '@material-ui/core';
 import FastTextTesting from './Methods/FastTextTesting';
-
+import {AppContext} from 'components/Context/AppProvider'
 
 const styles = theme => ({
   root: {
@@ -28,7 +28,9 @@ const styles = theme => ({
 class TrainingPage extends React.Component {
   render(){
     const {classes} = this.props
-    return (<Fragment>
+    return (
+    <AppContext.Consumer>{ context =>
+    <Fragment>
       
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -43,7 +45,7 @@ class TrainingPage extends React.Component {
               <Typography>Training</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-            <FastTextTraining />
+            <FastTextTraining appdata={context}/>
             </ExpansionPanelDetails>
           </ExpansionPanel>
 
@@ -52,7 +54,7 @@ class TrainingPage extends React.Component {
               <Typography>Testing</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-            <FastTextTesting />
+            <FastTextTesting appdata={context}/>
             </ExpansionPanelDetails>
           </ExpansionPanel>
       
@@ -61,7 +63,7 @@ class TrainingPage extends React.Component {
               <Typography>Optimize</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-            <FastTextTraining />
+            <FastTextTraining appdata={context} />
             </ExpansionPanelDetails>
           </ExpansionPanel>
           </Paper>
@@ -73,9 +75,9 @@ class TrainingPage extends React.Component {
     
     
     
-    
     </Fragment>
-      
+    }
+    </AppContext.Consumer>  
     )
 
 

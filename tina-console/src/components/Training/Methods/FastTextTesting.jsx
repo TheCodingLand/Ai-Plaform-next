@@ -66,7 +66,8 @@ class RunTestingCard extends React.Component {
       model: '',
       confidence: 90,
       TestingStarted: false,
-      split: 95
+      split: 95,
+      models: []
     };
     this.handleChangeDataset = this.handleChangeDataset.bind(this)
 
@@ -109,7 +110,11 @@ class RunTestingCard extends React.Component {
     
     //else if (name==="datasetname") {}
   };
+
+  
+
   render() {
+    
     const { classes } = this.props;
     return (
       <Card>
@@ -130,7 +135,11 @@ class RunTestingCard extends React.Component {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value="bnp">BNP v1</MenuItem>
+                  {this.props.appdata.datasets.map((ds) => {
+                
+                
+                  <MenuItem value={ds.name}>{ds.name} {ds.version}</MenuItem>
+                } )}
                 </Select>
                 <FormHelperText>go to upload to add more</FormHelperText>
               </FormControl>

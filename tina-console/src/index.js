@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch,Redirect } from "react-router-dom";
-
+import {AppProvider} from 'components/Context/AppProvider'
 import EventsProvider from 'components/Context/EventsProvider'
 import "assets/css/ctg-ai-lab.css?v=1.4.0";
 import {UserContext, UserProvider} from 'components/Context/UserProvider'
@@ -36,6 +36,7 @@ ReactDOM.render(
 
     <SocketContext.Consumer>{socket => 
     <UserProvider>
+    <AppProvider>  
     <EventsProvider websocket={socket.socket}>
   
     <Router history={hist}>
@@ -59,6 +60,7 @@ ReactDOM.render(
 
   </Router>
   </EventsProvider>
+  </AppProvider>
   </UserProvider>
   }
   </SocketContext.Consumer>
