@@ -43,7 +43,8 @@ def manageActions(keyname, key, ft):
 
         
          #will be just used for metadata of the model, so we know why we trained this model for, what to predict
-        m = model(ftmodel) 
+        m = model() 
+        m.initFromDict(ftmodel)
         
         data = datafile('datafile.ft', dataset['dataset']['name'], True, dataset['dataset']['version'], dataset['dataset']['classifier'])
             
@@ -64,7 +65,8 @@ def manageActions(keyname, key, ft):
         
         
          #will be just used for metadata of the model, so we know why we trained this model for, what to predict
-        m = model(ftmodel) #quantized will be implemented later
+        m = model() #quantized will be implemented later
+        m.initFromDict(ftmodel)
         #data = datafile('datafile.ft', datasetname, True, datasetversion, label)
         data = datafile('datafile.ft', dataset['dataset']['name'], True, dataset['dataset']['version'], dataset['dataset']['classifier'])
         result = m.testRun(data, confidence)
