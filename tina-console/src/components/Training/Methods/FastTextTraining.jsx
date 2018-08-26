@@ -62,6 +62,7 @@ class RunTrainingCard extends React.Component {
   constructor() {
     super()
     this.state = {
+      
       dataset: { _id: {$oid: ""},
                 dataset: {
                 name:"", 
@@ -101,6 +102,7 @@ class RunTrainingCard extends React.Component {
   }
   startTraining = (context) => {
     let id = this.makeid()
+    context.subscribe('id', this.trainingEventRecieved)
     this.setState({ trainingStarted: true, id: id })
     console.log('fired onclick')
     context.action('training', {
@@ -112,8 +114,12 @@ class RunTrainingCard extends React.Component {
       testmodel: this.state.model.testmodel,
       confidence: this.state.confidence
     })
+    
   }
- 
+  trainingEventRecieved(obj) {
+    console.log(obj)
+  }
+  
   handleChangeSlider = name => (event, value) => {
     
     let prevmodel =this.state.model.model
@@ -239,7 +245,7 @@ class RunTrainingCard extends React.Component {
               <Typography className={classes.sliders} id="ngramslabel">Ngrams</Typography>
               <GridContainer>
                 <GridItem xs={10} sm={10} md={10}>
-                  <Slider value={this.state.model.model.ngrams} aria-labelledby="ngramslabel" min={1} max={3} step={1} onChange={this.handleChangeSlider('ngrams')} />
+                  <Slider value={this.state.model.model.ngrams} aria-labelledby="ngramslabel" min={1} max={5} step={1} onChange={this.handleChangeSlider('ngrams')} />
                 </GridItem>
                 <GridItem xs={2} sm={2} md={2}>
                   <Typography>{this.state.model.model.ngrams}</Typography>

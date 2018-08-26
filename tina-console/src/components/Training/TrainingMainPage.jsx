@@ -11,7 +11,7 @@ import classnames from 'classnames';
 import { Paper } from '@material-ui/core';
 import FastTextTesting from './Methods/FastTextTesting';
 import {AppContext} from 'components/Context/AppProvider'
-
+import {EventsContext} from 'components/Context/EventsProvider'
 const styles = theme => ({
   root: {
     width: '100%',
@@ -29,6 +29,7 @@ class TrainingPage extends React.Component {
   render(){
     const {classes} = this.props
     return (
+    <EventsContext.Consumer>{ events => 
     <AppContext.Consumer>{ context =>
     <Fragment>
       
@@ -85,7 +86,8 @@ class TrainingPage extends React.Component {
     
     </Fragment>
     }
-    </AppContext.Consumer>  
+    </AppContext.Consumer> } 
+    </EventsContext.Consumer>
     )
 
 

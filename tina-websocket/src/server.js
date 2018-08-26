@@ -70,7 +70,7 @@ const makeRedisObj = (client,channel,message) => {
             message, 
             {key:'ft.training.'+message.id, 
             action : 'training',
-            datasetversion: '2',
+            
             model:JSON.stringify(message.model),
             dataset:JSON.stringify(message.dataset),
             }
@@ -106,6 +106,7 @@ const listenTo = (channel, socket) => {
         console.log(msg)
         let obj = makeRedisObj(socket,channel,msg)
         publishToredis(obj)
+        socket.emit(msg.id, {text:'Started'})
     })
 }
 
