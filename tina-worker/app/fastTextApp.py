@@ -84,6 +84,7 @@ class model(object):
     method = ""
     model=None
     id=""
+    splitAt
 
     def __init__(self, id=None):
         if id!=None:
@@ -91,7 +92,7 @@ class model(object):
             self.id = id
             self.initFromDict(m)
 
-    def initFromDict(data):
+    def initFromDict(self, data):
 
         
         self.name = data['name']
@@ -151,13 +152,11 @@ class model(object):
 
         return "finished"
     
-    def testRun(self, ftmodel=self.model,dataf, threshold):
+    def testRun(self ,dataf, threshold):
         """this takes a model, and tests it with various paramaters. returns a result dictionnary, 
         { total : 133, threshold: 85, ignoredEntries : 10, success: 110, failures : 13 }"""
         
-        self.name = ftmodel['name']
-        self.version = ftmodel['version']
-        self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"
+       
         logging.error(self.filepath)
         
         
