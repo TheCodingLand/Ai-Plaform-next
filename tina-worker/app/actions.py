@@ -52,15 +52,17 @@ def manageActions(keyname, key, ft):
         from app.fastTextApp import model
         from app.fastTextApp import datafile
 
-        modelname = key.get('model')
+        
         ftmodel=json.loads(key.get('model'))
         dataset=json.loads(key.get('model'))
-        
+        confidence = key.get('confidence')
+        splitAt= key.get('splitAt')
         
          #will be just used for metadata of the model, so we know why we trained this model for, what to predict
         m = model(ftmodel, dataset) #quantized will be implemented later
         #data = datafile('datafile.ft', datasetname, True, datasetversion, label)
-        result = m.testRun(dataset)
+        data = datafile('datafile.ft', dataset['dataset']['name'], True, dataset['dataset']['version'], dataset['dataset']['classifier'])
+        result = m.testRun(data, confidence,splitAt)
         
 
         

@@ -151,15 +151,17 @@ class model(object):
 
         return "finished"
     
-    def testRun(self, threshold, data):
+    def testRun(self, dataf, threshold):
         """this takes a model, and tests it with various paramaters. returns a result dictionnary, 
         { total : 133, threshold: 85, ignoredEntries : 10, success: 110, failures : 13 }"""
         
 
         logging.error(self.filepath)
         
+        
+        
         model = FastText(self.filepath+'.bin')
-        data=open(data,'r').readlines()
+        data=open(dataf.fullpath,'r').readlines()
         i = 0
         correct = 0
         percent = 0
