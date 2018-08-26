@@ -54,7 +54,7 @@ def manageActions(keyname, key, ft):
 
         
         ftmodel=json.loads(key.get('model'))
-        dataset=json.loads(key.get('model'))
+        dataset=json.loads(key.get('dataset'))
         confidence = key.get('confidence')
         splitAt= key.get('splitAt')
         
