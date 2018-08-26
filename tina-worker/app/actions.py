@@ -30,21 +30,27 @@ def manageActions(keyname, key, ft):
 
     if key.get("action")=="training":
         
+
         from app.fastTextApp import model
         from app.fastTextApp import datafile
         
-        modelname = key.get('model')
-        version = key.get('version')
-        datasetname = key.get('dataset')
-        datasetversion = key.get('datasetversion')
-        learningRate= float(key.get('learningRate'))
-        epochs= int(key.get('epochs'))
-        splitTrainingAt = key.get('splitTraining')
+        ftmodel=json.loads(key.get('model'))
+        dataset=json.loads(key.get('dataset'))
         
-        label = key.get('label') #will be just used for metadata of the model, so we know why we trained this model for, what to predict
-        m = model(id,modelname, version, True, False, learningRate, epochs, 3,95) #quantized will be implemented later
-        data = datafile('datafile.ft', datasetname, True, datasetversion, label)
-        result = m.train(data)
+        confidence = int(key.get('confidence'))
+   
+        splitAt= int(key.get('splitAt'))
+
+        runtest = key.get('runTests')
+        
+         #will be just used for metadata of the model, so we know why we trained this model for, what to predict
+        m = model(id,model,dataset,splitAt) #quantized will be implemented later
+        
+        data = datafile('datafile.ft', dataset['dataset']['name'], True, dataset['dataset']['version'], dataset['dataset']['classifier'])
+            
+        m.train(data)
+        if runtest == 'true':
+            m.testRun(data,confidence)
         return result
 
     if key.get("action")=="testing":
@@ -59,7 +65,7 @@ def manageActions(keyname, key, ft):
         splitAt= int(key.get('splitAt'))
         
          #will be just used for metadata of the model, so we know why we trained this model for, what to predict
-        m = model(ftmodel, dataset, splitAt) #quantized will be implemented later
+        m = model(id,ftmodel, dataset, splitAt) #quantized will be implemented later
         #data = datafile('datafile.ft', datasetname, True, datasetversion, label)
         data = datafile('datafile.ft', dataset['dataset']['name'], True, dataset['dataset']['version'], dataset['dataset']['classifier'])
         result = m.testRun(data, confidence)
