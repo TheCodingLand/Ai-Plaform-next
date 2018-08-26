@@ -55,8 +55,8 @@ def manageActions(keyname, key, ft):
         
         ftmodel=json.loads(key.get('model'))
         dataset=json.loads(key.get('dataset'))
-        confidence = key.get('confidence')
-        splitAt= key.get('splitAt')
+        confidence = int(key.get('confidence'))
+        splitAt= int(key.get('splitAt'))
         
          #will be just used for metadata of the model, so we know why we trained this model for, what to predict
         m = model(ftmodel, dataset, splitAt) #quantized will be implemented later
