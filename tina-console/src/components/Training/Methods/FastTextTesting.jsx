@@ -99,7 +99,9 @@ class RunTestingCard extends React.Component {
       id: id,
       action: `testing`,
       dataset: this.state.dataset,
-      model: this.state.model
+      model: this.state.model,
+      splitAt: this.state.splitAt,
+      confidence: this.state.confidence
       
     })
   }
