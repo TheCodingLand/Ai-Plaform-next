@@ -70,6 +70,14 @@ class TrainingPage extends React.Component {
       </ExpansionPanelDetails>
       </ExpansionPanel>
       
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography>ELMo</Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails></ExpansionPanelDetails>
+        </ExpansionPanel>
+      
+      
       
       
     

@@ -62,12 +62,21 @@ class RunTestingCard extends React.Component {
   constructor() {
     super()
     this.state = {
-      dataset: "",
-      model: '',
+      dataset: { _id: {$oid: ""},
+                dataset: {
+                name:"", 
+                version: 0,
+                classifier:"",
+                TextColumns:[],
+       }},
+      model: { _id: {$oid: ""},
+      model : { name:"", 
+      version: 0,}},
       confidence: 90,
       TestingStarted: false,
       split: 95,
-      models: []
+      models: [],
+      
     };
     this.handleChangeDataset = this.handleChangeDataset.bind(this)
 
@@ -85,13 +94,12 @@ class RunTestingCard extends React.Component {
   startTesting = (context) => {
     let id = this.makeid()
     this.setState({ TestingStarted: true, id: id })
-    console.log('fired onclick')
+    
     context.action('testing', {
       id: id,
       action: `testing`,
       dataset: this.state.dataset,
-      model: this.state.model,
-      version: this.state.version,
+      model: this.state.model
       
     })
   }
@@ -101,7 +109,17 @@ class RunTestingCard extends React.Component {
   };
 
   handleChangeDataset(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    this.props.appdata.datasets.forEach(ds => {
+      
+      if (ds._id.$oid===event.target.value) { 
+      this.setState({ [event.target.name]: ds });
+    }})
+    this.props.appdata.models.forEach(ds => {
+      
+      if (ds._id.$oid===event.target.value) { 
+      this.setState({ [event.target.name]: ds });
+    }})
+    
   };
 
   handleChange = name => event => {
@@ -114,7 +132,7 @@ class RunTestingCard extends React.Component {
   
 
   render() {
-    
+    console.log(this.props.appdata.datasets)
     const { classes } = this.props;
     return (
       <Card>
@@ -129,17 +147,22 @@ class RunTestingCard extends React.Component {
                 <InputLabel htmlFor="dataset-id">Dataset</InputLabel>
                 <Select
                   onChange={this.handleChangeDataset}
-                  value={this.state.dataset}
+                  value={this.state.dataset._id.$oid}
                   input={<Input name="dataset" id="dataset-id" />}
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {this.props.appdata.datasets.map((ds) => {
+                  { this.props.appdata.datasets ?
+
+                    this.props.appdata.datasets.map((ds) => {
+                      
+                      return (
                 
-                
-                  <MenuItem value={ds.id}>{ds.name} {ds.version}</MenuItem>
-                } )}
+                        <MenuItem key={ds._id.$oid} value={ds._id.$oid}>myDataSet 1</MenuItem>)
+                {//  <MenuItem key={ds._id.$oid} value={ds._id.$oid}>{ds.dataset.name} {ds.dataset.version}</MenuItem>)
+              }
+                } ): "" }
                 </Select>
                 <FormHelperText>go to upload to add more</FormHelperText>
               </FormControl>
@@ -148,14 +171,43 @@ class RunTestingCard extends React.Component {
               <CustomInput
                 className={classes.textFields}
                 labelText="Dataset version"
-                id="datasetverson"
+                id="datasetversion"
                 disabled
-               
+                value={this.state.dataset.dataset.version}
                 formControlProps={{
                   fullWidth: true
                 }}
               />
             </GridItem>
+            <GridItem xs={12} sm={12} md={6}>
+              <CustomInput
+                className={classes.textFields}
+                labelText="Column label :"
+                id="column"
+                disabled
+                value={this.state.dataset.dataset.classifier}
+                formControlProps={{
+                  fullWidth: true
+                }}
+              />
+            </GridItem>
+            <GridItem xs={12} sm={12} md={6}>
+              <CustomInput
+                className={classes.textFields}
+                labelText="Text used from columns :"
+                id="column"
+                disabled
+                value={this.state.dataset.dataset.TextColumns}
+                formControlProps={{
+                  fullWidth: true
+                }}
+              />
+            </GridItem>
+
+
+
+
+
           </GridContainer>
           <GridContainer>
 
@@ -176,7 +228,7 @@ class RunTestingCard extends React.Component {
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
 
-              <Typography className={classes.sliders} id="splittestlabel">Split at : </Typography>
+              <Typography className={classes.sliders} id="splittestlabel">Split Training / testing data at : </Typography>
               <GridContainer>
                 <GridItem xs={10} sm={10} md={10}>
                   <Slider value={this.state.split} aria-labelledby="splittestlabel" min={50} max={100} step={1} onChange={this.handleChangeSlider('split')} />
@@ -189,13 +241,39 @@ class RunTestingCard extends React.Component {
              </GridContainer>
             </GridItem>
 
+            <GridItem xs={12} sm={12} md={3}>
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="model-id">Model</InputLabel>
+                <Select
+                  onChange={this.handleChangeDataset}
+                  value={this.state.model._id.$oid}
+                  input={<Input name="model" id="model-id" />}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  { this.props.appdata.models ?
 
+                    this.props.appdata.models.map((md) => {
+                      console.log(md)
+                      return (
+                
+                        <MenuItem key={md._id.$oid} value={md._id.$oid}>myModel 1</MenuItem>)
+               {//   <MenuItem key={md._id.$oid} value={md._id.$oid}>{md.model.name} {md.model.version}</MenuItem>)
+              }  
+              } ): "" }
+                </Select>
+                <FormHelperText>go to upload to add more</FormHelperText>
+              </FormControl>
+            </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
                 className={classes.textFields}
                 labelText="model"
-                onChange={this.handleChange('model')}
+                disabled
                 id="model"
+                value="Contoso.com"
+                //value={this.state.model.model.name}
                 formControlProps={{
                   fullWidth: true
                 }}
@@ -206,7 +284,8 @@ class RunTestingCard extends React.Component {
                 className={classes.textFields}
                 labelText="version"
                 id="version"
-                onChange={this.handleChange('version')}
+                disabled
+                value={this.state.model.model.version}
                 formControlProps={{
                   fullWidth: true
                 }}

@@ -13,15 +13,19 @@ export class AppProvider extends React.Component {
             datasets : [],
             models : []
         }
+        this.getState()
     }
     getState() {
         this.state.models=this.get('ft','models')
         this.state.datasets=this.get('ft','datasets')
     }
     
-    get(coll,item) {
-        let url = `http://rest.tina.ctg.lu/${coll}/${item}`
-        axios.get(url).then(res => { this.setState({ [item] :res })
+    get(db,coll) {
+        let url = `http://rest.tina.ctg.lu/${db}/${coll}`
+        
+            axios.get(url).then(res => {  console.log(res.data._embedded)
+            this.setState({ [coll] : res.data._embedded })
+        
 
         })
     
