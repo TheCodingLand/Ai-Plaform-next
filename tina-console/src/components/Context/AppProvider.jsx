@@ -21,10 +21,10 @@ class AppProvider extends React.Component {
     
     get(coll,item) {
         let url = `http://rest.tina.ctg.lu/${coll}/${item}`
-        axios.get(url).then(res => { this.setState({ [item] :res }
+        axios.get(url).then(res => { this.setState({ [item] :res })
 
-        }
-        )
+        })
+    
     }
     render () {
         
