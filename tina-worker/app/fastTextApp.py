@@ -84,7 +84,7 @@ class model(object):
     method = ""
     model=None
     id=""
-    splitAt
+    splitAt=95
 
     def __init__(self, id=None):
         if id!=None:
