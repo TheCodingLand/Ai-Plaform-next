@@ -29,12 +29,12 @@ class db():
             "quantized": aimodel.quantized,
             "filepath": aimodel.filepath,
             "splitAt" : aimodel.splitAt,
-            "bias" : aimodel.config.bias,
-            "ngrams" : aimodel.config.ngrams,
-            "learningRate" : aimodel.config.learningRate,
-            "epochs": aimodel.config.epochs,
-            "method": aimodel.config.method
-            
+            "bias" : aimodel.bias,
+            "ngrams" : aimodel.ngrams,
+            "learningRate" : aimodel.learningRate,
+            "epochs": aimodel.epochs,
+            "method": aimodel.method
+        
         }
         }
         self.client.ft.models.find_one_and_replace(filter=model, replacement=model, upsert=True)
