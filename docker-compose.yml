@@ -212,6 +212,18 @@ services:
       - tina-redis
     networks:
       - ai-internal
+ testing-worker:
+    build: ./tina-worker
+    volumes:
+      - tina_data:/data/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - ACTION=testing
+      - MONGODB_SERVER=${MONGODB_SERVER}
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
 
  tina-api:
     build: ./tina-api
