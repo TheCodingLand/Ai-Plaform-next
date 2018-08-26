@@ -74,7 +74,7 @@ class RunTestingCard extends React.Component {
       version: 0,}},
       confidence: 90,
       TestingStarted: false,
-      split: 95,
+      splitAt: 95,
       models: [],
       
     };
@@ -159,9 +159,9 @@ class RunTestingCard extends React.Component {
                       
                       return (
                 
-                        <MenuItem key={ds._id.$oid} value={ds._id.$oid}>myDataSet 1</MenuItem>)
-                {//  <MenuItem key={ds._id.$oid} value={ds._id.$oid}>{ds.dataset.name} {ds.dataset.version}</MenuItem>)
-              }
+                        
+                  <MenuItem key={ds._id.$oid} value={ds._id.$oid}>{ds.dataset.name} {ds.dataset.version}</MenuItem>)
+              
                 } ): "" }
                 </Select>
                 <FormHelperText>go to upload to add more</FormHelperText>
@@ -214,7 +214,7 @@ class RunTestingCard extends React.Component {
 
             <GridItem xs={12} sm={12} md={6}>
 
-              <Typography className={classes.sliders} id="confidencelabel">only return results with confidence ></Typography>
+              <Typography className={classes.sliders} id="confidencelabel">Results with confidence better than :</Typography>
               <GridContainer>
                 <GridItem xs={10} sm={10} md={10}>
                   <Slider value={this.state.confidence} aria-labelledby="confidencelabel" min={50} max={100} step={1} onChange={this.handleChangeSlider('confidence')} />
@@ -231,11 +231,11 @@ class RunTestingCard extends React.Component {
               <Typography className={classes.sliders} id="splittestlabel">Split Training / testing data at : </Typography>
               <GridContainer>
                 <GridItem xs={10} sm={10} md={10}>
-                  <Slider value={this.state.split} aria-labelledby="splittestlabel" min={50} max={100} step={1} onChange={this.handleChangeSlider('split')} />
+                  <Slider value={this.state.splitAt} aria-labelledby="splittestlabel" min={50} max={100} step={1} onChange={this.handleChangeSlider('splitAt')} />
                 </GridItem>
 
                 <GridItem xs={2} sm={2} md={2}>
-                  <Typography>{this.state.split}%</Typography>
+                  <Typography>{this.state.splitAt}%</Typography>
                 </GridItem>
 
              </GridContainer>
@@ -258,9 +258,9 @@ class RunTestingCard extends React.Component {
                       console.log(md)
                       return (
                 
-                        <MenuItem key={md._id.$oid} value={md._id.$oid}>myModel 1</MenuItem>)
-               {//   <MenuItem key={md._id.$oid} value={md._id.$oid}>{md.model.name} {md.model.version}</MenuItem>)
-              }  
+                       
+                  <MenuItem key={md._id.$oid} value={md._id.$oid}>{md.model.name} {md.model.version}</MenuItem>)
+               
               } ): "" }
                 </Select>
                 <FormHelperText>go to upload to add more</FormHelperText>
@@ -273,7 +273,7 @@ class RunTestingCard extends React.Component {
                 disabled
                 id="model"
                 value="Contoso.com"
-                //value={this.state.model.model.name}
+                value={this.state.model.model.name}
                 formControlProps={{
                   fullWidth: true
                 }}
