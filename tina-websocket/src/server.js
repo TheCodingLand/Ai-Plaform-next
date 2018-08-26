@@ -82,11 +82,11 @@ const makeRedisObj = (client,channel,message) => {
         }
         if (channel === 'testing') {
             var obj = Object.assign({},
-                message[], 
-                {key:'ft.testing.'+message.id, 
+                message,
+                {key:'ft.testing.'+message.id,
                 action : 'testing',
                 model:JSON.stringify(message.model),
-                dataset:JSON.stringify(message.dataset),
+                dataset:JSON.stringify(message.dataset)
                 }
                 )
             console.log(obj)        
