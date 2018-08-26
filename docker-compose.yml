@@ -158,7 +158,7 @@ services:
    - ai-web
    - ai-internal
   volumes:
-    - ./tina-restheart:/opt/restheart/etc:ro
+    - ./tina-restheart/restheart.yml:/opt/restheart/etc/restheart.yml:ro
 
  #####REDIS ADMIN SERVER#####
  tina-redis-admin:
