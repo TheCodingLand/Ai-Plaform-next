@@ -62,13 +62,26 @@ class RunTrainingCard extends React.Component {
   constructor() {
     super()
     this.state = {
-      dataset: "",
-      model: '',
-      splitlang: false,
-      epochs: 200,
-      version: '1',
-      ngrams: 3,
-      learningRate: .2,
+      dataset: { _id: {$oid: ""},
+                dataset: {
+                name:"", 
+                version: 0,
+                classifier:"",
+                TextColumns:[],
+       }},
+      model: { _id: {$oid: ""},
+        model : { name:"", 
+        version: 0,
+        epochs: 200,
+        version: '1',
+        ngrams: 3,
+        learningRate: .2,
+      
+    }},
+      
+    confidence: 90,
+      
+      splitAt: 95,
       trainingStarted: false
     };
     this.handleChangeDataset = this.handleChangeDataset.bind(this)
@@ -93,27 +106,38 @@ class RunTrainingCard extends React.Component {
       action: `training`,
       dataset: this.state.dataset,
       model: this.state.model,
-      splitlang: this.state.splitlang,
-      epochs: this.state.epochs,
-      version: this.state.version,
-      learningRate: this.state.learningRate,
-      ngrams: this.state.ngrams
+      splitAt: this.state.splitAt,
+      confidence: this.state.confidence
     })
   }
 
   handleChangeSlider = name => (event, value) => {
-    this.setState({ [name]: value });
+    this.setState({ model: {[name]: value } });
   };
-
+/* 
   handleChangeDataset(event) {
     this.setState({ [event.target.name]: event.target.value });
+  }; */
+
+  handleChangeDataset(event) {
+    this.props.appdata.datasets.forEach(ds => {
+      
+      if (ds._id.$oid===event.target.value) { 
+      this.setState({ [event.target.name]: ds });
+    }})
+    this.props.appdata.models.forEach(ds => {
+      
+      if (ds._id.$oid===event.target.value) { 
+      this.setState({ [event.target.name]: ds });
+    }})
+    
   };
 
   handleChange = name => event => {
     if (name === "splitlang") {
       this.setState({ [name]: event.target.checked });
     } else {
-      this.setState({ [name]: event.target.value });
+      this.setState({ model: { [name]: event.target.value }});
     }
     //else if (name==="datasetname") {}
   };
@@ -128,17 +152,26 @@ class RunTrainingCard extends React.Component {
         <CardBody>
           <GridContainer>
             <GridItem xs={12} sm={12} md={3}>
-              <FormControl className={classes.formControl}>
+            <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="dataset-id">Dataset</InputLabel>
                 <Select
                   onChange={this.handleChangeDataset}
-                  value={this.state.dataset}
+                  value={this.state.dataset._id.$oid}
                   input={<Input name="dataset" id="dataset-id" />}
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value="bnp">BNP v1</MenuItem>
+                  { this.props.appdata.datasets ?
+
+                    this.props.appdata.datasets.map((ds) => {
+                      
+                      return (
+                
+                        
+                  <MenuItem key={ds._id.$oid} value={ds._id.$oid}>{ds.dataset.name} {ds.dataset.version}</MenuItem>)
+              
+                } ): "" }
                 </Select>
                 <FormHelperText>go to upload to add more</FormHelperText>
               </FormControl>
@@ -163,11 +196,11 @@ class RunTrainingCard extends React.Component {
               <Typography className={classes.sliders} id="epochslabel">Epochs</Typography>
               <GridContainer>
                 <GridItem xs={10} sm={10} md={10}>
-                  <Slider value={this.state.epochs} aria-labelledby="epochslabel" min={20} max={1000} step={1} onChange={this.handleChangeSlider('epochs')} />
+                  <Slider value={this.state.model.model.epochs} aria-labelledby="epochslabel" min={20} max={1000} step={1} onChange={this.handleChangeSlider('epochs')} />
                 </GridItem>
 
                 <GridItem xs={2} sm={2} md={2}>
-                  <Typography>{this.state.epochs}</Typography>
+                  <Typography>{this.state.model.model.epochs}</Typography>
                 </GridItem>
 
               </GridContainer>
@@ -180,11 +213,11 @@ class RunTrainingCard extends React.Component {
               <Typography className={classes.sliders} id="learningratelabel">Learning Rate</Typography>
               <GridContainer>
                 <GridItem xs={10} sm={10} md={10}>
-                  <Slider value={this.state.learningRate} aria-labelledby="learningratelabel" min={0} max={1} step={.1} onChange={this.handleChangeSlider('learningRate')} />
+                  <Slider value={this.state.model.model.learningRate} aria-labelledby="learningratelabel" min={0} max={1} step={.1} onChange={this.handleChangeSlider('learningRate')} />
                 </GridItem>
 
                 <GridItem xs={2} sm={2} md={2}>
-                  <Typography>{this.state.learningRate.toFixed(2)}</Typography>
+                  <Typography>{this.state.model.model.learningRate.toFixed(2)}</Typography>
                 </GridItem>
 
               </GridContainer>
@@ -193,10 +226,10 @@ class RunTrainingCard extends React.Component {
               <Typography className={classes.sliders} id="ngramslabel">Ngrams</Typography>
               <GridContainer>
                 <GridItem xs={10} sm={10} md={10}>
-                  <Slider value={this.state.ngrams} aria-labelledby="ngramslabel" min={1} max={3} step={1} onChange={this.handleChangeSlider('ngrams')} />
+                  <Slider value={this.state.model.model.ngrams} aria-labelledby="ngramslabel" min={1} max={3} step={1} onChange={this.handleChangeSlider('ngrams')} />
                 </GridItem>
                 <GridItem xs={2} sm={2} md={2}>
-                  <Typography>{this.state.ngrams}</Typography>
+                  <Typography>{this.state.model.model.ngrams}</Typography>
                 </GridItem>
 
 

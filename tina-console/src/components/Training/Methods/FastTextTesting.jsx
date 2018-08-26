@@ -75,7 +75,7 @@ class RunTestingCard extends React.Component {
       confidence: 90,
       TestingStarted: false,
       splitAt: 95,
-      models: [],
+      
       
     };
     this.handleChangeDataset = this.handleChangeDataset.bind(this)
