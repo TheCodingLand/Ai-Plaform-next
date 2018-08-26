@@ -237,7 +237,7 @@ class model(object):
 
     def splitTrainingData(self, filepath, ratio):
         """Split data in two based on ratio, training and testing files"""
-
+        print (self.splitAt)
         trainf = open(f"{filepath!s}.train",'w')
         testf = open(f"{filepath!s}.test",'w')
         with open(filepath) as f:
