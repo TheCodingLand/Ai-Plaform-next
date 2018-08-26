@@ -132,25 +132,21 @@ class model(object):
             self.splitTrainingData(trainingfile.fullpath, self.splitAt)
             testpath=trainingfile.fullpath+'.test'
             trainingfile.fullpath=trainingfile.fullpath+'.train'
-        skipTraining=True #debug for testing models quickly
-        if skipTraining==False:
-            logging.error(trainingfile.fullpath)
-            logger.info(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.ngrams!s}')
-            model = FastText()
-            if self.supervised:
-                model.supervised(input=trainingfile.fullpath, output=self.filepath, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.config.ngrams, verbose=2, minCount=1)
-            elif self.method == "cbow":
-                model.cbow(input=trainingfile.fullpath, output='model', epoch=self.epochs, lr=self.learningRate)
-            else:
-                model.skipgram(input=trainingfile.fullpath, output='model', epoch=self.epochs, lr=self.learningRate)
-            logger.warning("Finished training model")
+       
+        logging.error(trainingfile.fullpath)
+        logger.info(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.ngrams!s}')
+        model = FastText()
+        if self.supervised:
+            model.supervised(input=trainingfile.fullpath, output=self.filepath, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.config.ngrams, verbose=2, minCount=1)
+        elif self.method == "cbow":
+            model.cbow(input=trainingfile.fullpath, output='model', epoch=self.epochs, lr=self.learningRate)
+        else:
+            model.skipgram(input=trainingfile.fullpath, output='model', epoch=self.epochs, lr=self.learningRate)
+        logger.warning("Finished training model")
         database.writeModel(self)
 
 
-        if self.splitAt!=None:
-            logging.error(self.testRun(.75,testpath))
-
-        return "finished"
+       
     
     def testRun(self ,dataf, threshold):
         """this takes a model, and tests it with various paramaters. returns a result dictionnary, 
