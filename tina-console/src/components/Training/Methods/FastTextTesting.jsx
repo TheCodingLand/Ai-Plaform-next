@@ -138,7 +138,7 @@ class RunTestingCard extends React.Component {
                   {this.props.appdata.datasets.map((ds) => {
                 
                 
-                  <MenuItem value={ds.name}>{ds.name} {ds.version}</MenuItem>
+                  <MenuItem value={ds.id}>{ds.name} {ds.version}</MenuItem>
                 } )}
                 </Select>
                 <FormHelperText>go to upload to add more</FormHelperText>
