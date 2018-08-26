@@ -21,7 +21,7 @@ class db():
     def writeModel(self,aimodel):
         model = {"model" :
         {
-            "id": aimodel.id,
+            
             "name" : aimodel.name,
             "version" : aimodel.version,
             "supervised": aimodel.supervised,
@@ -33,6 +33,7 @@ class db():
             "ngrams" : aimodel.ngrams,
             "learningRate" : aimodel.learningRate,
             "epochs": aimodel.epochs,
+            "label" : aimodel.label,
             "method": aimodel.method
         
         }

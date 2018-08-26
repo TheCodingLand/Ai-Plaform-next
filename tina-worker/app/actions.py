@@ -51,7 +51,7 @@ def manageActions(keyname, key, ft):
         m.train(data)
         if testmodel == 'true':
             m.testRun(data,confidence)
-        return result
+      
 
     if key.get("action")=="testing":
         
@@ -72,8 +72,7 @@ def manageActions(keyname, key, ft):
         result = m.testRun(data, confidence)
         
         print(result)
-        
-        return result
+
 
 
     return False

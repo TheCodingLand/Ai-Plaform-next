@@ -28,7 +28,7 @@ class fastTextApp(object):
             self.datafiles.append(d)
      
     
-    
+    #For a prediction worker we will have to load a specific model
     def loadModel(self,id):
         
         m = model.load(id)
@@ -38,8 +38,6 @@ class fastTextApp(object):
 
         return m
         
-        
-    #loadallmodels ???
             
 
 
@@ -121,8 +119,9 @@ class model(object):
     def train(self,trainingfile):
         """Starts model building"""
         
-
+        
         self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"
+        self.label = trainingfile.label
         
         if not os.path.exists(f"{MODELDIR}/{self.name}/{self.version!s}"):
             os.makedirs(f"{MODELDIR}/{self.name}/{self.version!s}")
