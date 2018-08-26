@@ -88,6 +88,7 @@ class RunTrainingCard extends React.Component {
     trainingStarted: false
     };
     this.handleChangeDataset = this.handleChangeDataset.bind(this)
+    this.trainingEventRecieved= this.trainingEventRecieved.bind(this)
 
 
   }
@@ -102,7 +103,7 @@ class RunTrainingCard extends React.Component {
   }
   startTraining = (context) => {
     let id = this.makeid()
-    context.subscribe('id', this.trainingEventRecieved)
+    context.subscribe('id', (obj) => this.trainingEventRecieved(obj))
     this.setState({ trainingStarted: true, id: id })
     console.log('fired onclick')
     context.action('training', {

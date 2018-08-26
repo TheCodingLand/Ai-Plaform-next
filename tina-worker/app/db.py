@@ -20,7 +20,7 @@ class db():
     
     def writeModel(self,aimodel):
         model = {"model" :
-        {
+        {   
             
             "name" : aimodel.name,
             "version" : aimodel.version,
