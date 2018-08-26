@@ -64,7 +64,7 @@ def manageActions(keyname, key, ft):
         data = datafile('datafile.ft', dataset['dataset']['name'], True, dataset['dataset']['version'], dataset['dataset']['classifier'])
         result = m.testRun(data, confidence)
         
-
+        print(result)
         
         return result
 
