@@ -59,10 +59,10 @@ def manageActions(keyname, key, ft):
         splitAt= key.get('splitAt')
         
          #will be just used for metadata of the model, so we know why we trained this model for, what to predict
-        m = model(ftmodel, dataset) #quantized will be implemented later
+        m = model(ftmodel, dataset, splitAt) #quantized will be implemented later
         #data = datafile('datafile.ft', datasetname, True, datasetversion, label)
         data = datafile('datafile.ft', dataset['dataset']['name'], True, dataset['dataset']['version'], dataset['dataset']['classifier'])
-        result = m.testRun(data, confidence,splitAt)
+        result = m.testRun(data, confidence)
         
 
         

@@ -96,7 +96,7 @@ class model(object):
     config = None
     filepath =""
 
-    def __init__(self, ftdbmodel,dataset):
+    def __init__(self, ftdbmodel,dataset,splitAt):
         ftmodel=ftdbmodel['model']
         self.id=id
         self.name = ftmodel['name']
@@ -104,7 +104,7 @@ class model(object):
         self.supervised = True
         self.quantized = False
         self.config = config(learningRate=ftmodel['config']['learningRate'], epochs=ftmodel['config']['epochs'],ngrams=ftmodel['config']['ngrams'])
-        self.splitTestDataAt=ftmodel['splitAt']
+        self.splitAt=splitAt
         
         
         self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"
@@ -127,8 +127,8 @@ class model(object):
 
     def train(self, trainingfile):
         """Starts model building"""
-        if self.splitTestDataAt!=None:
-            self.splitTrainingData(trainingfile.fullpath, self.splitTestDataAt)
+        if self.splitAt!=None:
+            self.splitTrainingData(trainingfile.fullpath, self.splitAt)
             testpath=trainingfile.fullpath+'.test'
             trainingfile.fullpath=trainingfile.fullpath+'.train'
         skipTraining=True #debug for testing models quickly
@@ -146,7 +146,7 @@ class model(object):
         database.writeModel(self)
 
 
-        if self.splitTestDataAt!=None:
+        if self.splitAt!=None:
             logging.error(self.testRun(.75,testpath))
 
         return "finished"
