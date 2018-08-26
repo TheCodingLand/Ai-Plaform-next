@@ -96,7 +96,8 @@ class model(object):
     config = None
     filepath =""
 
-    def __init__(self, ftmodel,dataset):
+    def __init__(self, ftdbmodel,dataset):
+        ftmodel=ftdbmodel['model']
         self.id=id
         self.name = ftmodel['name']
         self.version = ftmodel['version']
@@ -154,7 +155,7 @@ class model(object):
         """this takes a model, and tests it with various paramaters. returns a result dictionnary, 
         { total : 133, threshold: 85, ignoredEntries : 10, success: 110, failures : 13 }"""
         
-        
+
         logging.error(self.filepath)
         
         model = FastText(self.filepath+'.bin')
