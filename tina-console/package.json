@@ -6,6 +6,7 @@
     "@material-ui/core": "^1.4.1",
     "@material-ui/icons": "^2.0.0",
     "@material-ui/lab": "^1.0.0-alpha.11",
+    "axios": "^0.18.0",
     "chartist": "^0.11.0",
     "graphql-socketio-subscriptions-transport": "^1.0.7",
     "history": "^4.7.2",
