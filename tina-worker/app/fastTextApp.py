@@ -96,14 +96,14 @@ class model(object):
     config = None
     filepath =""
 
-    def __init__(self, id, name, version, supervised, quantized, learningRate=0.2, epochs=200, ngrams=3, splitTestDataAt=None):
+    def __init__(self, ftmodel,dataset):
         self.id=id
-        self.name = name
-        self.version = version
-        self.supervised = supervised
-        self.quantized = quantized
-        self.config = config(learningRate=learningRate, epochs=epochs,ngrams=ngrams)
-        self.splitTestDataAt=splitTestDataAt
+        self.name = ftmodel['name']
+        self.version = ftmodel['version']
+        self.supervised = True
+        self.quantized = False
+        self.config = config(learningRate=ftmodel['config']['learningRate'], epochs=ftmodel['config']['epochs'],ngrams=ftmodel['config']['ngrams'])
+        self.splitTestDataAt=ftmodel['splitAt']
         
         
         self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"

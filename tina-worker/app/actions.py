@@ -1,3 +1,5 @@
+import json
+
 
 
 
@@ -45,23 +47,20 @@ def manageActions(keyname, key, ft):
         result = m.train(data)
         return result
 
-    if key.get("action")=="test":
+    if key.get("action")=="testing":
         
         from app.fastTextApp import model
         from app.fastTextApp import datafile
 
         modelname = key.get('model')
-        version = key.get('version')
-        datasetname = key.get('dataset')
-        datasetversion = key.get('datasetversion')
-        learningRate= float(key.get('learningRate'))
-        epochs= int(key.get('epochs'))
-        splitTrainingAt = key.get('splitTraining')
+        ftmodel=json.loads(key.get('model'))
+        dataset=json.loads(key.get('model'))
         
-        label = key.get('label') #will be just used for metadata of the model, so we know why we trained this model for, what to predict
-        m = model(modelname, version, True, False, learningRate, epochs, 3,95) #quantized will be implemented later
-        data = datafile('datafile.ft', datasetname, True, datasetversion, label)
-        result = m.train(data)
+        
+         #will be just used for metadata of the model, so we know why we trained this model for, what to predict
+        m = model(ftmodel, dataset) #quantized will be implemented later
+        #data = datafile('datafile.ft', datasetname, True, datasetversion, label)
+        result = m.testRun(dataset)
         
 
         
