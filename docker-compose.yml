@@ -140,6 +140,25 @@ services:
    - ai-web
    - ai-internal
 
+ restheart:
+  ### Change the tag below to run a different version of RESTHeart
+  image: softinstigate/restheart
+  ### Uncomment to name the container explicitly
+  labels:
+   - "traefik.backend=rest"
+   - "traefik.docker.network=ai-web"
+   - "traefik.enable=true"
+   - "traefik.port=8080"
+   - "traefik.frontend.rule=Host:rest.${D_HOST}"
+   - "traefik.frontend.entryPoints=http"
+  
+  depends_on:
+   - tina-mongodb
+  networks:
+   - ai-web
+   - ai-internal
+  volumes:
+    - ./tina-restheart:/opt/restheart/etc:ro
 
  #####REDIS ADMIN SERVER#####
  tina-redis-admin:

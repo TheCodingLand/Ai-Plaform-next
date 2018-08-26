@@ -58,19 +58,15 @@ const styles = theme => ({
   }
 
 });
-class RunTrainingCard extends React.Component {
+class RunTestingCard extends React.Component {
   constructor() {
     super()
     this.state = {
       dataset: "",
       model: '',
-      splitlang: false,
-      epochs: 200,
-      version: '1',
-      ngrams: 3,
-      learningrate: .2,
-      trainingStarted: false,
-      split:95
+      confidence: 90,
+      TestingStarted: false,
+      split: 95
     };
     this.handleChangeDataset = this.handleChangeDataset.bind(this)
 
@@ -80,14 +76,14 @@ class RunTrainingCard extends React.Component {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for (var i = 0; i < 5; i++)
+    for (var i = 0; i < 10; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;
   }
   startTesting = (context) => {
     let id = this.makeid()
-    this.setState({ trainingStarted: true, id: id })
+    this.setState({ TestingStarted: true, id: id })
     console.log('fired onclick')
     context.action('testing', {
       id: id,
@@ -157,10 +153,24 @@ class RunTrainingCard extends React.Component {
 
             <GridItem xs={12} sm={12} md={6}>
 
-              <Typography className={classes.sliders} id="splitlabel">Split data for testing dataset</Typography>
+              <Typography className={classes.sliders} id="confidencelabel">only return results with confidence ></Typography>
               <GridContainer>
                 <GridItem xs={10} sm={10} md={10}>
-                  <Slider value={this.state.split} aria-labelledby="splitlabel" min={50} max={100} step={1} onChange={this.handleChangeSlider('split')} />
+                  <Slider value={this.state.confidence} aria-labelledby="confidencelabel" min={50} max={100} step={1} onChange={this.handleChangeSlider('confidence')} />
+                </GridItem>
+
+                <GridItem xs={2} sm={2} md={2}>
+                  <Typography>{this.state.confidence}%</Typography>
+                </GridItem>
+
+             </GridContainer>
+            </GridItem>
+            <GridItem xs={12} sm={12} md={6}>
+
+              <Typography className={classes.sliders} id="splittestlabel">Split at : </Typography>
+              <GridContainer>
+                <GridItem xs={10} sm={10} md={10}>
+                  <Slider value={this.state.split} aria-labelledby="splittestlabel" min={50} max={100} step={1} onChange={this.handleChangeSlider('split')} />
                 </GridItem>
 
                 <GridItem xs={2} sm={2} md={2}>
@@ -171,52 +181,6 @@ class RunTrainingCard extends React.Component {
             </GridItem>
 
 
-            <GridItem xs={12} sm={12} md={6}>
-
-              <Typography className={classes.sliders} id="epochslabel">Epochs</Typography>
-              <GridContainer>
-                <GridItem xs={10} sm={10} md={10}>
-                  <Slider value={this.state.epochs} aria-labelledby="epochslabel" min={20} max={1000} step={1} onChange={this.handleChangeSlider('epochs')} />
-                </GridItem>
-
-                <GridItem xs={2} sm={2} md={2}>
-                  <Typography>{this.state.epochs}</Typography>
-                </GridItem>
-
-              </GridContainer>
-            </GridItem>
-
-
-
-            <GridItem xs={12} sm={12} md={6}>
-
-              <Typography className={classes.sliders} id="learningratelabel">Learning Rate</Typography>
-              <GridContainer>
-                <GridItem xs={10} sm={10} md={10}>
-                  <Slider value={this.state.learningrate} aria-labelledby="learningratelabel" min={0} max={1} step={.1} onChange={this.handleChangeSlider('learningrate')} />
-                </GridItem>
-
-                <GridItem xs={2} sm={2} md={2}>
-                  <Typography>{this.state.learningrate.toFixed(2)}</Typography>
-                </GridItem>
-
-              </GridContainer>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={6}>
-              <Typography className={classes.sliders} id="ngramslabel">Ngrams</Typography>
-              <GridContainer>
-                <GridItem xs={10} sm={10} md={10}>
-                  <Slider value={this.state.ngrams} aria-labelledby="ngramslabel" min={1} max={3} step={1} onChange={this.handleChangeSlider('ngrams')} />
-                </GridItem>
-                <GridItem xs={2} sm={2} md={2}>
-                  <Typography>{this.state.ngrams}</Typography>
-                </GridItem>
-
-
-              </GridContainer>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={6}>
-            </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
                 className={classes.textFields}
@@ -257,7 +221,7 @@ class RunTrainingCard extends React.Component {
         </CardBody>
         <CardFooter>
           <EventsContext.Consumer>{context =>
-            this.state.trainingStarted ? <Button disabled>In Progress</Button> : <Button onClick={() => this.startTesting(context)} color="rose">Start testing</Button>
+            this.state.testingStarted ? <Button disabled>In Progress</Button> : <Button onClick={() => this.startTesting(context)} color="rose">Start testing</Button>
           }</EventsContext.Consumer>
         </CardFooter>
       </Card>
@@ -272,6 +236,6 @@ class RunTrainingCard extends React.Component {
 
 
 
-export default withStyles(styles)(RunTrainingCard);
+export default withStyles(styles)(RunTestingCard);
 
 
