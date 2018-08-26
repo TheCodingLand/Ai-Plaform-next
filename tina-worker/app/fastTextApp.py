@@ -137,7 +137,7 @@ class model(object):
         logger.info(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.ngrams!s}')
         model = FastText()
         if self.supervised:
-            model.supervised(input=trainingfile.fullpath, output=self.filepath, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.config.ngrams, verbose=2, minCount=1)
+            model.supervised(input=trainingfile.fullpath, output=self.filepath, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.ngrams, verbose=2, minCount=1)
         elif self.method == "cbow":
             model.cbow(input=trainingfile.fullpath, output='model', epoch=self.epochs, lr=self.learningRate)
         else:
