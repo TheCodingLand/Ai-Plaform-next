@@ -5,7 +5,13 @@ class db():
     
     client = client
 
-    def getFtModels(self):
+    def getFtModel(self, id):
+        m = self.client.ft.models.find_one(filter={"id":id})
+        if m:
+            return m
+        
+
+
         return self.client.models
     def getFtDatasets(self):
         return self.client.datasets
@@ -22,13 +28,13 @@ class db():
             "ft": aimodel.ft,
             "quantized": aimodel.quantized,
             "filepath": aimodel.filepath,
-            "config" : {
-                "bias" : aimodel.config.bias,
-                "ngrams" : aimodel.config.ngrams,
-                "learningRate" : aimodel.config.learningRate,
-                "epochs": aimodel.config.epochs,
-                "method": aimodel.config.method
-            }
+            "splitAt" : aimodel.splitAt,
+            "bias" : aimodel.config.bias,
+            "ngrams" : aimodel.config.ngrams,
+            "learningRate" : aimodel.config.learningRate,
+            "epochs": aimodel.config.epochs,
+            "method": aimodel.config.method
+            
         }
         }
         self.client.ft.models.find_one_and_replace(filter=model, replacement=model, upsert=True)

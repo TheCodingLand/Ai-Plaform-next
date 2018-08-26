@@ -68,16 +68,18 @@ class RunTrainingCard extends React.Component {
                 version: 0,
                 classifier:"",
                 TextColumns:[],
-       }},
-      model: { _id: {$oid: ""},
-        model : { name:"", 
-        version: 0,
-        epochs: 200,
-        version: '1',
-        ngrams: 3,
-        learningRate: .2,
-      
-    }},
+                }
+      },
+      model: 
+        { _id: 
+          {$oid: ""},
+          model : { name:"", 
+          version: 0,
+          epochs: 200,
+          version: '1',
+          ngrams: 3,
+          learningRate: .2,
+      }},
       
     confidence: 90,
       
@@ -110,9 +112,14 @@ class RunTrainingCard extends React.Component {
       confidence: this.state.confidence
     })
   }
-
+ 
   handleChangeSlider = name => (event, value) => {
-    this.setState({ model: {[name]: value } });
+    
+    let prevmodel =this.state.model.model
+    let newmodel = {...prevmodel, [name]:value}
+    console.log(newmodel)
+    this.setState({ model: { ...prevmodel, model: newmodel } })
+    //this.setState(...model: { model: { [name]: event.target.value }}});
   };
 /* 
   handleChangeDataset(event) {
@@ -137,7 +144,11 @@ class RunTrainingCard extends React.Component {
     if (name === "splitlang") {
       this.setState({ [name]: event.target.checked });
     } else {
-      this.setState({ model: { [name]: event.target.value }});
+      let prevmodel =this.state.model.model
+      let newmodel = {...prevmodel, [name]: event.target.value}
+      console.log(newmodel)
+      this.setState({ model: { ...prevmodel, model: newmodel } })
+      //this.setState({ model: { model: { [name]: event.target.value }}});
     }
     //else if (name==="datasetname") {}
   };
@@ -177,11 +188,12 @@ class RunTrainingCard extends React.Component {
               </FormControl>
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
+            <CustomInput
                 className={classes.textFields}
                 labelText="Dataset version"
-                id="datasetverson"
+                id="datasetversion"
                 disabled
+                value={this.state.dataset.dataset.version}
                 formControlProps={{
                   fullWidth: true
                 }}
@@ -240,8 +252,8 @@ class RunTrainingCard extends React.Component {
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
                 className={classes.textFields}
-                labelText="model"
-                onChange={this.handleChange('model')}
+                labelText="model name"
+                onChange={this.handleChange('name')}
                 id="model"
                 formControlProps={{
                   fullWidth: true

@@ -18,7 +18,7 @@ MODELDIR =  "/data/models"
 
 #Holds configs, models and datafiles in memory 
 class fastTextApp(object):
-    configs= []
+    
     loadedmodels = []
     datafiles = []
 
@@ -27,19 +27,11 @@ class fastTextApp(object):
             d = datafile(f,f.split('/')[-1], supervised=True)
             self.datafiles.append(d)
      
-    def loadConfig(self,config):    
-        c = config(config)
-        c.load()
-        self.configs.append(c)
-
-    def loadConfigs(self,configs):
+    
+    
+    def loadModel(self,id):
         
-        for conf in configs:
-            self.loadConfig(conf)
-
-    def loadModel(self,name, version, supervised, quantized):
-        
-        m = model(name,version,supervised,quantized)
+        m = model.load(id)
         result = m.load()
         if result == "success":
             self.loadedmodels.append(m)
@@ -70,18 +62,6 @@ class datafile(object):
         
         
 
-class config(object):
-    bias = 0
-    ngrams = 3
-    learningRate = .2
-    epochs = 200
-    method = ""  #(skipgram of cbow fur unsupervised)
-    def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            if type(value) != type(getattr(self, key)):
-                logger.error(f'error in type of {value} of type {type(value)} for key :{key} with type {type(getattr(self, key) )}')
-            else:                    
-                setattr(self, key, value)
         
 
 
@@ -95,23 +75,18 @@ class model(object):
     quantized = False
     config = None
     filepath =""
+    bias = 0
+    ngrams = 3
+    learningRate = .2
+    epochs = 200
+    method = ""
 
-    def __init__(self, ftdbmodel,dataset,splitAt):
-        ftmodel=ftdbmodel['model']
-        self.id=id
-        self.name = ftmodel['name']
-        self.version = ftmodel['version']
-        self.supervised = True
-        self.quantized = False
-        self.config = config(learningRate=ftmodel['config']['learningRate'], epochs=ftmodel['config']['epochs'],ngrams=ftmodel['config']['ngrams'])
-        self.splitAt=splitAt
-        
-        
-        self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"
-        
-        if not os.path.exists(f"{MODELDIR}/{self.name}/{self.version!s}"):
-            os.makedirs(f"{MODELDIR}/{self.name}/{self.version!s}")
+    def __init__(self, id=None):
+        if id!=None:
+            database.getFtModel(id)
 
+
+    
     def quantize(self):
             logger.error("TODO")
     def load(self):
@@ -125,8 +100,27 @@ class model(object):
         return "success"
 
 
-    def train(self, trainingfile):
+    def train(self, ftmodel,trainingfile):
         """Starts model building"""
+        
+
+        self.id=id
+        self.name = ftmodel['name']
+        self.version = ftmodel['version']
+        self.supervised = True
+        self.quantized = False
+        self.learningRate=['learningRate']
+        self.epochs=ftmodel['epochs']
+        self.ngrams=ftmodel['ngrams']
+        self.splitAt=ftmodel['splitAt']
+        
+        
+        self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"
+        
+        if not os.path.exists(f"{MODELDIR}/{self.name}/{self.version!s}"):
+            os.makedirs(f"{MODELDIR}/{self.name}/{self.version!s}")
+
+    
         if self.splitAt!=None:
             self.splitTrainingData(trainingfile.fullpath, self.splitAt)
             testpath=trainingfile.fullpath+'.test'
@@ -134,14 +128,14 @@ class model(object):
         skipTraining=True #debug for testing models quickly
         if skipTraining==False:
             logging.error(trainingfile.fullpath)
-            logger.info(f'Training started with : learningRate:{self.config.learningRate!s}, epochs:{self.config.epochs!s}, ngrams :{self.config.ngrams!s}')
+            logger.info(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.ngrams!s}')
             model = FastText()
             if self.supervised:
-                model.supervised(input=trainingfile.fullpath, output=self.filepath, epoch=self.config.epochs, lr=self.config.learningRate, wordNgrams=self.config.ngrams, verbose=2, minCount=1)
-            elif self.config.method == "cbow":
-                model.cbow(input=trainingfile.fullpath, output='model', epoch=self.config.epochs, lr=self.config.learningRate)
+                model.supervised(input=trainingfile.fullpath, output=self.filepath, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.config.ngrams, verbose=2, minCount=1)
+            elif self.method == "cbow":
+                model.cbow(input=trainingfile.fullpath, output='model', epoch=self.epochs, lr=self.learningRate)
             else:
-                model.skipgram(input=trainingfile.fullpath, output='model', epoch=self.config.epochs, lr=self.config.learningRate)
+                model.skipgram(input=trainingfile.fullpath, output='model', epoch=self.epochs, lr=self.learningRate)
             logger.warning("Finished training model")
         database.writeModel(self)
 
