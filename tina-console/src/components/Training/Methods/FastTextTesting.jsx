@@ -94,11 +94,8 @@ class RunTrainingCard extends React.Component {
       action: `testing`,
       dataset: this.state.dataset,
       model: this.state.model,
-      splitlang: this.state.splitlang,
-      epochs: this.state.epochs,
       version: this.state.version,
-      learningrate: this.learningrate,
-      ngrams: this.ngrams
+      
     })
   }
 
@@ -111,11 +108,9 @@ class RunTrainingCard extends React.Component {
   };
 
   handleChange = name => event => {
-    if (name === "splitlang") {
-      this.setState({ [name]: event.target.checked });
-    } else {
+    
       this.setState({ [name]: event.target.value });
-    }
+    
     //else if (name==="datasetname") {}
   };
   render() {
