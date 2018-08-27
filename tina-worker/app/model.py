@@ -53,6 +53,7 @@ class model(object):
         self.epochs=data['epochs']
         self.ngrams=data['ngrams']
         self.splitAt=data['splitAt']
+        
            
     
     def quantize(self):
@@ -106,7 +107,7 @@ class model(object):
        
         logging.error(self.filepath)
         
-        
+        self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"
         
         model = FastText(self.filepath+'.bin')
         data=open(dataf.fullpath,'r').readlines()
