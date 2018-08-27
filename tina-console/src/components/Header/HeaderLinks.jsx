@@ -17,7 +17,7 @@ import Search from "@material-ui/icons/Search";
 // core components
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-
+import {EventsContext} from 'components/Context/EventsProvider'
 import {UserContext} from 'components/Context/UserProvider'
 import headerLinksStyle from "assets/jss/ctg-ai-lab/components/headerLinksStyle";
 import Typography from "@material-ui/core/Typography";
