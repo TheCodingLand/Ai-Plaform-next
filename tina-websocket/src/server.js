@@ -91,9 +91,11 @@ const makeRedisObj = (client,channel,message) => {
                 dataset:JSON.stringify(message.dataset)
                 }
                 )
-            //console.log(obj)        
+            //console.log(obj)   
+            clientSpecificRedisSub(client, obj)
             return obj  
             }
+            
 }
 
 //This sends back redis events to the frontend through the websocket, as broadcast
