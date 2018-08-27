@@ -57,10 +57,9 @@ const clientSpecificRedisSub = (client,obj) => {
             client.emit(key, JSON.stringify(result))}}
             
         )
-        redisIn.expire(key,10)
-
-           
-        })
+        redisIn.expire(key,10)      
+        }
+    )
 
     }
 
@@ -99,8 +98,8 @@ const makeRedisObj = (client,channel,message) => {
 }
 
 //This sends back redis events to the frontend through the websocket, as broadcast
-const redisBroadCast = new redisBroadCaster(io,redisSub,redisIn,redisEventsToListenTo)
-redisBroadCast.start()
+//const redisBroadCast = new redisBroadCaster(io,redisSub,redisIn,redisEventsToListenTo)
+//redisBroadCast.start()
 
 
 //Listens to channels from the websockets and relays them to redis
