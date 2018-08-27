@@ -106,7 +106,10 @@ const listenTo = (channel, socket) => {
         console.log(msg)
         let obj = makeRedisObj(socket,channel,msg)
         publishToredis(obj)
-        socket.emit(msg.id, JSON.stringify({text:'Started'}))
+        
+        let parsed = JSON.parse(msg)
+        console.log(parsed)
+        socket.emit(parsed.id, JSON.stringify({text:'Started'}))
     })
 }
 

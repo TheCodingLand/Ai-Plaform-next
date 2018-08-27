@@ -75,8 +75,6 @@ class RunTestingCard extends React.Component {
       confidence: 90,
       TestingStarted: false,
       splitAt: 95,
-      
-      
     };
     this.eventRecieved = this.eventRecieved.bind(this)
     this.handleChangeDataset = this.handleChangeDataset.bind(this)
@@ -95,6 +93,7 @@ class RunTestingCard extends React.Component {
   startTesting = (context) => {
     let id = this.makeid()
     this.setState({ TestingStarted: true, id: id })
+    console.log(context)
     context.subscribe('id', (obj) => this.eventRecieved(obj))
     context.action('testing', {
       id: id,
@@ -138,7 +137,7 @@ class RunTestingCard extends React.Component {
   
 
   render() {
-    console.log(this.props.appdata.datasets)
+    //console.log(this.props.appdata.datasets)
     const { classes } = this.props;
     return (
       <Card>
@@ -248,7 +247,7 @@ class RunTestingCard extends React.Component {
                   { this.props.appdata.models ?
 
                     this.props.appdata.models.map((md) => {
-                      console.log(md)
+                     // console.log(md)
                       return (
                 
                        
