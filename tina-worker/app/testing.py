@@ -16,12 +16,6 @@ if preload:
         loadedModels.update( {f"{id}" : m} )
 
 
-for id in preload:
-    m = model(id)
-    loadedModels.update( {f"{id}" : m} )
-
-
-
 def manageAction(keyname, key, ft):
 
     
