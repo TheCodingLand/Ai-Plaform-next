@@ -2,7 +2,7 @@ import json
 import os
 import random
 
-from app.fastTextApp import model
+from app.model import model
 from app.datafile import datafile
 
 loadedModels = {}
@@ -16,7 +16,7 @@ if preload:
 
 
 def generateSettings():
-    return { "epochs": random.randint(200,800), "learningRate": random.randint(1,100)/100, ngrams : random.randint(1,5) }
+    return { "epochs": random.randint(200,800), "learningRate": random.randint(1,100)/100, "grams" : random.randint(1,5) }
 
 def manageAction(keyname, key, ft):
     i = 0

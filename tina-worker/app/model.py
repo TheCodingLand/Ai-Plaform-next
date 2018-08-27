@@ -16,26 +16,8 @@ database =db()
 DATADIR = "/data/datafiles"
 MODELDIR =  "/data/models"
 
-#Holds configs, models and datafiles in memory 
-class fastTextApp(object):
-    
-    loadedmodels = []
-    datafiles = []
 
-    
-     
-    
-    #For a prediction worker we will have to load a specific model
-    def loadModel(self,id):
-        
-        m = model.load(id)
-        result = m.load()
-        if result == "success":
-            self.loadedmodels.append(m)
-
-        return m
-        
-            
+           
  
 class model(object):
     name =""

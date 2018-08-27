@@ -1,8 +1,8 @@
 import json
 
 
-from app.fastTextApp import model
-from app.fastTextApp import datafile
+from app.model import model
+from app.datafile import datafile
 
 
 def manageAction(keyname, key, ft):

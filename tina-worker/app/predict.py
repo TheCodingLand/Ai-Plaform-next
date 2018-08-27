@@ -2,7 +2,7 @@ import json
 import os
 
 
-from app.fastTextApp import model
+from app.model import model
 from app.datafile import datafile
 
 loadedModels = {}
