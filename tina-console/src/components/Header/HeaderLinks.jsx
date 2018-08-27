@@ -89,9 +89,9 @@ class HeaderLinks extends React.Component {
             className={classes.buttonLink}
           >
             <Notifications className={classes.icons} />
-            <EventsContext.Consumer>{context => { 
+            <EventsContext.Consumer>{context => 
             <span className={classes.notifications}>{context.events.length}</span>
-            } }
+            } 
             </EventsContext.Consumer>
             <Hidden mdUp implementation="css">
               <p onClick={this.handleClick} className={classes.linkText}>
