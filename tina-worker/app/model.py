@@ -109,7 +109,7 @@ class Model(object):
         
         threshold = threshold/100
         model = FastText(self.filepath+'.bin')
-        if splitted == True:
+        if dataf.splitted == True:
             f = f"{dataf.fullpath}.test"
         else:
             f=dataf.fullpath
