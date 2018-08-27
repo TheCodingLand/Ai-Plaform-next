@@ -103,7 +103,7 @@ class RunTrainingCard extends React.Component {
   }
   startTraining = (context) => {
     let id = this.makeid()
-    context.subscribe('id', (obj) => this.eventRecieved(obj))
+    context.subscribe(id, (obj) => this.eventRecieved(obj))
     this.setState({ trainingStarted: true, id: id })
     console.log('fired onclick')
     context.action('training', {
