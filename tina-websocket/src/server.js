@@ -52,6 +52,7 @@ const clientSpecificRedisSub = (client,key) => {
     redisSub.on('pmessage', (channel, key) => { redisIn.hgetall(key, (err,result) => {
         if (!err) {  
             //result = {key:key, action : "training started"}
+            
             client.emit(result.id, JSON.stringify(result))}}
             
         )
