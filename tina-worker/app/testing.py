@@ -13,7 +13,7 @@ preload = os.environ.get('PRELOAD_MODELS')
 
 if preload:
     for id in preload:
-        m = model(id)
+        m = Model(id)
         loadedModels.update( {f"{id}" : m} )
 
 
