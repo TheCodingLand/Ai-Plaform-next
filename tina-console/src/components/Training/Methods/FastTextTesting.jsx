@@ -160,13 +160,8 @@ class RunTestingCard extends React.Component {
                   </MenuItem>
                   { this.props.appdata.datasets ?
 
-                    this.props.appdata.datasets.map((ds) => {
-                      
-                      return (
-                
-                        
-                  <MenuItem key={ds._id.$oid} value={ds._id.$oid}>{ds.dataset.name} {ds.dataset.version}</MenuItem>)
-              
+                    this.props.appdata.datasets.map((ds) => {                     
+                      return ( <MenuItem key={ds._id.$oid} value={ds._id.$oid}>{ds.dataset.name} {ds.dataset.version}</MenuItem>)
                 } ): "" }
                 </Select>
                 <FormHelperText>go to upload to add more</FormHelperText>
@@ -209,30 +204,20 @@ class RunTestingCard extends React.Component {
               />
             </GridItem>
 
-
-
-
-
           </GridContainer>
           <GridContainer>
-
-
             <GridItem xs={12} sm={12} md={6}>
-
               <Typography className={classes.sliders} id="confidencelabel">Results with confidence better than :</Typography>
               <GridContainer>
                 <GridItem xs={10} sm={10} md={10}>
                   <Slider value={this.state.confidence} aria-labelledby="confidencelabel" min={50} max={100} step={1} onChange={this.handleChangeSlider('confidence')} />
                 </GridItem>
-
                 <GridItem xs={2} sm={2} md={2}>
                   <Typography>{this.state.confidence}%</Typography>
                 </GridItem>
-
              </GridContainer>
             </GridItem>
             
-
             <GridItem xs={12} sm={12} md={3}>
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="model-id">Model</InputLabel>
