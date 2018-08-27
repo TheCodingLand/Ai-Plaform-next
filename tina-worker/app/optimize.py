@@ -1,6 +1,6 @@
 import json
 import os
-
+import random
 
 from app.fastTextApp import model
 from app.fastTextApp import datafile
