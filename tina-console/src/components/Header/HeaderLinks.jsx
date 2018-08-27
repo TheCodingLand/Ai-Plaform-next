@@ -120,8 +120,9 @@ class HeaderLinks extends React.Component {
                   <ClickAwayListener onClickAway={this.handleClose}>
                   <EventsContext.Consumer>{context =>
                     <MenuList role="menu">
-                      {context.events.map((event) => {
-                      {console.log(event)}
+                      {context.events.map((event) => { console.log(event)
+                        return (
+                      
                       <MenuItem
                         onClick={this.handleClose}
                         className={classes.dropdownItem}
@@ -129,7 +130,7 @@ class HeaderLinks extends React.Component {
                       >
                       
                         {event.text}
-                      </MenuItem>
+                      </MenuItem>)
                       })
                     }
                       </MenuList>
