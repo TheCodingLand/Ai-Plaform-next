@@ -53,7 +53,7 @@ class model(object):
         self.epochs=data['epochs']
         self.ngrams=data['ngrams']
         self.splitAt=data['splitAt']
-        
+        self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"
            
     
     def quantize(self):
@@ -73,7 +73,6 @@ class model(object):
         """Starts model building"""
         
         
-        self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"
         self.label = trainingfile.label
         
         if not os.path.exists(f"{MODELDIR}/{self.name}/{self.version!s}"):
@@ -107,7 +106,6 @@ class model(object):
        
         logging.error(self.filepath)
         
-        self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"
         
         model = FastText(self.filepath+'.bin')
         data=open(dataf.fullpath,'r').readlines()
