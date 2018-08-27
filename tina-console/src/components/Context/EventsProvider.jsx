@@ -1,5 +1,6 @@
 import React from 'react'
-
+import Snackbar from '@material-ui/core/Snackbar';
+import {saveState, loadState} from 'components/LocalStorage/LocalStorage'
 
 export const EventsContext = React.createContext()
 
@@ -7,15 +8,20 @@ export const EventsContext = React.createContext()
 class EventsProvider extends React.Component {
     constructor() {
         super()
-    
+    let loadedstate = loadState('events')
     this.state = {
         events : [],
         action : this.action,
-        subscribe : this.subscribe
+        subscribe : this.subscribe,
+        open: false,
+        newevent: { text:""}
     }
-    
+    this.state = Object.assign({}, this.state, loadedstate)
+    //this.state = {...this.state, loadedstate}
     
     }
+
+    
     subscribe = (event, cb) => {
         console.log(event)
         this.props.websocket.on(event, (obj) => { 
@@ -27,7 +33,7 @@ class EventsProvider extends React.Component {
             events.push(o)
             
             
-            this.setState({events:events})
+            this.setState({events:events, newevent:o})
             cb(obj)})
        
     }
@@ -47,13 +53,18 @@ class EventsProvider extends React.Component {
     let events = this.state.events.push(o)
     //this.setState({events:events})
     }
+    
 
     gotEvents = (events) => {
         console.log(events)
         let o = JSON.parse(events)
         //this.setState({events:o})
         }
-
+    handleClose = () => {
+            this.setState({ open: false,newevent : {text:""} });
+            
+          };
+  
     trigger_update = () => {
             //this.setState({loading:true})
             console.log('getting all events')
@@ -61,11 +72,26 @@ class EventsProvider extends React.Component {
       }
 
     render () {
+        //let newstate = loadState('events')
+        //if (newstate !== this.state) { 
+        //this.setState(newstate)}
+        if (this.state.events.length >0) {
+        saveState(this.state, 'events')
+        }
         this.props.websocket.on('event', this.gotEvent)
         this.props.websocket.on('allevents', this.gotEvents)
         console.log(this.props)
         return (
             <EventsContext.Provider value={this.state}>
+            <Snackbar
+          anchorOrigin={{ vertical:'top', horizontal:'right' }}
+          open={this.state.newevent.text !==""}
+          onClose={this.handleClose}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">{this.state.newevent.text}</span>}
+        />
             {this.props.children}
 
             </EventsContext.Provider>
