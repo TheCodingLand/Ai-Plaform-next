@@ -4,10 +4,10 @@ from fastText.api.restplus import api
  
 
 prediction = api.model( 'predict:', {
-    'name' : fields.String(description='name of the model'),
-    'version': fields.Integer(description='model version optional : 0 by default'),
+    'id' : fields.String(description='id of a trained model'),
     'text': fields.String(description='text to feed the prediction algorithm'),
-    'nbofresults': fields.Integer(description='Number of labels to return'),
+    'ai' : fields.String(description="AI Algorithm", default = "ft"),
+    'nbofresults': fields.Integer(description='Number of labels to return', default = 1),
 })
 
 loadmodel = api.model('loadmodel:', {
