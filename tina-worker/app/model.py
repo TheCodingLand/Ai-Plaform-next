@@ -45,7 +45,7 @@ class model(object):
 
     def initFromDict(self, data):
 
-        
+        data = data['model']
         self.name = data['name']
         self.version = data['version']
         self.supervised = True
