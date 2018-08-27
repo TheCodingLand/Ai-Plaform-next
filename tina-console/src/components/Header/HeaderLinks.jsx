@@ -118,26 +118,20 @@ class HeaderLinks extends React.Component {
               >
                 <Paper>
                   <ClickAwayListener onClickAway={this.handleClose}>
+                  <EventsContext.Consumer>{context =>
                     <MenuList role="menu">
+                      {context.events.map((event) => {
                       <MenuItem
                         onClick={this.handleClose}
                         className={classes.dropdownItem}
                       >
-                        Dataset RCSLv3 uploaded successfuly
+                      {event.text}
                       </MenuItem>
-                      <MenuItem
-                        onClick={this.handleClose}
-                        className={classes.dropdownItem}
-                      >
-                        Model RCSL Version 1.3 trained successfuly
-                      </MenuItem>
-                      <MenuItem
-                        onClick={this.handleClose}
-                        className={classes.dropdownItem}
-                      >
-                        29/7/2018 23h05 : usage exceeded 15000 hits
-                      </MenuItem>
+                      })
+                    }
                       </MenuList>
+                    }
+                      </EventsContext.Consumer>
                   </ClickAwayListener>
                 </Paper>
               </Grow>
