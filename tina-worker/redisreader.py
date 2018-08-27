@@ -19,6 +19,7 @@ redis_host=os.getenv('REDIS_HOST')
 
 Loglevel = os.getenv('LOGLEVEL')
 
+
 logger = logging.getLogger()
 handler = logging.StreamHandler()
 formatter = logging.Formatter(

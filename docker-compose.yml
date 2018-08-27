@@ -198,6 +198,7 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - ACTION=training
       - MONGODB_SERVER=${MONGODB_SERVER}
+      - LOGLEVEL=${INFO}
     links:
       - tina-redis
     networks:
@@ -211,6 +212,7 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - ACTION=predict
       - MONGODB_SERVER=${MONGODB_SERVER}
+      - LOGLEVEL=${INFO}
     links:
       - tina-redis
     networks:
@@ -223,6 +225,7 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - ACTION=testing
       - MONGODB_SERVER=${MONGODB_SERVER}
+      - LOGLEVEL=${INFO}
     links:
       - tina-redis
     networks:
@@ -235,6 +238,7 @@ services:
     environment:
       - REDIS_HOST=${REDIS_HOST}
       - MONGODB_SERVER=${MONGODB_SERVER}
+      
     labels:
       - "traefik.backend=api"
       - "traefik.docker.network=ai-web"

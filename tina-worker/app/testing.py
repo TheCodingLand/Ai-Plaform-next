@@ -1,7 +1,8 @@
 
 import json
 import os
-
+import logging
+logger = logging.getLogger()
 
 from app.model import model
 from app.datafile import datafile
@@ -31,4 +32,4 @@ def manageAction(keyname, key):
     data = datafile('datafile.ft', dataset['dataset']['name'], True, dataset['dataset']['version'], dataset['dataset']['classifier'])
     result = m.testRun(data, confidence)
     
-    print(result)
+    logger.info(result)
