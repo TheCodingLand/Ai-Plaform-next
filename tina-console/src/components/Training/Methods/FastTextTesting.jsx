@@ -94,7 +94,7 @@ class RunTestingCard extends React.Component {
     let id = this.makeid()
     this.setState({ TestingStarted: true, id: id })
     console.log(context)
-    context.subscribe('id', (obj) => this.eventRecieved(obj))
+    context.subscribe(id, (obj) => this.eventRecieved(obj))
     context.action('testing', {
       id: id,
       action: `testing`,
