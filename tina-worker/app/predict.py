@@ -9,12 +9,10 @@ loadedModels = {}
 
 preload = os.environ.get('PRELOAD_MODELS')
 
-if preload != None:
+if type(preload) != "NoneType":
     for id in preload:
         m = model(id)
         loadedModels.update( {f"{id}" : m} )
-
-
 
 def manageAction(keyname, key, ft):
 
