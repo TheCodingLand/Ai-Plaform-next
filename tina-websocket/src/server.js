@@ -47,13 +47,13 @@ const setState = (mods) => {
 
 
 }
-const clientSpecificRedisSub = (client,key) => {
-    redisSub.psubscribe(key)
+const clientSpecificRedisSub = (client,obj) => {
+    redisSub.psubscribe(obj.id)
     redisSub.on('pmessage', (channel, key) => { redisIn.hgetall(key, (err,result) => {
         if (!err) {  
             //result = {key:key, action : "training started"}
             
-            client.emit(result.id, JSON.stringify(result))}}
+            client.emit(key, JSON.stringify(result))}}
             
         )
         redisIn.expire(key,10)
@@ -77,7 +77,7 @@ const makeRedisObj = (client,channel,message) => {
             }
             )
         console.log(obj)
-        clientSpecificRedisSub(client, obj.key)
+        clientSpecificRedisSub(client, obj)
         return obj  
 
         }
