@@ -147,7 +147,7 @@ class model(object):
 
        
     
-    def testRun(self ,dataf, threshold):
+    def testRun(self ,dataf, threshold, delete=False):
         """this takes a model, and tests it with various paramaters. returns a result dictionnary, 
         { total : 133, threshold: 85, ignoredEntries : 10, success: 110, failures : 13 }"""
         
@@ -209,7 +209,9 @@ class model(object):
                     
         
         result = { "total": total, "success" : correct, "ignored" : ignored, "failures": failures, "percent" : percent, "failed" : mostFailedLabels }
-        
+        if delete ==True:
+            os.remove(self.model.fullpath)
+            os.rmdir(f"{MODELDIR}/{self.name}/{self.version!s}")
         return result
 
 

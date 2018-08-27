@@ -2,10 +2,20 @@ import redis
 import time
 import logging
 from app.fastTextApp import fastTextApp 
-import app.actions as actions
+
 import os
 
+
 action = os.getenv('ACTION')
+if action == "predict":
+    import app.predict as actions
+if action == "training":
+    import app.training as actions
+if action == "testing":
+    import app.testing as actions
+if action == "optimize":
+    import app.optimize as actions
+
 redis_host=os.getenv('REDIS_HOST')
 
 Loglevel = os.getenv('LOGLEVEL')
@@ -28,6 +38,9 @@ logger.debug('reading keys from redis db 1')
 redis_out = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=2)
 
 
+
+
+
 while True:
     keys = redis_in.keys(f'ft.{action}*')
     if len(keys) == 0:
@@ -44,7 +57,7 @@ while True:
         redis_in.delete(key)
         k['state']= 'in progress'
         redis_out.hmset(key, k)
-        result = actions.manageActions(key, k, ft)
+        result = actions.manageAction(key, k, ft)
         #keyname, data, ft object
         
         k['state']= 'finished'
