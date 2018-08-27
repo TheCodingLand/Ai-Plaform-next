@@ -44,7 +44,7 @@ class model(object):
             self.initFromDict(m)
 
     def initFromDict(self, data):
-
+        print(data)
         data = data['model']
         self.name = data['name']
         self.version = data['version']
