@@ -4,8 +4,8 @@ import os
 import logging
 logger = logging.getLogger()
 
-from app.model import model
-from app.datafile import datafile
+from app.model import Model
+from app.dataset import Dataset
 
 loadedModels = {}
 
@@ -26,10 +26,10 @@ def manageAction(keyname, key):
     
     
         #will be just used for metadata of the model, so we know why we trained this model for, what to predict
-    m = model() #quantized will be implemented later
+    m = Model() #quantized will be implemented later
     m.initFromDict(ftmodel)
     #data = datafile('datafile.ft', datasetname, True, datasetversion, label)
-    data = datafile('datafile.ft', dataset['dataset']['name'], True, dataset['dataset']['version'], dataset['dataset']['classifier'])
+    data = Dataset('datafile.ft', dataset['dataset']['name'], True, dataset['dataset']['version'], dataset['dataset']['classifier'])
     result = m.testRun(data, confidence)
     
     logger.info(result)
