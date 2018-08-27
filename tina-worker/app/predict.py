@@ -14,7 +14,7 @@ if preload:
         m = model(id)
         loadedModels.update( {f"{id}" : m} )
 
-def manageAction(keyname, key, ft):
+def manageAction(keyname, key):
 
     id=json.loads(key.get('id'))
 

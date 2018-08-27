@@ -78,6 +78,7 @@ class RunTestingCard extends React.Component {
       
       
     };
+    this.eventRecieved = this.eventRecieved.bind(this)
     this.handleChangeDataset = this.handleChangeDataset.bind(this)
 
 
@@ -94,7 +95,7 @@ class RunTestingCard extends React.Component {
   startTesting = (context) => {
     let id = this.makeid()
     this.setState({ TestingStarted: true, id: id })
-    
+    context.subscribe('id', (obj) => this.eventRecieved(obj))
     context.action('testing', {
       id: id,
       action: `testing`,
@@ -105,7 +106,10 @@ class RunTestingCard extends React.Component {
       
     })
   }
-
+  eventRecieved(obj) {
+    console.log(obj)
+  }
+  
   handleChangeSlider = name => (event, value) => {
     this.setState({ [name]: value });
   };

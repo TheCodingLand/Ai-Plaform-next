@@ -18,7 +18,7 @@ if preload:
 def generateSettings():
     return { "epochs": random.randint(200,800), "learningRate": random.randint(1,100)/100, "grams" : random.randint(1,5) }
 
-def manageAction(keyname, key, ft):
+def manageAction(keyname, key):
     i = 0
     results=[]
     dataset=json.loads(key.get('dataset'))

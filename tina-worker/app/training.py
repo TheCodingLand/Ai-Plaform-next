@@ -5,7 +5,7 @@ from app.model import model
 from app.datafile import datafile
 
 
-def manageAction(keyname, key, ft):
+def manageAction(keyname, key):
 
     ftmodel=json.loads(key.get('model'))
     dataset=json.loads(key.get('dataset'))

@@ -1,7 +1,6 @@
 import redis
 import time
 import logging
-from app.fastTextApp import fastTextApp 
 
 import os
 
@@ -30,7 +29,6 @@ logger.setLevel(logging.DEBUG)
 
 
 
-ft = fastTextApp()
 #read keys from here
 redis_in = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=1)
 logger.debug('reading keys from redis db 1')
@@ -57,7 +55,7 @@ while True:
         redis_in.delete(key)
         k['state']= 'in progress'
         redis_out.hmset(key, k)
-        result = actions.manageAction(key, k, ft)
+        result = actions.manageAction(key, k)
         #keyname, data, ft object
         
         k['state']= 'finished'
