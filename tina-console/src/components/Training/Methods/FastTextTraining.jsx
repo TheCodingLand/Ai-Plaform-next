@@ -111,7 +111,7 @@ class RunTrainingCard extends React.Component {
       action: `training`,
       dataset: this.state.dataset,
       model: this.state.model,
-     
+      
       testmodel: this.state.model.testmodel,
       confidence: this.state.confidence
     })
@@ -280,6 +280,21 @@ class RunTrainingCard extends React.Component {
               />
             
             </GridItem>
+
+            <GridItem xs={12} sm={12} md={6}>
+
+          <Typography className={classes.sliders} id="splittestlabel">Split Training / testing data at : </Typography>
+          <GridContainer>
+            <GridItem xs={10} sm={10} md={10}>
+              <Slider value={this.state.model.model.splitAt} aria-labelledby="splittestlabel" min={50} max={100} step={1} onChange={this.handleChangeSlider('splitAt')} />
+            </GridItem>
+
+            <GridItem xs={2} sm={2} md={2}>
+              <Typography>{this.state.model.model.splitAt}%</Typography>
+            </GridItem>
+
+          </GridContainer>
+          </GridItem>
             {/* <GridItem xs={12} sm={12} md={4}>
               <FormControlLabel className={classes.formControl}
                 control={
