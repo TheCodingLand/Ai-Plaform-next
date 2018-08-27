@@ -198,7 +198,7 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - ACTION=training
       - MONGODB_SERVER=${MONGODB_SERVER}
-      - LOGLEVEL=${INFO}
+      - LOGLEVEL=${TRAIN_LOGLEVEL}
     links:
       - tina-redis
     networks:
@@ -212,7 +212,7 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - ACTION=predict
       - MONGODB_SERVER=${MONGODB_SERVER}
-      - LOGLEVEL=${INFO}
+      - LOGLEVEL=${PRED_LOGLEVEL}
     links:
       - tina-redis
     networks:
@@ -225,7 +225,7 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - ACTION=testing
       - MONGODB_SERVER=${MONGODB_SERVER}
-      - LOGLEVEL=${INFO}
+      - LOGLEVEL=${TEST_LOGLEVEL}
     links:
       - tina-redis
     networks:
