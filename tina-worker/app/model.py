@@ -9,7 +9,7 @@ from .db import db
 
 #need to move this to a worker instance, for now we simulate
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger()
 
 database =db()
 
@@ -84,7 +84,7 @@ class model(object):
             testpath=trainingfile.fullpath+'.test'
             trainingfile.fullpath=trainingfile.fullpath+'.train'
        
-        logging.error(trainingfile.fullpath)
+        logger.info(trainingfile.fullpath)
         logger.info(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.ngrams!s}')
         model = FastText()
         if self.supervised:
@@ -104,7 +104,7 @@ class model(object):
         { total : 133, threshold: 85, ignoredEntries : 10, success: 110, failures : 13 }"""
         
        
-        logging.error(self.filepath)
+        logger.info(self.filepath)
         
         threshold = threshold/100
         model = FastText(self.filepath+'.bin')
@@ -124,14 +124,14 @@ class model(object):
             result = model.predict_proba_single(line, k=1)
             p= prediction(result, label,0)
             
-            logging.warning(f"text: {line}, confidence : {p.confidence}, predicted : {p.name}, reality : {p.correct}")
+            logger.debug(f"text: {line}, confidence : {p.confidence}, predicted : {p.name}, reality : {p.correct}")
             if p.confidence > threshold:
                 if p.name==p.correct:
                     p.success=True
                     correct=correct+1
 
                 percent = correct/i*100
-                logging.warning(f'efficiency so far : {percent}%')
+                logger.debug(f'efficiency so far : {percent}%')
             else:
                 p.ignored=True
                 i=i-1
@@ -141,7 +141,7 @@ class model(object):
         total = len(data)
         ignored = total-i
         failures = total - ignored- correct
-        logging.error('finished')
+        logger.info('finished')
         labels = []
         for p in predictions:
             if p.name not in labels:
