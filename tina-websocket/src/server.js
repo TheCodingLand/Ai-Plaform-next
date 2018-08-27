@@ -89,7 +89,7 @@ const makeRedisObj = (client,channel,message) => {
                 dataset:JSON.stringify(message.dataset)
                 }
                 )
-            console.log(obj)        
+            //console.log(obj)        
             return obj  
             }
 }
