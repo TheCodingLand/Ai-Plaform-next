@@ -3,14 +3,16 @@ DATADIR = "/data/datafiles"
 
 class Dataset(object):
     name=""
+    splitted=True
     id = ""
     supervised=False
     filename=""
     version =""
     label = ""
     fullpath=""
-    def __init__(self, filename, name, supervised, version =1,label="default" ):
+    def __init__(self, filename, name, supervised, version =1,label="default", splitted=True ):
         self.name= name
+        self.splitted=splitted
         self.supervised = supervised
         self.filename = filename
         self.version = version
