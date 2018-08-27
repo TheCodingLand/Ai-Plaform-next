@@ -3,7 +3,7 @@ import os
 import random
 
 from app.fastTextApp import model
-from app.fastTextApp import datafile
+from app.datafile import datafile
 
 loadedModels = {}
 
