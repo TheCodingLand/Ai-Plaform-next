@@ -8,7 +8,15 @@ from app.fastTextApp import datafile
 
 loadedModels = {}
 
-preload = os.environ.get('PRELOAD_MODELS') | []
+preload = os.environ.get('PRELOAD_MODELS')
+
+if preload != None:
+   
+
+    for id in preload:
+        m = model(id)
+        loadedModels.update( {f"{id}" : m} )
+
 
 for id in preload:
     m = model(id)
