@@ -121,11 +121,14 @@ class HeaderLinks extends React.Component {
                   <EventsContext.Consumer>{context =>
                     <MenuList role="menu">
                       {context.events.map((event) => {
+                      {console.log(event)}
                       <MenuItem
                         onClick={this.handleClose}
                         className={classes.dropdownItem}
+                        
                       >
-                      {event.text}
+                      
+                        {event.text}
                       </MenuItem>
                       })
                     }
