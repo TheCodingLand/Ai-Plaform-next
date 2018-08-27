@@ -64,16 +64,18 @@ services:
   image: mongo
   restart: always
   environment:
-    
     - MONGO_INITDB_ROOT_USERNAME=root
     - MONGO_INITDB_ROOT_PASSWORD=example
   ports :
     - "27017:27017"
   volumes: 
     - mongo_db:/data/db
+  logging:
+    driver: "none"
   networks:
    - ai-internal
    - ai-web
+
  #####NODE SERVER WEBSOCKET#####
  tina-websocket:
   restart: always
@@ -135,8 +137,7 @@ services:
    - "traefik.frontend.entryPoints=http"
   expose:
    - "8081"
-  logging:
-    driver: none
+  
   networks:
    - ai-web
    - ai-internal
