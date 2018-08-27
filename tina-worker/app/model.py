@@ -106,7 +106,7 @@ class model(object):
        
         logging.error(self.filepath)
         
-        
+        threshold = threshold/100
         model = FastText(self.filepath+'.bin')
         data=open(dataf.fullpath,'r').readlines()
         i = 0
