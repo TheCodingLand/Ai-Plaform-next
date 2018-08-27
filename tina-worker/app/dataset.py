@@ -1,8 +1,9 @@
 
 DATADIR = "/data/datafiles"
 
-class datafile(object):
+class Dataset(object):
     name=""
+    id = ""
     supervised=False
     filename=""
     version =""
@@ -15,3 +16,6 @@ class datafile(object):
         self.version = version
         self.label= label
         self.fullpath = f"{DATADIR}/{name}/{version}/{filename}"
+    def toDict(self):
+        return { "name": self.name, "version" : self.version, "label" : self.label }
+    

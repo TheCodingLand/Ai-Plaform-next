@@ -2,8 +2,8 @@ import json
 import os
 
 
-from app.model import model
-from app.datafile import datafile
+from app.model import Model
+from app.dataset import Dataset
 
 loadedModels = {}
 
@@ -11,7 +11,7 @@ preload = os.environ.get('PRELOAD_MODELS')
 
 if preload:
     for id in preload:
-        m = model(id)
+        m = Model(id)
         loadedModels.update( {f"{id}" : m} )
 
 def manageAction(keyname, key):
@@ -26,7 +26,7 @@ def manageAction(keyname, key):
     if id in loadedModels.keys():
         m = loadedModels.get(id)
     else:
-        m = model(id) #quantized will be implemented later
+        m = Model(id) #quantized will be implemented later
     
     
    

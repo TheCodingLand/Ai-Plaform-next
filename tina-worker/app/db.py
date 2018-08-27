@@ -34,7 +34,8 @@ class db():
             "learningRate" : aimodel.learningRate,
             "epochs": aimodel.epochs,
             "label" : aimodel.label,
-            "method": aimodel.method
+            "method": aimodel.method,
+            "dataset" : aimodel.dataset.toDict()    
         
         }
         }

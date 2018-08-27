@@ -18,7 +18,7 @@ MODELDIR =  "/data/models"
 
            
  
-class model(object):
+class Model(object):
     name =""
     version = 0
     supervised = True

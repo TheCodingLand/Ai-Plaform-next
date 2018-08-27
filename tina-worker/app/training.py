@@ -1,14 +1,14 @@
 import json
 
 
-from app.model import model
-from app.datafile import datafile
+from app.model import Model
+from app.dataset import Dataset
 
 
 def manageAction(keyname, key):
 
     ftmodel=json.loads(key.get('model'))
-    dataset=json.loads(key.get('dataset'))
+    ds=json.loads(key.get('dataset'))
     testmodel = key.get('testmodel')
     confidence = int(key.get('confidence'))
 
@@ -16,17 +16,11 @@ def manageAction(keyname, key):
 
     
         #will be just used for metadata of the model, so we know why we trained this model for, what to predict
-    m = model() 
+    m = Model() 
     m.initFromDict(ftmodel)
     
-    data = datafile('datafile.ft', dataset['dataset']['name'], True, dataset['dataset']['version'], dataset['dataset']['classifier'])
+    data = Dataset('datafile.ft', ds['dataset']['name'], True, ds['dataset']['version'], ds['dataset']['classifier'])
         
     m.train(data)
     if testmodel == 'true':
         m.testRun(data,confidence)
-    
-
-    
-
-
-
