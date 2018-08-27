@@ -103,7 +103,7 @@ redisBroadCast.start()
 const listenTo = (channel, socket) => {
     socket.on(channel, function (msg) {
         console.log(`recieved ${channel} data`)
-        console.log(msg)
+        //console.log(msg)
         let obj = makeRedisObj(socket,channel,msg)
         publishToredis(obj)
         
