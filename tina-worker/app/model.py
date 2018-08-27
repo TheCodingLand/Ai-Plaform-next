@@ -35,6 +35,7 @@ class Model(object):
     model=None
     id=""
     splitAt=95
+    
 
     def __init__(self, id=None):
         if id!=None:
@@ -71,7 +72,7 @@ class Model(object):
 
     def train(self,trainingfile):
         """Starts model building"""
-        
+        self.dataset= trainingfile
         
         self.label = trainingfile.label
         
