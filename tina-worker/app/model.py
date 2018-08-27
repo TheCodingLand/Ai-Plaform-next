@@ -13,7 +13,6 @@ logger = logging.getLogger(__name__)
 
 database =db()
 
-DATADIR = "/data/datafiles"
 MODELDIR =  "/data/models"
 
 

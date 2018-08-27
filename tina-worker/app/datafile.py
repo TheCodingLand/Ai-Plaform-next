@@ -1,3 +1,6 @@
+
+DATADIR = "/data/datafiles"
+
 class datafile(object):
     name=""
     supervised=False
