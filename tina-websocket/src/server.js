@@ -91,7 +91,7 @@ const makeRedisObj = (client,channel,message) => {
                 dataset:JSON.stringify(message.dataset)
                 }
                 )
-            //console.log(obj)   
+               
             clientSpecificRedisSub(client, obj)
             return obj  
             }
