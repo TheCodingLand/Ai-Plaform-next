@@ -9,7 +9,7 @@ loadedModels = {}
 
 preload = os.environ.get('PRELOAD_MODELS')
 
-if type(preload) != "NoneType":
+if preload:
     for id in preload:
         m = model(id)
         loadedModels.update( {f"{id}" : m} )
