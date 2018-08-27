@@ -10,7 +10,7 @@ from .db import db
 #need to move this to a worker instance, for now we simulate
 
 logger = logging.getLogger()
-logger.setLevel('WARINING')
+logger.setLevel('WARNING')
 database =db()
 
 MODELDIR =  "/data/models"
