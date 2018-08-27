@@ -23,7 +23,7 @@ class EventsProvider extends React.Component {
             let events = this.state.events
             events.push(JSON.parse(obj))
             console.log(events)
-            this.setState({events})
+            this.setState({events:events})
             cb(obj)})
        
     }
