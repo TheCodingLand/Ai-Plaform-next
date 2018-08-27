@@ -19,8 +19,9 @@ class EventsProvider extends React.Component {
     subscribe = (event, cb) => {
         console.log(event)
         this.props.websocket.on(event, (obj) => { 
-            console.log(JSON.parse(obj))
+            console.log(obj)
             let events = this.state.events
+            console.log(this)
             events.push(JSON.parse(obj))
             console.log(events)
             this.setState({events:events})
@@ -41,13 +42,13 @@ class EventsProvider extends React.Component {
     console.log(event)
     let o = JSON.parse(event)
     let events = this.state.events.push(o)
-    this.setState({events:events})
+    //this.setState({events:events})
     }
 
     gotEvents = (events) => {
         console.log(events)
         let o = JSON.parse(events)
-        this.setState({events:o})
+        //this.setState({events:o})
         }
 
     trigger_update = () => {
