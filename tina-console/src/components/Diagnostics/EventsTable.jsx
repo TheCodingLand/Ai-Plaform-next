@@ -250,7 +250,7 @@ class EventsTable extends React.Component {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     let getCells = (n) => { 
 
-      cells = rows.map((r) => { return <TableCell>{n[r.id]}</TableCell> })
+      let cells = rows.map((r) => { return <TableCell>{n[r.id]}</TableCell> })
       return cells
 
       /* let c = []
