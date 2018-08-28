@@ -132,7 +132,7 @@ class HeaderLinks extends React.Component {
                     return (
 
 
-                    <MenuList value={ this.state.selectedItem } onChage={this.onChange()}role="menu">
+                    <MenuList role="menu">
                       {context.notifications.map((notif) => { //console.log(notif)
                         return (
                       
