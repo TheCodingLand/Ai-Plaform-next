@@ -79,7 +79,7 @@ class Model(Resource):
         ai = api.payload.get('ai') #default : ft
        
         #taskIds can be returned for long operations, so the  client can query the status of an operation
-        pushToRedis(f'{ai}.predict', {"id":id, "text" : text, "nbofresults" : nbofresults})
+        taskid = pushToRedis(f'{ai}.predict', {"id":id, "text" : text, "nbofresults" : nbofresults})
 
         count =0
         while not c.hgetall(taskid):
