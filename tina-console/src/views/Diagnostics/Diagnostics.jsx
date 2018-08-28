@@ -37,7 +37,7 @@ const Diagnostics = () => {
             e.dataset = e.dataset.dataset.name
             e.column = e.model.model.label
             e.model = e.model.model.name
-            e.result.percent = e.result.percent.toFixed(2)
+            e.percent =parseInt(e.percent)
 
             
            
