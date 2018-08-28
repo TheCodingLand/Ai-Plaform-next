@@ -175,16 +175,16 @@ class Model(object):
         if self.loaded==False:
             return ['error',"please load model first"]
         
-        logger.info(f"making prediction for {text}")
+        logger.warining(f"making prediction for {text}")
         predictions = self.ft.predict_proba_single(text, k=nbpredictions)
-        logger.info(predictions)
+        logger.warning(predictions)
         results = []
         for prediction in predictions:
             if len(prediction) ==2:
                 
                 result = { "category" : prediction[0], "confidence" : prediction[1] }
                 results.append(result)
-                logger.info(f"{prediction[0]} {prediction[1]!s}")
+                logger.warning(f"{prediction[0]} {prediction[1]!s}")
         
         return results
 
