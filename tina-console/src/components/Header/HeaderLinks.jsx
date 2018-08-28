@@ -32,6 +32,7 @@ class HeaderLinks extends React.Component {
 
   handleClose = event => {
     if (this.anchorEl.contains(event.target)) {
+      console.log(event)
       return;
     }
 
@@ -90,7 +91,7 @@ class HeaderLinks extends React.Component {
           >
             <Notifications className={classes.icons} />
             <EventsContext.Consumer>{context => 
-            <span className={classes.notifications}>{context.events.length}</span>
+            <span className={classes.notifications}>{context.notifications.length}</span>
             } 
             </EventsContext.Consumer>
             <Hidden mdUp implementation="css">
@@ -127,15 +128,16 @@ class HeaderLinks extends React.Component {
 
 
                     <MenuList role="menu">
-                      {context.events.map((event) => { console.log(event)
+                      {context.notifications.map((notif) => { console.log(notif)
                         return (
                       
-                      <MenuItem
+                      <MenuItem 
+                        key={notif.key}
+                        id = {notif.key}
                         onClick={this.handleClose}
                         className={classes.dropdownItem}
                       >
-                      
-                        {event.text}
+                        {notif.text}
                       </MenuItem>)
                       })
                     }
