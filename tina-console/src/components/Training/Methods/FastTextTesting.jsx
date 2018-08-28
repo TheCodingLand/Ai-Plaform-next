@@ -138,7 +138,7 @@ class RunTestingCard extends React.Component {
   };
   getModels = () => {
     let models = []
-    this.props.appdata.models.forEach((model) => {if (model.label === this.state.dataset.dataset.classifier) { models.push(model) } })
+    this.props.appdata.models.forEach((model) => {if (model.model.label === this.state.dataset.dataset.classifier) { models.push(model) } })
 
 
   return models.map((md) => {
