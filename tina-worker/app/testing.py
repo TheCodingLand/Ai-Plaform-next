@@ -20,7 +20,7 @@ if preload:
 def manageAction(keyname, k,redis_out):
 
     redis_out.hmset(k['id'], k)
-    redis_out.publish(k['id'], k['id'], redis_out)
+    redis_out.publish(k['id'], k['id'])
     ftmodel=json.loads(k.get('model'))
     dataset=json.loads(k.get('dataset'))
     confidence = int(k.get('confidence'))
@@ -35,5 +35,5 @@ def manageAction(keyname, k,redis_out):
     
     logger.info(result)
     k['result']= json.dumps(result)
-    
+
     return k

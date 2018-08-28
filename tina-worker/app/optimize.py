@@ -20,7 +20,7 @@ def generateSettings():
 
 def manageAction(keyname, k, redis_out):
     redis_out.hmset(k['id'], k)
-    redis_out.publish(k['id'], k['id'], redis_out)
+    redis_out.publish(k['id'], k['id'])
     i = 0
     results=[]
     dataset=json.loads(k.get('dataset'))

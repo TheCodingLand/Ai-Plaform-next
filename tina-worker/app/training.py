@@ -7,7 +7,7 @@ from app.dataset import Dataset
 
 def manageAction(keyname, k, redis_out):
     redis_out.hmset(k['id'], k)
-    redis_out.publish(k['id'], k['id'], redis_out)
+    redis_out.publish(k['id'], k['id'])
     ftmodel=json.loads(k.get('model'))
     ds=json.loads(k.get('dataset'))
     testmodel = k.get('testmodel')
