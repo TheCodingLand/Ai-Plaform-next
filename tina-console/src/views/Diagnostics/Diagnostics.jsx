@@ -13,7 +13,7 @@ const rows = [
 
   const rowsresults = [
     { id: 'text', numeric: false, disablePadding: true, label: 'Text' },
-    { id: 'state', numeric: false, disablePadding: false, label: 'State' },
+    { id: 'column', numeric: false, disablePadding: false, label: 'Column' },
     { id: 'id', numeric: false, disablePadding: false, label: 'ID' },
     { id: 'action', numeric: false, disablePadding: false, label: 'Action' },
     { id: 'total', numeric: true, disablePadding: false, label: 'Total' },
@@ -31,6 +31,8 @@ const Diagnostics = () => {
         let events = evs.map((event) => { 
             let e = event
             e = Object.assign({}, e, event.result )
+            e.column = e.model.model.dataset.label
+           
             console.log (e)
             return (e) } ) 
         
