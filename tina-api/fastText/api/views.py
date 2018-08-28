@@ -65,7 +65,6 @@ class SanityCheck(Resource):
 
 @ns.route('/predict')
 @ns.response(404, 'Model Not Found')
-@ns.param('id', 'The model identifier')
 class Model(Resource):
     '''Takes text in entry, returns a prediction using the specified model'''
     @ns.doc('predict')
