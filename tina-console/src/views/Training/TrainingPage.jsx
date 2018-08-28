@@ -22,7 +22,7 @@ return (
 <div>
 
 <GridContainer>
-  <GridItem xs={12} sm={12} md={8}>
+  <GridItem xs={12} sm={12} md={12}>
  
   
   <TrainingMainPage />
