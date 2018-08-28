@@ -94,16 +94,19 @@ const makeRedisObj = (client,channel,message) => {
 
 
 //Listens to channels from the websockets and relays them to redis
-const listenTo = (channel, socket) => {
+const listenTo = (channel, socket, keys) => {
     socket.on(channel, function (msg) {
         console.log(`recieved ${channel} data`)
         //console.log(msg)
+
         let obj = makeRedisObj(socket,channel,msg)
         publishToredis(obj)
         
         
         console.log(msg.id)
         //socket.emit(msg.id, JSON.stringify(msg))
+        socket.keys.push(obj.id)
+     
     })
 }
 
@@ -111,10 +114,13 @@ const listenTo = (channel, socket) => {
 io.on('connection', function (socket) {
     //registering listening channels
     console.log('connexion started')
+    socket.keys = []
     eventsToListenTo.forEach(channel => {
-        listenTo(channel, socket)
+        listenTo(channel, socket, keys)
     });
-    redisSub.on('pmessage', (channel, key) => { redisIn.hgetall(key, (err,r) => {
+    
+            
+        redisSub.on('pmessage', (channel, key) => { redisIn.hgetall(key, (err,r) => {
         if (!err) {  
             //result = {key:key, action : "training started"}
             console.log('recieved event from redis, sending to client', key)
@@ -125,7 +131,10 @@ io.on('connection', function (socket) {
         redisIn.expire(key,10)      
         }
     )
-   
+    
+    socket.on('disconnect', () => {
+        socket.keys.forEach((key) => { redisSub.unsubscribe(key)} )
+    })    
 })
 
 
