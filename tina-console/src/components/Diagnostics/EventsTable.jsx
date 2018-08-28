@@ -139,7 +139,7 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
-            Nutrition
+            {props.title}
           </Typography>
         )}
       </div>
@@ -252,7 +252,7 @@ class EventsTable extends React.Component {
     return (
         
       <Paper className={classes.root}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar title={this.props.title} numSelected={selected.length} />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead
@@ -287,6 +287,7 @@ class EventsTable extends React.Component {
                       <TableCell component="th" scope="row" padding="none">
                         {n.text}
                       </TableCell>
+
                       <TableCell>{n.state}</TableCell>
                       <TableCell>{n.text}</TableCell>
                       <TableCell>{n.id}</TableCell>
