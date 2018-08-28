@@ -64,7 +64,7 @@ class TrainingPage extends React.Component {
               <Typography>Optimize</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-            <FastTextTraining appdata={context} />
+            <div></div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
           </Paper>
@@ -73,9 +73,12 @@ class TrainingPage extends React.Component {
       
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography>ELMo</Typography>
+        <Typography>Allen NLP</Typography>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails></ExpansionPanelDetails>
+        <ExpansionPanelDetails>
+        <div></div>
+
+        </ExpansionPanelDetails>
         </ExpansionPanel>
       
       
