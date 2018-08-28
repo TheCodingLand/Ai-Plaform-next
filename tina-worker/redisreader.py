@@ -1,7 +1,7 @@
 import redis
 import time
 import logging
-
+from bson.json_util import loads
 from app.db import db
 database = db()
 import os
@@ -69,6 +69,7 @@ while True:
         
         r = {}
         for attr, value in k.items():
+            if attr = 
             try:
                 r.update({attr : json.loads(value)})
             except:
