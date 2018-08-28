@@ -28,11 +28,9 @@ class EventsProvider extends React.Component {
             let o = JSON.parse(obj)
             console.log (o)
             o.text=o.action + " " + o.state
-            if (o.result) {
-            o.result = JSON.parse(o.result)
-            }
+           
             if (o.model) {
-                o.model = JSON.parse(o.model.model)
+                o.model = JSON.parse(o.model)
                 }
             if (o.dataset) {
                 o.dataset = JSON.parse(o.dataset)
