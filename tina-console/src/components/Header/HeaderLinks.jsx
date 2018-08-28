@@ -30,10 +30,7 @@ class HeaderLinks extends React.Component {
   handleToggle = () => {
     this.setState(state => ({ open: !state.open }));
   };
-  remove(context,key) {
-    context.removeNotificationByKey(key)
-    
-  }
+  
 
   handleClose = event => {
     if (this.anchorEl.contains(event.target)) {
@@ -140,7 +137,7 @@ class HeaderLinks extends React.Component {
                         key={notif.key}
                         id = {notif.key}
                         value = {notif.key}
-                        onClick={() => this.remove(context,notif.key)}
+                        onClick={() => context.removeNotificationByKey(notif.key)}
                         className={classes.dropdownItem}
                       >
                         {notif.text}
