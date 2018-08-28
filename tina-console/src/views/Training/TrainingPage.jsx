@@ -3,7 +3,7 @@ import React from "react";
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
-import TrainingMainPage from "../../components/Training/TrainingMainPage"
+import TrainingMainPage from "components/Training/TrainingMainPage"
 
 
 
