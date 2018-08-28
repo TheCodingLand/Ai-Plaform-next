@@ -285,8 +285,8 @@ class EventsTable extends React.Component {
                         <Checkbox checked={isSelected} />
                       </TableCell>
 
-
-                      <TableCell>
+                      
+                      <TableCell component="th" scope="row" padding="none">
                         {n.text}
                       </TableCell>
 
