@@ -284,12 +284,14 @@ class EventsTable extends React.Component {
                       <TableCell padding="checkbox">
                         <Checkbox checked={isSelected} />
                       </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
+
+
+                      <TableCell>
                         {n.text}
                       </TableCell>
 
                       <TableCell>{n.state}</TableCell>
-                      <TableCell>{n.text}</TableCell>
+                      
                       <TableCell>{n.id}</TableCell>
                       <TableCell>{n.action}</TableCell>
                     </TableRow>
