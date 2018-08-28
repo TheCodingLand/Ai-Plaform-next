@@ -102,7 +102,7 @@ class Model(Resource):
       
         response_object = {
             'status' : 'ok',
-            'result' : result
+            'result' : results
         }
         return response_object, 201
    
