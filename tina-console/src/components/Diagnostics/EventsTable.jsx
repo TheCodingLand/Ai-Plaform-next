@@ -325,7 +325,7 @@ class EventsTable extends React.Component {
   }
 }
 
-EnhancedTable.propTypes = {
+EventsTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
