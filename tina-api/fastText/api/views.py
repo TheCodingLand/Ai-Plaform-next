@@ -93,7 +93,7 @@ class Model(Resource):
         
         k = c.hgetall(taskid)
         logging.error(k)
-        results = json.loads(k.result)
+        results = json.loads(k['result'])
         logging.error(k)
         results = []
         for i in range(1,nbofresults):
