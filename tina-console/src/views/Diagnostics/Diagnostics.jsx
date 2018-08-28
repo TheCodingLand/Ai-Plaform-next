@@ -1,6 +1,6 @@
 
-import react from 'react'
-import {EventsContext} from 'components/Context/EventsContext'
+import React from 'react'
+import {EventsContext} from 'components/Context/EventsProvider'
 import EventsTable from 'components/Diagnostics/EventsTable'
 
 export default function() {
