@@ -26,6 +26,6 @@ def manageAction(keyname, key):
     if testmodel == 'true':
         results = m.testRun(data,confidence)
         key['result']= json.dumps(results)
-        return key
+    return key
         
     
