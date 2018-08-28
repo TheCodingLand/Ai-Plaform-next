@@ -14,7 +14,7 @@ if preload:
         m = Model(modelid)
         loadedModels.update( {f"{id}" : m} )
 
-def manageAction(keyname, key):
+def manageAction(keyname, key, redis_out):
 
     modelid=key.get('modelid')
 
