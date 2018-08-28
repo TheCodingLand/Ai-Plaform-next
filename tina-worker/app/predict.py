@@ -10,23 +10,23 @@ loadedModels = {}
 preload = os.environ.get('PRELOAD_MODELS')
 
 if preload:
-    for id in preload:
-        m = Model(id)
+    for modelid in preload:
+        m = Model(modelid)
         loadedModels.update( {f"{id}" : m} )
 
 def manageAction(keyname, key):
 
-    id=json.loads(key.get('id'))
+    modelid=json.loads(key.get('modelid'))
 
     
 
     text=json.loads(key.get('text'))
     nbofresults = int(key.get('nbofresults'))
     
-    if id in loadedModels.keys():
-        m = loadedModels.get(id)
+    if modelid in loadedModels.keys():
+        m = loadedModels.get(modelid)
     else:
-        m = Model(id) #quantized will be implemented later
+        m = Model(modelid) #quantized will be implemented later
     
     
    
