@@ -16,11 +16,11 @@ if preload:
 
 def manageAction(keyname, key):
 
-    modelid=json.loads(key.get('modelid'))
+    modelid=key.get('modelid')
 
     
 
-    text=json.loads(key.get('text'))
+    text=key.get('text')
     nbofresults = int(key.get('nbofresults'))
     
     if modelid in loadedModels.keys():
