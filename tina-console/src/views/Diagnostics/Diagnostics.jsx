@@ -11,9 +11,16 @@ const rows = [
     { id: 'action', numeric: false, disablePadding: false, label: 'Action' },
   ];
 
+  const rowsresults = [
+    { id: 'total', numeric: false, disablePadding: true, label: 'Text' },
+    { id: 'success', numeric: true, disablePadding: false, label: 'State' },
+    { id: 'ignored', numeric: false, disablePadding: false, label: 'ID' },
+    { id: 'failed', numeric: false, disablePadding: false, label: 'Action' },
+  ];
+
 const Diagnostics = () => {
 return (<Fragment>
-<EventsContext.Consumer>{ context => <EventsTable title={'Training Events'} events={context.events} rows={rows} />
+<EventsContext.Consumer>{ context => <Fragment><EventsTable title={'Training Events'} events={context.events} rows={rows} /> <EventsTable title={'Training Events'} events={context.events.results} rows={rowsresults} /></Fragment>
  }</EventsContext.Consumer>
 </Fragment>
 
