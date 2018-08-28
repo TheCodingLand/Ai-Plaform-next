@@ -19,7 +19,7 @@ const rows = [
     { id: 'total', numeric: true, disablePadding: true, label: 'Text' },
     { id: 'success', numeric: true, disablePadding: false, label: 'State' },
     { id: 'ignored', numeric: true, disablePadding: false, label: 'ID' },
-    { id: 'failed', numeric: true, disablePadding: false, label: 'Action' },
+    { id: 'failures', numeric: true, disablePadding: false, label: 'Action' },
   ];
 
 const Diagnostics = () => {
@@ -29,9 +29,10 @@ const Diagnostics = () => {
         context.events.forEach((e) => { if (e.result) {evs.push(e)} } )
         let events = evs.map((event) => { 
             let e = event
-            Object.assign({}, e, event.result )
-    
+            e = Object.assign({}, e, event.result )
+            console.log (e)
             return (e) } ) 
+        
         return events
         }
     
