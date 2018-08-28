@@ -29,15 +29,17 @@ const Diagnostics = () => {
     let eventsWithResuts = (context) => {
         let evs = []
         context.events.forEach((e) => { if (e.result) {evs.push(e)} } )
+        console.log(evs)
         let events = evs.map((event) => { 
+            
             let e = event
             e = Object.assign({}, e, event.result )
-            e.dataset = e.model.model.dataset.name
-            e.column = e.model.model.dataset.label
-            e.model = e.model.model.name
+            e.dataset = e.model.dataset.name
+            e.column = e.model.dataset.label
+            e.model = e.model.name
             
            
-            console.log (e)
+            
             return (e) } ) 
         
         return events
