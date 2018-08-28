@@ -23,7 +23,7 @@ class EventsProvider extends React.Component {
 
     
     subscribe = (event, cb) => {
-        console.log(event)
+        //console.log(event)
         this.props.websocket.on(event, (obj) => { 
             let o = JSON.parse(obj)
             console.log (o)
@@ -37,7 +37,7 @@ class EventsProvider extends React.Component {
             if (o.dataset) {
                 o.dataset = JSON.parse(o.dataset)
                 } */
-            console.log(o.text)
+            //console.log(o.text)
             let events = this.state.events
             
             events.push(o)
@@ -51,14 +51,14 @@ class EventsProvider extends React.Component {
     //Actions:
     action = (action, obj) => {
         //this.setState({loading:true})
-        console.log('getting all events')
+        //console.log('getting all events')
         this.props.websocket.emit(action,obj)
         
     }
     
 
     gotEvent = (event) => {
-    console.log(event)
+    //console.log(event)
     let o = JSON.parse(event)
     let events = this.state.events.push(o)
     //this.setState({events:events})
@@ -66,7 +66,7 @@ class EventsProvider extends React.Component {
     
 
     gotEvents = (events) => {
-        console.log(events)
+        //console.log(events)
         let o = JSON.parse(events)
         //this.setState({events:o})
         }
@@ -77,7 +77,7 @@ class EventsProvider extends React.Component {
   
     trigger_update = () => {
             //this.setState({loading:true})
-            console.log('getting all events')
+            //console.log('getting all events')
             this.state.socket.emit('allevents')
       }
 
@@ -90,7 +90,7 @@ class EventsProvider extends React.Component {
         }
         this.props.websocket.on('event', this.gotEvent)
         this.props.websocket.on('allevents', this.gotEvents)
-        console.log(this.props)
+        //console.log(this.props)
         return (
             
             <EventsContext.Provider value={this.state}>

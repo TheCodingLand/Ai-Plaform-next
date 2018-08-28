@@ -105,7 +105,7 @@ class RunTrainingCard extends React.Component {
     let id = this.makeid()
     context.subscribe(id, (obj) => this.eventRecieved(obj))
     this.setState({ trainingStarted: true, id: id })
-    console.log('fired onclick')
+    
     context.action('training', {
       id: id,
       action: `training`,
@@ -118,7 +118,7 @@ class RunTrainingCard extends React.Component {
     
   }
   eventRecieved(obj) {
-    console.log(obj)
+    //console.log(obj)
   }
   
   handleChangeSlider = name => (event, value) => {

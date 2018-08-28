@@ -122,7 +122,7 @@ class HeaderLinks extends React.Component {
                 <Paper>
                   <ClickAwayListener onClickAway={this.handleClose}>
                   <EventsContext.Consumer>{context => { 
-                    console.log(context.events)
+                    //console.log(context.events)
                     return (
 
 

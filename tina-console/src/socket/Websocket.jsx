@@ -27,7 +27,7 @@ constructor(props) {
         onclose: e => this.data.wsState = "Closed",
         onerror: e => this.data.wsState = "Error",
       });
-    console.log(this.ws)  
+    //console.log(this.ws)  
      
             
 }
@@ -64,8 +64,8 @@ sendData(data) {
 }
 
 handleData(e) {
-    console.log(e)
-    console.log(e.data)
+    //console.log(e)
+    //console.log(e.data)
     let result = JSON.parse(e.data);
     this.setState( result );
     
