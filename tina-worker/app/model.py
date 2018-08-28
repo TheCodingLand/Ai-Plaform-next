@@ -55,6 +55,7 @@ class Model(object):
         self.ngrams=data['ngrams']
         self.splitAt=data['splitAt']
         self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"
+        
            
     
     def quantize(self):

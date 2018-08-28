@@ -28,9 +28,11 @@ def manageAction(keyname, key):
         m = loadedModels.get(modelid)
     else:
         m = Model(modelid) #quantized will be implemented later
+        m.load()
     logging.error(loadedModels)
+    
     loadedModels.update( {f"{id}" : m} )
-   
+    
     result = m.predict(text=text, nbpredictions=nbofresults)
 
     key['result'] = result
