@@ -33,9 +33,9 @@ def genId():
 
 
 def pushToRedis(action, data):
-    
+    id = {genId()}
     key = f"{action}{genId()}"
-    data.update({ 'action': action })
+    data.update({ "action": action, "id":id })
    
     b.hmset(key, data)
     return key
@@ -78,7 +78,7 @@ class Model(Resource):
         ai = api.payload.get('ai') #default : ft
        
         #taskIds can be returned for long operations, so the  client can query the status of an operation
-        taskid = pushToRedis(f'{ai}.predict', {"id": modelid, "text" : text, "nbofresults" : nbofresults})
+        taskid = pushToRedis(f'{ai}.predict', {"model": modelid, "text" : text, "nbofresults" : nbofresults})
 
         count =0
         while not c.hgetall(taskid):
