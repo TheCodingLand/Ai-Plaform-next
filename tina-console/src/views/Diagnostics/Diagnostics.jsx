@@ -5,7 +5,7 @@ import EventsTable from 'components/Diagnostics/EventsTable'
 
 const Diagnostics = () => {
 return (<Fragment>
-<EventsContext.Consumer> {  context => <EventsTable events={context} />
+<EventsContext.Consumer>{  context => <EventsTable events={context} />
  }
 </EventsContext.Consumer>
 </Fragment>
