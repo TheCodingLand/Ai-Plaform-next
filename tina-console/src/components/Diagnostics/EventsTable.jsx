@@ -38,13 +38,7 @@ function getSorting(order, orderBy) {
   return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
 
-const rows = [
-  { id: 'text', numeric: false, disablePadding: true, label: 'Text' },
-  { id: 'state', numeric: false, disablePadding: false, label: 'State' },
-  { id: 'text2', numeric: false, disablePadding: false, label: 'Text' },
-  { id: 'id', numeric: false, disablePadding: false, label: 'ID' },
-  { id: 'action', numeric: false, disablePadding: false, label: 'Action' },
-];
+
 
 class EnhancedTableHead extends React.Component {
   createSortHandler = property => event => {
@@ -95,7 +89,7 @@ class EnhancedTableHead extends React.Component {
 }
 
 EnhancedTableHead.propTypes = {
-  rows=PropTypes.array.isRequired,
+  rows:PropTypes.array.isRequired,
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
