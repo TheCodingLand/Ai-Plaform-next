@@ -257,7 +257,7 @@ class EventsTable extends React.Component {
     return (
         
       <Paper className={classes.root}>
-        <EnhancedTableToolbar rows numSelected={selected.length} />
+        <EnhancedTableToolbar rows={rows} numSelected={selected.length} />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead
