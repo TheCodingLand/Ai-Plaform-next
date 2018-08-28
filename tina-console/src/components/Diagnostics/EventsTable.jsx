@@ -250,13 +250,14 @@ class EventsTable extends React.Component {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     let getCells = (n) => Object.keys(n).filter((key,index) => {
       if (n.hasOwnProperty(key)) {
-        if (index ===0) {
-          return (<TableCell component="th" scope="row" padding="none">{n[key]}</TableCell>)
-        }
-        else {
+       // if (index === 0) {
+         // return (<TableCell component="th" scope="row" padding="none">{n[key]}</TableCell>)
+       // }
+        //else {
           return (<TableCell>{n[key]}</TableCell>)
 
-        }
+       // }
+        
         
       }
 
