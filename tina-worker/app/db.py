@@ -40,7 +40,8 @@ class db():
         }
         self.client.ft.models.find_one_and_replace(filter=model, replacement=model, upsert=True)
             
-    def writeStat(self,stat):
+    def writeStats(self,stat):
+        
         self.client.stats.insert_one(stat)
     def writeDataSet(self,dataset):
         self.client.datasets.insert_one(dataset)

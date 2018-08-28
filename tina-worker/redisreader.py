@@ -66,7 +66,7 @@ while True:
        
         redis_out.hmset(k['id'], k)
         redis_out.publish(k['id'], key)
-        db.client.writeStats(k)
+        db.writeStats(k)
 
 
             
