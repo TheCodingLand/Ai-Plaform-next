@@ -12,7 +12,7 @@ const rows = [
   ];
 
   const rowsresults = [
-    { id: 'dataset', numeric: false, disablePadding: true, label: 'Text' },
+    { id: 'dataset', numeric: false, disablePadding: true, label: 'Dataset' },
     { id: 'model', numeric: false, disablePadding: false, label: 'Model' },
     { id: 'column', numeric: false, disablePadding: false, label: 'Column' },
     { id: 'id', numeric: false, disablePadding: false, label: 'ID' },
@@ -36,7 +36,7 @@ const Diagnostics = () => {
             e = Object.assign({}, e, event.result )
             e.dataset = e.dataset.dataset.name
             e.column = e.model.model.label
-            e.model = e.model.name
+            e.model = e.model.model.name
             
            
             
