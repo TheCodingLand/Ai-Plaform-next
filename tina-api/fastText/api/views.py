@@ -92,6 +92,7 @@ class Model(Resource):
                 return response_object, 408
         
         k = c.hgetall(taskid)
+        logging.error(k)
         results = []
         for i in range(1,nbofresults):
             result = { 'prediction' : k.get(f'prediction{i}'), 'confidence' : k.get(f'confidence{i}') }
