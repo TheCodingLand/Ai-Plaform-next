@@ -116,7 +116,7 @@ io.on('connection', function (socket) {
     console.log('connexion started')
     socket.keys = []
     eventsToListenTo.forEach(channel => {
-        listenTo(channel, socket, keys)
+        listenTo(channel, socket)
     });
     
             
