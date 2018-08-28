@@ -66,7 +66,16 @@ while True:
        
         redis_out.hmset(k['id'], k)
         redis_out.publish(k['id'], key)
-        database.writeStats(k)
+        
+        r = {}
+        for attr, value in k.items():
+            try:
+                r.update({attr : json.loads(value)})
+            except:
+                pass
+
+
+        database.writeStats(r)
 
 
             
