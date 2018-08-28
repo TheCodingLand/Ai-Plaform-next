@@ -7,7 +7,7 @@ class db():
     def getFtModel(self, id):
         m = self.client.ft.models.find_one(filter={"_id":ObjectId(id)})
         if m:
-            return m[0]
+            return m
         
 
 
