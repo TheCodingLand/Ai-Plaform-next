@@ -38,6 +38,8 @@ const Diagnostics = () => {
             e.column = e.model.model.label
             e.model = e.model.model.name
             e.percent =parseInt(e.percent)
+            e.started = new Date(e.started*1000)
+            e.finished = new Date(e.finished*1000)
 
             
            
