@@ -95,6 +95,7 @@ class EnhancedTableHead extends React.Component {
 }
 
 EnhancedTableHead.propTypes = {
+  rows=PropTypes.array.isRequired,
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
@@ -257,10 +258,11 @@ class EventsTable extends React.Component {
     return (
         
       <Paper className={classes.root}>
-        <EnhancedTableToolbar rows={rows} numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead
+              rows={rows}
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
