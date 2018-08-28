@@ -111,7 +111,10 @@ const listenTo = (channel, socket) => {
 io.on('connection', function (socket) {
     //registering listening channels
     console.log('connexion started')
-    redisSub.on('pmessage', (socket, key) => { redisIn.hgetall(key, (err,r) => {
+    eventsToListenTo.forEach(channel => {
+        listenTo(channel, socket)
+    });
+    redisSub.on('pmessage', (channel, key) => { redisIn.hgetall(key, (err,r) => {
         if (!err) {  
             //result = {key:key, action : "training started"}
             console.log('recieved event from redis, sending to client', key)
@@ -121,9 +124,6 @@ io.on('connection', function (socket) {
         redisIn.expire(key,10)      
         }
     )
-    eventsToListenTo.forEach(channel => {
-        listenTo(channel, socket)
-    });
    
 })
 
