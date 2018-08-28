@@ -113,6 +113,9 @@ const listenTo = (channel, socket, keys) => {
 }
 
 
+
+
+
 io.on('connection', function (socket) {
     //registering listening channels
     console.log('connexion started')
@@ -121,7 +124,7 @@ io.on('connection', function (socket) {
         listenTo(channel, socket)
     });
     
-            
+        socket.redisSub=redisSub
         redisSub.on('pmessage', (channel, key) => { redisIn.hgetall(key, (err,r) => {
         if (!err) {  
             //result = {key:key, action : "training started"}
