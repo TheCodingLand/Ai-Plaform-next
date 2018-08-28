@@ -32,15 +32,15 @@ def genId():
 
 
 
-def pushToRedis(action, **kwargs):
+def pushToRedis(action, data):
     
     key = f"{action}{genId()}"
-    data = { 'action': action }
-    for item, value in kwargs.items():
-        data.update({item:value})
+    data.update({ 'action': action })
+   
     b.hmset(key, data)
-
     return key
+
+    
 
 
 ns = api.namespace('/', description='Api for triggering actions to the Ai platform')
@@ -79,7 +79,7 @@ class Model(Resource):
         ai = api.payload.get('ai') #default : ft
        
         #taskIds can be returned for long operations, so the  client can query the status of an operation
-        taskid = pushToRedis(f'{ai}.predict', id=id, text=text, nbofresults=nbofresults)
+        pushToRedis(f'{ai}.predict', {"id":id, "text" : text, "nbofresults" : nbofresults})
 
         count =0
         while not c.hgetall(taskid):
