@@ -101,9 +101,9 @@ const listenTo = (channel, socket) => {
         let obj = makeRedisObj(socket,channel,msg)
         publishToredis(obj)
         
-        msg.state = "started"
+        
         console.log(msg.id)
-        socket.emit(msg.id, JSON.stringify(msg))
+        //socket.emit(msg.id, JSON.stringify(msg))
     })
 }
 
@@ -118,6 +118,7 @@ io.on('connection', function (socket) {
         if (!err) {  
             //result = {key:key, action : "training started"}
             console.log('recieved event from redis, sending to client', key)
+
             socket.emit(key, JSON.stringify(r))}}
             
         )

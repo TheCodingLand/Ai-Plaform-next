@@ -57,7 +57,9 @@ while True:
         logger.debug("got key :%s", key)
         redis_in.delete(key)
         k['state']= 'in progress'
-        redis_out.hmset(key, k)
+        redis_out.hmset(k['id'], k)
+        redis_out.publish(k['id'], k['id'])
+
         k = actions.manageAction(key, k)
         #keyname, data, ft object
         
@@ -65,7 +67,7 @@ while True:
         
        
         redis_out.hmset(k['id'], k)
-        redis_out.publish(k['id'], key)
+        redis_out.publish(k['id'], k['id'])
         
         r = {}
         for attr, value in k.items():
