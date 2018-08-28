@@ -136,7 +136,14 @@ class RunTestingCard extends React.Component {
     
     //else if (name==="datasetname") {}
   };
+  getModels = () => {
+    let models = []
+    this.props.appdata.models.forEach((model) => {if (model.label === this.state.dataset.label) { models.push(model) } })
 
+
+  return models.map((md) => {
+    // console.log(md)
+     return ( <MenuItem key={md._id.$oid} value={md._id.$oid}>{md.model.name} {md.model.version}</MenuItem>)})}
   
 
   render() {
@@ -233,15 +240,8 @@ class RunTestingCard extends React.Component {
                     <em>None</em>
                   </MenuItem>
                   { this.props.appdata.models ?
-
-                    this.props.appdata.models.map((md) => {
-                     // console.log(md)
-                      return (
-                
-                       
-                  <MenuItem key={md._id.$oid} value={md._id.$oid}>{md.model.name} {md.model.version}</MenuItem>)
-               
-              } ): "" }
+                    this.getModels()
+                    : "" }
                 </Select>
                 <FormHelperText>go to upload to add more</FormHelperText>
               </FormControl>
