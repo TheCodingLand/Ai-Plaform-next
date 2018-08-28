@@ -36,4 +36,4 @@ def manageAction(keyname, key):
 
     
     print(result)
-    return key
+    return result
