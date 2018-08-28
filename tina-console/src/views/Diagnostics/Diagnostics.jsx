@@ -7,7 +7,6 @@ import EventsTable from 'components/Diagnostics/EventsTable'
 const rows = [
     { id: 'text', numeric: false, disablePadding: true, label: 'Text' },
     { id: 'state', numeric: false, disablePadding: false, label: 'State' },
-    
     { id: 'id', numeric: false, disablePadding: false, label: 'ID' },
     { id: 'action', numeric: false, disablePadding: false, label: 'Action' },
   ];
