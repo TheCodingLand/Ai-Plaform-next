@@ -63,7 +63,7 @@ class SanityCheck(Resource):
 
 
 
-@ns.route('/predict/<string:id>')
+@ns.route('/predict')
 @ns.response(404, 'Model Not Found')
 @ns.param('id', 'The model identifier')
 class Model(Resource):
@@ -73,13 +73,13 @@ class Model(Resource):
     #@api.marshal_with(prediction) #modelID, text, nbofresults
     def post(self, id):
         '''Fetch a given resource'''
-        
+        modelid = api.payload.get('id')
         text = api.payload.get('text')
         nbofresults = api.payload.get('nbofresults') #default : 1
         ai = api.payload.get('ai') #default : ft
        
         #taskIds can be returned for long operations, so the  client can query the status of an operation
-        taskid = pushToRedis(f'{ai}.predict', {"id":id, "text" : text, "nbofresults" : nbofresults})
+        taskid = pushToRedis(f'{ai}.predict', {"id": modelid, "text" : text, "nbofresults" : nbofresults})
 
         count =0
         while not c.hgetall(taskid):
