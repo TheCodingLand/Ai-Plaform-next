@@ -290,7 +290,7 @@ class EventsTable extends React.Component {
                       <TableCell component="th" scope="row" padding="none">
                         {n.text}
                       </TableCell>
-                      <TableCell numeric>{n.state}</TableCell>
+                      <TableCell>{n.state}</TableCell>
                       <TableCell>{n.text}</TableCell>
                       <TableCell>{n.id}</TableCell>
                       <TableCell>{n.action}</TableCell>
