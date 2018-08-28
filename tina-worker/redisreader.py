@@ -69,9 +69,9 @@ while True:
         
         r = {}
         for attr, value in k.items():
-            if attr = 
+         
             try:
-                r.update({attr : json.loads(value)})
+                r.update({attr : loads(value)})
             except:
                 pass
 
