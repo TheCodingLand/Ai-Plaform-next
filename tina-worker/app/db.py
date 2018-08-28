@@ -42,7 +42,7 @@ class db():
             
     def writeStats(self,stat):
         
-        self.client.stats.insert_one(stat)
+        self.client.ft.stats.insert_one(stat)
     def writeDataSet(self,dataset):
         self.client.datasets.insert_one(dataset)
         
