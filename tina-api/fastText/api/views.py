@@ -28,7 +28,7 @@ c = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=2)
 
 
 def genId():
-    return ''.join([choice(string.printable) for i in range(10)])
+    return ''.join([choice(string.ascii_letters) for i in range(10)])
 
 
 
