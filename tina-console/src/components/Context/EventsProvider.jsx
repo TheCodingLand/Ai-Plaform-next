@@ -1,4 +1,4 @@
-import {React,Fragment } from 'react'
+import React, {Fragment } from 'react'
 import Snackbar from '@material-ui/core/Snackbar';
 import {saveState, loadState} from 'components/LocalStorage/LocalStorage'
 
