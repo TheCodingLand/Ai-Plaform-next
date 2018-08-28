@@ -55,14 +55,14 @@ class Model(object):
         self.ngrams=data['ngrams']
         self.splitAt=data['splitAt']
         self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"
-        
+
            
     
     def quantize(self):
             logger.error("TODO")
     def load(self):
         try:
-            self.ft = FastText(self.filepath)
+            self.ft = FastText(self.filepath+'.bin')
         except:
             logger.error(f"Failed to Load FT file in path {self.filepath!s}")
             return "Failed to Load FT file"
