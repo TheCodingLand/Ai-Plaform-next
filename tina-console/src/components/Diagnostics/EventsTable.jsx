@@ -188,7 +188,7 @@ const styles = theme => ({
   },
 });
 
-class EnhancedTable extends React.Component {
+class EventsTable extends React.Component {
   state = {
     order: 'asc',
     orderBy: 'calories',
@@ -329,7 +329,7 @@ EnhancedTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EnhancedTable);
+export default withStyles(styles)(EventsTable);
 
 
 
