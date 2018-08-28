@@ -287,10 +287,10 @@ class EventsTable extends React.Component {
                       {cells = Object.keys(n).filter(function(key,index) {
                         if (obj.hasOwnProperty(key)) {
                           if (index ===0) {
-                            return <TableCell component="th" scope="row" padding="none">{n[key]}</TableCell>
+                            return (<TableCell component="th" scope="row" padding="none">{n[key]}</TableCell>)
                           }
                           else {
-                            <TableCell>{n[key]}</TableCell>
+                            return (<TableCell>{n[key]}</TableCell>)
 
                           }
                           
