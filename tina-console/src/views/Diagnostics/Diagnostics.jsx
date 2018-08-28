@@ -12,10 +12,11 @@ const rows = [
   ];
 
   const rowsresults = [
-    { id: 'text', numeric: false, disablePadding: true, label: 'Text' },
+    { id: 'dataset', numeric: false, disablePadding: true, label: 'Text' },
+    { id: 'model', numeric: false, disablePadding: false, label: 'Model' },
     { id: 'column', numeric: false, disablePadding: false, label: 'Column' },
     { id: 'id', numeric: false, disablePadding: false, label: 'ID' },
-    { id: 'action', numeric: false, disablePadding: false, label: 'Action' },
+    { id: 'confidence', numeric: true, disablePadding: false, label: 'Confidence' },
     { id: 'total', numeric: true, disablePadding: false, label: 'Total' },
     { id: 'success', numeric: true, disablePadding: false, label: 'Success' },
     { id: 'ignored', numeric: true, disablePadding: false, label: 'Ignored' },
@@ -31,7 +32,10 @@ const Diagnostics = () => {
         let events = evs.map((event) => { 
             let e = event
             e = Object.assign({}, e, event.result )
+            e.dataset = e.model.model.dataset.name
             e.column = e.model.model.dataset.label
+            e.model = e.model.model.name
+            
            
             console.log (e)
             return (e) } ) 
