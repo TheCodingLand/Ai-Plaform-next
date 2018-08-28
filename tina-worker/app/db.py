@@ -1,11 +1,11 @@
 from app import client
-
+from bson.objectid import ObjectId
 class db():
     
     client = client
 
     def getFtModel(self, id):
-        m = self.client.ft.models.find_one(filter={"_id":id})
+        m = self.client.ft.models.find_one(filter={"_id":ObjectId(id)})
         if m:
             return m[0]
         
