@@ -61,7 +61,7 @@ class EnhancedTableHead extends React.Component {
           {this.props.rows.map(row => {
             return (
               <TableCell
-                key={row.id+row.state}
+                key={row.id+row.text}
                 numeric={row.numeric}
                 padding={row.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === row.id ? order : false}
