@@ -50,11 +50,11 @@ const setState = (mods) => {
 const clientSpecificRedisSub = (client,obj) => {
     redisSub.psubscribe(obj.id)
     console.log('subscribing to',obj.id)
-    redisSub.on('pmessage', (channel, key) => { redisIn.hgetall(key, (err,result) => {
+    redisSub.on('pmessage', (channel, key) => { redisIn.hgetall(key, (err,r) => {
         if (!err) {  
             //result = {key:key, action : "training started"}
             console.log('recieved event from redis, sending to client', key)
-            client.emit(key, JSON.stringify(result))}}
+            client.emit(key, JSON.stringify(r))}}
             
         )
         redisIn.expire(key,10)      

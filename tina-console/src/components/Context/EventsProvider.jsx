@@ -27,6 +27,10 @@ class EventsProvider extends React.Component {
         this.props.websocket.on(event, (obj) => { 
             let o = JSON.parse(obj)
             o.text=o.action + " " + o.state
+            if (o.result) {
+            o.result = JSON.parse(o.result)
+            }
+
             console.log(o.text)
             let events = this.state.events
             
