@@ -24,11 +24,16 @@ import Typography from "@material-ui/core/Typography";
 
 class HeaderLinks extends React.Component {
   state = {
+    selectedItem: "",
     open: false
   };
   handleToggle = () => {
     this.setState(state => ({ open: !state.open }));
   };
+  remove(context,key) {
+    context.removeNotificationByKey(key)
+    
+  }
 
   handleClose = event => {
     if (this.anchorEl.contains(event.target)) {
@@ -127,14 +132,15 @@ class HeaderLinks extends React.Component {
                     return (
 
 
-                    <MenuList role="menu">
-                      {context.notifications.map((notif) => { console.log(notif)
+                    <MenuList value={ this.state.selectedItem } onChage={this.onChange()}role="menu">
+                      {context.notifications.map((notif) => { //console.log(notif)
                         return (
                       
                       <MenuItem 
                         key={notif.key}
                         id = {notif.key}
-                        onClick={this.handleClose}
+                        value = {notif.key}
+                        onClick={() => this.remove(context,notif.key)}
                         className={classes.dropdownItem}
                       >
                         {notif.text}

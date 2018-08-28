@@ -10,6 +10,7 @@ class EventsProvider extends React.Component {
         super()
     let loadedstate = loadState('events')
     this.state = {
+        removeNotificationByKey : this.removeNotificationByKey.bind(this),
         notifications : [],
         results: [],
         events : [],
@@ -23,7 +24,18 @@ class EventsProvider extends React.Component {
     
     }
 
-    
+    removeNotificationByKey = (key) => {
+        let notifications = []
+        this.state.notifications.forEach(notif => { 
+            if (notif.key !== key) {
+            notifications.push(key)
+            }
+        }
+            
+        )
+        this.setState({notifications: notifications})
+
+    }
     subscribe = (event, cb) => {
         //console.log(event)
         this.props.websocket.on(event, (obj) => { 
