@@ -33,3 +33,4 @@ def manageAction(keyname, key):
     result = m.testRun(data, confidence)
     
     logger.info(result)
+    return result
