@@ -35,6 +35,6 @@ def manageAction(keyname, key):
     
     result = m.predict(text=text, nbpredictions=nbofresults)
 
-    key['result'] = result
+    key['result'] = json.dumps(result)
     print(result)
     return key
