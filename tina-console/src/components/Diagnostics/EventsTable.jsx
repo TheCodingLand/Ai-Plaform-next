@@ -67,7 +67,7 @@ class EnhancedTableHead extends React.Component {
           {rows.map(row => {
             return (
               <TableCell
-                key={row.id}
+                key={row.id+row.state}
                 numeric={row.numeric}
                 padding={row.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === row.id ? order : false}
@@ -288,12 +288,12 @@ class EventsTable extends React.Component {
                         <Checkbox checked={isSelected} />
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
-                        {n.name}
+                        {n.text}
                       </TableCell>
                       <TableCell numeric>{n.state}</TableCell>
-                      <TableCell numeric>{n.text}</TableCell>
-                      <TableCell numeric>{n.id}</TableCell>
-                      <TableCell numeric>{n.action}</TableCell>
+                      <TableCell>{n.text}</TableCell>
+                      <TableCell>{n.id}</TableCell>
+                      <TableCell>{n.action}</TableCell>
                     </TableRow>
                   );
                 })}
