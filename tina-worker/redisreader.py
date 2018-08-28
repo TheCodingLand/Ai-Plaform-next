@@ -3,7 +3,7 @@ import time
 import logging
 
 from app.db import db
-
+database = db()
 import os
 import json
 
@@ -66,7 +66,7 @@ while True:
        
         redis_out.hmset(k['id'], k)
         redis_out.publish(k['id'], key)
-        db.writeStats(k)
+        database.writeStats(k)
 
 
             
