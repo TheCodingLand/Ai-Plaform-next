@@ -20,7 +20,6 @@ class db():
     def writeModel(self,aimodel):
         model = {"model" :
         {   
-            
             "name" : aimodel.name,
             "version" : aimodel.version,
             "supervised": aimodel.supervised,
@@ -35,7 +34,6 @@ class db():
             "label" : aimodel.label,
             "method": aimodel.method,
             "dataset" : aimodel.dataset.toDict()    
-        
         }
         }
         self.client.ft.models.find_one_and_replace(filter=model, replacement=model, upsert=True)
