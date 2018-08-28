@@ -6,7 +6,7 @@ log = logging.getLogger('werkzeug')
 log.setLevel(logging.DEBUG)
 import datetime
 from flask import request
-
+import json
 from fastText.api.restplus import api
 from fastText.api.models.apimodels import prediction, training, getstate, loadmodel
 #from fastText.app.fastTextApp import fastTextApp
@@ -92,6 +92,8 @@ class Model(Resource):
                 return response_object, 408
         
         k = c.hgetall(taskid)
+        logging.error(k)
+        results = json.loads(k.result)
         logging.error(k)
         results = []
         for i in range(1,nbofresults):
