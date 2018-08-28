@@ -5,8 +5,8 @@ class db():
     client = client
 
     def getFtModel(self, id):
-        m = self.client.ft.models.find_one(filter={"id":id})
-        if len(m)>0:
+        m = self.client.ft.models.find_one(filter={"_id":id})
+        if m:
             return m[0]
         
 
