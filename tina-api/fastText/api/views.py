@@ -63,7 +63,7 @@ class SanityCheck(Resource):
 
 
 
-@ns.route('/predict/<int:id>')
+@ns.route('/predict/<string:id>')
 @ns.response(404, 'Model Not Found')
 @ns.param('id', 'The model identifier')
 class Model(Resource):
