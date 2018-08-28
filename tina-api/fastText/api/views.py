@@ -38,7 +38,7 @@ def pushToRedis(action, data):
     data.update({ "action": action, "id":id })
    
     b.hmset(key, data)
-    return key
+    return id
 
     
 
