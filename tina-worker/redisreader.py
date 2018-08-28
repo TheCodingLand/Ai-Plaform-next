@@ -62,7 +62,7 @@ while True:
         k['started'] = timestamp
         
         
-        k = actions.manageAction(key, k)
+        k = actions.manageAction(key, k, redis_out)
         #keyname, data, ft object
         timestamp = time.time()
         k['finished'] = timestamp
