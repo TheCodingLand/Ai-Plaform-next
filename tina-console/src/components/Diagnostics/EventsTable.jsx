@@ -250,7 +250,7 @@ class EventsTable extends React.Component {
   render() {
     const { classes } = this.props;
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
-    let data=this.props.events
+    let data=this.props.events.events
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
