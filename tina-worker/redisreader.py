@@ -3,7 +3,7 @@ import time
 import logging
 
 import os
-
+import json
 
 action = os.getenv('ACTION')
 if action == "predict":
@@ -60,7 +60,7 @@ while True:
         #keyname, data, ft object
         
         k['state']= 'finished'
-        k['result']= result
+        k['result']= json.dumps(result)
        
         redis_out.hmset(k['id'], k)
         redis_out.publish(k['id'], key)
