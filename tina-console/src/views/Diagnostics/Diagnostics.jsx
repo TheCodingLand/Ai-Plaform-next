@@ -27,11 +27,13 @@ const Diagnostics = () => {
     let eventsWithResuts = (context) => {
         let evs = []
         context.events.forEach((e) => { if (e.result) {evs.push(e)} } )
-        evs.map((event) => { 
+        events = evs.map((event) => { 
             let e = event
             Object.assign({}, e, event.result )
     
-            return (e) } ) }
+            return (e) } ) 
+        return events
+        }
     
 
 
@@ -41,7 +43,7 @@ const Diagnostics = () => {
         
 return (<Fragment>
 
-<EventsContext.Consumer>{ context => <Fragment><EventsTable title={'Training Events'} events={context.events} rows={rows} /> <EventsTable title={'Training Events'} events={eventsWithResuts(context)} rows={rowsresults} /></Fragment>
+<EventsContext.Consumer>{ context => <Fragment><EventsTable title={'Training Events'} events={context.events} rows={rows} /> <EventsTable title={'Testint results'} events={eventsWithResuts(context)} rows={rowsresults} /></Fragment>
  }</EventsContext.Consumer>
 </Fragment>
 
