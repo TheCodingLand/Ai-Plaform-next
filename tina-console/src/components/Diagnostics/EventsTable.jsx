@@ -252,10 +252,10 @@ class EventsTable extends React.Component {
       let c = []
       Object.keys(rows).forEach((key,index) => {
         console.log(key)
-      if (n.hasOwnProperty(key.id)) { c.push(key)}
+      if (n.hasOwnProperty(key.id)) { c.push(key.id)}
     })
     console.log(c)
-    let cells = c.map((key) => <TableCell>{c[key]}</TableCell>)
+    let cells = c.map((key) => <TableCell>{n[key]}</TableCell>)
     return cells
 
        // if (index === 0) {
