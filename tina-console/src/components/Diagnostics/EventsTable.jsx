@@ -284,16 +284,28 @@ class EventsTable extends React.Component {
                       <TableCell padding="checkbox">
                         <Checkbox checked={isSelected} />
                       </TableCell>
+                      {cells = Object.keys(n).filter(function(key,index) {
+                        if (obj.hasOwnProperty(key)) {
+                          if (index ===0) {
+                            return <TableCell component="th" scope="row" padding="none">{n[key]}</TableCell>
+                          }
+                          else {
+                            <TableCell>{n[key]}</TableCell>
 
-                      
-                      <TableCell component="th" scope="row" padding="none">
+                          }
+                          
+                        }
+
+                      })}
+                      {cells}
+                      {/* <TableCell component="th" scope="row" padding="none">
                         {n.text}
                       </TableCell>
 
                       <TableCell>{n.state}</TableCell>
                       
                       <TableCell>{n.id}</TableCell>
-                      <TableCell>{n.action}</TableCell>
+                      <TableCell>{n.action}</TableCell> */}
                     </TableRow>
                   );
                 })}
