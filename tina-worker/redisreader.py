@@ -60,8 +60,8 @@ while True:
         
         timestamp = time.time()
         k['started'] = timestamp
-        redis_out.hmset(k['id'], k)
-        redis_out.publish(k['id'], k['id'])
+        
+        
         k = actions.manageAction(key, k)
         #keyname, data, ft object
         timestamp = time.time()

@@ -5,12 +5,13 @@ from app.model import Model
 from app.dataset import Dataset
 
 
-def manageAction(keyname, key):
-
-    ftmodel=json.loads(key.get('model'))
-    ds=json.loads(key.get('dataset'))
-    testmodel = key.get('testmodel')
-    confidence = int(key.get('confidence'))
+def manageAction(keyname, k, redis_out):
+    redis_out.hmset(k['id'], k)
+    redis_out.publish(k['id'], k['id'], redis_out)
+    ftmodel=json.loads(k.get('model'))
+    ds=json.loads(k.get('dataset'))
+    testmodel = k.get('testmodel')
+    confidence = int(k.get('confidence'))
 
     
 
@@ -25,7 +26,7 @@ def manageAction(keyname, key):
     
     if testmodel == 'true':
         results = m.testRun(data,confidence)
-        key['result']= json.dumps(results)
-    return key
+        k['result']= json.dumps(results)
+    return k
         
     
