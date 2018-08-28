@@ -4,7 +4,7 @@ import os
 
 from app.model import Model
 from app.dataset import Dataset
-
+import logging
 loadedModels = {}
 
 preload = os.environ.get('PRELOAD_MODELS')
@@ -21,18 +21,17 @@ def manageAction(keyname, key):
     
 
     text=key.get('text')
+    logging.error(text)
     nbofresults = int(key.get('nbofresults'))
     
     if modelid in loadedModels.keys():
         m = loadedModels.get(modelid)
     else:
         m = Model(modelid) #quantized will be implemented later
-    
-    
+    logging.error(loadedModels)
+    loadedModels.update( {f"{id}" : m} )
    
     result = m.predict(text=text, nbpredictions=nbofresults)
-    
-    loadedModels.update( {f"{id}" : m} )
 
     key['result'] = result
     print(result)

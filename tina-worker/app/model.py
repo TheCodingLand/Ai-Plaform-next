@@ -175,7 +175,7 @@ class Model(object):
         if self.loaded==False:
             return ['error',"please load model first"]
         
-        logger.warining(f"making prediction for {text}")
+        logger.warning(f"making prediction for {text}")
         predictions = self.ft.predict_proba_single(text, k=nbpredictions)
         logger.warning(predictions)
         results = []
