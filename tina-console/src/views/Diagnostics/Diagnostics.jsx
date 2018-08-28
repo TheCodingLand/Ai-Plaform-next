@@ -27,7 +27,7 @@ const Diagnostics = () => {
     let eventsWithResuts = (context) => {
         let evs = []
         context.events.forEach((e) => { if (e.result) {evs.push(e)} } )
-        events = evs.map((event) => { 
+        let events = evs.map((event) => { 
             let e = event
             Object.assign({}, e, event.result )
     
