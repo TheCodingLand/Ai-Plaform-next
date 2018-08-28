@@ -69,7 +69,8 @@ class SanityCheck(Resource):
 class Model(Resource):
     '''Takes text in entry, returns a prediction using the specified model'''
     @ns.doc('predict')
-    @api.marshal_with(prediction) #modelID, text, nbofresults
+    @ns.expect(prediction)
+    #@api.marshal_with(prediction) #modelID, text, nbofresults
     def post(self, id):
         '''Fetch a given resource'''
         
