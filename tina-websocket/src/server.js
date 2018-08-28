@@ -133,7 +133,9 @@ io.on('connection', function (socket) {
     )
     
     socket.on('disconnect', () => {
-        socket.keys.forEach((key) => { redisSub.unsubscribe(key)} )
+        socket.keys.forEach((key) => { 
+            console.log('unsubscribing to :', key)
+            redisSub.unsubscribe(key)} )
     })    
 })
 
