@@ -313,7 +313,7 @@ class EventsTable extends React.Component {
                       role="checkbox"
                       aria-checked={isSelected}
                       tabIndex={-1}
-                      key={n.id + n.state}
+                      key={n.id + n.text}
                       selected={isSelected}
                     >
                     
