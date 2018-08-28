@@ -39,3 +39,5 @@ def manageAction(keyname, key):
         result = m.testRun(data, confidence, delete=True)
         
         results.append(result)
+    key['result']= json.dumps(results)
+    return key

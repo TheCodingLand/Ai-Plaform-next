@@ -22,8 +22,10 @@ def manageAction(keyname, key):
     data = Dataset('datafile.ft', ds['dataset']['name'], True, ds['dataset']['version'], ds['dataset']['classifier'])
         
     m.train(data)
+    
     if testmodel == 'true':
         results = m.testRun(data,confidence)
-        return results
+        key['result']= json.dumps(results)
+        return key
         
     

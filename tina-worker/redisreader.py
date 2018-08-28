@@ -56,11 +56,11 @@ while True:
         redis_in.delete(key)
         k['state']= 'in progress'
         redis_out.hmset(key, k)
-        result = actions.manageAction(key, k)
+        k = actions.manageAction(key, k)
         #keyname, data, ft object
         
         k['state']= 'finished'
-        k['result']= json.dumps(result)
+        
        
         redis_out.hmset(k['id'], k)
         redis_out.publish(k['id'], key)
