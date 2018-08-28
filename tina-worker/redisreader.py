@@ -65,7 +65,6 @@ while True:
         
         k['state']= 'finished'
         
-       
         redis_out.hmset(k['id'], k)
         redis_out.publish(k['id'], k['id'])
         

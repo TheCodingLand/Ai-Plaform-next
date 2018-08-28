@@ -28,7 +28,7 @@ class EventsProvider extends React.Component {
             let o = JSON.parse(obj)
             console.log (o)
             o.text=o.action + " " + o.state
-            /* if (o.result) {
+            if (o.result) {
             o.result = JSON.parse(o.result)
             }
             if (o.model) {
@@ -36,7 +36,7 @@ class EventsProvider extends React.Component {
                 }
             if (o.dataset) {
                 o.dataset = JSON.parse(o.dataset)
-                } */
+                }
             //console.log(o.text)
             let events = this.state.events
             
