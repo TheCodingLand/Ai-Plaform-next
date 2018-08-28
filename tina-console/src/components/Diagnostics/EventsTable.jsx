@@ -253,10 +253,10 @@ class EventsTable extends React.Component {
       let i = 0
       let cells = rows.map((r) => { 
         i = i+1
-        if (i == 1) { return(<TableCell component="th" scope="row" padding="none">{n[r.id]}</TableCell>)}
+        if (i == 1) { return(<TableCell key={i} component="th" scope="row" padding="none">{n[r.id]}</TableCell>)}
        
         else {
-        return <TableCell>{n[r.id]}</TableCell>
+        return <TableCell key={i}>{n[r.id]}</TableCell>
       }
       
         
