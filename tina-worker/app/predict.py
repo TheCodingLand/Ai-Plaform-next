@@ -34,6 +34,6 @@ def manageAction(keyname, key):
     
     loadedModels.update( {f"{id}" : m} )
 
-    
+    key['result'] = result
     print(result)
-    return result
+    return key
