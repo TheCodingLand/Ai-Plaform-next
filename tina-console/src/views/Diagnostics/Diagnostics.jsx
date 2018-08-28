@@ -34,8 +34,8 @@ const Diagnostics = () => {
             
             let e = event
             e = Object.assign({}, e, event.result )
-            e.dataset = e.model.dataset.name
-            e.column = e.model.dataset.label
+            e.dataset = e.dataset.name
+            e.column = e.label
             e.model = e.model.name
             
            
