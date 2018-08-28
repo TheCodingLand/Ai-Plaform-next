@@ -14,7 +14,7 @@ const rows = [
 
 const Diagnostics = () => {
 return (<Fragment>
-<EventsContext.Consumer>{ context => <EventsTable events={context.events} rows ={rows} />
+<EventsContext.Consumer>{ context => <EventsTable events={context.events} rows={rows} />
  }</EventsContext.Consumer>
 </Fragment>
 
