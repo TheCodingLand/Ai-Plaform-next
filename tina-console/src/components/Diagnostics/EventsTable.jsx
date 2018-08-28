@@ -64,7 +64,7 @@ class EnhancedTableHead extends React.Component {
               onChange={onSelectAllClick}
             />
           </TableCell>
-          {rows.map(row => {
+          {this.props.rows.map(row => {
             return (
               <TableCell
                 key={row.id+row.state}
@@ -248,15 +248,16 @@ class EventsTable extends React.Component {
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
+    let rows = this.props.rows
     const { classes } = this.props;
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
-    let data=this.props.events.events
+    let data=this.props.events
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
         
       <Paper className={classes.root}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar rows numSelected={selected.length} />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead
