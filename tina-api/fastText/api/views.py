@@ -70,7 +70,7 @@ class Model(Resource):
     @ns.doc('predict')
     @ns.expect(prediction)
     #@api.marshal_with(prediction) #modelID, text, nbofresults
-    def post(self, id):
+    def post(self):
         '''Fetch a given resource'''
         modelid = api.payload.get('id')
         text = api.payload.get('text')
