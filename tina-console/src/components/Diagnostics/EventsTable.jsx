@@ -248,7 +248,7 @@ class EventsTable extends React.Component {
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
     let data=this.props.events
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-    let cells = Object.keys(n).filter(function(key,index) {
+    let getCells = (n) => Object.keys(n).filter(function(key,index) {
       if (n.hasOwnProperty(key)) {
         if (index ===0) {
           return (<TableCell component="th" scope="row" padding="none">{n[key]}</TableCell>)
@@ -298,7 +298,7 @@ class EventsTable extends React.Component {
                         <Checkbox checked={isSelected} />
                       </TableCell>
                       
-                      {cells}
+                      {getCells(n)}
                       {/* <TableCell component="th" scope="row" padding="none">
                         {n.text}
                       </TableCell>
