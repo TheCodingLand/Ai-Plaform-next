@@ -48,9 +48,10 @@ const setState = (mods) => {
 
 }
 const clientSpecificRedisSub = (client,obj) => {
+    console.log('subscribing to',obj.id)
     redisSub.psubscribe(obj.id)
     client.keys.push(obj.id)
-    console.log('subscribing to',obj.id)
+    
     
 
     }
