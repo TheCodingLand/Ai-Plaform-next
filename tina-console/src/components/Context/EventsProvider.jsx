@@ -82,8 +82,9 @@ class EventsProvider extends React.Component {
         this.props.websocket.on('allevents', this.gotEvents)
         console.log(this.props)
         return (
-            <Fragment>
+            
             <EventsContext.Provider value={this.state}>
+            <Fragment>
             <Snackbar
           anchorOrigin={{ vertical:'top', horizontal:'right' }}
           open={this.state.newevent.text !==""}
@@ -94,9 +95,9 @@ class EventsProvider extends React.Component {
           message={<span id="message-id">{this.state.newevent.text}</span>}
         />
             {this.props.children}
-
-            </EventsContext.Provider>
             </Fragment>
+            </EventsContext.Provider>
+            
         )
     }
 }
