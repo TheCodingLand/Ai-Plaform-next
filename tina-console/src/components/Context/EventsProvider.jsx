@@ -10,6 +10,7 @@ class EventsProvider extends React.Component {
         super()
     let loadedstate = loadState('events')
     this.state = {
+        results: [],
         events : [],
         action : this.action,
         subscribe : this.subscribe,
@@ -29,14 +30,17 @@ class EventsProvider extends React.Component {
             console.log (o)
             o.text=o.action + " " + o.state
            
-            if (o.result) {
-                o.result = JSON.parse(o.result)
-                }
+           
             if (o.model) {
                 o.model = JSON.parse(o.model)
                 }
             if (o.dataset) {
                 o.dataset = JSON.parse(o.dataset)
+                }
+            if (o.result) {
+                let results = this.state.results
+                o.result = JSON.parse(o.result)
+                results.push(o)
                 }
             //console.log(o.text)
             let events = this.state.events
@@ -44,8 +48,9 @@ class EventsProvider extends React.Component {
             events.push(o)
             
             
-            this.setState({events:events, newevent:o})
-            cb(obj)})
+           
+            this.setState({results:results},{events:events, newevent:o})
+            cb(o)})
        
     }
 
