@@ -23,4 +23,5 @@ def manageAction(keyname, key):
         
     m.train(data)
     if testmodel == 'true':
-        m.testRun(data,confidence)
+        results = m.testRun(data,confidence)
+    return results
