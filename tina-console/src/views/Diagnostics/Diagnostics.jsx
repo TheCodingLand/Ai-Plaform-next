@@ -16,10 +16,11 @@ const rows = [
     { id: 'state', numeric: false, disablePadding: false, label: 'State' },
     { id: 'id', numeric: false, disablePadding: false, label: 'ID' },
     { id: 'action', numeric: false, disablePadding: false, label: 'Action' },
-    { id: 'total', numeric: true, disablePadding: true, label: 'Total' },
+    { id: 'total', numeric: true, disablePadding: false, label: 'Total' },
     { id: 'success', numeric: true, disablePadding: false, label: 'Success' },
     { id: 'ignored', numeric: true, disablePadding: false, label: 'Ignored' },
     { id: 'failures', numeric: true, disablePadding: false, label: 'Failures' },
+    { id: 'percent', numeric: true, disablePadding: false, label: '%' },
   ];
 
 const Diagnostics = () => {
