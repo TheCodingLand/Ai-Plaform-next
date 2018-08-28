@@ -94,17 +94,15 @@ class Model(Resource):
         k = c.hgetall(taskid)
         logging.error(k)
         results = json.loads(k['result'])
-        logging.error(k)
-        results = []
-        for i in range(1,nbofresults):
-            result = { 'prediction' : k.get(f'prediction{i}'), 'confidence' : k.get(f'confidence{i}') }
-            results.append(result)
+        logging.error(results)
+        
+        
         
 
       
         response_object = {
             'status' : 'ok',
-            'result' : results
+            'results' : results
         }
         return response_object, 201
    
