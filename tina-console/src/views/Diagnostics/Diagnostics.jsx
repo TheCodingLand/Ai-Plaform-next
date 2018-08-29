@@ -13,6 +13,8 @@ const rows = [
 
   const rowsresults = [
     { id: 'dataset', numeric: false, disablePadding: true, label: 'Dataset' },
+    { id: 'started', numeric: false, disablePadding: false, label: 'Start' },
+    { id: 'finished', numeric: false, disablePadding: false, label: 'End' },
     { id: 'model', numeric: false, disablePadding: false, label: 'Model' },
     { id: 'column', numeric: false, disablePadding: false, label: 'Column' },
     { id: 'id', numeric: false, disablePadding: false, label: 'ID' },
@@ -37,7 +39,9 @@ const Diagnostics = () => {
             e.dataset = e.dataset.dataset.name
             e.column = e.model.model.label
             e.model = e.model.model.name
-            e.percent =parseInt(e.percent)
+            e.percent = parseInt(e.percent)
+            e.started = new Date(e.started*1000).toLocaleTimeString()
+            e.finished = new Date(e.finished*1000).toLocaleTimeString()
 
             
            

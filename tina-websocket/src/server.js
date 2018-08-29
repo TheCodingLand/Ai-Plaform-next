@@ -48,8 +48,10 @@ const setState = (mods) => {
 
 }
 const clientSpecificRedisSub = (client,obj) => {
-    redisSub.psubscribe(obj.id)
     console.log('subscribing to',obj.id)
+    redisSub.psubscribe(obj.id)
+    client.keys.push(obj.id)
+    
     
 
     }
@@ -94,27 +96,36 @@ const makeRedisObj = (client,channel,message) => {
 
 
 //Listens to channels from the websockets and relays them to redis
-const listenTo = (channel, socket) => {
+const listenTo = (channel, socket, keys) => {
     socket.on(channel, function (msg) {
         console.log(`recieved ${channel} data`)
         //console.log(msg)
+
         let obj = makeRedisObj(socket,channel,msg)
         publishToredis(obj)
         
         
         console.log(msg.id)
         //socket.emit(msg.id, JSON.stringify(msg))
+        socket.keys.push(obj.id)
+     
     })
 }
+
+
+
 
 
 io.on('connection', function (socket) {
     //registering listening channels
     console.log('connexion started')
+    socket.keys = []
     eventsToListenTo.forEach(channel => {
         listenTo(channel, socket)
     });
-    redisSub.on('pmessage', (channel, key) => { redisIn.hgetall(key, (err,r) => {
+    
+        socket.redisSub=redisSub
+        redisSub.on('pmessage', (channel, key) => { redisIn.hgetall(key, (err,r) => {
         if (!err) {  
             //result = {key:key, action : "training started"}
             console.log('recieved event from redis, sending to client', key)
@@ -125,7 +136,12 @@ io.on('connection', function (socket) {
         redisIn.expire(key,10)      
         }
     )
-   
+    
+    socket.on('disconnect', () => {
+        socket.keys.forEach((key) => { 
+            console.log('unsubscribing to :', key)
+            redisSub.unsubscribe(key)} )
+    })    
 })
 
 

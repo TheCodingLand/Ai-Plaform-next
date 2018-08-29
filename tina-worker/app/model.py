@@ -55,13 +55,14 @@ class Model(object):
         self.ngrams=data['ngrams']
         self.splitAt=data['splitAt']
         self.filepath = f"{MODELDIR}/{self.name}/{self.version!s}/model"
+
            
     
     def quantize(self):
             logger.error("TODO")
     def load(self):
         try:
-            self.ft = FastText(self.filepath)
+            self.ft = FastText(self.filepath+'.bin')
         except:
             logger.error(f"Failed to Load FT file in path {self.filepath!s}")
             return "Failed to Load FT file"
@@ -175,16 +176,16 @@ class Model(object):
         if self.loaded==False:
             return ['error',"please load model first"]
         
-        logger.info(f"making prediction for {text}")
+        logger.warning(f"making prediction for {text}")
         predictions = self.ft.predict_proba_single(text, k=nbpredictions)
-        logger.info(predictions)
+        logger.warning(predictions)
         results = []
         for prediction in predictions:
             if len(prediction) ==2:
                 
                 result = { "category" : prediction[0], "confidence" : prediction[1] }
                 results.append(result)
-                logger.info(f"{prediction[0]} {prediction[1]!s}")
+                logger.warning(f"{prediction[0]} {prediction[1]!s}")
         
         return results
 

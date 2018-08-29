@@ -17,12 +17,13 @@ if preload:
         loadedModels.update( {f"{id}" : m} )
 
 
-def manageAction(keyname, key):
+def manageAction(keyname, k,redis_out):
 
-    
-    ftmodel=json.loads(key.get('model'))
-    dataset=json.loads(key.get('dataset'))
-    confidence = int(key.get('confidence'))
+    redis_out.hmset(k['id'], k)
+    redis_out.publish(k['id'], k['id'])
+    ftmodel=json.loads(k.get('model'))
+    dataset=json.loads(k.get('dataset'))
+    confidence = int(k.get('confidence'))
     
     
         #will be just used for metadata of the model, so we know why we trained this model for, what to predict
@@ -33,5 +34,6 @@ def manageAction(keyname, key):
     result = m.testRun(data, confidence)
     
     logger.info(result)
-    key['result']= json.dumps(result)
-    return key
+    k['result']= json.dumps(result)
+
+    return k

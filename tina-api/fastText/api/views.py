@@ -6,7 +6,7 @@ log = logging.getLogger('werkzeug')
 log.setLevel(logging.DEBUG)
 import datetime
 from flask import request
-
+import json
 from fastText.api.restplus import api
 from fastText.api.models.apimodels import prediction, training, getstate, loadmodel
 #from fastText.app.fastTextApp import fastTextApp
@@ -28,19 +28,19 @@ c = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=2)
 
 
 def genId():
-    return ''.join([choice(string.printable) for i in range(10)])
+    return ''.join([choice(string.ascii_letters) for i in range(10)])
 
 
 
-def pushToRedis(action, **kwargs):
-    
+def pushToRedis(action, data):
+    id = {genId()}
     key = f"{action}{genId()}"
-    data = { 'action': action }
-    for item, value in kwargs.items():
-        data.update({item:value})
+    data.update({ "action": action, "id":id })
+   
     b.hmset(key, data)
+    return id
 
-    return key
+    
 
 
 ns = api.namespace('/', description='Api for triggering actions to the Ai platform')
@@ -63,22 +63,22 @@ class SanityCheck(Resource):
 
 
 
-@ns.route('/predict/<int:id>')
+@ns.route('/predict')
 @ns.response(404, 'Model Not Found')
-@ns.param('id', 'The model identifier')
 class Model(Resource):
     '''Takes text in entry, returns a prediction using the specified model'''
     @ns.doc('predict')
-    @api.marshal_with(prediction) #modelID, text, nbofresults
-    def post(self, id):
+    @ns.expect(prediction)
+    #@api.marshal_with(prediction) #modelID, text, nbofresults
+    def post(self):
         '''Fetch a given resource'''
-        
+        modelid = api.payload.get('id')
         text = api.payload.get('text')
         nbofresults = api.payload.get('nbofresults') #default : 1
         ai = api.payload.get('ai') #default : ft
        
         #taskIds can be returned for long operations, so the  client can query the status of an operation
-        taskid = pushToRedis(f'{ai}.predict', id=id, text=text, nbofresults=nbofresults)
+        taskid = pushToRedis(f'{ai}.predict', {"modelid": modelid, "text" : text, "nbofresults" : nbofresults})
 
         count =0
         while not c.hgetall(taskid):
@@ -92,16 +92,17 @@ class Model(Resource):
                 return response_object, 408
         
         k = c.hgetall(taskid)
-        results = []
-        for i in range(1,nbofresults):
-            result = { 'prediction' : k.get(f'prediction{i}'), 'confidence' : k.get(f'confidence{i}') }
-            results.append(result)
+        logging.error(k)
+        results = json.loads(k['result'])
+        logging.error(results)
+        
+        
         
 
       
         response_object = {
             'status' : 'ok',
-            'result' : result
+            'results' : results
         }
         return response_object, 201
    

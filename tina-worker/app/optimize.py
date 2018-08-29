@@ -18,17 +18,19 @@ if preload:
 def generateSettings():
     return { "epochs": random.randint(200,800), "learningRate": random.randint(1,100)/100, "grams" : random.randint(1,5) }
 
-def manageAction(keyname, key):
-    i = 0
+def manageAction(keyname, k, redis_out):
+    redis_out.hmset(k['id'], k)
+    redis_out.publish(k['id'], k['id'])
+    
     results=[]
-    dataset=json.loads(key.get('dataset'))
+    dataset=json.loads(k.get('dataset'))
     data = Dataset('datafile.ft', dataset['dataset']['name'], True, dataset['dataset']['version'], dataset['dataset']['classifier'])
-    for i in range(0,key.get('runs')):
+    for i in range(0,k.get('runs')):
         settings = generateSettings()
     
     
 
-        confidence = int(key.get('confidence'))
+        confidence = int(k.get('confidence'))
         
         #will be just used for metadata of the model, so we know why we trained this model for, what to predict
         m = Model() #quantized will be implemented later
@@ -39,5 +41,5 @@ def manageAction(keyname, key):
         result = m.testRun(data, confidence, delete=True)
         
         results.append(result)
-    key['result']= json.dumps(results)
-    return key
+    k['result']= json.dumps(results)
+    return k

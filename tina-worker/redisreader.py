@@ -57,12 +57,15 @@ while True:
         logger.debug("got key :%s", key)
         redis_in.delete(key)
         k['state']= 'in progress'
-        redis_out.hmset(k['id'], k)
-        redis_out.publish(k['id'], k['id'])
-
-        k = actions.manageAction(key, k)
-        #keyname, data, ft object
         
+        timestamp = time.time()
+        k['started'] = timestamp
+        
+        
+        k = actions.manageAction(key, k, redis_out)
+        #keyname, data, ft object
+        timestamp = time.time()
+        k['finished'] = timestamp
         k['state']= 'finished'
         
         redis_out.hmset(k['id'], k)
