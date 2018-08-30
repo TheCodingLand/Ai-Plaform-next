@@ -74,8 +74,8 @@ class worker():
             m.load()
             loadedModels.update({f"{id}": m})
 
-        self.ftmodel = json.loads(self.config.get('model'))
-        self.ds = json.loads(self.config.get('dataset'))
+        #self.ftmodel = json.loads(self.config.get('model'))
+        #self.ds = json.loads(self.config.get('dataset'))
 
     def run(self):
         result = m.predict(
