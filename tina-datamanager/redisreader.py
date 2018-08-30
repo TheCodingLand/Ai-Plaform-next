@@ -49,20 +49,22 @@ class Listener(threading.Thread):
 
         self.redis = r
         self.pubsub = self.redis.pubsub()
-        self.pubsub.psubscribe([f'ft.{channel}*'])
+        self.pubsub.psubscribe([f'ft.{channel}.*'])
         time.sleep(5)
         test()
 
     def work(self, item):
+
         logging.info(item['channel'])
         logging.info(item['data'])
 
         config = self.redis_in.hmget(item['channel'], item['data'])
-        logging.info(config)
+        if config[0] != None:
+            logging.info(config)
         # config = { "classification" : 'Operational  Categorization Tier 2', "columns" : 'Summary;Notes', 'datasetName' : 'bnp', 'version' : 1 }
-        job = worker.worker(item['channel'], self, config)
+            job = worker.worker(item['channel'], self, config)
 
-        job.run()
+            job.run()
 
     def run(self):
         for item in self.pubsub.listen():
@@ -71,6 +73,7 @@ class Listener(threading.Thread):
                 print(self, "unsubscribed and finished")
                 break
             else:
+                logging.info(item)
                 self.work(item)
 
 
