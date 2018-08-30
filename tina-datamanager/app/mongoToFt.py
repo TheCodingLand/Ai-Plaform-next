@@ -15,7 +15,8 @@ collection_bnp = db['bnp']
 
 
 class worker():
-
+    db = client['rawdata']
+    collection = None
     classificationcolomn = ""
     textcolumns = ""
     filename = "dataset.ft"
@@ -36,6 +37,8 @@ class worker():
             self.datasetName = config['datasetName']
         if 'version' in config.keys():
             self.version = config['version']
+        if 'collection' in config.keys():
+            self.collection = db[config['collection']]
         self.jsonFile = self.filename
 
         # log
@@ -164,11 +167,12 @@ class worker():
 
     def run(self):
         i = 0
+        os.makedirs(f"/data/datasets/{self.datasetName}/{self.version}/")
         ftdata = open(
-            f'/data/{self.datasetName}/{self.version}/{self.filename}', 'w', encoding='utf-8')
+            f'/data/datasets/{self.datasetName}/{self.version}/{self.filename}', 'w', encoding='utf-8')
 
         # TODO: This is horrible. probably way better ways to do this
-        for entry in collection_bnp.find():
+        for entry in self.collection.find():
             i = i+1
             text = ""
             for key, value in entry.items():
