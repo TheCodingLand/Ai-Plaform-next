@@ -163,8 +163,6 @@ class worker():
                     ftdata.write(txt)
             ftdata.close() """
     def run(self):
-    
-    
         i = 0
         ftdata = open(f'{self.filename}{self.classificationcolomn}.fasttext', 'w', encoding='utf-8')
         

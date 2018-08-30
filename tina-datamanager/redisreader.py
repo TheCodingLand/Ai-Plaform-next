@@ -4,9 +4,9 @@ import threading
 import logging 
 
 
-channel = os.environ['CHANNEL']
+channel = os.getenv('CHANNEL')
 
-WORKER =  os.environ['WORKER']
+WORKER =  os.getenv('WORKER')
 
 """ if WORKER == "predict":
     import app.predict as worker
@@ -46,8 +46,9 @@ class Listener(threading.Thread):
         config = self.redis_in.hmget(item['channel'], item['data'])
         
         #config = { "classification" : 'Operational  Categorization Tier 2', "columns" : 'Summary;Notes', 'datasetName' : 'bnp', 'version' : 1 }
-        worker.worker(self,item['channel'],config)
-        worker.run()
+        job = worker.worker(self,item['channel'],config)
+
+        job.run()
         
 
 
