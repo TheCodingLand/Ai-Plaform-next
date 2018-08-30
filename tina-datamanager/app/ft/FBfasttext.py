@@ -1,3 +1,6 @@
+# ATTENMPT TO USE OFFICIAL FB LIBRARY INSTEAD OF PYFASTTEXT
+# WILL ALLOW TO PRELOAD WORD VECTORS
+
 import json
 import os
 import re
@@ -5,7 +8,7 @@ from fastText import fastText
 import logging
 import glob
 import os
-from app.stats import prediction
+from app.ft.stats import prediction
 from .db import db
 
 # need to move this to a worker instance, for now we simulate
