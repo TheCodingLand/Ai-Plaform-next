@@ -1,5 +1,4 @@
 pyodbc
-json
 beautifulsoup4
 pymongo
 redis
