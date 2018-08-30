@@ -8,7 +8,7 @@ import fastText
 import logging
 import glob
 import os
-from app.ft.stats import prediction
+
 from .db import db
 
 # need to move this to a worker instance, for now we simulate
@@ -18,6 +18,19 @@ logger.setLevel('WARNING')
 database = db()
 
 MODELDIR = "/data/models"
+
+
+class prediction():
+    name = ""
+    confidence = 0
+    success = False
+    ignored = False
+    correct = ""
+
+    def __init__(self, prediction, correct, k):
+        self.name = prediction[k][0]
+        self.confidence = prediction[k][1]
+        self.correct = correct
 
 
 class Model(object):
@@ -121,6 +134,7 @@ class Model(object):
             # testing only the text, so we remove the label info
             label = label.replace('__label__', '')
             result = model.predict(line, k=1)
+            print(result)
             p = prediction(result, label, 0)
 
             logger.debug(
