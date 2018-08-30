@@ -34,7 +34,7 @@ class worker():
         if 'collection' in self.config.keys():
             self.collection = self.db[self.config['collection']]
         if 'id' in self.config.keys():
-            self.id = self.db[self.config['id']]
+            self.id = self.config['id']
 
         # log
 
@@ -42,8 +42,8 @@ class worker():
 
         timestamp = time.time()
         self.config['started'] = timestamp
-        thread.redis_out.hmset(self.config.id, self.config)
-        thread.redis_out.publish(self.config.id, self.config.id)
+        thread.redis_out.hmset(self.id, self.config)
+        thread.redis_out.publish(self.id, self.id)
 
         # self.buildTrainingData()
 

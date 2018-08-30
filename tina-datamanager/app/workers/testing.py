@@ -22,6 +22,8 @@ class worker():
         self.config = thread.redis_in.hgetall(key)
 
         print(self.config)
+        if 'id' in self.config.keys():
+            self.id = self.config['id']
         if 'model' in self.config.keys():
             self.model = self.config['model']
         if 'dataset' in self.config.keys():
@@ -33,8 +35,8 @@ class worker():
 
         timestamp = time.time()
         self.config['started'] = timestamp
-        thread.redis_out.hmset(self.config.id, self.config)
-        thread.redis_out.publish(self.config.id, self.config.id)
+        thread.redis_out.hmset(self.id, self.config)
+        thread.redis_out.publish(self.id, self.id)
         self.ftmodel = json.loads(self.config.get('model'))
         self.ds = json.loads(self.config.get('dataset'))
 
