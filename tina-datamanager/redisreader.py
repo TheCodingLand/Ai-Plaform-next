@@ -40,13 +40,12 @@ class Listener(threading.Thread):
 
         self.redis = r
         self.pubsub = self.redis.pubsub()
-        self.pubsub.subscribe(f'ft.{channel}*')
+        self.pubsub.psubscribe(f'ft.{channel}*')
 
     def work(self, item):
         logging.info(item['channel'], " : ", item['data'])
 
         config = self.redis_in.hmget(item['channel'], item['data'])
-
         #config = { "classification" : 'Operational  Categorization Tier 2', "columns" : 'Summary;Notes', 'datasetName' : 'bnp', 'version' : 1 }
         job = worker.worker(self, item['channel'], config)
 
@@ -59,11 +58,12 @@ class Listener(threading.Thread):
                 print(self, "unsubscribed and finished")
                 break
             else:
+
                 self.work(item)
 
 
 if __name__ == "__main__":
-    r = redis.Redis(host=redis_host)
+    r = redis.Redis(host=redis_host, decode_responses=True, port=6379)
     if channel:
         client = Listener(r, channel)
         client.start()
