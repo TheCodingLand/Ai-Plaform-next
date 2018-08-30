@@ -59,9 +59,15 @@ class Listener(threading.Thread):
         logging.info(item['data'])
         if item['data'] != 1:
             job = worker.worker(item['channel'], self)
+
             result = job.run()
+            result['state'] = "finished"
+
+            timestamp = time.time()
+            result['finished'] = timestamp
             # write result database and notify redis of new info
             self.database.results.actions.insert_one(result)
+
             self.redis_out.hmset(result['id'], result)
             self.redis_out.publish(result['id'], result['id'])
 
