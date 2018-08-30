@@ -22,7 +22,6 @@ RUN python setup.py install
 #RUN gunzip cc.fr.300.bin.gz
 # add app
 
-WORKDIR /usr/src/app/fastText
 RUN make
 RUN chmod 777 /usr/src/app/fastText/fasttext
 RUN pip install pyfasttext
@@ -31,7 +30,7 @@ RUN mkdir -p /data/models/
 #Sample Language Classification model
 RUN mkdir -p /data/models/language/0/doc
 RUN wget https://s3-us-west-1.amazonaws.com/fasttext-vectors/supervised_models/lid.176.ftz -O /data/models/language/0/model.ftz
-
+WORKDIR /usr/src/app
 
 RUN pip install -r requirements.txt
 ADD . /usr/src/app
