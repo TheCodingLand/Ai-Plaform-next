@@ -66,8 +66,7 @@ services:
   environment:
     - MONGO_INITDB_ROOT_USERNAME=root
     - MONGO_INITDB_ROOT_PASSWORD=example
-  ports :
-    - "27017:27017"
+  
   volumes: 
     - mongo_db:/data/db
   logging:
@@ -191,26 +190,40 @@ services:
 
  ### WORKERS 
  training-worker:
-    build: ./tina-worker
+    build: ./tina-datamanager
     volumes:
       - tina_data:/data/
     environment:
       - REDIS_HOST=${REDIS_HOST}
-      - ACTION=training
+      - WORKER=training
       - MONGODB_SERVER=${MONGODB_SERVER}
       - LOGLEVEL=${TRAIN_LOGLEVEL}
     links:
       - tina-redis
     networks:
       - ai-internal
-
- prediction-worker:
-    build: ./tina-worker
+      
+ data-worker:
+    build: ./tina-datamanager
     volumes:
       - tina_data:/data/
     environment:
       - REDIS_HOST=${REDIS_HOST}
-      - ACTION=predict
+      - WORKER=datasetbuilder
+      - MONGODB_SERVER=${MONGODB_SERVER}
+      - LOGLEVEL=${DATA_LOGLEVEL}
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
+
+ prediction-worker:
+    build: ./tina-datamanager
+    volumes:
+      - tina_data:/data/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - WORKER=predict
       - MONGODB_SERVER=${MONGODB_SERVER}
       - LOGLEVEL=${PRED_LOGLEVEL}
     links:
@@ -218,12 +231,12 @@ services:
     networks:
       - ai-internal
  testing-worker:
-    build: ./tina-worker
+    build: ./tina-datamanager
     volumes:
       - tina_data:/data/
     environment:
       - REDIS_HOST=${REDIS_HOST}
-      - ACTION=testing
+      - WORKER=testing
       - MONGODB_SERVER=${MONGODB_SERVER}
       - LOGLEVEL=${TEST_LOGLEVEL}
     links:

@@ -13,37 +13,37 @@ from fastText.api.models.apimodels import prediction, training, getstate, loadmo
 
 # these hold our data model folder, fields list, required fields
 import time
-import redis, os
+import redis
+import os
 from random import randint, choice
-redis_host=os.getenv('REDIS_HOST')
+redis_host = os.getenv('REDIS_HOST')
 
 #ft = fastTextApp()
 
-#Here we store actions :
+# Here we store actions :
 b = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=1)
 
-#Here we store the state of actions
+# Here we store the state of actions
 c = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=2)
-
 
 
 def genId():
     return ''.join([choice(string.ascii_letters) for i in range(10)])
 
 
-
 def pushToRedis(action, data):
     id = {genId()}
     key = f"{action}{genId()}"
-    data.update({ "action": action, "id":id })
-   
+    data.update({"action": action, "id": id})
+
     b.hmset(key, data)
+    b.publish(key, key)
     return id
 
-    
 
+ns = api.namespace(
+    '/', description='Api for triggering actions to the Ai platform')
 
-ns = api.namespace('/', description='Api for triggering actions to the Ai platform')
 
 @ns.route('/schema')
 class Swagger(Resource):
@@ -61,51 +61,42 @@ class SanityCheck(Resource):
         }
 
 
-
-
 @ns.route('/predict')
 @ns.response(404, 'Model Not Found')
 class Model(Resource):
     '''Takes text in entry, returns a prediction using the specified model'''
     @ns.doc('predict')
     @ns.expect(prediction)
-    #@api.marshal_with(prediction) #modelID, text, nbofresults
+    # @api.marshal_with(prediction) #modelID, text, nbofresults
     def post(self):
         '''Fetch a given resource'''
         modelid = api.payload.get('id')
         text = api.payload.get('text')
-        nbofresults = api.payload.get('nbofresults') #default : 1
-        ai = api.payload.get('ai') #default : ft
-       
-        #taskIds can be returned for long operations, so the  client can query the status of an operation
-        taskid = pushToRedis(f'{ai}.predict', {"modelid": modelid, "text" : text, "nbofresults" : nbofresults})
+        nbofresults = api.payload.get('nbofresults')  # default : 1
+        ai = api.payload.get('ai')  # default : ft
 
-        count =0
+        # taskIds can be returned for long operations, so the  client can query the status of an operation
+        taskid = pushToRedis(f'{ai}.predict.api', {
+                             "modelid": modelid, "text": text, "nbofresults": nbofresults})
+
+        count = 0
         while not c.hgetall(taskid):
             time.sleep(0.1)
             count = count + 1
-            if count >100: #10 seconds
+            if count > 100:  # 10 seconds
                 response_object = {
                     'status': 'timeout error',
                     'results': 'please check the data input'
                 }
                 return response_object, 408
-        
+
         k = c.hgetall(taskid)
         logging.error(k)
         results = json.loads(k['result'])
         logging.error(results)
-        
-        
-        
 
-      
         response_object = {
-            'status' : 'ok',
-            'results' : results
+            'status': 'ok',
+            'results': results
         }
         return response_object, 201
-   
-     
-
-
