@@ -7,7 +7,7 @@ from pymongo import MongoClient
 USER = os.environ.get('ME_CONFIG_BASICAUTH_USERNAME')
 PASS = os.environ.get('ME_CONFIG_BASICAUTH_PASSWORD')
 MONGODB_SERVER = os.environ.get('MONGODB_SERVER')
-from app.client import client
+from app import client
 #client = MongoClient('mongodb://%s:%s@%s' % (USER, PASS, MONGODB_SERVER),27017)
 # client = MongoClient('mongodb://%s:%s@tina.ctg.lu' % (username, password),27017) #if you open mongo port, you can run this from outside the docker env. not recommended, good for debugging
 db = client['rawdata']
