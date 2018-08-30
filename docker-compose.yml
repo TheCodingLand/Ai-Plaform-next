@@ -231,7 +231,7 @@ services:
     networks:
       - ai-internal
  testing-worker:
-    build: ./tina-worker
+    build: ./tina-datamanager
     volumes:
       - tina_data:/data/
     environment:
