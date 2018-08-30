@@ -45,7 +45,7 @@ class worker():
 
         timestamp = time.time()
         k['started'] = timestamp
-        thread.redis_out.hmset(key, )
+        thread.redis_out.hmset(key, k)
         #thread.pubsub.publish(key, key)
 
         # self.buildTrainingData()
