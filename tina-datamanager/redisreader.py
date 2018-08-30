@@ -58,7 +58,7 @@ class Listener(threading.Thread):
         logging.info(item['data'])
 
         config = self.redis_in.hmget(item['channel'], item['data'])
-
+        logging.info(config)
         # config = { "classification" : 'Operational  Categorization Tier 2', "columns" : 'Summary;Notes', 'datasetName' : 'bnp', 'version' : 1 }
         job = worker.worker(item['channel'], self, config)
 
