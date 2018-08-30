@@ -61,7 +61,7 @@ class Listener(threading.Thread):
             job = worker.worker(item['channel'], self)
             result = job.run()
             # write result database and notify redis of new info
-            self.database.results.insert_one(result)
+            self.database.results.actions.insert_one(result)
             self.redis_out.hmset(result['id'], result)
             self.redis_out.publish(result['id'], result['id'])
 
