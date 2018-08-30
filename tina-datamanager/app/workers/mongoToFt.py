@@ -112,7 +112,8 @@ class worker():
 
     def run(self):
         i = 0
-        os.makedirs(f"/data/datasets/{self.datasetName}/{self.version}/")
+        if not os.path.exists(f"/data/datasets/{self.datasetName}/{self.version}/"):
+            os.makedirs(f"/data/datasets/{self.datasetName}/{self.version}/")
         ftdata = open(
             f'/data/datasets/{self.datasetName}/{self.version}/{self.filename}', 'w', encoding='utf-8')
 
