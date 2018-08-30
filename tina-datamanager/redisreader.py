@@ -35,7 +35,7 @@ def test():
     testredis.hmset(f'ft.{channel}.TEST', {"classification": 'Operational  Categorization Tier 2',
                                            "columns": 'Summary;Notes', 'datasetName': 'bnp', 'version': 1})
     testpubsub = redis.Redis(host=redis_host, decode_responses=True, port=6379)
-    testpubsub.publish(f'ft.{channel}.TEST', f'ft.{channel}TEST')
+    testpubsub.publish(f'ft.{channel}.TEST', f'ft.{channel}.TEST')
 
 
 class Listener(threading.Thread):
