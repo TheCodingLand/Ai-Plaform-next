@@ -18,7 +18,7 @@ class worker():
     textcolumns = "Summary;Notes"
     filename = "dataset.ft"
     percentkept = 100
-    def __init__(self, config):
+    def __init__(self, thread, config):
         print (config)
         if 'classification' in config.keys():
             self.classificationcolomn= config['classification']
@@ -33,6 +33,7 @@ class worker():
         if 'version' in config.keys():
             self.version = config['version']
         self.jsonFile=self.filename
+        thread.pubsub.publish('')
         
         
         #self.buildTrainingData()

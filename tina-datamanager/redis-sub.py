@@ -30,21 +30,21 @@ redis_host=os.getenv('REDIS_HOST')
 
 
 class Listener(threading.Thread):
-    def __init__(self, r, channels):
+    def __init__(self, r, channel):
         threading.Thread.__init__(self)
         
         self.redis_in = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=1)
         self.redis_out = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=2)
         self.redis = r
         self.pubsub = self.redis.pubsub()
-        self.pubsub.subscribe(channels)
+        self.pubsub.subscribe('ft.channel*')
 
     
     def work(self, item):
         logging.info(item['channel'] + " : " + item['data'])
         config = self.redis_in.hmget(item['channel'], item['data'])
         #config = { "classification" : 'Operational  Categorization Tier 2', "columns" : 'Summary;Notes', 'datasetName' : 'bnp', 'version' : 1 }
-        worker.worker(config)
+        worker.worker(self,config)
         worker.run()
         
 
