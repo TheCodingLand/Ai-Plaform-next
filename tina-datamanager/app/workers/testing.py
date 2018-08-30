@@ -6,7 +6,7 @@ logger = logging.getLogger()
 import time
 
 from app.ft.model import Model
-from app.ft.dataset import Dataset
+from app.ft.FBfasttext import Dataset
 
 
 class worker():
