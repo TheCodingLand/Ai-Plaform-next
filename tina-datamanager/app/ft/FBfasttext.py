@@ -191,12 +191,10 @@ class Model(object):
         results = []
         i=0
         for prediction in predictions[0]:
-            if len(prediction) == 2:
-
-                result = {"category": prediction,
-                          "confidence": predictions[1][i]}
-                results.append(result)
-                i=i+1
+            result = {"category": prediction,
+                        "confidence": predictions[1][i]}
+            results.append(result)
+            i=i+1
                 
 
         return results
