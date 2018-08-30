@@ -1,6 +1,7 @@
 import json, re
 from bs4 import BeautifulSoup
 import os
+import time
 from pymongo import MongoClient
 USER = os.environ.get('ME_CONFIG_BASICAUTH_USERNAME')
 PASS = os.environ.get('ME_CONFIG_BASICAUTH_PASSWORD')
@@ -18,7 +19,7 @@ class worker():
     textcolumns = "Summary;Notes"
     filename = "dataset.ft"
     percentkept = 100
-    def __init__(self, thread, config):
+    def __init__(self, channel, thread, config):
         print (config)
         if 'classification' in config.keys():
             self.classificationcolomn= config['classification']
@@ -33,7 +34,16 @@ class worker():
         if 'version' in config.keys():
             self.version = config['version']
         self.jsonFile=self.filename
-        thread.pubsub.publish('')
+
+        #log 
+        k = thread.redis_in.hgetall(key)
+        k['state']= 'in progress'
+        
+        timestamp = time.time()
+        k['started'] = timestamp
+        thread.redis_out.hmset(item['channel'], )
+        thread.pubsub.publish(item['channel'],item['channel'])
+
         
         
         #self.buildTrainingData()

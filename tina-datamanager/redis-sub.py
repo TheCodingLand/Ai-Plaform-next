@@ -37,14 +37,16 @@ class Listener(threading.Thread):
         self.redis_out = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=2)
         self.redis = r
         self.pubsub = self.redis.pubsub()
-        self.pubsub.subscribe('ft.channel*')
+        self.pubsub.subscribe(f'ft.{channel}*')
 
     
     def work(self, item):
         logging.info(item['channel'] + " : " + item['data'])
+        
         config = self.redis_in.hmget(item['channel'], item['data'])
+        
         #config = { "classification" : 'Operational  Categorization Tier 2', "columns" : 'Summary;Notes', 'datasetName' : 'bnp', 'version' : 1 }
-        worker.worker(self,config)
+        worker.worker(self,item['channel'],config)
         worker.run()
         
 
