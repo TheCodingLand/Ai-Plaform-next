@@ -33,7 +33,7 @@ def test():
     testredis = redis.StrictRedis(
         host=redis_host, decode_responses=True, port=6379, db=1)
     testredis.hmset(f'ft.{channel}.TEST', {"classification": 'Operational  Categorization Tier 2',
-                                           "columns": 'Summary;Notes', 'datasetName': 'bnp', 'version': 1})
+                                           "columns": 'Summary;Notes', 'datasetName': 'bnp', 'version': 99})
     testpubsub = redis.Redis(host=redis_host, decode_responses=True, port=6379)
     testpubsub.publish(f'ft.{channel}.TEST', f'ft.{channel}.TEST')
 
