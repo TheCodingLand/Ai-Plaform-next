@@ -58,7 +58,6 @@ class Listener(threading.Thread):
                 print(self, "unsubscribed and finished")
                 break
             else:
-
                 self.work(item)
 
 
