@@ -90,7 +90,7 @@ class Model(object):
         model = fastText.train_supervised(input=trainingfile.fullpath, epoch=self.epochs,
                                           lr=self.learningRate, wordNgrams=self.ngrams, verbose=2, minCount=1)
 
-        model.save_model(self.filepath)
+        model.save_model(self.filepath+'.bin')
         logger.warning("Finished training model")
         database.writeModel(self)
 
