@@ -2,7 +2,7 @@ import redis
 import os
 import threading
 import logging
-
+import time
 
 channel = os.getenv('CHANNEL')
 
