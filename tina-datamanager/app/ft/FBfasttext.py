@@ -138,6 +138,7 @@ class Model(object):
             lab = result[0][0]
             print lab
             conf = result[1][0]
+            print conf
             p = prediction(result, label, 0)
 
             logger.debug(
