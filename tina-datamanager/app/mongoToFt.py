@@ -1,65 +1,66 @@
-import json, re
+import json
+import re
 from bs4 import BeautifulSoup
 import os
 import time
 from pymongo import MongoClient
 USER = os.environ.get('ME_CONFIG_BASICAUTH_USERNAME')
 PASS = os.environ.get('ME_CONFIG_BASICAUTH_PASSWORD')
-MONGODB_SERVER=os.environ.get('MONGODB_SERVER')
+MONGODB_SERVER = os.environ.get('MONGODB_SERVER')
 from app.client import client
 #client = MongoClient('mongodb://%s:%s@%s' % (USER, PASS, MONGODB_SERVER),27017)
-#client = MongoClient('mongodb://%s:%s@tina.ctg.lu' % (username, password),27017) #if you open mongo port, you can run this from outside the docker env. not recommended, good for debugging
+# client = MongoClient('mongodb://%s:%s@tina.ctg.lu' % (username, password),27017) #if you open mongo port, you can run this from outside the docker env. not recommended, good for debugging
 db = client['rawdata']
 collection_bnp = db['bnp']
 
 
 class worker():
-    
+
     classificationcolomn = ""
     textcolumns = ""
     filename = "dataset.ft"
     percentkept = 100
+
     def __init__(self, key, thread, config):
-        print (config)
+        print(config)
         #ex :"Assigned Group"
         if 'classification' in config.keys():
-            self.classificationcolomn= config['classification']
-        
+            self.classificationcolomn = config['classification']
+
         if 'columns' in config.keys():
             self.textcolumns = config['columns']
         #ex :"Summary;Notes"
-        self.columns = self.textcolumns.split(';')   
+        self.columns = self.textcolumns.split(';')
         print(self.columns)
         if 'datasetName' in config.keys():
             self.datasetName = config['datasetName']
         if 'version' in config.keys():
             self.version = config['version']
-        self.jsonFile=self.filename
+        self.jsonFile = self.filename
 
-        #log 
+        # log
 
         k = thread.redis_in.hgetall(key)
-        k['state']= 'in progress'
-        
+        k['state'] = 'in progress'
+
         timestamp = time.time()
         k['started'] = timestamp
-        thread.redis_out.hmset(item['channel'], )
-        thread.pubsub.publish(item['channel'],item['channel'])
+        thread.redis_out.hmset(key, )
+        thread.pubsub.publish(key, key)
 
-        
-        
-        #self.buildTrainingData()
+        # self.buildTrainingData()
 
-#script will Probably get this from a configuration file / redis key 
+# script will Probably get this from a configuration file / redis key
+
     def preparedata(self, s):
         """
         Given a text, cleans and normalizes it.
         """
-        
+
         try:
             soup = BeautifulSoup(s)
-            text =soup.get_text()
-            s=text
+            text = soup.get_text()
+            s = text
         except:
             s = s
 
@@ -68,12 +69,12 @@ class worker():
         # s = re.sub(r'\n', ' ', s)
         # s = re.sub(r'\r\n', ' ', s)
         s = re.sub(r'&nbsp;', ' ', s)
-        s= re.sub(r'&#09;&#09;', ' ', s)
+        s = re.sub(r'&#09;&#09;', ' ', s)
         s = re.sub(r'<p>', ' ', s)
         s = re.sub(r'</p>', ' ', s)
         s = re.sub(r'\«', ' ', s)
         s = re.sub(r'\»', ' ', s)
-        s = re.sub(r'/<img .*?>/g'," ", s)
+        s = re.sub(r'/<img .*?>/g', " ", s)
         s = re.sub(r'\[cid:.*?\]', " ", s)
         s = re.sub(r'\_', ' ', s)
         #s = re.sub(r'\-', ' ', s)
@@ -101,20 +102,18 @@ class worker():
         s = re.sub(r'[0-9]{2,}\s', ' ', s)
         s = re.sub(r'\"', ' ', s)
         s = re.sub(r'\#', ' ', s)
-        s = re.sub(r'\s+', ' ', s)    
-        return s   
+        s = re.sub(r'\s+', ' ', s)
+        return s
 
     def removeShort(self, text):
         t = text.split(' ')
-        result= []
+        result = []
         for s in t:
-            if len(s)>1:
+            if len(s) > 1:
                 result.append(s)
-        
+
         result = ' '.join(result)
         return result
-
-
 
     """ def run(self):
         with open(self.jsonFile) as json_file: 
@@ -162,33 +161,33 @@ class worker():
                 if len(txt.split()) > 10:
                     ftdata.write(txt)
             ftdata.close() """
+
     def run(self):
         i = 0
-        ftdata = open(f'{self.filename}{self.classificationcolomn}.fasttext', 'w', encoding='utf-8')
-        
-        
-        
-        #TODO: This is horrible. probably way better ways to do this
+        ftdata = open(
+            f'{self.filename}{self.classificationcolomn}.fasttext', 'w', encoding='utf-8')
+
+        # TODO: This is horrible. probably way better ways to do this
         for entry in collection_bnp.find():
             i = i+1
             text = ""
-            for key, value in entry.items(): 
+            for key, value in entry.items():
                 if key == self.classificationcolomn:
-                    category = value.replace(' ','_')
+                    category = value.replace(' ', '_')
                 else:
                     if key in self.columns:
                         if value == None:
                             value = ""
                         else:
-                            value = self.preparedata(value)  
+                            value = self.preparedata(value)
                             if len(value) > 0:
                                 if value[0] == ' ':
                                     value = value[1:]
-                                text = f'{text} {value}'   
+                                text = f'{text} {value}'
             fulltext = text
-            txt= f'__label__{category!s} {fulltext!s} \n'
+            txt = f'__label__{category!s} {fulltext!s} \n'
             if len(txt.split()) > 10:
                 ftdata.write(txt)
         ftdata.close()
 
-#This, we should get from the redis key
+# This, we should get from the redis key
