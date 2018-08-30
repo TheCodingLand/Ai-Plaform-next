@@ -1,7 +1,7 @@
 import json
 
 
-from app.ft.model import Model
+from app.ft.FBfasttext import Model
 from app.ft.dataset import Dataset
 import os
 import time
