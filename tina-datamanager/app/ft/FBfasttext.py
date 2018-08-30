@@ -29,7 +29,7 @@ class prediction():
 
     def __init__(self, prediction, correct, k):
         self.name = prediction[0][k]
-        self.confidence = prediction[k][1]
+        self.confidence = prediction[1]][k]
         self.correct = correct
 
 
@@ -100,46 +100,46 @@ class Model(object):
         logger.info(
             f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.ngrams!s}')
 
-        model = fastText.train_supervised(input=trainingfile.fullpath, epoch=self.epochs,
-                                          lr=self.learningRate, wordNgrams=self.ngrams, verbose=2, minCount=1)
+        model=fastText.train_supervised(input = trainingfile.fullpath, epoch = self.epochs,
+                                          lr = self.learningRate, wordNgrams = self.ngrams, verbose = 2, minCount = 1)
 
         model.save_model(self.filepath+'.bin')
         logger.warning("Finished training model")
         database.writeModel(self)
 
-    def testRun(self, dataf, threshold, delete=False):
-        """this takes a model, and tests it with various paramaters. returns a result dictionnary, 
+    def testRun(self, dataf, threshold, delete = False):
+        """this takes a model, and tests it with various paramaters. returns a result dictionnary,
         { total : 133, threshold: 85, ignoredEntries : 10, success: 110, failures : 13 }"""
 
         logger.info(self.filepath)
 
-        threshold = threshold/100
-        model = fastText.load_model(self.filepath+'.bin')
+        threshold=threshold/100
+        model=fastText.load_model(self.filepath+'.bin')
         if dataf.splitted == True:
-            f = f"{dataf.fullpath}.test"
+            f=f"{dataf.fullpath}.test"
         else:
-            f = dataf.fullpath
-        data = open(f, 'r').readlines()
-        i = 0
-        correct = 0
-        percent = 0
-        predictions = []
+            f=dataf.fullpath
+        data=open(f, 'r').readlines()
+        i=0
+        correct=0
+        percent=0
+        predictions=[]
         for line in data:
-            i = i+1
+            i=i+1
 
-            words = line.split(' ')
-            label = words[0]  # label is always the first "word"
-            line = line.replace(label+' ', '')
-            line = line.replace('\n', '')
+            words=line.split(' ')
+            label=words[0]  # label is always the first "word"
+            line=line.replace(label+' ', '')
+            line=line.replace('\n', '')
             # testing only the text, so we remove the label info
-            label = label.replace('__label__', '')
-            result = model.predict(line, k=1)
+            label=label.replace('__label__', '')
+            result=model.predict(line, k = 1)
             print(result)
-            lab = result[0][0]
+            lab=result[0][0]
             print(lab)
-            conf = result[1][0]
+            conf=result[1][0]
             print(conf)
-            p = prediction(result, label, 0)
+            p=prediction(result, label, 0)
 
             logger.debug(
                 f"text: {line}, confidence : {p.confidence}, predicted : {p.name}, reality : {p.correct}")
