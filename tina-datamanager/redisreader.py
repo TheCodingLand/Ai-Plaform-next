@@ -43,7 +43,8 @@ class Listener(threading.Thread):
         self.pubsub.psubscribe(f'ft.{channel}*')
 
     def work(self, item):
-        logging.info(item['channel'], " : ", item['data'])
+        logging.info(item['channel'])
+        logging.info(item['data'])
 
         config = self.redis_in.hmget(item['channel'], item['data'])
         #config = { "classification" : 'Operational  Categorization Tier 2', "columns" : 'Summary;Notes', 'datasetName' : 'bnp', 'version' : 1 }
