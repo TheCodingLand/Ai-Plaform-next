@@ -40,15 +40,16 @@ class Listener(threading.Thread):
 
         self.redis = r
         self.pubsub = self.redis.pubsub()
-        self.pubsub.psubscribe({f'ft.{channel}*': self.work})
+        self.pubsub.psubscribe([f'ft.{channel}*'])
 
     def work(self, item):
         logging.info(item['channel'])
         logging.info(item['data'])
 
         config = self.redis_in.hmget(item['channel'], item['data'])
+
         # config = { "classification" : 'Operational  Categorization Tier 2', "columns" : 'Summary;Notes', 'datasetName' : 'bnp', 'version' : 1 }
-        job = worker.worker(self, item['channel'], config)
+        job = worker.worker(item['channel'], self, config)
 
         job.run()
 
