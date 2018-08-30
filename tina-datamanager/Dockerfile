@@ -3,7 +3,9 @@ FROM python:latest
 RUN apt-get update && apt-get install -y \
         build-essential \
         wget \
-        git
+        git \
+        python3-dev \
+        unixodbc-dev
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
