@@ -28,7 +28,7 @@ class prediction():
     correct = ""
 
     def __init__(self, prediction, correct, k):
-        self.name = prediction[k][0]
+        self.name = prediction[0][k]
         self.confidence = prediction[k][1]
         self.correct = correct
 
@@ -135,6 +135,9 @@ class Model(object):
             label = label.replace('__label__', '')
             result = model.predict(line, k=1)
             print(result)
+            lab = result[0][0]
+            print lab
+            conf = result[1][0]
             p = prediction(result, label, 0)
 
             logger.debug(
