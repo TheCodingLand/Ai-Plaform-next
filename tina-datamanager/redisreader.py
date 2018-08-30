@@ -43,7 +43,7 @@ class Listener(threading.Thread):
         self.pubsub.subscribe(f'ft.{channel}*')
 
     def work(self, item):
-        logging.info(item['channel'] + " : " + item['data'])
+        logging.info(item['channel'], " : ", item['data'])
 
         config = self.redis_in.hmget(item['channel'], item['data'])
 
