@@ -74,8 +74,6 @@ class worker():
             m.load()
             loadedModels.update({f"{id}": m})
 
-        thread.redis_out.hmset(self.id, self.config)
-        thread.redis_out.publish(self.id, self.id)
         self.ftmodel = json.loads(self.config.get('model'))
         self.ds = json.loads(self.config.get('dataset'))
 
