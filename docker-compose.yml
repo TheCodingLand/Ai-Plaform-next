@@ -218,7 +218,7 @@ services:
       - ai-internal
 
  prediction-worker:
-    build: ./tina-worker
+    build: ./tina-datamanager
     volumes:
       - tina_data:/data/
     environment:
