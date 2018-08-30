@@ -35,8 +35,7 @@ def test():
     testredis.hmset(f'ft.{channel}TEST', {"classification": 'Operational  Categorization Tier 2',
                                           "columns": 'Summary;Notes', 'datasetName': 'bnp', 'version': 1})
     testpubsub = redis.Redis(host=redis_host, decode_responses=True, port=6379)
-    pb = testpubsub.pubsub()
-    pb.publish(f'ft.{channel}TEST', f'ft.{channel}TEST')
+    testpubsub.publish(f'ft.{channel}TEST', f'ft.{channel}TEST')
 
 
 class Listener(threading.Thread):
@@ -51,6 +50,8 @@ class Listener(threading.Thread):
         self.redis = r
         self.pubsub = self.redis.pubsub()
         self.pubsub.psubscribe([f'ft.{channel}*'])
+        time.sleep(5)
+        test()
 
     def work(self, item):
         logging.info(item['channel'])
@@ -80,5 +81,3 @@ if __name__ == "__main__":
     else:
         logging.error(
             "ERROR : No Channel Defined. Please register CHANNEL environment variable")
-    time.sleep(5)
-    test()
