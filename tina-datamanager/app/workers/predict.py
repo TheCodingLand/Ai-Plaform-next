@@ -58,6 +58,8 @@ class worker():
         self.config = thread.redis_in.hgetall(key)
 
         print(self.config)
+        if 'id' in self.config.keys():
+            self.id = self.config['id']
         if 'modelid' in self.config.keys():
             self.modelid = self.config['modelid']
         if 'text' in self.config.keys():
@@ -72,8 +74,8 @@ class worker():
             m.load()
             loadedModels.update({f"{id}": m})
 
-        thread.redis_out.hmset(self.config.id, self.config)
-        thread.redis_out.publish(self.config.id, self.config.id)
+        thread.redis_out.hmset(self.id, self.config)
+        thread.redis_out.publish(self.id, self.id)
         self.ftmodel = json.loads(key.get('model'))
         self.ds = json.loads(key.get('dataset'))
 
