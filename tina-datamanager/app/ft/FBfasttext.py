@@ -136,9 +136,9 @@ class Model(object):
             result = model.predict(line, k=1)
             print(result)
             lab = result[0][0]
-            print lab
+            print(lab)
             conf = result[1][0]
-            print conf
+            print(conf)
             p = prediction(result, label, 0)
 
             logger.debug(
