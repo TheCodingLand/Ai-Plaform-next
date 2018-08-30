@@ -3,21 +3,21 @@ import os
 import threading
 import logging
 import time
-
+from app import client as db
 channel = os.getenv('CHANNEL')
 
 WORKER = os.getenv('WORKER')
 channel = WORKER
-""" if WORKER == "predict":
-    import app.predict as worker
+if WORKER == "predict":
+    import app.workers.predict as worker
 if WORKER == "training":
-    import app.training as worker
+    import app.workers.training as worker
 if WORKER == "testing":
-    import app.testing as worker
+    import app.workers.testing as worker
 if WORKER == "optimize":
-    import app.optimize as worker """
+    import app.workers.optimize as worker
 if WORKER == "datasetbuilder":
-    import app.mongoToFt as worker
+    import app.workers.mongoToFt as worker
 
 logger = logging.getLogger()
 handler = logging.StreamHandler()
@@ -41,7 +41,7 @@ def test():
 class Listener(threading.Thread):
     def __init__(self, r, channel):
         threading.Thread.__init__(self)
-
+        self.database = db
         self.redis_in = redis.StrictRedis(
             host=redis_host, decode_responses=True, port=6379, db=1)
         self.redis_out = redis.StrictRedis(
@@ -58,13 +58,12 @@ class Listener(threading.Thread):
         logging.info(item['channel'])
         logging.info(item['data'])
         if item['data'] != 1:
-            config = self.redis_in.hgetall(item['channel'])
-
-            logging.info(config)
-        # config = { "classification" : 'Operational  Categorization Tier 2', "columns" : 'Summary;Notes', 'datasetName' : 'bnp', 'version' : 1 }
-            job = worker.worker(item['channel'], self, config)
-
-            job.run()
+            job = worker.worker(item['channel'], self)
+            result = job.run()
+            # write result database and notify redis of new info
+            self.database.results.insert_one(result)
+            self.redis_out.hmset(result['id'], result)
+            self.redis_out.publish(result['id'], result['id'])
 
     def run(self):
         for item in self.pubsub.listen():
