@@ -8,6 +8,7 @@ channel = os.getenv('CHANNEL')
 
 WORKER = os.getenv('WORKER')
 channel = WORKER
+
 if WORKER == "predict":
     import app.workers.predict as worker
 if WORKER == "training":
