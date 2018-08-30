@@ -2,22 +2,53 @@ import redis
 import os
 import threading
 import logging 
-channels = os.environ['REDIS_CHANNELS']
 
 
-import export from src.export
-import jsonToFt from src.jsonToFt
+channel = os.environ['CHANNEL']
+
+WORKER =  os.environ['WORKER']
+
+""" if WORKER == "predict":
+    import app.predict as worker
+if WORKER == "training":
+    import app.training as worker
+if WORKER == "testing":
+    import app.testing as worker
+if WORKER == "optimize":
+    import app.optimize as worker """
+if WORKER == "datasetbuilder":
+    import app.mongoToFt as worker
+
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+formatter = logging.Formatter(
+        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
+redis_host=os.getenv('REDIS_HOST')
+
 
 class Listener(threading.Thread):
     def __init__(self, r, channels):
         threading.Thread.__init__(self)
+        
+        self.redis_in = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=1)
+        self.redis_out = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=2)
         self.redis = r
+        
         self.pubsub = self.redis.pubsub()
         self.pubsub.subscribe(channels)
+
     
     def work(self, item):
         logging.info(item['channel'] + " : " + item['data'])
+        config = self.redis_in.hmget(item['channel'], item['data'])
+        #config = { "classification" : 'Operational  Categorization Tier 2', "columns" : 'Summary;Notes', 'datasetName' : 'bnp', 'version' : 1 }
+        worker.worker(config)
         
+
+
     def run(self):
         for item in self.pubsub.listen():
             if item['data'] == "KILL":
@@ -29,10 +60,10 @@ class Listener(threading.Thread):
 
 if __name__ == "__main__":
     r = redis.Redis()
-    if len(channels) >0
-        client = Listener(r, channels)
+    if channel:
+        client = Listener(r, channel)
         client.start()
         
         
     else:
-        logging.error("ERROR : No Channels Defined. Please register REDIS_CHANNELS environment variable")
+        logging.error("ERROR : No Channel Defined. Please register CHANNEL environment variable")

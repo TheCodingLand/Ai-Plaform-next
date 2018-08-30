@@ -7,7 +7,7 @@ database = db()
 import os
 import json
 
-action = os.getenv('ACTION')
+action = os.getenv('WORKER')
 if action == "predict":
     import app.predict as actions
 if action == "training":

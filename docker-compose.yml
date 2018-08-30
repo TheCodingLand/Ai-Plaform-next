@@ -196,9 +196,22 @@ services:
       - tina_data:/data/
     environment:
       - REDIS_HOST=${REDIS_HOST}
-      - ACTION=training
+      - WORKER=training
       - MONGODB_SERVER=${MONGODB_SERVER}
       - LOGLEVEL=${TRAIN_LOGLEVEL}
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
+ data-worker:
+    build: ./tina-datamanager
+    volumes:
+      - tina_data:/data/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - WORKER=datasetbuilder
+      - MONGODB_SERVER=${MONGODB_SERVER}
+      - LOGLEVEL=${DATA_LOGLEVEL}
     links:
       - tina-redis
     networks:
@@ -210,7 +223,7 @@ services:
       - tina_data:/data/
     environment:
       - REDIS_HOST=${REDIS_HOST}
-      - ACTION=predict
+      - WORKER=predict
       - MONGODB_SERVER=${MONGODB_SERVER}
       - LOGLEVEL=${PRED_LOGLEVEL}
     links:
@@ -223,7 +236,7 @@ services:
       - tina_data:/data/
     environment:
       - REDIS_HOST=${REDIS_HOST}
-      - ACTION=testing
+      - WORKER=testing
       - MONGODB_SERVER=${MONGODB_SERVER}
       - LOGLEVEL=${TEST_LOGLEVEL}
     links:

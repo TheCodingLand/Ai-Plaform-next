@@ -5,17 +5,17 @@ from pymongo import MongoClient
 USER = os.environ.get('ME_CONFIG_BASICAUTH_USERNAME')
 PASS = os.environ.get('ME_CONFIG_BASICAUTH_PASSWORD')
 MONGODB_SERVER=os.environ.get('MONGODB_SERVER')
-client = MongoClient('mongodb://%s:%s@%s' % (username, password, MONGODB_SERVER),27017)
+client = MongoClient('mongodb://%s:%s@%s' % (USER, PASS, MONGODB_SERVER),27017)
 #client = MongoClient('mongodb://%s:%s@tina.ctg.lu' % (username, password),27017) #if you open mongo port, you can run this from outside the docker env. not recommended, good for debugging
 db = client['rawdata']
 collection_bnp = db['bnp']
 
 
-class ftConverter():
+class worker():
     
     classificationcolomn = "Assigned Group"
     textcolumns = "Summary;Notes"
-    filename = "dataset."
+    filename = "dataset.ft"
     percentkept = 100
     def __init__(self, config):
         print (config)
@@ -27,11 +27,13 @@ class ftConverter():
         
         self.columns = self.textcolumns.split(';')   
         print(self.columns)
-        if 'filename' in config.keys():
-            self.filename = config['filename']
+        if 'datasetName' in config.keys():
+            self.datasetName = config['datasetName']
+        if 'version' in config.keys():
+            self.version = config['version']
         self.jsonFile=self.filename
         
-        self.buildFromMongoCollection()
+        
         #self.buildTrainingData()
 
 #script will Probably get this from a configuration file / redis key 
@@ -100,11 +102,11 @@ class ftConverter():
 
 
 
-    def buildTrainingData(self):
+    """ def run(self):
         with open(self.jsonFile) as json_file: 
         #raw should be an array of objevts with fields dict["Title"] dict["Description"] and dict["AssociatedCategory"] for example
             raw = json.load(json_file)
-            ftdata = open(f'{self.filename}{self.classificationcolomn}.fasttext', 'w', encoding='utf-8')
+            ftdata = open(f'/data/{self.datasetName}/{self.version}/{self.filename}', 'w', encoding='utf-8')
             
             i = 0
             for entry in raw:
@@ -145,57 +147,36 @@ class ftConverter():
                 txt= f'__label__{category!s} {fulltext!s} \n'
                 if len(txt.split()) > 10:
                     ftdata.write(txt)
-            ftdata.close()
-    def buildFromMongoCollection(self):
+            ftdata.close() """
+    def run(self):
     
     
         i = 0
         ftdata = open(f'{self.filename}{self.classificationcolomn}.fasttext', 'w', encoding='utf-8')
-        for entry in collection_bnp.find():
-    # do stuff with your record
-        #raw should be an array of objevts with fields dict["Title"] dict["Description"] and dict["AssociatedCategory"] for example
-            
         
+        
+        
+        #TODO: This is horrible. probably way better ways to do this
+        for entry in collection_bnp.find():
             i = i+1
-            
             text = ""
-            for key, value in entry.items():
-                
+            for key, value in entry.items(): 
                 if key == self.classificationcolomn:
                     category = value.replace(' ','_')
                 else:
-                
                     if key in self.columns:
                         if value == None:
                             value = ""
                         else:
-                            value = self.preparedata(value)
-                            #value = self.removeShort(value)  
+                            value = self.preparedata(value)  
                             if len(value) > 0:
-
                                 if value[0] == ' ':
                                     value = value[1:]
-                                text = f'{text} {value}'
-                    
-            #subject = entry['Title']
-            #body = entry['Description']
-            #category= entry['AssociatedCategory']
-            
-            #body = preparedata(body)
-            #fulltext= f'{subject!s} {body!s}'
-            
-            #linearray = text.split(' ')
-            #we will not need all the email. Taking 75% of the words should cut most signatures / end of email garbage
-            #lwords = len(linearray)
-            #nbWords= int(lwords*self.percentkept/100)
+                                text = f'{text} {value}'   
             fulltext = text
-            #fulltext = ' '.join(linearray[0:nbWords])
             txt= f'__label__{category!s} {fulltext!s} \n'
             if len(txt.split()) > 10:
                 ftdata.write(txt)
         ftdata.close()
 
-config = { "classification" : 'Operational  Categorization Tier 2', "columns" : 'Summary;Notes' , "filename" : 'C:\\Users\\jlebourg\\Projects\\Data\\output.json' }
-print (config)
-
-ftConverter(config)
+#This, we should get from the redis key
