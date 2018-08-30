@@ -37,6 +37,7 @@ class Listener(threading.Thread):
             host=redis_host, decode_responses=True, port=6379, db=1)
         self.redis_out = redis.StrictRedis(
             host=redis_host, decode_responses=True, port=6379, db=2)
+
         self.redis = r
         self.pubsub = self.redis.pubsub()
         self.pubsub.subscribe(f'ft.{channel}*')
@@ -62,7 +63,7 @@ class Listener(threading.Thread):
 
 
 if __name__ == "__main__":
-    r = redis.Redis()
+    r = redis.Redis(host=redis_host)
     if channel:
         client = Listener(r, channel)
         client.start()
