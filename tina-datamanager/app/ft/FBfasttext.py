@@ -191,7 +191,7 @@ class Model(object):
         results = []
         i=0
         for prediction in predictions[0]:
-            result = {"category": prediction,
+            result = {"category": prediction.replace('__label__',''),
                         "confidence": predictions[1][i]}
             results.append(result)
             i=i+1
