@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel('WARNING')
 database = db()
 
-MODELDIR = "/data/models"
+MODELDIR = "/data/models" 
 
 
 class prediction():
@@ -29,6 +29,7 @@ class prediction():
 
     def __init__(self, prediction, correct, k):
         self.name = prediction[0][k]
+        self.name = self.name.replace("__label__", "")
         self.confidence = prediction[1][k]
         self.correct = correct
 
