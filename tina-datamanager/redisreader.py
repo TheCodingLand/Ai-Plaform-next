@@ -70,6 +70,8 @@ class Listener(threading.Thread):
                 self.pubsub.unsubscribe()
                 print(self, "unsubscribed and finished")
                 break
+            else:
+                self.work(item)
 
 
 if __name__ == "__main__":
