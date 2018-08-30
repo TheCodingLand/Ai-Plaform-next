@@ -50,8 +50,8 @@ class Listener(threading.Thread):
         self.redis = r
         self.pubsub = self.redis.pubsub()
         self.pubsub.psubscribe([f'ft.{channel}.*'])
-        time.sleep(5)
-        test()
+        # time.sleep(5)
+        # test()
 
     def work(self, item):
 
