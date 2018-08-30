@@ -165,7 +165,7 @@ class worker():
     def run(self):
         i = 0
         ftdata = open(
-            f'{self.filename}{self.classificationcolomn}.fasttext', 'w', encoding='utf-8')
+            f'/data/{self.datasetName}/{self.version}/{self.filename}', 'w', encoding='utf-8')
 
         # TODO: This is horrible. probably way better ways to do this
         for entry in collection_bnp.find():
