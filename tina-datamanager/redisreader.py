@@ -57,9 +57,9 @@ class Listener(threading.Thread):
 
         logging.info(item['channel'])
         logging.info(item['data'])
+        if item['data'] != 1:
+            config = self.redis_in.hgetall(item['channel'])
 
-        config = self.redis_in.hgetall(item['channel'])
-        if config[0] != None:
             logging.info(config)
         # config = { "classification" : 'Operational  Categorization Tier 2', "columns" : 'Summary;Notes', 'datasetName' : 'bnp', 'version' : 1 }
             job = worker.worker(item['channel'], self, config)
