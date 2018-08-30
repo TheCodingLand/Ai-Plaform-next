@@ -35,8 +35,8 @@ class worker():
         self.config['started'] = timestamp
         thread.redis_out.hmset(key, self.config)
         thread.redis_out.publish(key, key)
-        self.ftmodel = json.loads(key.get('model'))
-        self.ds = json.loads(key.get('dataset'))
+        self.ftmodel = json.loads(self.config.get('model'))
+        self.ds = json.loads(self.config.get('dataset'))
 
     def run(self):
         m = Model()
