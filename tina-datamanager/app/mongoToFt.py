@@ -15,11 +15,11 @@ collection_bnp = db['bnp']
 
 class worker():
     
-    classificationcolomn = "Assigned Group"
-    textcolumns = "Summary;Notes"
+    classificationcolomn = ""
+    textcolumns = ""
     filename = "dataset.ft"
     percentkept = 100
-    def __init__(self, channel, thread, config):
+    def __init__(self, key, thread, config):
         print (config)
         #ex :"Assigned Group"
         if 'classification' in config.keys():
