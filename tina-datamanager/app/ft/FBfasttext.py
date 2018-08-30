@@ -29,7 +29,7 @@ class prediction():
 
     def __init__(self, prediction, correct, k):
         self.name = prediction[0][k]
-        self.confidence = prediction[1]][k]
+        self.confidence = prediction[1][k]
         self.correct = correct
 
 
