@@ -4,7 +4,7 @@
 import json
 import os
 import re
-from fastText import fastText
+import fastText
 import logging
 import glob
 import os
