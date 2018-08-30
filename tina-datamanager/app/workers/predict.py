@@ -67,10 +67,10 @@ class worker():
         if 'nbofresults' in self.config.keys():
             self.nbofresults = int(self.config['nbofresults'])
 
-        if modelid in loadedModels.keys():
-            m = loadedModels.get(modelid)
+        if self.modelid in loadedModels.keys():
+            m = loadedModels.get(self.modelid)
         else:
-            m = Model(modelid)
+            m = Model(self.modelid)
             m.load()
             loadedModels.update({f"{id}": m})
 
