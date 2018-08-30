@@ -2,7 +2,7 @@ import json
 import os
 import time
 
-from app.ft.model import Model
+from app.ft.FBfasttext import Model
 from app.ft.dataset import Dataset
 import logging
 
