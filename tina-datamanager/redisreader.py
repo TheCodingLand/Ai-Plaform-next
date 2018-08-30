@@ -58,7 +58,7 @@ class Listener(threading.Thread):
         logging.info(item['channel'])
         logging.info(item['data'])
 
-        config = self.redis_in.hmget(item['channel'], item['data'])
+        config = self.redis_in.hgetall(item['channel'])
         if config[0] != None:
             logging.info(config)
         # config = { "classification" : 'Operational  Categorization Tier 2', "columns" : 'Summary;Notes', 'datasetName' : 'bnp', 'version' : 1 }
