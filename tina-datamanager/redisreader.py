@@ -40,7 +40,7 @@ class Listener(threading.Thread):
 
         self.redis = r
         self.pubsub = self.redis.pubsub()
-        self.pubsub.psubscribe({f'ft.{channel}*': self.work)
+        self.pubsub.psubscribe({f'ft.{channel}*': self.work})
 
     def work(self, item):
         logging.info(item['channel'])
@@ -58,7 +58,6 @@ class Listener(threading.Thread):
                 self.pubsub.unsubscribe()
                 print(self, "unsubscribed and finished")
                 break
-
 
 
 if __name__ == "__main__":
