@@ -6,7 +6,7 @@ from pymongo import MongoClient
 USER = os.environ.get('ME_CONFIG_BASICAUTH_USERNAME')
 PASS = os.environ.get('ME_CONFIG_BASICAUTH_PASSWORD')
 MONGODB_SERVER=os.environ.get('MONGODB_SERVER')
-import client from app.client
+from app.client import client
 #client = MongoClient('mongodb://%s:%s@%s' % (USER, PASS, MONGODB_SERVER),27017)
 #client = MongoClient('mongodb://%s:%s@tina.ctg.lu' % (username, password),27017) #if you open mongo port, you can run this from outside the docker env. not recommended, good for debugging
 db = client['rawdata']
@@ -21,12 +21,13 @@ class worker():
     percentkept = 100
     def __init__(self, channel, thread, config):
         print (config)
+        #ex :"Assigned Group"
         if 'classification' in config.keys():
             self.classificationcolomn= config['classification']
         
         if 'columns' in config.keys():
             self.textcolumns = config['columns']
-        
+        #ex :"Summary;Notes"
         self.columns = self.textcolumns.split(';')   
         print(self.columns)
         if 'datasetName' in config.keys():
@@ -36,6 +37,7 @@ class worker():
         self.jsonFile=self.filename
 
         #log 
+
         k = thread.redis_in.hgetall(key)
         k['state']= 'in progress'
         
