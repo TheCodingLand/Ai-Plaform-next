@@ -190,7 +190,7 @@ services:
 
  ### WORKERS 
  training-worker:
-    build: ./tina-worker
+    build: ./tina-datamanager
     volumes:
       - tina_data:/data/
     environment:
