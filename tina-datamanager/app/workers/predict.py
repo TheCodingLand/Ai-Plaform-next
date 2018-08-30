@@ -70,15 +70,15 @@ class worker():
         if self.modelid in loadedModels.keys():
             m = loadedModels.get(self.modelid)
         else:
-            m = Model(self.modelid)
-            m.load()
-            loadedModels.update({f"{id}": m})
+            self.m = Model(self.modelid)
+            self.m.load()
+            loadedModels.update({f"{id}": self.m})
 
         #self.ftmodel = json.loads(self.config.get('model'))
         #self.ds = json.loads(self.config.get('dataset'))
 
     def run(self):
-        result = m.predict(
+        result = self.m.predict(
             text=self.text, nbpredictions=self.nbofresults)
         self.config['result'] = json.dumps(result)
         return self.config
