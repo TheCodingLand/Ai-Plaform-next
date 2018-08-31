@@ -53,7 +53,7 @@ const styles = theme => ({
   textFields: {
     paddingBottom: "10px",
     margin: theme.spacing.unit,
-
+    width: '100%',
     position: "relative"
   }
 
@@ -188,13 +188,45 @@ class RunTestingCard extends React.Component {
         </CardHeader>
         <CardBody>
           <GridContainer>
+            <GridItem xs={12} sm={12} md={3}>
+              <FormControl className={classes.formControl} error={this.state.modelErrorText != ''}>
+                <InputLabel htmlFor="model-id">Model</InputLabel>
+                <Select
+                  onChange={this.handleChangeSelect}
+                  value={this.state.model._id.$oid}
+                  input={<Input name="model" id="model-id" />}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {this.props.appdata.models ?
+                    this.getModels()
+                    : ""}
+                </Select>
+                <FormHelperText>{this.state.modelErrorText}</FormHelperText>
+              </FormControl>
+            </GridItem>
+            <GridItem xs={12} sm={12} md={6}>
+              <TextField
+                className={classes.textFields}
+                label="Column label :"
+                id="column"
+                disabled
+                value={this.state.model.model.label}
+                formControlProps={{
+                  fullWidth: true
+                }}
+              />
+            </GridItem>
 
-            <GridItem xs={12} sm={12} md={4}>
+            <GridItem xs={12} sm={12} md={12}>
               <TextField
                 error={this.state.textErrorText !== ''}
                 className={classes.textFields}
                 label="Text"
                 id="text"
+                multiline
+                rows={10}
                 value={this.state.text}
                 helperText={this.state.textErrorText}
                 onChange={this.handleChange('text')}
@@ -217,54 +249,15 @@ class RunTestingCard extends React.Component {
                 }}
               />
             </GridItem>
-            <GridItem xs={12} sm={12} md={6}>
-              <TextField
-                className={classes.textFields}
-                label="Column label :"
-                id="column"
-                disabled
-                value={this.state.model.model.label}
-                formControlProps={{
-                  fullWidth: true
-                }}
-              />
-            </GridItem>
+
 
 
           </GridContainer>
           <GridContainer>
 
 
-            <GridItem xs={12} sm={12} md={3}>
-              <FormControl className={classes.formControl} error={this.state.modelErrorText != ''}>
-                <InputLabel htmlFor="model-id">Model</InputLabel>
-                <Select
-                  onChange={this.handleChangeSelect}
-                  value={this.state.model._id.$oid}
-                  input={<Input name="model" id="model-id" />}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {this.props.appdata.models ?
-                    this.getModels()
-                    : ""}
-                </Select>
-                <FormHelperText>{this.state.modelErrorText}</FormHelperText>
-              </FormControl>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
-                className={classes.textFields}
-                label="model"
-                disabled
-                id="model"
-                value={this.state.model.model.name}
-                formControlProps={{
-                  fullWidth: true
-                }}
-              />
-            </GridItem>
+
+
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
                 className={classes.textFields}
