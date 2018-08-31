@@ -1,19 +1,21 @@
 
 import React from "react"
-import EventsProvider from 'components/Context/EventsProvider'
+import { EventsContext } from 'components/Context/EventsProvider'
 
 export default class Monitoring extends React.Component {
 
-    constructor(){
+    constructor() {
         super()
     }
     render() {
-        return (<EventsProvider.Consumer>{ ({events}) => {
-            <div>
-                {events.map((event) => <p>event</p>)}
-            </div>
-        }}
-            </EventsProvider.Consumer>
+        return (<div>
+            <EventsContext.Consumer>{context => {
+                <div>
+                    {context.events.map((event) => <p>{event.id}</p>)}
+                </div>
+            }}
+            </EventsContext.Consumer>
+        </div>
         )
     }
 

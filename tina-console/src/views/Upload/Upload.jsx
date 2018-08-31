@@ -4,8 +4,8 @@ import Button from 'components/CustomButtons/Button'
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import Card from "components/Card/Card.jsx";
-import CustomInput from 'components/CustomInput/CustomInput'
-import InputLabel from "@material-ui/core/InputLabel";
+import TextField from '@material-ui/core/TextField'
+import Typography from '@material-ui/core/Typography'
 import withStyles from "@material-ui/core/styles/withStyles";
 import 'react-dropzone-component/styles/filepicker.css'
 
@@ -42,6 +42,13 @@ const styles = theme => ({
     paddingBottom: "10px",
     margin: theme.spacing.unit,
 
+    position: "relative"
+  },
+  typography: {
+    marginTop: "32px",
+    paddingBottom: "10px",
+    margin: theme.spacing.unit,
+    display: 'inline-block',
     position: "relative"
   }
 
@@ -137,15 +144,12 @@ class Upload extends Component {
 
   validateForm() {
     let errors = {}
-    if (this.state.name._id.$oid === '') {
+    if (this.state.name === '') {
       errors = { ...errors, nameError: 'You must select a dataset !' }
       console.log("dataset not selected")
     }
 
-    if (this.state.version === '') {
-      errors = { ...errors, versionError: 'You must select a model !' }
-      console.log("model not selected")
-    }
+
 
 
     this.setState(errors)
@@ -190,38 +194,37 @@ class Upload extends Component {
             {this.state.valid ? <Button onClick={this.handlePost.bind(this)}>Start Upload</Button> : ""}
           </ul>
         </aside>
+
         <Card>
           <GridContainer>
-            <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
+            <GridItem xs={6} sm={6} md={3}>
+              <Typography className={classes.typography}>Create new collection :</Typography>
+            </GridItem>
+            <GridItem xs={6} sm={6} md={3}>
+
+              <TextField
                 className={classes.textFields}
-                labelText="name"
+                label="name"
                 id="name"
                 onChange={this.handleChange('name')}
                 formControlProps={{
                   fullWidth: true
                 }} />
-              <CustomInput
-                className={classes.textFields}
-                labelText="version"
-                id="version"
-                onChange={this.handleChange('version')}
-                formControlProps={{
-                  fullWidth: true
-                }} />
-              <CustomInput
-                className={classes.textFields}
-                labelText="type"
-                id="type"
-                onChange={this.handleChange('type')}
-                formControlProps={{
-                  fullWidth: true
-                }} />
-
-            </GridItem></GridContainer></Card>
+            </GridItem>
+            <GridItem xs={6} sm={6} md={3}>
+              <Typography className={classes.typography}>Or update existing :</Typography>
+            </GridItem>
+            <GridItem xs={6} sm={6} md={3}>
+              <Typography className={classes.typography}>Select</Typography>
+            </GridItem>
 
 
-      </section>
+
+
+          </GridContainer></Card>
+
+
+      </section >
     );
   }
 }
