@@ -45,10 +45,12 @@ class Monitoring extends React.Component {
                     fullWidth: true
                 }}
             />
+
             <SocketContext.Consumer>{socket => {
                 <Button onClick={() => socket.emit(this.state.command)}>TEST</Button>
             }}
             </SocketContext.Consumer>
+
         </div>
         )
     }
