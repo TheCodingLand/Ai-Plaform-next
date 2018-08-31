@@ -131,7 +131,7 @@ class Model(object):
             words=line.split(' ')
             label=words[0]  # label is always the first "word"
             line=line.replace(label+' ', '')
-            line=line.replace('\n', '')
+            line=line.replace('\n', ' ')
             # testing only the text, so we remove the label info
             label=label.replace('__label__', '')
             result=model.predict(line, k = 1)
@@ -186,6 +186,7 @@ class Model(object):
             return ['error', "please load model first"]
 
         logger.warning(f"making prediction for {text}")
+        text = text.replace('\n', ' ')
         predictions = self.ft.predict(text, k=nbpredictions)
         logger.warning(predictions)
         results = []
