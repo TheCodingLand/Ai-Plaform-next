@@ -245,9 +245,7 @@ class RunTrainingCard extends React.Component {
                 id="datasetversion"
                 disabled
                 value={this.state.dataset.dataset.version}
-                formControlProps={{
-                  fullWidth: true
-                }}
+
               />
             </GridItem>
             <GridItem xs={12} sm={6} md={3}>
