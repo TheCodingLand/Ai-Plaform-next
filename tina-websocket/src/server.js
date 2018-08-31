@@ -65,7 +65,7 @@ const makeRedisObj = (client, channel, message) => {
     var obj = Object.assign({},
         message,
         {
-            key: message.ia + '.testing.' + message.id,
+            key: message.ia + '.' + channel + '.' + message.id,
             action: channel
         }
     )
@@ -80,8 +80,6 @@ const makeRedisObj = (client, channel, message) => {
             }
         )
         console.log(obj)
-        clientSpecificRedisSub(client, obj)
-        return obj
 
     }
     if (channel === 'testing') {
@@ -93,21 +91,12 @@ const makeRedisObj = (client, channel, message) => {
             }
         )
 
-        clientSpecificRedisSub(client, obj)
-        return obj
     }
-    if (channel === 'predict') {
-        var obj = Object.assign({},
-            message,
-            {
-                key: message.ia + '.testing.' + message.id,
-                action: 'predict'
-            }
-        )
 
-        clientSpecificRedisSub(client, obj)
-        return obj
-    }
+
+    clientSpecificRedisSub(client, obj)
+    return obj
+
 
 }
 
