@@ -139,18 +139,22 @@ class RunTrainingCard extends React.Component {
     }; */
 
   handleChangeDataset(event) {
-    this.props.appdata.datasets.forEach(ds => {
+    if (this.props.appdata.datasets) {
+      this.props.appdata.datasets.forEach(ds => {
 
-      if (ds._id.$oid === event.target.value) {
-        this.setState({ [event.target.name]: ds });
-      }
-    })
-    this.props.appdata.models.forEach(ds => {
+        if (ds._id.$oid === event.target.value) {
+          this.setState({ [event.target.name]: ds });
+        }
+      })
+    }
+    if (this.props.appdata.models) {
+      this.props.appdata.models.forEach(ds => {
 
-      if (ds._id.$oid === event.target.value) {
-        this.setState({ [event.target.name]: ds });
-      }
-    })
+        if (ds._id.$oid === event.target.value) {
+          this.setState({ [event.target.name]: ds });
+        }
+      })
+    }
 
   };
 
