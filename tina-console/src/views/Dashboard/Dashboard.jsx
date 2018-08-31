@@ -70,7 +70,7 @@ class Dashboard extends React.Component {
                     <CardFooter stats>
                       <div className={classes.stats}>
                         <a href="#advanced" onClick={e => e.preventDefault()}>
-                          {result.model.model._id.$oid}
+                          {result.model._id.$oid}
         
                   </a>
                       </div>
