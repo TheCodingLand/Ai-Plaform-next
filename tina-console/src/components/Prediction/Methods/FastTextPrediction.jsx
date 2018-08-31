@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Fragment } from "react"
 import CustomInput from 'components/CustomInput/CustomInput'
 import InputLabel from "@material-ui/core/InputLabel"
 import withStyles from "@material-ui/core/styles/withStyles"
@@ -156,9 +156,9 @@ class RunTestingCard extends React.Component {
     }
   }
   eventRecieved(obj) {
-    //console.log(obj)
+    console.log(obj)
     if (obj.state === "finished") {
-      this.saveState({ predictStarted: false })
+      this.saveState({ result: obj.result })
     }
   }
 
@@ -292,13 +292,34 @@ class RunTestingCard extends React.Component {
                 label="Split Language ?"
               />
             </GridItem> */}
+
+
           </GridContainer>
 
         </CardBody>
         <CardFooter>
-          <EventsContext.Consumer>{context =>
-            this.state.trainingStarted ? <Button disabled>In Progress</Button> : <Button onClick={() => this.start(context)} color="success">Predict</Button>
+          <EventsContext.Consumer>{context => <Fragment>
+            {this.state.predictStarted ? <Button disabled>In Progress</Button> : <Button onClick={() => this.start(context)} color="success">Predict</Button>}
+
+            <GridItem xs={12} sm={12} md={12}>
+              <TextField
+                disabled
+                className={classes.textFields}
+                label="Results"
+                id="result"
+                multiline
+                rows={10}
+                value={this.state.result}
+
+
+                formControlProps={{
+                  fullWidth: true
+                }}
+              />
+            </GridItem>
+          </Fragment>
           }</EventsContext.Consumer>
+
         </CardFooter>
       </Card>
 
