@@ -64,7 +64,7 @@ function CustomInput({ ...props }) {
         id={id}
         disabled={disabled}
         value={value}
-        helperText={helperText}
+
 
         {...inputProps}
       />
