@@ -50,16 +50,16 @@ class Dashboard extends React.Component {
                 <GridItem xs={12} sm={12} md={12}>
                   Models:
                 </GridItem>
-                {this.top5(context.actions).map(result => <p>{result.result.percent}</p>)}
+                {this.top5(context.actions).map(result => 
                 <GridItem xs={12} sm={6} md={3}>
                   <Card>
                     <CardHeader color="success" stats icon>
                       <CardIcon color="success">
                         <Icon>content_copy</Icon>
                       </CardIcon>
-                      <p className={classes.cardCategory}>Trained : RCSL Vesion 1.3, success rate :</p>
+                      <p className={classes.cardCategory}>Trained : {result.model.model.name}, success rate :</p>
                       <h3 className={classes.cardTitle}>
-                        91<small>%</small>
+                      {result.result.percent}<small>%</small>
                       </h3>
                     </CardHeader>
                     <CardFooter stats>
@@ -72,6 +72,7 @@ class Dashboard extends React.Component {
                     </CardFooter>
                   </Card>
                 </GridItem>
+                )}
                 <GridItem xs={12} sm={6} md={3}>
                   <Card>
                     <CardHeader color="warning" stats icon>
