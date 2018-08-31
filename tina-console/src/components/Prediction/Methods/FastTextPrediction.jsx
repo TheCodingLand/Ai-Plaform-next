@@ -67,7 +67,8 @@ class RunTestingCard extends React.Component {
       this.setState(newstate)
     }
     this.loadState = () => {
-      this.setState(loadState('prediction'))
+      this.setState(...loadState('prediction'), { predictStarted: false })
+
 
     }
     this.state = {
@@ -158,8 +159,14 @@ class RunTestingCard extends React.Component {
   }
   eventRecieved(obj) {
     console.log(obj)
+
     if (obj.state === "finished") {
-      this.setState({ result: obj.result })
+      let i = 1
+      let text = ""
+      obj.result.forEach(r => {
+        text = text + "\nResultat " + i + ":\n" + 'category : ' + r.category + '\n confidence : ' + r.confidence + '\n'
+      })
+      this.setState({ result: text })
     }
   }
 
@@ -304,7 +311,7 @@ class RunTestingCard extends React.Component {
 
             <GridItem xs={12} sm={12} md={12}>
               <TextField
-                disabled
+
                 className={classes.textFields}
                 label="Results"
                 id="result"
