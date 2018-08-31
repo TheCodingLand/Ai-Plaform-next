@@ -20,7 +20,7 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import { EventsContext } from 'components/Context/EventsProvider'
-
+import TextField from '@material-ui/core/TextField'
 const styles = theme => ({
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
@@ -53,7 +53,7 @@ const styles = theme => ({
   textFields: {
     paddingBottom: "10px",
     margin: theme.spacing.unit,
-
+    width: '100%',
     position: "relative"
   }
 
@@ -62,6 +62,9 @@ class RunTrainingCard extends React.Component {
   constructor() {
     super()
     this.state = {
+      datasetErrorText: "",
+      modelNameErrorText: "",
+
 
       dataset: {
         _id: { $oid: "" },
@@ -78,7 +81,6 @@ class RunTrainingCard extends React.Component {
           { $oid: "" },
         model: {
           name: "",
-          version: 0,
           epochs: 200,
           version: '1',
           ngrams: 3,
@@ -86,16 +88,40 @@ class RunTrainingCard extends React.Component {
           splitAt: 95
         }
       },
-
       testmodel: true,
       confidence: 90,
       trainingStarted: false
     };
     this.handleChangeDataset = this.handleChangeDataset.bind(this)
     this.eventRecieved = this.eventRecieved.bind(this)
+  }
+
+  validateForm() {
+    let errors = {}
+    if (this.state.dataset._id.$oid === '') {
+      errors = { datasetErrorText: 'You must select a dataset !' }
+      console.log("dataset not selected")
+    }
+    if (this.state.model.model.name === '') {
+      errors = { ...errors, modelNameErrorText: 'You must enter a model name' }
+      console.log("model not selected")
+    }
+
+
+
+
+    this.setState(errors)
+
+
+
+    return false
 
 
   }
+
+
+
+
   makeid = () => {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -106,20 +132,22 @@ class RunTrainingCard extends React.Component {
     return text;
   }
   startTraining = (context) => {
-    let id = this.makeid()
-    context.subscribe(id, (obj) => this.eventRecieved(obj))
-    this.setState({ trainingStarted: true, id: id })
+    if (this.validateForm() === true) {
+      let id = this.makeid()
+      context.subscribe(id, (obj) => this.eventRecieved(obj))
+      this.setState({ trainingStarted: true, id: id })
 
-    context.action('training', {
-      id: id,
-      action: `training`,
-      dataset: this.state.dataset,
-      model: this.state.model,
+      context.action('training', {
+        id: id,
+        action: `training`,
+        dataset: this.state.dataset,
+        model: this.state.model,
 
-      testmodel: this.state.model.testmodel,
-      confidence: this.state.confidence
-    })
+        testmodel: this.state.model.testmodel,
+        confidence: this.state.confidence
+      })
 
+    }
   }
   eventRecieved(obj) {
     //console.log(obj)
@@ -147,14 +175,7 @@ class RunTrainingCard extends React.Component {
         }
       })
     }
-    if (this.props.appdata.models) {
-      this.props.appdata.models.forEach(ds => {
 
-        if (ds._id.$oid === event.target.value) {
-          this.setState({ [event.target.name]: ds });
-        }
-      })
-    }
 
   };
 
@@ -175,16 +196,17 @@ class RunTrainingCard extends React.Component {
     return (
       <Card>
         <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>FastText Training Settings</h4>
+          <h4 className={classes.cardTitleWhite}>Training Settings</h4>
           <p className={classes.cardCategoryWhite}></p>
         </CardHeader>
         <CardBody>
           <GridContainer>
             <GridItem xs={12} sm={12} md={3}>
-              <FormControl className={classes.formControl}>
+              <FormControl className={classes.formControl} error={this.state.datasetErrorText != ''}>
                 <InputLabel htmlFor="dataset-id">Dataset</InputLabel>
                 <Select
                   onChange={this.handleChangeDataset}
+
                   value={this.state.dataset._id.$oid}
                   input={<Input name="dataset" id="dataset-id" />}
                 >
@@ -202,13 +224,14 @@ class RunTrainingCard extends React.Component {
 
                     }) : ""}
                 </Select>
-                <FormHelperText>go to upload to add more</FormHelperText>
+                <FormHelperText>{this.state.datasetErrorText}</FormHelperText>
               </FormControl>
             </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
+            <GridItem xs={12} sm={12} md={9}></GridItem>
+            <GridItem xs={12} sm={6} md={3}>
+              <TextField
                 className={classes.textFields}
-                labelText="Dataset version"
+                label="Dataset version"
                 id="datasetversion"
                 disabled
                 value={this.state.dataset.dataset.version}
@@ -217,10 +240,10 @@ class RunTrainingCard extends React.Component {
                 }}
               />
             </GridItem>
-            <GridItem xs={12} sm={12} md={6}>
-              <CustomInput
+            <GridItem xs={12} sm={6} md={3}>
+              <TextField
                 className={classes.textFields}
-                labelText="Column label :"
+                label="Column label :"
                 id="column"
                 disabled
                 value={this.state.dataset.dataset.classifier}
@@ -279,9 +302,12 @@ class RunTrainingCard extends React.Component {
             <GridItem xs={12} sm={12} md={6}>
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
+              <TextField
+                required
+                error={this.state.modelNameErrorText !== ''}
+                helperText={this.state.modelNameErrorText}
                 className={classes.textFields}
-                labelText="model name"
+                label="model name"
                 onChange={this.handleChange('name')}
                 id="model"
                 formControlProps={{
@@ -290,10 +316,11 @@ class RunTrainingCard extends React.Component {
               />
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
+              <TextField
                 className={classes.textFields}
-                labelText="version"
+                label="version"
                 id="version"
+                value={this.state.model.model.version}
                 onChange={this.handleChange('version')}
                 formControlProps={{
                   fullWidth: true

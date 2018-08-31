@@ -25,9 +25,9 @@ class TrainingPage extends React.Component {
                 <Typography>FastText</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <Paper>
-                  <FastTextTraining appdata={context} />
-                </Paper>
+
+                <FastTextTraining appdata={context} />
+
               </ExpansionPanelDetails>
             </ExpansionPanel>
 
