@@ -42,7 +42,9 @@ class EventsProvider extends React.Component {
     subscribe = (event, cb) => {
         //console.log(event)
         this.props.websocket.on(event, (obj) => {
-            let o = JSON.parse(obj.data)
+            let o = obj.data
+            //console.log(o)
+            //let o = JSON.parse(obj.data)
             console.log(o)
             o.text = o.action + " " + o.state
             let notifications = this.state.notifications
