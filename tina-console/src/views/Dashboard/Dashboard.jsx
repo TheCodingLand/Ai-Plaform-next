@@ -59,7 +59,7 @@ class Dashboard extends React.Component {
                       </CardIcon>
                       <p className={classes.cardCategory}>Trained : {result.model.model.name}, success rate :</p>
                       <h3 className={classes.cardTitle}>
-                      {result.result.percent}<small>%</small>
+                      {result.result.percent.toFixed(2)}<small>%</small>
                       </h3>
                     </CardHeader>
                     <CardFooter stats>
