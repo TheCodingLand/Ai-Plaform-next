@@ -39,6 +39,9 @@ class worker():
 
         timestamp = time.time()
         self.config['started'] = timestamp
+        self.config['model'] = json.loads(self.config.get('model'))
+        self.config['dataset'] = json.loads(self.config.get('dataset'))
+
         thread.redis_out.hmset(self.config['id'], {
                                "data": json.dumps(self.config)})
         thread.redis_out.publish(self.config['id'], self.config['id'])
