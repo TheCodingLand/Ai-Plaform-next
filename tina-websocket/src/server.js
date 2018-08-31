@@ -92,6 +92,18 @@ const makeRedisObj = (client, channel, message) => {
         clientSpecificRedisSub(client, obj)
         return obj
     }
+    if (channel === 'predict') {
+        var obj = Object.assign({},
+            message,
+            {
+                key: 'ft.predict.' + message.id,
+                action: 'predict'
+            }
+        )
+
+        clientSpecificRedisSub(client, obj)
+        return obj
+    }
 
 }
 
