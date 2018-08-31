@@ -28,10 +28,11 @@ class EventsProvider extends React.Component {
         this.setState({ socket: this.props.websocket })
     }
     removeNotificationByKey = (key) => {
-        let notifications = []
+        console.log('removing notification with key:' + key)
+        let notifications = this.state.notifications
         this.state.notifications.forEach(notif => {
-            if (notif.key !== key) {
-                notifications.push(key)
+            if (notif.key === key) {
+                notifications.remove(notif)
             }
         }
 
