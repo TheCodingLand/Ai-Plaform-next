@@ -36,10 +36,10 @@ class worker():
 
         timestamp = time.time()
         self.config['started'] = timestamp
-        thread.redis_out.hmset(self.id, self.config)
-        thread.redis_out.publish(self.id, self.id)
         self.config['model'] = json.loads(self.config.get('model'))
         self.config['dataset'] = json.loads(self.config.get('dataset'))
+        thread.redis_out.hmset(self.id, {"data": self.config})
+        thread.redis_out.publish(self.id, self.id)
 
         self.ftmodel = self.config.get('model')
         self.ds = self.config.get('dataset')
