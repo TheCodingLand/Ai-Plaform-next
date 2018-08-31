@@ -69,6 +69,7 @@ const makeRedisObj = (client, channel, message) => {
             action: channel
         }
     )
+
     //Handle Special Cases :
     if (channel === 'training') {
         obj = Object.assign({},
@@ -80,7 +81,6 @@ const makeRedisObj = (client, channel, message) => {
             }
         )
         console.log(obj)
-
     }
     if (channel === 'testing') {
         obj = Object.assign({},
