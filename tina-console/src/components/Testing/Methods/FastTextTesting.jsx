@@ -289,7 +289,7 @@ class RunTestingCard extends React.Component {
               <FormControl className={classes.formControl} error={this.state.modelErrorText != ''}>
                 <InputLabel htmlFor="model-id">Model</InputLabel>
                 <Select
-                  onChange={this.handleSelect}
+                  onChange={this.handleChangeSelect}
                   value={this.state.model._id.$oid}
                   input={<Input name="model" id="model-id" />}
                 >
