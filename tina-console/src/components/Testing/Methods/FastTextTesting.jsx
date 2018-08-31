@@ -145,7 +145,6 @@ class RunTestingCard extends React.Component {
         action: `testing`,
         dataset: this.state.dataset,
         model: this.state.model,
-
         confidence: this.state.confidence
 
       })
@@ -218,7 +217,7 @@ class RunTestingCard extends React.Component {
               <FormControl className={classes.formControl} error={this.state.datasetErrorText != ''}>
                 <InputLabel htmlFor="dataset-id">Dataset</InputLabel>
                 <Select
-                  onChange={this.handleChangeDataset}
+                  onChange={this.handleChangeSelect}
                   value={this.state.dataset._id.$oid}
                   input={<Input name="dataset" id="dataset-id" />}
                 >
