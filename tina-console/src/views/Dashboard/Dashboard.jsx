@@ -44,7 +44,7 @@ class Dashboard extends React.Component {
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
                   Models:
-    </GridItem>
+                </GridItem>
                 {this.top5(context.results).map(result => console.log(result))}
                 <GridItem xs={12} sm={6} md={3}>
                   <Card>
