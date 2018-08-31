@@ -1,5 +1,4 @@
 import React from "react";
-import CustomInput from 'components/CustomInput/CustomInput'
 import InputLabel from "@material-ui/core/InputLabel";
 import withStyles from "@material-ui/core/styles/withStyles";
 import MenuItem from '@material-ui/core/MenuItem';
@@ -7,10 +6,10 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography'
 import Slider from '@material-ui/lab/Slider'
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
-import Switch from '@material-ui/core/Switch';
+
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
