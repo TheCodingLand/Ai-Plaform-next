@@ -280,6 +280,7 @@ class RunTestingCard extends React.Component {
                 </GridItem>
               </GridContainer>
             </GridItem>
+            <GridItem xs={12} sm={12} md={6}></GridItem>
 
             <GridItem xs={12} sm={12} md={3}>
               <FormControl className={classes.formControl} error={this.state.modelErrorText != ''}>
