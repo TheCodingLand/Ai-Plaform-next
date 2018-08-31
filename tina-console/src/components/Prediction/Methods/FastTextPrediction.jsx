@@ -116,8 +116,14 @@ class RunTestingCard extends React.Component {
       console.log("model not selected")
     }
 
-    this.setState(errors)
-    return false
+
+    if (errors === {}) {
+      return true
+    }
+    else {
+      this.setState(errors)
+      return false
+    }
   }
 
   makeid = () => {

@@ -105,8 +105,13 @@ class RunTrainingCard extends React.Component {
       errors = { ...errors, modelNameErrorText: 'You must enter a model name' }
       console.log("model not selected")
     }
-    this.setState(errors)
-    return false
+    if (errors === {}) {
+      return true
+    }
+    else {
+      this.setState(errors)
+      return false
+    }
   }
 
 
