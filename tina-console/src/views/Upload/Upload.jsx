@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import withStyles from "@material-ui/core/styles/withStyles";
 import 'react-dropzone-component/styles/filepicker.css'
+import { AppContext } from 'components/Context/AppProvider'
 
 const styles = theme => ({
   cardCategoryWhite: {
@@ -214,10 +215,12 @@ class Upload extends Component {
             <GridItem xs={6} sm={6} md={3}>
               <Typography className={classes.typography}>Or update existing :</Typography>
             </GridItem>
-            <GridItem xs={6} sm={6} md={3}>
-              <Typography className={classes.typography}>Select</Typography>
-            </GridItem>
-
+            <AppContext.Consumer>{context =>
+              <GridItem xs={6} sm={6} md={3}>
+                <Typography className={classes.typography}>Select</Typography>
+                {context.rawdataCollections.map(collection => <Typography>{collection}</Typography>)}
+              </GridItem>
+            }</AppContext.Consumer>
 
 
 
