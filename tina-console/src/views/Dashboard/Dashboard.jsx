@@ -36,7 +36,7 @@ class Dashboard extends React.Component {
 
     
     let top = []
-    top = sortBy(action, ['result','percent'])
+    top = sortBy(actions, ['result','percent'])
     
     return top
 
