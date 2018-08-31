@@ -58,5 +58,5 @@ class worker():
 
         if self.testmodel == 'true':
             results = m.testRun(data, self.confidence)
-            self.config['result'] = json.dumps(results)
+            self.config['result'] = results
         return self.config

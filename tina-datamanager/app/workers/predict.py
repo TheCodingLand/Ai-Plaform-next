@@ -56,5 +56,5 @@ class worker():
     def run(self):
         result = self.m.predict(
             text=self.text, nbpredictions=self.nbofresults)
-        self.config['result'] = json.dumps(result)
+        self.config['result'] = result
         return self.config
