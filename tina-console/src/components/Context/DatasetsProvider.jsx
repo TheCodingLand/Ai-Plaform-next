@@ -8,27 +8,24 @@ class DatasetsProvider extends React.Component {
     constructor() {
         super()
 
-    
-    state = {
-        Datasets : []
-    }
-}
 
-    update = (websocket) =>{ 
+        state = {
+            Datasets: []
+        }
+    }
+
+    update = (websocket) => {
         console.log("updating Datasetss")
 
-      }
-    render () {
+    }
+    render() {
         return (
-            <DatasetsContext.Provider value = {{
-                Datasets : this.state.Datasets,
+            <DatasetsContext.Provider value={{
+                Datasets: this.state.Datasets,
                 update: this.update,
-                
-
-
             }}
             >
-            {this.props.children}
+                {this.props.children}
 
             </DatasetsContext.Provider>
         )

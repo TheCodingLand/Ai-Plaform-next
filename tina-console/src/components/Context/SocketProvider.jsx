@@ -20,7 +20,7 @@ export class SocketProvider extends React.Component {
 
         }
         let SOCKET_URL = `http://ws.${gethost()}`
-        //SOCKET_URL = 'http://localhost:3000' //TEMPORARY, DEBUG
+        SOCKET_URL = 'http://localhost:3000' //TEMPORARY, DEBUG
         let socket = io.connect(SOCKET_URL)
 
         return socket
@@ -30,10 +30,7 @@ export class SocketProvider extends React.Component {
 
     render() {
         return (
-            <SocketContext.Provider value={{
-                socket: this.state.socket
-            }}
-            >
+            <SocketContext.Provider value={{ socket: this.state.socket }}>
                 {this.props.children}
             </SocketContext.Provider>
         )

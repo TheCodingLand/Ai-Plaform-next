@@ -1,7 +1,7 @@
 
 import React from "react"
 import withStyles from "@material-ui/core/styles/withStyles";
-import { SocketContext } from 'components/Context/SocketProvider'
+import { EventsContext } from 'components/Context/EventsProvider'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 const styles = theme => ({
@@ -46,10 +46,10 @@ class Monitoring extends React.Component {
                 }}
             />
 
-            <SocketContext.Consumer>{socket => {
-                <Button onClick={() => socket.emit(this.state.command)}>TEST</Button>
-            }}
-            </SocketContext.Consumer>
+            <EventsContext.Consumer>{event =>
+                <Button onClick={event.socket.emit(this.state.command)}>TEST</Button>
+            }
+            </EventsContext.Consumer>
 
         </div>
         )
