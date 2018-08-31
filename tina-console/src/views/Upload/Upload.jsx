@@ -241,7 +241,7 @@ class Upload extends Component {
                   <FormControl className={classes.formControl} error={this.state.dataCollectionErrorText != ''}>
                     <InputLabel htmlFor="collection-id">Data Collection</InputLabel>
                     <Select
-                      onChange={this.handleChange}
+                      onChange={this.handleChange('collection')}
                       value={this.state.rawdataCollections}
                       input={<Input name="collection" id="collection-id" />}
                     >
