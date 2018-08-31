@@ -31,7 +31,7 @@ import dashboardStyle from "assets/jss/ctg-ai-lab/views/dashboardStyle.jsx";
 class Dashboard extends React.Component {
   top5(actions) {
     console.log(actions)
-    let results = actions.result
+    let results=actions.map((action) =>  action.result)
 
     
     let top = []
