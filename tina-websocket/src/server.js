@@ -24,7 +24,7 @@ const publishToredis = (data) => {
 
 let io = srv(3001)
 
-let eventsToListenTo = ['getstats', 'training', 'testing', 'optimize', 'upload', 'login', 'datasetlist', 'state']
+let eventsToListenTo = ['getstats', 'training', 'testing', 'optimize', 'upload', 'login', 'datasetlist', 'state', 'predict']
 let redisEventsToListenTo = ['trainingresult', 'trainingstats', 'loginresult', 'predictionresult', 'stats', 'datasetcolumns', 'notifications', 'state']
 
 
@@ -62,12 +62,18 @@ const clientSpecificRedisSub = (client, obj) => {
 
 //Transforms web request into a valid command for our workers
 const makeRedisObj = (client, channel, message) => {
+    var obj = Object.assign({},
+        message,
+        {
+            key: message.ia + '.testing.' + message.id,
+            action: channel
+        }
+    )
+
     if (channel === 'training') {
-        var obj = Object.assign({},
-            message,
+        obj = Object.assign({},
+            obj,
             {
-                key: message.ia + '.testing.' + message.id,
-                action: 'training',
 
                 model: JSON.stringify(message.model),
                 dataset: JSON.stringify(message.dataset),
@@ -79,11 +85,9 @@ const makeRedisObj = (client, channel, message) => {
 
     }
     if (channel === 'testing') {
-        var obj = Object.assign({},
-            message,
+        obj = Object.assign({},
+            obj,
             {
-                key: message.ia + '.testing.' + message.id,
-                action: 'testing',
                 model: JSON.stringify(message.model),
                 dataset: JSON.stringify(message.dataset)
             }
