@@ -69,10 +69,10 @@ class Dashboard extends React.Component {
                     <CardContent><Typography>{result.model.model.label}</Typography></CardContent>
                     <CardFooter stats>
                       <div className={classes.stats}>
-                        <a href="#advanced" onClick={e => e.preventDefault()}>
-                          {result.model._id.$oid}
+                       
+                        <Typography>Model ID :</Typography>  {result.model._id.$oid}
         
-                  </a>
+                
                       </div>
                     </CardFooter>
                   </Card>
