@@ -13,15 +13,16 @@ export class AppProvider extends React.Component {
             datasets: [],
             models: [],
             rawdataCollections: [],
-            rawdataColumns: []
+            rawdataColumns: [],
+            results: []
         }
 
     }
     getState() {
-        this.state.models = this.get('ft', 'models')
-        this.state.results = this.get('results', 'actions')
-        this.state.datasets = this.get('ft', 'datasets')
-        this.state.rawdataCollections = this.getCollections('rawdata')
+        this.setState({ models: this.get('ft', 'models') })
+        this.setState({ result: this.get('results', 'actions') })
+        this.setState({ datasets: this.get('ft', 'datasets') })
+        this.setState({ rawdataCollections: this.getCollections('rawdata') })
     }
     getCollections(db) {
         let url = `http://rest.tina.ctg.lu/${db}/`

@@ -30,6 +30,7 @@ import dashboardStyle from "assets/jss/ctg-ai-lab/views/dashboardStyle.jsx";
 
 class Dashboard extends React.Component {
   top5(results) {
+    console.log(results)
     let top = []
     top = sortBy(results, ['result','percent'])
     console.log(top)
