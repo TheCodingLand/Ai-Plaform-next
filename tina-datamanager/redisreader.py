@@ -69,7 +69,7 @@ class Listener(threading.Thread):
             result['finished'] = timestamp
             # write result database and notify redis of new info
 
-            self.database.results.actions.insert_one((bson.loads(result))
+            self.database.results.actions.insert_one(bson.loads(result))
             self.redis_out.hmset(result['id'], result)
             self.redis_out.publish(result['id'], result['id'])
 
@@ -85,9 +85,9 @@ class Listener(threading.Thread):
 
 
 if __name__ == "__main__":
-    r=redis.Redis(host=redis_host, decode_responses=True, port=6379)
+    r = redis.Redis(host=redis_host, decode_responses=True, port=6379)
     if channel:
-        client=Listener(r, channel)
+        client = Listener(r, channel)
         client.start()
 
     else:
