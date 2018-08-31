@@ -3,12 +3,21 @@ import DropzoneComponent from 'react-dropzone-component';
 import Button from 'components/CustomButtons/Button'
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
-import Card from "components/Card/Card.jsx";
+
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import withStyles from "@material-ui/core/styles/withStyles";
 import 'react-dropzone-component/styles/filepicker.css'
 import { AppContext } from 'components/Context/AppProvider'
+import Card from "components/Card/Card.jsx"
+import CardHeader from "components/Card/CardHeader.jsx"
+import CardBody from "components/Card/CardBody.jsx"
+import MenuItem from '@material-ui/core/MenuItem'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import FormControl from '@material-ui/core/FormControl'
+import InputLabel from "@material-ui/core/InputLabel"
+import Select from '@material-ui/core/Select'
+import Input from '@material-ui/core/Input'
 
 const styles = theme => ({
   cardCategoryWhite: {
@@ -63,10 +72,14 @@ class Upload extends Component {
       valid: true,
       name: "",
       version: 1,
-      type: ''
+      type: '',
+      dataCollectionErrorText: "",
+      nameError: "",
+      collection: ""
 
     }
-
+    this.validateForm = this.validateForm.bind(this)
+    this.handlePost = this.handlePost.bind(this)
     // For a full list of possible configurations,
     // please consult http://www.dropzonejs.com/#configuration
     this.djsConfig = {
@@ -80,11 +93,6 @@ class Upload extends Component {
       showFiletypeIcon: false,
       postUrl: 'http://upload.tina.ctg.lu/uploadHandler'
     };
-
-
-
-
-
 
 
 
@@ -105,21 +113,11 @@ class Upload extends Component {
       this.setState({ token: token })
       formData.append('token', token)
       formData.append('name', this.state.name)
-      formData.append('type', 'dataset')
-      formData.append('version', this.state.version)
+      formData.append('collection', this.state.collection)
+
+
       //localStorage.setItem(this.state)
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -143,21 +141,36 @@ class Upload extends Component {
     this.dropzone = null;
   }
 
-  validateForm() {
+  validateForm = () => {
     let errors = {}
-    if (this.state.name === '') {
-      errors = { ...errors, nameError: 'You must select a dataset !' }
+    let valid = true
+    console.log("checking for errors")
+    console.log(this.state.name)
+    console.log(this.state.collection)
+    if (this.state.name === '' && this.state.collection === '') {
+      valid = false
+      errors = { ...errors, dataCollectionErrorText: 'or select one !' }
+      errors = { ...errors, nameError: 'you must name the collection' }
       console.log("dataset not selected")
     }
-
-
-
-
-    this.setState(errors)
-    return false
+    if (valid === true) {
+      this.setState({ dataCollectionErrorText: "", nameError: "" })
+      return valid
+    }
+    else {
+      this.setState(errors)
+      return valid
+    }
   }
+
   handlePost() {
-    this.dropzone.processQueue();
+
+    if (this.validateForm() === true) {
+      this.dropzone.processQueue()
+    }
+    else {
+      console.log("errors in form, check input")
+    }
   }
 
 
@@ -192,45 +205,68 @@ class Upload extends Component {
         </div>
         <aside>
           <ul>
-            {this.state.valid ? <Button onClick={this.handlePost.bind(this)}>Start Upload</Button> : ""}
+
           </ul>
         </aside>
 
-        <Card>
-          <GridContainer>
-            <GridItem xs={6} sm={6} md={3}>
-              <Typography className={classes.typography}>Create new collection :</Typography>
-            </GridItem>
-            <GridItem xs={6} sm={6} md={3}>
 
-              <TextField
-                className={classes.textFields}
-                label="name"
-                id="name"
-                onChange={this.handleChange('name')}
-                formControlProps={{
-                  fullWidth: true
-                }} />
-            </GridItem>
-            <GridItem xs={6} sm={6} md={3}>
-              <Typography className={classes.typography}>Or update existing :</Typography>
-            </GridItem>
+        <AppContext.Consumer>{context =>
+          <Card>
+            <CardHeader color="danger">
+              <h4 className={classes.cardTitleWhite}>Data Import</h4>
+              <p className={classes.cardCategoryWhite}></p>
+            </CardHeader>
+            <CardBody>
+              <GridContainer>
+                <GridItem xs={6} sm={6} md={3}>
+                  <Typography className={classes.typography}>Create new collection :</Typography>
+                </GridItem>
+                <GridItem xs={6} sm={6} md={3}>
 
-            <GridItem xs={6} sm={6} md={3}>
-              <AppContext.Consumer>{context =>
-                context.rawdataCollections ?
-                  context.rawdataCollections.map((collection) => {
-                    console.log(collection)
-                    return (<Typography className={classes.typography}>{collection}</Typography>)
-                  }) : ""
-              }
-              </AppContext.Consumer>
-            </GridItem>
+                  <TextField
+                    error={this.state.nameError !== ""}
+                    helperText={this.state.nameError}
+                    className={classes.textFields}
+                    label="name"
+                    id="name"
+                    onChange={this.handleChange('name')}
+                    formControlProps={{
+                      fullWidth: true
+                    }} />
+                </GridItem>
+                <GridItem xs={6} sm={6} md={3}>
+                  <Typography className={classes.typography}>Or update existing :</Typography>
+                </GridItem>
+                <GridItem xs={12} sm={12} md={3}>
+                  <FormControl className={classes.formControl} error={this.state.dataCollectionErrorText != ''}>
+                    <InputLabel htmlFor="collection-id">Data Collection</InputLabel>
+                    <Select
+                      onChange={this.handleChangeSelect}
+                      value={this.state.rawdataCollections}
+                      input={<Input name="collection" id="collection-id" />}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {context.rawdataCollections ?
+                        context.rawdataCollections.map((collection) => {
+                          <MenuItem key={collection} value={collection}>
+                            <em>{collection}</em>
+                          </MenuItem>
+                        })
+                        : ""}
+                    </Select>
+                    <FormHelperText>{this.state.dataCollectionErrorText}</FormHelperText>
+                  </FormControl>
+                </GridItem>
+                <GridItem xs={6} sm={6} md={3}>
+                  <Button color="danger" onClick={this.handlePost}>Start Upload</Button>
+                </GridItem>
 
-
-
-
-          </GridContainer></Card>
+              </GridContainer>
+            </CardBody>
+          </Card>
+        }</AppContext.Consumer>
 
 
       </section >
