@@ -29,10 +29,12 @@ import { AppContext } from "components/Context/AppProvider"
 import dashboardStyle from "assets/jss/ctg-ai-lab/views/dashboardStyle.jsx";
 
 class Dashboard extends React.Component {
-  top5(results) {
+  top5(actions) {
+    let results = actions.result
+
     console.log(results)
     let top = []
-    top = sortBy(results, ['result','percent'])
+    top = sortBy(results, ['percent'])
     console.log(top)
     return top
 
