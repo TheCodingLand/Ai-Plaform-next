@@ -21,8 +21,9 @@ class Monitoring extends React.Component {
         }
     }
 
-    handleChange = name => target => {
-        this.setState({ [name]: target })
+    handleChange = name => event => {
+        this.setState({ [name]: event.target.value })
+
     }
 
     render() {
@@ -39,7 +40,7 @@ class Monitoring extends React.Component {
                 label="Command"
                 id="command"
                 value={this.state.command}
-                onChange={() => this.handleChange('command')}
+                onChange={this.handleChange('command')}
                 formControlProps={{
                     fullWidth: true
                 }}
