@@ -17,30 +17,6 @@ if preload:
         loadedModels.update({f"{id}": m})
 
 
-def manageAction(keyname, key, redis_out):
-
-    modelid = key.get('modelid')
-
-    text = key.get('text')
-    logging.error(text)
-    nbofresults = int(key.get('nbofresults'))
-
-    if modelid in loadedModels.keys():
-        m = loadedModels.get(modelid)
-    else:
-        m = Model(modelid)  # quantized will be implemented later
-        m.load()
-    logging.error(loadedModels)
-
-    loadedModels.update({f"{id}": m})
-
-    result = m.predict(text=text, nbpredictions=nbofresults)
-
-    key['result'] = json.dumps(result)
-    print(result)
-    return key
-
-
 class worker():
     loadedModels = loadedModels
     model = None

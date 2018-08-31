@@ -42,8 +42,9 @@ class worker():
 
         timestamp = time.time()
         self.config['started'] = timestamp
-        thread.redis_out.hmset(self.id, self.config)
-        thread.redis_out.publish(self.id, self.id)
+        thread.redis_out.hmset(self.config['id'], {
+                               "data": json.dumps(self.config)})
+        thread.redis_out.publish(self.config['id'], self.config['id'])
 
         # self.buildTrainingData()
 
