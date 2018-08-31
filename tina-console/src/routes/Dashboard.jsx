@@ -1,25 +1,26 @@
-import Dashboard from "@material-ui/icons/Dashboard";
-import DashboardPage from "views/Dashboard/Dashboard.jsx";
-import Documentation from "views/Documentation/Documentation.jsx";
-import TrainingPage from "views/Training/TrainingPage.jsx";
-import TestingPage from "views/Testing/TestingPage.jsx";
-import SettingsPage from "views/Settings/Settings.jsx";
-import UploadPage from "views/Upload/Upload.jsx";
-import Diagnostics from "views/Diagnostics/Diagnostics.jsx";
-import Monitoring from "views/Monitoring/Monitoring.jsx";
-import Play from "@material-ui/icons/PlayArrow";
+import Dashboard from "@material-ui/icons/Dashboard"
+import DashboardPage from "views/Dashboard/Dashboard"
+import Documentation from "views/Documentation/Documentation"
+import TrainingPage from "views/Training/TrainingPage"
+import PredictionPage from "views/Prediction/PredictionPage"
+import TestingPage from "views/Testing/TestingPage"
+import SettingsPage from "views/Settings/Settings"
+import UploadPage from "views/Upload/Upload"
+import Diagnostics from "views/Diagnostics/Diagnostics"
+import Debug from "views/Debug/Debug"
+import Play from "@material-ui/icons/PlayArrow"
 import NetworkCheck from "@material-ui/icons/NetworkCheck"
+import BugReport from '@material-ui/icons/BugReport'
+import MonitorIcon from "@material-ui/icons/MovieCreationTwoTone"
+import Upload from "@material-ui/icons/CloudUpload"
+import Settings from "@material-ui/icons/SettingsOutlined"
+import Help from "@material-ui/icons/Help"
+import Timeline from "@material-ui/icons/Timeline"
+import Rowing from "@material-ui/icons/Rowing"
 
-import MonitorIcon from "@material-ui/icons/MovieCreationTwoTone";
-import Upload from "@material-ui/icons/CloudUpload";
-import Settings from "@material-ui/icons/SettingsOutlined";
-import Help from "@material-ui/icons/Help";
-import Timeline from "@material-ui/icons/Timeline";
-import Rowing from "@material-ui/icons/Rowing";
 
 
-
-//var pages = [].concat(pagesRoutes);
+//var pages = [].concat(pagesRoutes)
 var dashboardRoutes = [
   {
     path: "/dashboard",
@@ -39,14 +40,14 @@ var dashboardRoutes = [
   // },
   {
     path: "/training",
-    sidebarName: "AI Training",
+    sidebarName: "Training",
     navbarName: "Training",
     icon: Rowing,
     component: TrainingPage
   },
   {
     path: "/testing",
-    sidebarName: "AI Testing",
+    sidebarName: "Testing",
     navbarName: "Testing",
     icon: NetworkCheck,
     component: TestingPage
@@ -63,7 +64,7 @@ var dashboardRoutes = [
     sidebarName: "Predictions",
     navbarName: "Predictions",
     icon: Play,
-    component: SettingsPage
+    component: PredictionPage
   },
   {
     path: "/diagnostics",
@@ -73,11 +74,11 @@ var dashboardRoutes = [
     component: Diagnostics
   },
   {
-    path: "/monitoring",
-    sidebarName: "Monitoring",
-    navbarName: "Monitoring",
-    icon: MonitorIcon,
-    component: Monitoring
+    path: "/debug",
+    sidebarName: "Debug",
+    navbarName: "Debug",
+    icon: BugReport,
+    component: Debug
   },
   {
     path: "/settings",
@@ -94,6 +95,6 @@ var dashboardRoutes = [
     component: Documentation
   },
   { redirect: true, path: "/", to: '/dashboard', navbarName: "Redirect" }
-];
+]
 
-export default dashboardRoutes;
+export default dashboardRoutes
