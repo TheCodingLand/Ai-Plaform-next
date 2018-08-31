@@ -70,8 +70,8 @@ class RunTestingCard extends React.Component {
       let savedstate = loadState('prediction')
       if (savedstate) {
 
-
-        this.setState({ ...this.state, savedstate, predictStarted: false })
+        savedstate = { ...savedstate, predictStarted: false }
+        this.setState(...this.state, savedstate)
       }
 
     }
