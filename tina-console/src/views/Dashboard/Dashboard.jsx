@@ -2,7 +2,7 @@ import React from "react";
 //meterial
 import Icon from "@material-ui/core/Icon";
 import withStyles from "@material-ui/core/styles/withStyles";
-
+import sortBy from 'lodash/sortBy'
 // @material-ui/icons
 // import Store from "@material-ui/icons/Store";
 // import Warning from "@material-ui/icons/Warning";
@@ -29,104 +29,114 @@ import { AppContext } from "components/Context/AppProvider"
 import dashboardStyle from "assets/jss/ctg-ai-lab/views/dashboardStyle.jsx";
 
 class Dashboard extends React.Component {
+  top5(results) {
+    let top = []
+    top = sortBy(results, ['result','percent'])
+    console.log(top)
+    return top
+
+  }
   render() {
-    const { classes } = this.props;
-    return (<div>
+        const { classes } = this.props;
+        return(<AppContext.Consumer>{context =>
+            <div>
 
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
-          Models:
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={12}>
+                  Models:
     </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="success" stats icon>
-              <CardIcon color="success">
-                <Icon>content_copy</Icon>
-              </CardIcon>
-              <p className={classes.cardCategory}>Trained : RCSL Vesion 1.3, success rate :</p>
-              <h3 className={classes.cardTitle}>
-                91<small>%</small>
-              </h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <a href="#advanced" onClick={e => e.preventDefault()}>
-                  Advanced stats
-
+                {this.top5(context.results).map(result =>result)}
+                <GridItem xs={12} sm={6} md={3}>
+                  <Card>
+                    <CardHeader color="success" stats icon>
+                      <CardIcon color="success">
+                        <Icon>content_copy</Icon>
+                      </CardIcon>
+                      <p className={classes.cardCategory}>Trained : RCSL Vesion 1.3, success rate :</p>
+                      <h3 className={classes.cardTitle}>
+                        91<small>%</small>
+                      </h3>
+                    </CardHeader>
+                    <CardFooter stats>
+                      <div className={classes.stats}>
+                        <a href="#advanced" onClick={e => e.preventDefault()}>
+                          Advanced stats
+        
                   </a>
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="warning" stats icon>
-              <CardIcon color="warning">
-                <Icon>content_copy</Icon>
-              </CardIcon>
-              <p className={classes.cardCategory}>Trained : RCSL Vesion 0.8, success rate :</p>
-              <h3 className={classes.cardTitle}>
-                80<small>%</small>
-              </h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <a href="#advanced" onClick={e => e.preventDefault()}>
-                  Advanced stats
-
+                      </div>
+                    </CardFooter>
+                  </Card>
+                </GridItem>
+                <GridItem xs={12} sm={6} md={3}>
+                  <Card>
+                    <CardHeader color="warning" stats icon>
+                      <CardIcon color="warning">
+                        <Icon>content_copy</Icon>
+                      </CardIcon>
+                      <p className={classes.cardCategory}>Trained : RCSL Vesion 0.8, success rate :</p>
+                      <h3 className={classes.cardTitle}>
+                        80<small>%</small>
+                      </h3>
+                    </CardHeader>
+                    <CardFooter stats>
+                      <div className={classes.stats}>
+                        <a href="#advanced" onClick={e => e.preventDefault()}>
+                          Advanced stats
+        
                   </a>
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="danger" stats icon>
-              <CardIcon color="danger">
-                <Icon>content_copy</Icon>
-              </CardIcon>
-              <p className={classes.cardCategory}>Trained : RCSL Vesion 0.2, success rate :</p>
-              <h3 className={classes.cardTitle}>
-                65<small>%</small>
-              </h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <a href="#advanced" onClick={e => e.preventDefault()}>
-                  Advanced stats
-
+                      </div>
+                    </CardFooter>
+                  </Card>
+                </GridItem>
+                <GridItem xs={12} sm={6} md={3}>
+                  <Card>
+                    <CardHeader color="danger" stats icon>
+                      <CardIcon color="danger">
+                        <Icon>content_copy</Icon>
+                      </CardIcon>
+                      <p className={classes.cardCategory}>Trained : RCSL Vesion 0.2, success rate :</p>
+                      <h3 className={classes.cardTitle}>
+                        65<small>%</small>
+                      </h3>
+                    </CardHeader>
+                    <CardFooter stats>
+                      <div className={classes.stats}>
+                        <a href="#advanced" onClick={e => e.preventDefault()}>
+                          Advanced stats
+        
                   </a>
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
+                      </div>
+                    </CardFooter>
+                  </Card>
+                </GridItem>
 
 
-        <GridItem xs={12} sm={12} md={12}>
-          Usage:
+                <GridItem xs={12} sm={12} md={12}>
+                  Usage:
     </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="success" stats icon>
-              <CardIcon color="success">
-                <Icon>timeline</Icon>
-              </CardIcon>
-              <p className={classes.cardCategory}>used : RCSL Vesion 1.3</p>
-              <h3 className={classes.cardTitle}>
-                15020<small>hits</small>
-              </h3>
-            </CardHeader>
+                <GridItem xs={12} sm={6} md={3}>
+                  <Card>
+                    <CardHeader color="success" stats icon>
+                      <CardIcon color="success">
+                        <Icon>timeline</Icon>
+                      </CardIcon>
+                      <p className={classes.cardCategory}>used : RCSL Vesion 1.3</p>
+                      <h3 className={classes.cardTitle}>
+                        15020<small>hits</small>
+                      </h3>
+                    </CardHeader>
 
-          </Card>
-        </GridItem>
+                  </Card>
+                </GridItem>
 
-      </GridContainer>
-
-
+              </GridContainer>
 
 
 
-    </div>)
+
+
+            </div>
+      }</AppContext.Consumer >)
 
 
   }
