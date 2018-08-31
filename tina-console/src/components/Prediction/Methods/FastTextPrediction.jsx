@@ -164,7 +164,7 @@ class RunTestingCard extends React.Component {
       let i = 1
       let text = ""
       obj.result.forEach(r => {
-        text = text + "\nResultat " + i + ":\n" + 'category : ' + r.category + '\n confidence : ' + r.confidence + '\n'
+        text = text + "\nResultat " + i + ":\n" + 'category : ' + r.category + '\nconfidence : ' + r.confidence + '\n'
       })
       this.setState({ result: text })
     }
