@@ -191,6 +191,7 @@ services:
  ### WORKERS 
  training-worker:
     build: ./tina-datamanager
+    restart: always
     volumes:
       - tina_data:/data/
     environment:
@@ -205,6 +206,7 @@ services:
       
  data-worker:
     build: ./tina-datamanager
+    restart: always
     volumes:
       - tina_data:/data/
     environment:
@@ -219,6 +221,7 @@ services:
 
  prediction-worker:
     build: ./tina-datamanager
+    restart: always
     volumes:
       - tina_data:/data/
     environment:
@@ -232,6 +235,7 @@ services:
       - ai-internal
  testing-worker:
     build: ./tina-datamanager
+    restart: always
     volumes:
       - tina_data:/data/
     environment:
@@ -246,6 +250,7 @@ services:
 
  tina-api:
     build: ./tina-api
+    restart: always
     volumes:
       - tina_data:/data/
     environment:
@@ -268,6 +273,7 @@ services:
       
  tina-console:
     build: ./tina-console
+    restart: always
     labels:
         - "traefik.backend=console"
         - "traefik.docker.network=web"
@@ -286,6 +292,7 @@ services:
     environment:
       - DESTINATION=/data
     build: ./tina-upload/
+    restart: always
     labels:
         - "traefik.backend=upload"
         - "traefik.docker.network=web"
