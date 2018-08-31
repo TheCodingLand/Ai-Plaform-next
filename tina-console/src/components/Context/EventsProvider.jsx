@@ -124,7 +124,7 @@ class EventsProvider extends React.Component {
             <EventsContext.Provider value={this.state}>
                 <Fragment>
                     <Snackbar
-                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                         open={this.state.newevent.text !== ""}
                         onClose={this.handleClose}
                         ContentProps={{
