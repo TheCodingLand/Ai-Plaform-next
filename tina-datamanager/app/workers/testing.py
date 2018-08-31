@@ -39,8 +39,8 @@ class worker():
         self.config['model'] = json.loads(self.config.get('model'))
         self.config['dataset'] = json.loads(self.config.get('dataset'))
 
-        res = json.dumps(self.config)
-        thread.redis_out.hmset(self.config['id'], {"data": res})
+        thread.redis_out.hmset(self.config['id'], {
+                               "data": json.dumps(self.config)})
         thread.redis_out.publish(self.config['id'], self.config['id'])
 
         #thread.redis_out.hmset(self.id, {"data": self.config})
