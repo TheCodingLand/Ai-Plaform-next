@@ -33,7 +33,7 @@ import { AppContext } from "components/Context/AppProvider"
 import dashboardStyle from "assets/jss/ctg-ai-lab/views/dashboardStyle.jsx";
 
 class Dashboard extends React.Component {
-  sortFloat(a, b) { return a - b }
+  sortFloat(a, b) { return b - a }
   top5(actions) {
     console.log(actions)
     //let results = actions.map((action) => action.result)
