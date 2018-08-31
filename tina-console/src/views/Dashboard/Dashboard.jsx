@@ -41,7 +41,7 @@ class Dashboard extends React.Component {
 
     let top = []
     console.log(actions)
-    top = orderBy(actions, function (e) { console.log(e.result.percent); return e.result.precent }, ['asc']);
+    top = orderBy(actions, [function (e) { return e.result.precent }, 'asc']);
     //sortBy(actions, ['percent', "desc"])
 
     return top
