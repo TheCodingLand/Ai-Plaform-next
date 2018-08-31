@@ -70,20 +70,24 @@ class Listener(threading.Thread):
 
             res = result
             try:
-                res.model = json.loads(res.model)
+                res.model = json.dumps(res.model)
             except:
+                logging.info('could not transform to json')
                 pass
             try:
-                res.ftmodel = json.loads(res.ftmodel)
+                res.ftmodel = json.dumps(res.ftmodel)
             except:
+                logging.info('could not transform to json')
                 pass
             try:
-                res.dataset = json.loads(res.dataset)
+                res.dataset = json.dumps(res.dataset)
             except:
+                logging.info('could not transform to json')
                 pass
             try:
-                res.result = json.loads(res.result)
+                res.result = json.dumps(res.result)
             except:
+                logging.info('could not transform to json')
                 pass
 
             self.database.results.actions.insert_one(res)
