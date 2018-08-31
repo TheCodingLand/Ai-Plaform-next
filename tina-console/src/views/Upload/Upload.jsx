@@ -215,14 +215,13 @@ class Upload extends Component {
             <GridItem xs={6} sm={6} md={3}>
               <Typography className={classes.typography}>Or update existing :</Typography>
             </GridItem>
-            <AppContext.Consumer>{context =>
-              <GridItem xs={6} sm={6} md={3}>
-                <Typography className={classes.typography}>Select</Typography>
-                {this.context.rawdataCollections ?
-                  context.rawdataCollections.map(collection => <Typography>{collection}</Typography>) : ""
-                }
-              </GridItem>
-            }</AppContext.Consumer>
+
+            <GridItem xs={6} sm={6} md={3}>
+              <Typography className={classes.typography}>Select</Typography>
+              <AppContext.Consumer>{context => this.context.rawdataCollections ?
+                context.rawdataCollections.map(collection => <Typography>{collection}</Typography>) : ""}</AppContext.Consumer>
+            </GridItem>
+
 
 
 
