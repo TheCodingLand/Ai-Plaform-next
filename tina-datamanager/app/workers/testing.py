@@ -37,8 +37,11 @@ class worker():
         self.config['started'] = timestamp
         thread.redis_out.hmset(self.id, self.config)
         thread.redis_out.publish(self.id, self.id)
-        self.ftmodel = json.loads(self.config.get('model'))
-        self.ds = json.loads(self.config.get('dataset'))
+        self.config['model'] = json.loads(self.config.get('model'))
+        self.config['dataset'] = json.loads(self.config.get('dataset'))
+
+        self.ftmodel = self.config.get('model')
+        self.ds = self.config.get('dataset')
 
     def run(self):
         m = Model()
@@ -46,5 +49,5 @@ class worker():
         data = Dataset('datafile.ft', self.ds['dataset']['name'], True,
                        self.ds['dataset']['version'], self.ds['dataset']['classifier'])
         results = m.testRun(data, self.confidence)
-        self.config['result'] = json.dumps(results)
+        self.config['result'] = results
         return self.config

@@ -68,30 +68,7 @@ class Listener(threading.Thread):
             result['finished'] = timestamp
             # write result database and notify redis of new info
 
-            res = result
-            try:
-                res.model = json.dumps(res.model)
-            except:
-                logging.info('could not transform to json')
-                pass
-            try:
-                res.ftmodel = json.dumps(res.ftmodel)
-            except:
-                logging.info('could not transform to json')
-                pass
-            try:
-                res.dataset = json.dumps(res.dataset)
-            except:
-                logging.info('could not transform to json')
-                pass
-            try:
-                res.result = json.dumps(res.result)
-            except:
-                logging.info('could not transform to json')
-                pass
-
-            self.database.results.actions.insert_one(res)
-
+            self.database.results.actions.insert_one(result)
             self.redis_out.hmset(result['id'], result)
             self.redis_out.publish(result['id'], result['id'])
 
