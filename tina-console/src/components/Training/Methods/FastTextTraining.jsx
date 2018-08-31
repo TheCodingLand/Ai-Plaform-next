@@ -107,21 +107,25 @@ class RunTrainingCard extends React.Component {
 
   }
   validateForm() {
+    let valid = true
     let errors = {}
     if (this.state.dataset._id.$oid === '') {
       errors = { ...errors, datasetErrorText: 'You must select a dataset !' }
+      valid = false
       console.log("dataset not selected")
     }
     if (this.state.model.model.name === '') {
       errors = { ...errors, modelNameErrorText: 'You must enter a model name' }
+      valid = false
       console.log("model not selected")
     }
-    if (errors === {}) {
-      return true
+    if (valid) {
+      this.saveState({ modelNameErrorText: "", datasetErrorText: "" })
+      return valid
     }
     else {
       this.saveState(errors)
-      return false
+      return valid
     }
   }
 

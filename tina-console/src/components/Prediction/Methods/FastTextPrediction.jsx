@@ -100,27 +100,32 @@ class RunTestingCard extends React.Component {
 
   validateForm() {
     let errors = {}
+    let valid = true
     if (this.state.model._id.$oid === '') {
       errors = { ...errors, modelErrorText: 'You must select a model !' }
+      valid = false
       console.log("dataset not selected")
     }
     if (this.state.text === '') {
       errors = { ...errors, textErrorText: 'You must enter text !' }
+      valid = false
       console.log("dataset not selected")
     }
 
     if (this.state.nbofresults === '') {
       errors = { ...errors, nborresultsErrorText: 'You must enter a deired NB of results' }
+      valid = false
       console.log("model not selected")
     }
 
 
-    if (errors === {}) {
-      return true
+    if (valid) {
+      this.saveState({ modelErrorText: "", textErrorText: "", nborresultsErrorText: "" })
+      return valid
     }
     else {
       this.saveState(errors)
-      return false
+      return valid
     }
   }
 

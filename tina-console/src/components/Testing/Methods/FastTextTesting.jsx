@@ -102,22 +102,25 @@ class RunTestingCard extends React.Component {
 
   }
   validateForm() {
+    let valid = true
     let errors = {}
     if (this.state.dataset._id.$oid === '') {
       errors = { ...errors, datasetErrorText: 'You must select a dataset !' }
+      valid = false
       console.log("dataset not selected")
     }
 
     if (this.state.model._id.$oid === '') {
       errors = { ...errors, modelErrorText: 'You must select a model !' }
+      valid = false
       console.log("model not selected")
     }
-    if (errors === {}) {
-      return true
+    if (valid) {
+      return valid
     }
     else {
       this.setState(errors)
-      return false
+      return valid
     }
   }
 
