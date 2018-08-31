@@ -70,7 +70,7 @@ class Dashboard extends React.Component {
                     <CardFooter stats>
                       <div className={classes.stats}>
                         <a href="#advanced" onClick={e => e.preventDefault()}>
-                          https://api.tina.ctg.lu {result.model.model._id}
+                          {result.model.model._id.$oid}
         
                   </a>
                       </div>
