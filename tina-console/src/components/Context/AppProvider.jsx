@@ -19,10 +19,10 @@ export class AppProvider extends React.Component {
 
     }
     getState() {
-        this.setState({ models: this.get('ft', 'models') })
-        this.setState({ results: this.get('results', 'actions') })
-        this.setState({ datasets: this.get('ft', 'datasets') })
-        this.setState({ rawdataCollections: this.getCollections('rawdata') })
+        this.get('ft', 'models')
+        this.get('results', 'actions')
+        this.get('ft', 'datasets')
+        this.getCollections('rawdata')
     }
     getCollections(db) {
         let url = `http://rest.tina.ctg.lu/${db}/`
@@ -57,17 +57,13 @@ export class AppProvider extends React.Component {
         axios.get(url).then(res => {
             console.log(res.data._embedded)
             this.setState({ [coll]: res.data._embedded })
-
-
         })
-
     }
-    render() {
 
+    render() {
         return (
             <AppContext.Provider value={this.state}>
                 {this.props.children}
-
             </AppContext.Provider>
 
         )
