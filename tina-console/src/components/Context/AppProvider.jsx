@@ -20,7 +20,7 @@ export class AppProvider extends React.Component {
     }
     getState() {
         this.setState({ models: this.get('ft', 'models') })
-        this.setState({ result: this.get('results', 'actions') })
+        this.setState({ results: this.get('results', 'actions') })
         this.setState({ datasets: this.get('ft', 'datasets') })
         this.setState({ rawdataCollections: this.getCollections('rawdata') })
     }
