@@ -354,8 +354,6 @@ class RunTrainingCard extends React.Component {
         </CardFooter>
       </Card>
 
-
-
     )
 
 
@@ -363,7 +361,6 @@ class RunTrainingCard extends React.Component {
 }
 
 
-
-export default withStyles(styles)(RunTrainingCard);
+export default withStyles(styles)(RunTrainingCard)
 
 
