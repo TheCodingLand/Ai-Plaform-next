@@ -242,7 +242,7 @@ class Upload extends Component {
                     <InputLabel htmlFor="collection-id">Data Collection</InputLabel>
                     <Select
                       onChange={this.handleChange('collection')}
-                      value={this.state.rawdataCollections}
+                      value={this.state.collection}
                       input={<Input name="collection" id="collection-id" />}
                     >
                       <MenuItem value="">
