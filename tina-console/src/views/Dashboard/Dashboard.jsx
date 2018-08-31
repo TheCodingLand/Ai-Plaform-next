@@ -31,7 +31,8 @@ import dashboardStyle from "assets/jss/ctg-ai-lab/views/dashboardStyle.jsx";
 class Dashboard extends React.Component {
   top5(actions) {
     console.log(actions)
-    let results=actions.map((action) =>  action.result)
+    let results=actions.map((action) => action.result)
+
 
     
     let top = []
@@ -49,7 +50,7 @@ class Dashboard extends React.Component {
                 <GridItem xs={12} sm={12} md={12}>
                   Models:
                 </GridItem>
-                {this.top5(context.actions).map(result => <p>{result}</p>)}
+                {this.top5(context.actions).map(result => <p>{result.percent}</p>)}
                 <GridItem xs={12} sm={6} md={3}>
                   <Card>
                     <CardHeader color="success" stats icon>
