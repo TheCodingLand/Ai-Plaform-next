@@ -62,6 +62,7 @@ class Dashboard extends React.Component {
                       {result.result.percent.toFixed(2)}<small>%</small>
                       </h3>
                     </CardHeader>
+                    <CardContent><Typography>{result.model.model.label}</Typography></CardContent>
                     <CardFooter stats>
                       <div className={classes.stats}>
                         <a href="#advanced" onClick={e => e.preventDefault()}>
