@@ -43,8 +43,8 @@ class worker():
         thread.redis_out.hmset(self.config['id'], {"data": res})
         thread.redis_out.publish(self.config['id'], self.config['id'])
 
-        thread.redis_out.hmset(self.id, {"data": self.config})
-        thread.redis_out.publish(self.id, self.id)
+        #thread.redis_out.hmset(self.id, {"data": self.config})
+        #thread.redis_out.publish(self.id, self.id)
 
         self.ftmodel = self.config.get('model')
         self.ds = self.config.get('dataset')
