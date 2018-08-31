@@ -250,9 +250,10 @@ class Upload extends Component {
                       </MenuItem>
                       {context.rawdataCollections ?
                         context.rawdataCollections.map((collection) => {
-                          <MenuItem key={collection} value={collection}>
-                            <em>{collection}</em>
-                          </MenuItem>
+                          return (
+                            <MenuItem key={collection} value={collection}>
+                              <em>{collection}</em>
+                            </MenuItem>)
                         })
                         : ""}
                     </Select>
