@@ -69,7 +69,7 @@ class Listener(threading.Thread):
             result['finished'] = timestamp
             # write result database and notify redis of new info
 
-            self.database.results.actions.insert_one(bson.BSON.encode(result))
+            self.database.results.actions.insert_one(result)
             self.redis_out.hmset(result['id'], result)
             self.redis_out.publish(result['id'], result['id'])
 
