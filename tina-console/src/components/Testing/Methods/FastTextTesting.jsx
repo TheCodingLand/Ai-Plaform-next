@@ -141,6 +141,7 @@ class RunTestingCard extends React.Component {
       context.subscribe(id, (obj) => this.eventRecieved(obj))
       context.action('testing', {
         id: id,
+        ia: 'ft',
         action: `testing`,
         dataset: this.state.dataset,
         model: this.state.model,

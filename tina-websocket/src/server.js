@@ -66,7 +66,7 @@ const makeRedisObj = (client, channel, message) => {
         var obj = Object.assign({},
             message,
             {
-                key: 'ft.training.' + message.id,
+                key: message.ia + '.testing.' + message.id,
                 action: 'training',
 
                 model: JSON.stringify(message.model),
@@ -82,7 +82,7 @@ const makeRedisObj = (client, channel, message) => {
         var obj = Object.assign({},
             message,
             {
-                key: 'ft.testing.' + message.id,
+                key: message.ia + '.testing.' + message.id,
                 action: 'testing',
                 model: JSON.stringify(message.model),
                 dataset: JSON.stringify(message.dataset)
@@ -96,7 +96,7 @@ const makeRedisObj = (client, channel, message) => {
         var obj = Object.assign({},
             message,
             {
-                key: 'ft.predict.' + message.id,
+                key: message.ia + '.testing.' + message.id,
                 action: 'predict'
             }
         )

@@ -150,6 +150,7 @@ class RunTrainingCard extends React.Component {
 
       context.action('training', {
         id: id,
+        ia: 'ft',
         action: `training`,
         dataset: this.state.dataset,
         model: this.state.model,
