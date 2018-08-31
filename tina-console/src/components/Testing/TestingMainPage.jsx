@@ -12,7 +12,7 @@ import { EventsContext } from 'components/Context/EventsProvider'
 
 
 
-class TrainingPage extends React.Component {
+class TestingPage extends React.Component {
     render() {
         const { classes } = this.props
         return (
