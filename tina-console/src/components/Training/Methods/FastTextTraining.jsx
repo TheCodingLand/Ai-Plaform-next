@@ -6,7 +6,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography'
 import Slider from '@material-ui/lab/Slider'
-
+import { saveState, loadState } from 'components/LocalStorage/LocalStorage'
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
 
@@ -60,6 +60,14 @@ const styles = theme => ({
 class RunTrainingCard extends React.Component {
   constructor() {
     super()
+    this.saveState = (newstate) => {
+      saveState({ ...this.state, newstate }, 'training')
+      this.setState(newstate)
+    }
+    this.loadState = () => {
+      this.setState(loadState('training'))
+
+    }
     this.state = {
       datasetErrorText: "",
       modelNameErrorText: "",
@@ -94,7 +102,10 @@ class RunTrainingCard extends React.Component {
     this.handleChangeSelect = this.handleChangeSelect.bind(this)
     this.eventRecieved = this.eventRecieved.bind(this)
   }
+  componentWillMount() {
+    this.loadState()
 
+  }
   validateForm() {
     let errors = {}
     if (this.state.dataset._id.$oid === '') {
@@ -109,7 +120,7 @@ class RunTrainingCard extends React.Component {
       return true
     }
     else {
-      this.setState(errors)
+      this.saveState(errors)
       return false
     }
   }
@@ -131,7 +142,7 @@ class RunTrainingCard extends React.Component {
     if (this.validateForm() === true) {
       let id = this.makeid()
       context.subscribe(id, (obj) => this.eventRecieved(obj))
-      this.setState({ trainingStarted: true, id: id })
+      this.saveState({ trainingStarted: true, id: id })
 
       context.action('training', {
         id: id,
@@ -153,7 +164,7 @@ class RunTrainingCard extends React.Component {
     let prevmodel = this.state.model.model
     let newmodel = { ...prevmodel, [name]: value }
     console.log(newmodel)
-    this.setState({ model: { ...prevmodel, model: newmodel } })
+    this.saveState({ model: { ...prevmodel, model: newmodel } })
     //this.setState(...model: { model: { [name]: event.target.value }}});
   };
   /* 
@@ -166,7 +177,7 @@ class RunTrainingCard extends React.Component {
       this.props.appdata.datasets.forEach(ds => {
 
         if (ds._id.$oid === event.target.value) {
-          this.setState({ [event.target.name]: ds });
+          this.saveState({ [event.target.name]: ds });
         }
       })
     }
@@ -176,12 +187,12 @@ class RunTrainingCard extends React.Component {
 
   handleChange = name => event => {
     if (name === "splitlang") {
-      this.setState({ [name]: event.target.checked });
+      this.saveState({ [name]: event.target.checked });
     } else {
       let prevmodel = this.state.model.model
       let newmodel = { ...prevmodel, [name]: event.target.value }
       console.log(newmodel)
-      this.setState({ model: { ...prevmodel, model: newmodel } })
+      this.saveState({ model: { ...prevmodel, model: newmodel } })
       //this.setState({ model: { model: { [name]: event.target.value }}});
     }
     //else if (name==="datasetname") {}
@@ -302,6 +313,7 @@ class RunTrainingCard extends React.Component {
                 helperText={this.state.modelNameErrorText}
                 className={classes.textFields}
                 label="model name"
+                value={this.state.model.model.name}
                 onChange={this.handleChange('name')}
                 id="model"
                 formControlProps={{

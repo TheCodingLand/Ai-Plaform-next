@@ -121,7 +121,7 @@ class RunTestingCard extends React.Component {
       return true
     }
     else {
-      this.setState(errors)
+      this.saveState(errors)
       return false
     }
   }
@@ -139,7 +139,7 @@ class RunTestingCard extends React.Component {
   start = (context) => {
     if (this.validateForm() === true) {
       let id = this.makeid()
-      this.setState({ predictStarted: true, id: id })
+      this.saveState({ predictStarted: true, id: id })
       //console.log(context)
       context.subscribe(id, (obj) => this.eventRecieved(obj))
       context.action('predict', {
@@ -155,7 +155,7 @@ class RunTestingCard extends React.Component {
   eventRecieved(obj) {
     //console.log(obj)
     if (obj.state === "finished") {
-      this.setState({ predictStarted: false })
+      this.saveState({ predictStarted: false })
     }
   }
 

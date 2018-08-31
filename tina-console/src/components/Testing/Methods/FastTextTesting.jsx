@@ -10,7 +10,7 @@ import Slider from '@material-ui/lab/Slider'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
-import Switch from '@material-ui/core/Switch';
+import { saveState, loadState } from 'components/LocalStorage/LocalStorage'
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -61,6 +61,14 @@ const styles = theme => ({
 class RunTestingCard extends React.Component {
   constructor() {
     super()
+    this.saveState = (newstate) => {
+      saveState({ ...this.state, newstate }, 'testing')
+      this.setState(newstate)
+    }
+    this.loadState = () => {
+      this.setState(loadState('testing'))
+
+    }
     this.state = {
       datasetErrorText: "",
       modelErrorText: "",
@@ -89,7 +97,10 @@ class RunTestingCard extends React.Component {
 
 
   }
+  componentWillMount() {
+    this.loadState()
 
+  }
   validateForm() {
     let errors = {}
     if (this.state.dataset._id.$oid === '') {
