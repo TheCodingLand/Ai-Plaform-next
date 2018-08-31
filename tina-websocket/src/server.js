@@ -135,7 +135,7 @@ redisSub.on('pmessage', (channel, key) => {
             //result = {key:key, action : "training started"}
             console.log('recieved event from redis, sending to client', key)
             clients.forEach((socket) => {
-                socket.emit(key, JSON.stringify(r))
+                socket.emit(key, r)
             })
         }
         redisIn.expire(key, 10)
