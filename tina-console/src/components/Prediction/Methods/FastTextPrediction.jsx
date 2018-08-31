@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField'
 
 import Select from '@material-ui/core/Select'
 import Input from '@material-ui/core/Input'
-
+import { saveState, loadState } from 'components/LocalStorage/LocalStorage'
 // core components
 import GridItem from "components/Grid/GridItem.jsx"
 import GridContainer from "components/Grid/GridContainer.jsx"
@@ -64,6 +64,14 @@ const styles = theme => ({
 class RunTestingCard extends React.Component {
   constructor() {
     super()
+    this.saveState = (newstate) => {
+      saveState({ ...this.state, newstate }, 'prediction')
+      this.setState(newstate)
+    }
+    this.loadState = () => {
+      this.setState(loadState('prediction'))
+
+    }
     this.state = {
       id: "",
       predictions: [],
@@ -85,6 +93,10 @@ class RunTestingCard extends React.Component {
     this.eventRecieved = this.eventRecieved.bind(this)
     this.handleChangeSelect = this.handleChangeSelect.bind(this)
 
+
+  }
+  componentWillMount() {
+    this.loadState()
 
   }
 
@@ -148,14 +160,14 @@ class RunTestingCard extends React.Component {
       this.props.appdata.models.forEach(ds => {
 
         if (ds._id.$oid === event.target.value) {
-          this.setState({ [event.target.name]: ds })
+          this.saveState({ [event.target.name]: ds })
         }
       })
     }
   }
 
   handleChange = name => event => {
-    this.setState({ [name]: event.target.value })
+    this.saveState({ [name]: event.target.value })
   }
 
   getModels = () => {
