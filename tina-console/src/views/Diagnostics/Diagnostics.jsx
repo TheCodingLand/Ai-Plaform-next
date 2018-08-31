@@ -30,7 +30,7 @@ const Diagnostics = () => {
 
     let eventsWithResuts = (context) => {
         let evs = []
-        context.events.forEach((e) => { if (e.result && e.action == 'testing') { evs.push(e) } })
+        context.events.forEach((e) => { if (e.result && e.action === 'testing') { evs.push(e) } })
         console.log(evs)
         let events = evs.map((event) => {
 
