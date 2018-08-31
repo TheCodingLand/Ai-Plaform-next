@@ -217,13 +217,13 @@ class Upload extends Component {
             </GridItem>
 
             <GridItem xs={6} sm={6} md={3}>
-              <AppContext.Consumer>{context => {
+              <AppContext.Consumer>{context =>
                 context.rawdataCollections ?
                   context.rawdataCollections.map((collection) => {
                     console.log(collection)
                     return (<Typography className={classes.typography}>{collection}</Typography>)
                   }) : ""
-              }}
+              }
               </AppContext.Consumer>
             </GridItem>
 
