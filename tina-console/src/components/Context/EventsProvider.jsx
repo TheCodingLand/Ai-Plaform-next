@@ -29,17 +29,10 @@ class EventsProvider extends React.Component {
     }
     removeNotificationByKey = (key) => {
         console.log('removing notification with key:' + key)
-        let notifications = this.state.notifications
-        console.log("from : ", notifications)
-        this.state.notifications.forEach(notif => {
-            if (notif.key === key) {
-                console.log("found key : ", key)
-                console.log('removing notification with key from', notifications)
-                notifications.remove(notif)
-            }
-        }
 
-        )
+        console.log("from : ", notifications)
+        let notifications = this.state.notifications.filter(notif => notif.key !== key)
+
         this.setState({ notifications: notifications })
 
     }
