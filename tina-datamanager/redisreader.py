@@ -9,7 +9,7 @@ import json
 import bson
 WORKER = os.getenv('WORKER')
 channel = WORKER
-
+from bson.json_util import loads
 if WORKER == "predict":
     import app.workers.predict as worker
 if WORKER == "training":
@@ -68,8 +68,8 @@ class Listener(threading.Thread):
             timestamp = time.time()
             result['finished'] = timestamp
             # write result database and notify redis of new info
-
-            self.database.results.actions.insert_one(result)
+            res = json.dumps(result)
+            self.database.results.actions.insert_one(loads(res))
             self.redis_out.hmset(result['id'], result)
             self.redis_out.publish(result['id'], result['id'])
 
