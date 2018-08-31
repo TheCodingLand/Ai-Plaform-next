@@ -8,7 +8,7 @@ import UploadPage from "views/Upload/Upload.jsx";
 import Diagnostics from "views/Diagnostics/Diagnostics.jsx";
 import Monitoring from "views/Monitoring/Monitoring.jsx";
 import Play from "@material-ui/icons/PlayArrow";
-
+import NetworkCheck from "@material-ui/icons/NetworkCheck"
 
 import MonitorIcon from "@material-ui/icons/MovieCreationTwoTone";
 import Upload from "@material-ui/icons/CloudUpload";
@@ -48,7 +48,7 @@ var dashboardRoutes = [
     path: "/testing",
     sidebarName: "AI Testing",
     navbarName: "Testing",
-    icon: Rowing,
+    icon: NetworkCheck,
     component: TestingPage
   },
   {

@@ -91,31 +91,22 @@ class RunTrainingCard extends React.Component {
       confidence: 90,
       trainingStarted: false
     };
-    this.handleChangeDataset = this.handleChangeDataset.bind(this)
+    this.handleChangeSelect = this.handleChangeSelect.bind(this)
     this.eventRecieved = this.eventRecieved.bind(this)
   }
 
   validateForm() {
     let errors = {}
     if (this.state.dataset._id.$oid === '') {
-      errors = { datasetErrorText: 'You must select a dataset !' }
+      errors = { ...errors, datasetErrorText: 'You must select a dataset !' }
       console.log("dataset not selected")
     }
     if (this.state.model.model.name === '') {
       errors = { ...errors, modelNameErrorText: 'You must enter a model name' }
       console.log("model not selected")
     }
-
-
-
-
     this.setState(errors)
-
-
-
     return false
-
-
   }
 
 
@@ -130,7 +121,8 @@ class RunTrainingCard extends React.Component {
 
     return text;
   }
-  startTraining = (context) => {
+  start = (context) => {
+
     if (this.validateForm() === true) {
       let id = this.makeid()
       context.subscribe(id, (obj) => this.eventRecieved(obj))
@@ -141,7 +133,6 @@ class RunTrainingCard extends React.Component {
         action: `training`,
         dataset: this.state.dataset,
         model: this.state.model,
-
         testmodel: this.state.model.testmodel,
         confidence: this.state.confidence
       })
@@ -165,7 +156,7 @@ class RunTrainingCard extends React.Component {
       this.setState({ [event.target.name]: event.target.value });
     }; */
 
-  handleChangeDataset(event) {
+  handleChangeSelect(event) {
     if (this.props.appdata.datasets) {
       this.props.appdata.datasets.forEach(ds => {
 
@@ -201,11 +192,10 @@ class RunTrainingCard extends React.Component {
         <CardBody>
           <GridContainer>
             <GridItem xs={12} sm={12} md={3}>
-              <FormControl className={classes.formControl} error={this.state.datasetErrorText != ''}>
+              <FormControl className={classes.formControl} error={this.state.datasetErrorText !== ''}>
                 <InputLabel htmlFor="dataset-id">Dataset</InputLabel>
                 <Select
-                  onChange={this.handleChangeDataset}
-
+                  onChange={this.handleChangeSelect}
                   value={this.state.dataset._id.$oid}
                   input={<Input name="dataset" id="dataset-id" />}
                 >
@@ -359,7 +349,7 @@ class RunTrainingCard extends React.Component {
         </CardBody>
         <CardFooter>
           <EventsContext.Consumer>{context =>
-            this.state.trainingStarted ? <Button disabled>In Progress</Button> : <Button onClick={() => this.startTraining(context)} color="primary">Start training</Button>
+            this.state.trainingStarted ? <Button disabled>In Progress</Button> : <Button onClick={() => this.start(context)} color="primary">Start training</Button>
           }</EventsContext.Consumer>
         </CardFooter>
       </Card>

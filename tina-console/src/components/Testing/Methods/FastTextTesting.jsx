@@ -62,8 +62,10 @@ class RunTestingCard extends React.Component {
   constructor() {
     super()
     this.state = {
+      datasetErrorText: "",
+      modelErrorText: "",
       dataset: {
-        _id: { $oid: "" },
+        _id: { $oid: '' },
         dataset: {
           name: "",
           version: 0,
@@ -83,10 +85,27 @@ class RunTestingCard extends React.Component {
       splitAt: 95,
     };
     this.eventRecieved = this.eventRecieved.bind(this)
-    this.handleChangeDataset = this.handleChangeDataset.bind(this)
+    this.handleChangeSelect = this.handleChangeSelect.bind(this)
 
 
   }
+
+  validateForm() {
+    let errors = {}
+    if (this.state.dataset._id.$oid === '') {
+      errors = { ...errors, datasetErrorText: 'You must select a dataset !' }
+      console.log("dataset not selected")
+    }
+
+    if (this.state.model._id.$oid === '') {
+      errors = { ...errors, modelErrorText: 'You must select a model !' }
+      console.log("model not selected")
+    }
+
+    this.setState(errors)
+    return false
+  }
+
   makeid = () => {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -96,20 +115,22 @@ class RunTestingCard extends React.Component {
 
     return text;
   }
-  startTesting = (context) => {
-    let id = this.makeid()
-    this.setState({ testingStarted: true, id: id })
-    //console.log(context)
-    context.subscribe(id, (obj) => this.eventRecieved(obj))
-    context.action('testing', {
-      id: id,
-      action: `testing`,
-      dataset: this.state.dataset,
-      model: this.state.model,
+  start = (context) => {
+    if (this.validateForm() === true) {
+      let id = this.makeid()
+      this.setState({ testingStarted: true, id: id })
+      //console.log(context)
+      context.subscribe(id, (obj) => this.eventRecieved(obj))
+      context.action('testing', {
+        id: id,
+        action: `testing`,
+        dataset: this.state.dataset,
+        model: this.state.model,
 
-      confidence: this.state.confidence
+        confidence: this.state.confidence
 
-    })
+      })
+    }
   }
   eventRecieved(obj) {
     //console.log(obj)
@@ -122,7 +143,7 @@ class RunTestingCard extends React.Component {
     this.setState({ [name]: value });
   };
 
-  handleChangeDataset(event) {
+  handleChangeSelect(event) {
     if (this.props.appdata.datasets) {
       this.props.appdata.datasets.forEach(ds => {
 
@@ -175,7 +196,7 @@ class RunTestingCard extends React.Component {
         <CardBody>
           <GridContainer>
             <GridItem xs={12} sm={12} md={3}>
-              <FormControl className={classes.formControl}>
+              <FormControl className={classes.formControl} error={this.state.datasetErrorText != ''}>
                 <InputLabel htmlFor="dataset-id">Dataset</InputLabel>
                 <Select
                   onChange={this.handleChangeDataset}
@@ -191,7 +212,7 @@ class RunTestingCard extends React.Component {
                       return (<MenuItem key={ds._id.$oid} value={ds._id.$oid}>{ds.dataset.name} {ds.dataset.version}</MenuItem>)
                     }) : ""}
                 </Select>
-                <FormHelperText>go to upload to add more</FormHelperText>
+                <FormHelperText>{this.state.datasetErrorText}</FormHelperText>
               </FormControl>
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
@@ -246,10 +267,10 @@ class RunTestingCard extends React.Component {
             </GridItem>
 
             <GridItem xs={12} sm={12} md={3}>
-              <FormControl className={classes.formControl}>
+              <FormControl className={classes.formControl} error={this.state.modelErrorText != ''}>
                 <InputLabel htmlFor="model-id">Model</InputLabel>
                 <Select
-                  onChange={this.handleChangeDataset}
+                  onChange={this.handleSelect}
                   value={this.state.model._id.$oid}
                   input={<Input name="model" id="model-id" />}
                 >
@@ -260,7 +281,7 @@ class RunTestingCard extends React.Component {
                     this.getModels()
                     : ""}
                 </Select>
-                <FormHelperText>go to upload to add more</FormHelperText>
+                <FormHelperText>{this.state.modelErrorText}</FormHelperText>
               </FormControl>
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
@@ -305,7 +326,7 @@ class RunTestingCard extends React.Component {
         </CardBody>
         <CardFooter>
           <EventsContext.Consumer>{context =>
-            this.state.testingStarted ? <Button disabled>In Progress</Button> : <Button onClick={() => this.startTesting(context)} color="rose">Start testing</Button>
+            this.state.testingStarted ? <Button disabled>In Progress</Button> : <Button onClick={() => this.start(context)} color="rose">Start testing</Button>
           }</EventsContext.Consumer>
         </CardFooter>
       </Card>

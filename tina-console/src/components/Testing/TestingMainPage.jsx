@@ -25,9 +25,9 @@ class TestingPage extends React.Component {
                                 <Typography>FastText</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                <Paper>
-                                    <FastTextTesting appdata={context} />
-                                </Paper>
+
+                                <FastTextTesting appdata={context} />
+
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
 
