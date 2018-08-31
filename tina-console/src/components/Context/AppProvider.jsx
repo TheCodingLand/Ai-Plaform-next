@@ -14,7 +14,7 @@ export class AppProvider extends React.Component {
             models: [],
             rawdataCollections: [],
             rawdataColumns: [],
-            results: []
+            actions: []
         }
 
     }
