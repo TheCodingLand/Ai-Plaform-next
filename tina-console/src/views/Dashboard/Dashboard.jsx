@@ -33,17 +33,18 @@ import { AppContext } from "components/Context/AppProvider"
 import dashboardStyle from "assets/jss/ctg-ai-lab/views/dashboardStyle.jsx";
 
 class Dashboard extends React.Component {
+  sortFloat(a, b) { return a - b }
   top5(actions) {
     console.log(actions)
     //let results = actions.map((action) => action.result)
     actions = actions.filter(action => action.action === 'testing')
 
-
-    let top = []
-    console.log(actions)
-    top = orderBy(actions, 'result.percent', 'desc');
-    console.log(top)
-    top = orderBy(actions, 'result.percent', 'asc');
+    actions.sort((action) => this.sortFloat(action.result.percent))
+    let top = actions
+    //console.log(actions)
+    //top = orderBy(actions, 'result.percent', 'desc');
+    //console.log(top)
+    //top = orderBy(actions, 'result.percent', 'asc');
     console.log(top)
     //sortBy(actions, ['percent', "desc"])
 
