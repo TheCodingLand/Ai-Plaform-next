@@ -5,7 +5,7 @@ import logging
 import time
 from app import client as db
 channel = os.getenv('CHANNEL')
-
+import json
 WORKER = os.getenv('WORKER')
 channel = WORKER
 
