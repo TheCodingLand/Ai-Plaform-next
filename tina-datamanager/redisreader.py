@@ -71,7 +71,7 @@ class Listener(threading.Thread):
             res = json.dumps(result)
             self.database.results.actions.insert_one(loads(res))
 
-            self.redis_out.hmset(result['id'], res)
+            self.redis_out.hmset(result['id'], {"data": res})
             self.redis_out.publish(result['id'], result['id'])
 
     def run(self):
