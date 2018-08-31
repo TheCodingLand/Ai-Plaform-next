@@ -57,7 +57,7 @@ class Dashboard extends React.Component {
                 {this.top5(context.actions).map(result => 
                 <GridItem xs={12} sm={6} md={3}>
                   <Card>
-                    <CardHeader color="success" stats icon>
+                    <CardHeader color={result.result.percent > 90?"success":result.result.percent<60?"error":"success"} stats icon>
                       <CardIcon color="success">
                         <Icon>content_copy</Icon>
                       </CardIcon>
