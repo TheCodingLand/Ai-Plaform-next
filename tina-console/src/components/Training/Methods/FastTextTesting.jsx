@@ -62,16 +62,22 @@ class RunTestingCard extends React.Component {
   constructor() {
     super()
     this.state = {
-      dataset: { _id: {$oid: ""},
-                dataset: {
-                name:"", 
-                version: 0,
-                classifier:"",
-                TextColumns:[],
-       }},
-      model: { _id: {$oid: ""},
-      model : { name:"", 
-      version: 0,}},
+      dataset: {
+        _id: { $oid: "" },
+        dataset: {
+          name: "",
+          version: 0,
+          classifier: "",
+          TextColumns: [],
+        }
+      },
+      model: {
+        _id: { $oid: "" },
+        model: {
+          name: "",
+          version: 0,
+        }
+      },
       confidence: 90,
       testingStarted: false,
       splitAt: 95,
@@ -100,53 +106,58 @@ class RunTestingCard extends React.Component {
       action: `testing`,
       dataset: this.state.dataset,
       model: this.state.model,
-      
+
       confidence: this.state.confidence
-      
+
     })
   }
   eventRecieved(obj) {
     //console.log(obj)
-    if (obj.state ==="finished"){
-      this.setState({testingStarted:false})
+    if (obj.state === "finished") {
+      this.setState({ testingStarted: false })
     }
   }
-  
+
   handleChangeSlider = name => (event, value) => {
     this.setState({ [name]: value });
   };
 
   handleChangeDataset(event) {
     this.props.appdata.datasets.forEach(ds => {
-      
-      if (ds._id.$oid===event.target.value) { 
-      this.setState({ [event.target.name]: ds });
-    }})
+
+      if (ds._id.$oid === event.target.value) {
+        this.setState({ [event.target.name]: ds });
+      }
+    })
     this.props.appdata.models.forEach(ds => {
-      
-      if (ds._id.$oid===event.target.value) { 
-      this.setState({ [event.target.name]: ds });
-    }})
-    
+
+      if (ds._id.$oid === event.target.value) {
+        this.setState({ [event.target.name]: ds });
+      }
+    })
+
   };
 
   handleChange = name => event => {
-    
-      this.setState({ [name]: event.target.value });
-    
+
+    this.setState({ [name]: event.target.value });
+
     //else if (name==="datasetname") {}
   };
   getModels = () => {
     let models = []
-    this.props.appdata.models.forEach((model) => {if (model.model.label === this.state.dataset.dataset.classifier) { models.push(model) }
-    else { console.log(model.model.label)}
-  })
+    this.props.appdata.models.forEach((model) => {
+      if (model.model.label === this.state.dataset.dataset.classifier) { models.push(model) }
+      else { console.log(model.model.label) }
+    })
 
 
-  return models.map((md) => {
-    // console.log(md)
-     return ( <MenuItem key={md._id.$oid} value={md._id.$oid}>{md.model.name} {md.model.version}</MenuItem>)})}
-  
+    return models.map((md) => {
+      // console.log(md)
+      return (<MenuItem key={md._id.$oid} value={md._id.$oid}>{md.model.name} {md.model.version}</MenuItem>)
+    })
+  }
+
 
   render() {
     //console.log(this.props.appdata.datasets)
@@ -170,11 +181,11 @@ class RunTestingCard extends React.Component {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  { this.props.appdata.datasets ?
+                  {this.props.appdata.datasets ?
 
-                    this.props.appdata.datasets.map((ds) => {                     
-                      return ( <MenuItem key={ds._id.$oid} value={ds._id.$oid}>{ds.dataset.name} {ds.dataset.version}</MenuItem>)
-                } ): "" }
+                    this.props.appdata.datasets.map((ds) => {
+                      return (<MenuItem key={ds._id.$oid} value={ds._id.$oid}>{ds.dataset.name} {ds.dataset.version}</MenuItem>)
+                    }) : ""}
                 </Select>
                 <FormHelperText>go to upload to add more</FormHelperText>
               </FormControl>
@@ -227,9 +238,9 @@ class RunTestingCard extends React.Component {
                 <GridItem xs={2} sm={2} md={2}>
                   <Typography>{this.state.confidence}%</Typography>
                 </GridItem>
-             </GridContainer>
+              </GridContainer>
             </GridItem>
-            
+
             <GridItem xs={12} sm={12} md={3}>
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="model-id">Model</InputLabel>
@@ -241,9 +252,9 @@ class RunTestingCard extends React.Component {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  { this.props.appdata.models ?
+                  {this.props.appdata.models ?
                     this.getModels()
-                    : "" }
+                    : ""}
                 </Select>
                 <FormHelperText>go to upload to add more</FormHelperText>
               </FormControl>
@@ -254,13 +265,12 @@ class RunTestingCard extends React.Component {
                 labelText="model"
                 disabled
                 id="model"
-                value="Contoso.com"
                 value={this.state.model.model.name}
                 formControlProps={{
                   fullWidth: true
                 }}
               />
-              </GridItem>
+            </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
                 className={classes.textFields}
@@ -272,7 +282,7 @@ class RunTestingCard extends React.Component {
                   fullWidth: true
                 }}
               />
-            
+
             </GridItem>
             {/* <GridItem xs={12} sm={12} md={4}>
               <FormControlLabel className={classes.formControl}

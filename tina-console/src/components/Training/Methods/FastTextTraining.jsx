@@ -62,33 +62,37 @@ class RunTrainingCard extends React.Component {
   constructor() {
     super()
     this.state = {
-      
-      dataset: { _id: {$oid: ""},
-                dataset: {
-                name:"", 
-                version: 0,
-                classifier:"",
-                TextColumns:[],
-                }
+
+      dataset: {
+        _id: { $oid: "" },
+        dataset: {
+          name: "",
+          version: 0,
+          classifier: "",
+          TextColumns: [],
+        }
       },
-      model: 
-        { _id: 
-          {$oid: ""},
-          model : { name:"", 
+      model:
+      {
+        _id:
+          { $oid: "" },
+        model: {
+          name: "",
           version: 0,
           epochs: 200,
           version: '1',
           ngrams: 3,
           learningRate: .2,
-          splitAt:95
-      }},
-    
-    testmodel:true,
-    confidence: 90,
-    trainingStarted: false
+          splitAt: 95
+        }
+      },
+
+      testmodel: true,
+      confidence: 90,
+      trainingStarted: false
     };
     this.handleChangeDataset = this.handleChangeDataset.bind(this)
-    this.eventRecieved= this.eventRecieved.bind(this)
+    this.eventRecieved = this.eventRecieved.bind(this)
 
 
   }
@@ -105,55 +109,57 @@ class RunTrainingCard extends React.Component {
     let id = this.makeid()
     context.subscribe(id, (obj) => this.eventRecieved(obj))
     this.setState({ trainingStarted: true, id: id })
-    
+
     context.action('training', {
       id: id,
       action: `training`,
       dataset: this.state.dataset,
       model: this.state.model,
-      
+
       testmodel: this.state.model.testmodel,
       confidence: this.state.confidence
     })
-    
+
   }
   eventRecieved(obj) {
     //console.log(obj)
   }
-  
+
   handleChangeSlider = name => (event, value) => {
-    
-    let prevmodel =this.state.model.model
-    let newmodel = {...prevmodel, [name]:value}
+
+    let prevmodel = this.state.model.model
+    let newmodel = { ...prevmodel, [name]: value }
     console.log(newmodel)
     this.setState({ model: { ...prevmodel, model: newmodel } })
     //this.setState(...model: { model: { [name]: event.target.value }}});
   };
-/* 
-  handleChangeDataset(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  }; */
+  /* 
+    handleChangeDataset(event) {
+      this.setState({ [event.target.name]: event.target.value });
+    }; */
 
   handleChangeDataset(event) {
     this.props.appdata.datasets.forEach(ds => {
-      
-      if (ds._id.$oid===event.target.value) { 
-      this.setState({ [event.target.name]: ds });
-    }})
+
+      if (ds._id.$oid === event.target.value) {
+        this.setState({ [event.target.name]: ds });
+      }
+    })
     this.props.appdata.models.forEach(ds => {
-      
-      if (ds._id.$oid===event.target.value) { 
-      this.setState({ [event.target.name]: ds });
-    }})
-    
+
+      if (ds._id.$oid === event.target.value) {
+        this.setState({ [event.target.name]: ds });
+      }
+    })
+
   };
 
   handleChange = name => event => {
     if (name === "splitlang") {
       this.setState({ [name]: event.target.checked });
     } else {
-      let prevmodel =this.state.model.model
-      let newmodel = {...prevmodel, [name]: event.target.value}
+      let prevmodel = this.state.model.model
+      let newmodel = { ...prevmodel, [name]: event.target.value }
       console.log(newmodel)
       this.setState({ model: { ...prevmodel, model: newmodel } })
       //this.setState({ model: { model: { [name]: event.target.value }}});
@@ -171,7 +177,7 @@ class RunTrainingCard extends React.Component {
         <CardBody>
           <GridContainer>
             <GridItem xs={12} sm={12} md={3}>
-            <FormControl className={classes.formControl}>
+              <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="dataset-id">Dataset</InputLabel>
                 <Select
                   onChange={this.handleChangeDataset}
@@ -181,22 +187,22 @@ class RunTrainingCard extends React.Component {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  { this.props.appdata.datasets ?
+                  {this.props.appdata.datasets ?
 
                     this.props.appdata.datasets.map((ds) => {
-                      
+
                       return (
-                
-                        
-                  <MenuItem key={ds._id.$oid} value={ds._id.$oid}>{ds.dataset.name} {ds.dataset.version}</MenuItem>)
-              
-                } ): "" }
+
+
+                        <MenuItem key={ds._id.$oid} value={ds._id.$oid}>{ds.dataset.name} {ds.dataset.version}</MenuItem>)
+
+                    }) : ""}
                 </Select>
                 <FormHelperText>go to upload to add more</FormHelperText>
               </FormControl>
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
-            <CustomInput
+              <CustomInput
                 className={classes.textFields}
                 labelText="Dataset version"
                 id="datasetversion"
@@ -207,6 +213,17 @@ class RunTrainingCard extends React.Component {
                 }}
               />
             </GridItem>
+            <GridItem xs={12} sm={12} md={6}>
+              <CustomInput
+                className={classes.textFields}
+                labelText="Column label :"
+                id="column"
+                disabled
+                value={this.state.dataset.dataset.classifier}
+                formControlProps={{
+                  fullWidth: true
+                }}
+              /></GridItem>
           </GridContainer>
           <GridContainer>
 
@@ -267,7 +284,7 @@ class RunTrainingCard extends React.Component {
                   fullWidth: true
                 }}
               />
-              </GridItem>
+            </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
                 className={classes.textFields}
@@ -278,23 +295,23 @@ class RunTrainingCard extends React.Component {
                   fullWidth: true
                 }}
               />
-            
+
             </GridItem>
 
             <GridItem xs={12} sm={12} md={6}>
 
-          <Typography className={classes.sliders} id="splittestlabel">Split Training / testing data at : </Typography>
-          <GridContainer>
-            <GridItem xs={10} sm={10} md={10}>
-              <Slider value={this.state.model.model.splitAt} aria-labelledby="splittestlabel" min={50} max={100} step={1} onChange={this.handleChangeSlider('splitAt')} />
-            </GridItem>
+              <Typography className={classes.sliders} id="splittestlabel">Split Training / testing data at : </Typography>
+              <GridContainer>
+                <GridItem xs={10} sm={10} md={10}>
+                  <Slider value={this.state.model.model.splitAt} aria-labelledby="splittestlabel" min={50} max={100} step={1} onChange={this.handleChangeSlider('splitAt')} />
+                </GridItem>
 
-            <GridItem xs={2} sm={2} md={2}>
-              <Typography>{this.state.model.model.splitAt}%</Typography>
-            </GridItem>
+                <GridItem xs={2} sm={2} md={2}>
+                  <Typography>{this.state.model.model.splitAt}%</Typography>
+                </GridItem>
 
-          </GridContainer>
-          </GridItem>
+              </GridContainer>
+            </GridItem>
             {/* <GridItem xs={12} sm={12} md={4}>
               <FormControlLabel className={classes.formControl}
                 control={
