@@ -2,6 +2,8 @@ import React from "react";
 //meterial
 import Icon from "@material-ui/core/Icon";
 import withStyles from "@material-ui/core/styles/withStyles";
+import Typography from "@material-ui/core/Typography"
+import CardContent from "@material-ui/core/CardContent"
 import sortBy from 'lodash/sortBy'
 // @material-ui/icons
 // import Store from "@material-ui/icons/Store";
@@ -22,6 +24,8 @@ import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
+
+
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import { AppContext } from "components/Context/AppProvider"
@@ -66,7 +70,7 @@ class Dashboard extends React.Component {
                     <CardFooter stats>
                       <div className={classes.stats}>
                         <a href="#advanced" onClick={e => e.preventDefault()}>
-                          Advanced stats
+                          https://api.tina.ctg.lu {result.model.model._id}
         
                   </a>
                       </div>
