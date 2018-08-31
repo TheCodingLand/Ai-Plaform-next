@@ -220,10 +220,10 @@ class Upload extends Component {
               <Typography className={classes.typography}>Select</Typography>
               <AppContext.Consumer>{context => {
                 console.log(context)
-                this.context.rawdataCollections ?
+                context.rawdataCollections ?
                   context.rawdataCollections.map(collection => {
-                    console.log(collection._id)
-                    return <Typography>{collection._id}</Typography>
+                    console.log(collection)
+                    return <Typography>{collection}</Typography>
                   }) : ""
               }}
               </AppContext.Consumer>
