@@ -86,7 +86,7 @@ class Listener(threading.Thread):
             except:
                 pass
 
-            self.database.results.actions.insert_one(result)
+            self.database.results.actions.insert_one(res)
 
             self.redis_out.hmset(result['id'], result)
             self.redis_out.publish(result['id'], result['id'])
