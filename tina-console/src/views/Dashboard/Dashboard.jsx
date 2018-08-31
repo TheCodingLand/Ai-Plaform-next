@@ -45,7 +45,7 @@ class Dashboard extends React.Component {
                 <GridItem xs={12} sm={12} md={12}>
                   Models:
     </GridItem>
-                {this.top5(context.results).map(result =>result)}
+                {this.top5(context.results).map(result => console.log(result))}
                 <GridItem xs={12} sm={6} md={3}>
                   <Card>
                     <CardHeader color="success" stats icon>
