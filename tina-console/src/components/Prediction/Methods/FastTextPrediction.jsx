@@ -67,7 +67,7 @@ class RunTestingCard extends React.Component {
       this.setState(newstate)
     }
     this.loadState = () => {
-      this.setState(...loadState('prediction'), { predictStarted: false })
+      this.setState(...this.state, loadState('prediction'), { predictStarted: false })
 
 
     }
