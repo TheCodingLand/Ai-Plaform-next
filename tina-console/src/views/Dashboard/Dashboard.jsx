@@ -4,7 +4,7 @@ import Icon from "@material-ui/core/Icon";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography"
 import CardContent from "@material-ui/core/CardContent"
-import sortBy from 'lodash/sortBy'
+import orderBy from 'lodash/sortBy'
 // @material-ui/icons
 // import Store from "@material-ui/icons/Store";
 // import Warning from "@material-ui/icons/Warning";
@@ -40,7 +40,8 @@ class Dashboard extends React.Component {
 
 
     let top = []
-    top = sortBy(actions, ['result']['percent', "desc"])
+    top = orderBy(actions, function (e) { return e.result.precent }, ['desc']);
+    //sortBy(actions, ['percent', "desc"])
 
     return top
 
