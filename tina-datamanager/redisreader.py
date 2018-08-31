@@ -67,6 +67,25 @@ class Listener(threading.Thread):
             timestamp = time.time()
             result['finished'] = timestamp
             # write result database and notify redis of new info
+
+            res = result
+            try:
+                res.model = json.loads(res.model)
+            except:
+                pass
+            try:
+                res.ftmodel = json.loads(res.ftmodel)
+            except:
+                pass
+            try:
+                res.dataset = json.loads(res.dataset)
+            except:
+                pass
+            try:
+                res.result = json.loads(res.result)
+            except:
+                pass
+
             self.database.results.actions.insert_one(result)
 
             self.redis_out.hmset(result['id'], result)
