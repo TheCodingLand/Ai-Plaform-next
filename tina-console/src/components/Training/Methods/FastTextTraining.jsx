@@ -20,6 +20,7 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import { EventsContext } from "components/Context/EventsProvider";
 import TextField from "@material-ui/core/TextField";
+import { object } from "prop-types";
 const styles = theme => ({
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
@@ -150,7 +151,13 @@ class RunTrainingCard extends React.Component {
     if (this.props.appdata.datasets) {
       this.props.appdata.datasets.forEach(ds => {
         if (ds._id.$oid === event.target.value) {
-          this.saveState({ [event.target.name]: ds });
+          let prop = "model.name";
+          let prevmodel = this.state.model;
+          let newmodel = { ...prevmodel, [prop]: ds.dataset.classifier };
+          this.saveState({
+            [event.target.name]: ds,
+            model: { ...prevmodel, model: newmodel }
+          });
         }
       });
     }
