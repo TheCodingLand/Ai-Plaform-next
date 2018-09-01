@@ -67,7 +67,7 @@ class RunTrainingCard extends React.Component {
       this.setState(loadState("training"));
     };
     this.state = {
-      id = "default",
+      id: "",
       datasetErrorText: "",
       modelNameErrorText: "",
 
@@ -136,7 +136,6 @@ class RunTrainingCard extends React.Component {
       //context.sendEventAndSubscribe(id, obj => this.eventRecieved(obj));
     }
   };
- 
 
   handleChangeSlider = name => (event, value) => {
     let prevmodel = this.state.model.model;
