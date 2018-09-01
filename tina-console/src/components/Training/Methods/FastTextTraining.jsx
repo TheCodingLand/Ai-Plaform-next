@@ -157,7 +157,7 @@ class RunTrainingCard extends React.Component {
 
           this.saveState({
             [event.target.name]: ds,
-            model: { ...this.state.model, model: model }
+            model: model
           });
         }
       });
