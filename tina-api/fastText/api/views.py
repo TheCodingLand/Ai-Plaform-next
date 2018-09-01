@@ -31,10 +31,10 @@ def genId():
     return ''.join([choice(string.ascii_letters) for i in range(10)])
 
 
-def pushToRedis(key, data):
+def pushToRedis(key, taskid, data):
 
     data = json.dumps(data)
-    b.hmset(key, {"data": data})
+    b.hmset(key, {"data": data, "id": taskid, "key": key})
     b.publish(key, key)
     return id
 
@@ -83,7 +83,7 @@ class Model(Resource):
                 }
         logging.error(data)
         # taskIds can be returned for long operations, so the  client can query the status of an operation
-        pushToRedis(key, data)
+        pushToRedis(key, taskid, data)
 
         count = 0
         while not c.hgetall(taskid):
