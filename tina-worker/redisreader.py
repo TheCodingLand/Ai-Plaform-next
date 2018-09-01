@@ -1,87 +1,100 @@
 import redis
-import time
-import logging
-from bson.json_util import loads
-from app.db import db
-database = db()
 import os
+import threading
+import logging
+import time
+from app import client as db
+channel = os.getenv('CHANNEL')
 import json
-
-action = os.getenv('WORKER')
-if action == "predict":
-    import app.predict as actions
-if action == "training":
-    import app.training as actions
-if action == "testing":
-    import app.testing as actions
-if action == "optimize":
-    import app.optimize as actions
-
-redis_host=os.getenv('REDIS_HOST')
-
-Loglevel = os.getenv('LOGLEVEL')
-
+import bson
+WORKER = os.getenv('WORKER')
+channel = WORKER
+from bson.json_util import loads
+if WORKER == "predict":
+    import app.workers.predict as worker
+if WORKER == "training":
+    import app.workers.training as worker
+if WORKER == "testing":
+    import app.workers.testing as worker
+if WORKER == "optimize":
+    import app.workers.optimize as worker
+if WORKER == "datasetbuilder":
+    import app.workers.mongoToFt as worker
 
 logger = logging.getLogger()
 handler = logging.StreamHandler()
 formatter = logging.Formatter(
-        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+    '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
+redis_host = os.getenv('REDIS_HOST')
 
 
-
-#read keys from here
-redis_in = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=1)
-logger.debug('reading keys from redis db 1')
-#write work job status here :
-redis_out = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=2)
-
-
-
+def test():
+    testredis = redis.StrictRedis(
+        host=redis_host, decode_responses=True, port=6379, db=1)
+    testredis.hmset(f'ft.{channel}.TEST', {"classification": 'Operational  Categorization Tier 2',
+                                           "columns": 'Summary;Notes', 'datasetName': 'bnp', 'version': 99, 'collection': 'bnp'})
+    testpubsub = redis.Redis(host=redis_host, decode_responses=True, port=6379)
+    testpubsub.publish(f'ft.{channel}.TEST', f'ft.{channel}.TEST')
 
 
-while True:
-    keys = redis_in.keys(f'ft.{action}*')
-    if len(keys) == 0:
-        time.sleep(0.1)
+class Listener(threading.Thread):
+    def __init__(self, r, channel):
+        threading.Thread.__init__(self)
+        self.database = db
+        self.redis_in = redis.StrictRedis(
+            host=redis_host, decode_responses=True, port=6379, db=1)
+        self.redis_out = redis.StrictRedis(
+            host=redis_host, decode_responses=True, port=6379, db=2)
 
-    for key in keys:
-        try:
-            k = redis_in.hgetall(key)
-        except redis.exceptions.ResponseError:
-            logging.error('Failed to deal with key %s' % key)
-            redis_in.delete(key)
-            continue
-        logger.debug("got key :%s", key)
-        redis_in.delete(key)
-        k['state']= 'in progress'
-        
-        timestamp = time.time()
-        k['started'] = timestamp
-        
-        
-        k = actions.manageAction(key, k, redis_out)
-        #keyname, data, ft object
-        timestamp = time.time()
-        k['finished'] = timestamp
-        k['state']= 'finished'
-        
-        redis_out.hmset(k['id'], k)
-        redis_out.publish(k['id'], k['id'])
-        
-        r = {}
-        for attr, value in k.items():
-         
-            try:
-                r.update({attr : loads(value)})
-            except:
-                pass
+        self.redis = r
+        self.pubsub = self.redis.pubsub()
+        self.pubsub.psubscribe([f'ft.{channel}.*'])
+        # time.sleep(5)
+        # test()
+
+    def work(self, item):
+
+        logging.info(item['channel'])
+        logging.info(item['data'])
+        if item['data'] != 1:
+            data = self.redis_in.hgetall(item['channel'])
+            logging.warning(data)
+
+            data['data'] = json.loads(data['data'])
+            job = worker.worker(data, self)
+
+            result = job.run()
+            result['state'] = "finished"
+
+            timestamp = time.time()
+            result['finished'] = timestamp
+            # write result database and notify redis of new info
+            res = json.dumps(result)
+            self.database.results.actions.insert_one(loads(res))
+
+            self.redis_out.hmset(result['id'], {"data": res})
+            self.redis_out.publish(result['id'], result['id'])
+
+    def run(self):
+        for item in self.pubsub.listen():
+            if item['data'] == "KILL":
+                self.pubsub.unsubscribe()
+                print(self, "unsubscribed and finished")
+                break
+            else:
+                logging.info(item)
+                self.work(item)
 
 
-        database.writeStats(r)
+if __name__ == "__main__":
+    r = redis.Redis(host=redis_host, decode_responses=True, port=6379)
+    if channel:
+        client = Listener(r, channel)
+        client.start()
 
-
-            
-            
+    else:
+        logging.error(
+            "ERROR : No Channel Defined. Please register CHANNEL environment variable")

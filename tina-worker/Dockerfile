@@ -1,18 +1,15 @@
 FROM python:latest
 
-# set working directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-
-#Dependencies for building Fasttext
 RUN apt-get update && apt-get install -y \
         build-essential \
         wget \
-        git
+        git \
+        python3-dev \
+        unixodbc-dev
 
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-# install requirements
 ADD ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
 
@@ -25,7 +22,6 @@ RUN python setup.py install
 #RUN gunzip cc.fr.300.bin.gz
 # add app
 
-WORKDIR /usr/src/app/fastText
 RUN make
 RUN chmod 777 /usr/src/app/fastText/fasttext
 RUN pip install pyfasttext
@@ -35,6 +31,7 @@ RUN mkdir -p /data/models/
 RUN mkdir -p /data/models/language/0/doc
 RUN wget https://s3-us-west-1.amazonaws.com/fasttext-vectors/supervised_models/lid.176.ftz -O /data/models/language/0/model.ftz
 WORKDIR /usr/src/app
-# run server
-ADD . /usr/src/app/
+
+RUN pip install -r requirements.txt
+ADD . /usr/src/app
 CMD python3 redisreader.py

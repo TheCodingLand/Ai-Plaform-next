@@ -1,4 +1,6 @@
+pyodbc
+beautifulsoup4
+pymongo
+redis
 pybind11
 Cython
-redis
-pymongo
