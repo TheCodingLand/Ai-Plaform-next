@@ -106,7 +106,8 @@ class EventsProvider extends React.Component {
 
     if (o.state === "finished") {
       activeTasks = this.state.activeTasks.filter(task => task === o.id);
-      cb(o);
+
+      typeof cb === "function" && cb(o);
     }
     if (o.result) {
       results.push(o);
