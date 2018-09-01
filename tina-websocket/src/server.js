@@ -49,7 +49,7 @@ redisSub.on("pmessage", (channel, key) => {
         socket.redisSubKeys.forEach(registeredkey => {
           if (registeredkey === key) {
             console.log("found it, sending info", r);
-            socket.emit(r.id, r);
+            socket.emit("message", r);
           }
         });
       });
