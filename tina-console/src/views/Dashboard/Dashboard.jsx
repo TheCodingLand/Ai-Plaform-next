@@ -51,7 +51,7 @@ class Dashboard extends React.Component {
   }
   getColor(percent) {
     if (percent > 90) { return "success" }
-    if (percent < 75) { return "danger" }
+    if (percent < 70) { return "danger" }
     return "warning"
   }
   render() {
