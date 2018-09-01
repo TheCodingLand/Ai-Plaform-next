@@ -22,7 +22,14 @@ let io = srv(3001);
 
 const initClientChannels = () => {
   //This will be to hand socket scaling, we will get active sessions from redis and active tasks
-  //clientlist = redisIn.hgetall("registeredclients");
+  key = "socket.registeredClients";
+  redisIn.get(key, (err, r) => {
+    if (!err) {
+      if (r !== null) {
+        JSON.parse(r);
+      }
+    }
+  });
 };
 
 //Listens to channels from the websockets and relays them to redis
