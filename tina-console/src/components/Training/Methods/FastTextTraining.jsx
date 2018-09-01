@@ -1,14 +1,14 @@
 import React from "react";
 import InputLabel from "@material-ui/core/InputLabel";
 import withStyles from "@material-ui/core/styles/withStyles";
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Typography from '@material-ui/core/Typography'
-import Slider from '@material-ui/lab/Slider'
-import { saveState, loadState } from 'components/LocalStorage/LocalStorage'
-import Select from '@material-ui/core/Select';
-import Input from '@material-ui/core/Input';
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Typography from "@material-ui/core/Typography";
+import Slider from "@material-ui/lab/Slider";
+import { saveState, loadState } from "components/LocalStorage/LocalStorage";
+import Select from "@material-ui/core/Select";
+import Input from "@material-ui/core/Input";
 
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
@@ -18,8 +18,8 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-import { EventsContext } from 'components/Context/EventsProvider'
-import TextField from '@material-ui/core/TextField'
+import { EventsContext } from "components/Context/EventsProvider";
+import TextField from "@material-ui/core/TextField";
 const styles = theme => ({
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
@@ -41,7 +41,7 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120,
-    marginTop: "27px",
+    marginTop: "27px"
   },
   sliders: {
     paddingBottom: "10px",
@@ -52,26 +52,24 @@ const styles = theme => ({
   textFields: {
     paddingBottom: "10px",
     margin: theme.spacing.unit,
-    width: '100%',
+    width: "100%",
     position: "relative"
   }
-
 });
 class RunTrainingCard extends React.Component {
   constructor() {
-    super()
-    this.saveState = (newstate) => {
-      saveState({ ...this.state, newstate }, 'training')
-      this.setState(newstate)
-    }
+    super();
+    this.saveState = newstate => {
+      saveState({ ...this.state, newstate }, "training");
+      this.setState(newstate);
+    };
     this.loadState = () => {
-      this.setState(loadState('training'))
-
-    }
+      this.setState(loadState("training"));
+    };
     this.state = {
+      id = "default",
       datasetErrorText: "",
       modelNameErrorText: "",
-
 
       dataset: {
         _id: { $oid: "" },
@@ -79,19 +77,17 @@ class RunTrainingCard extends React.Component {
           name: "",
           version: 0,
           classifier: "",
-          TextColumns: [],
+          TextColumns: []
         }
       },
-      model:
-      {
-        _id:
-          { $oid: "" },
+      model: {
+        _id: { $oid: "" },
         model: {
           name: "",
           epochs: 200,
-          version: '1',
+          version: "1",
           ngrams: 3,
-          learningRate: .2,
+          learningRate: 0.2,
           splitAt: 95
         }
       },
@@ -99,77 +95,54 @@ class RunTrainingCard extends React.Component {
       confidence: 90,
       trainingStarted: false
     };
-    this.handleChangeSelect = this.handleChangeSelect.bind(this)
-    this.eventRecieved = this.eventRecieved.bind(this)
+    this.handleChangeSelect = this.handleChangeSelect.bind(this);
   }
   componentWillMount() {
-    this.loadState()
-
+    this.loadState();
   }
   validateForm() {
-    let valid = true
-    let errors = {}
-    if (this.state.dataset._id.$oid === '') {
-      errors = { ...errors, datasetErrorText: 'You must select a dataset !' }
-      valid = false
-      console.log("dataset not selected")
+    let valid = true;
+    let errors = {};
+    if (this.state.dataset._id.$oid === "") {
+      errors = { ...errors, datasetErrorText: "You must select a dataset !" };
+      valid = false;
+      console.log("dataset not selected");
     }
-    if (this.state.model.model.name === '') {
-      errors = { ...errors, modelNameErrorText: 'You must enter a model name' }
-      valid = false
-      console.log("model not selected")
+    if (this.state.model.model.name === "") {
+      errors = { ...errors, modelNameErrorText: "You must enter a model name" };
+      valid = false;
+      console.log("model not selected");
     }
     if (valid) {
-      this.saveState({ modelNameErrorText: "", datasetErrorText: "" })
-      return valid
-    }
-    else {
-      this.saveState(errors)
-      return valid
+      this.saveState({ modelNameErrorText: "", datasetErrorText: "" });
+      return valid;
+    } else {
+      this.saveState(errors);
+      return valid;
     }
   }
 
-
-
-
-  makeid = () => {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for (var i = 0; i < 10; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
-  }
-  start = (context) => {
-
+  start = context => {
     if (this.validateForm() === true) {
-      let id = this.makeid()
-      context.subscribe(id, (obj) => this.eventRecieved(obj))
-      this.saveState({ trainingStarted: true, id: id })
-
-      context.action('training', {
-        id: id,
-        ia: 'ft',
-        action: `training`,
+      let data = {
         dataset: this.state.dataset,
         model: this.state.model,
         testmodel: this.state.model.testmodel,
         confidence: this.state.confidence
-      })
+      };
+      let id = context.createEvent("ft", "training", data);
+      this.setState({ id: id });
 
+      //context.sendEventAndSubscribe(id, obj => this.eventRecieved(obj));
     }
-  }
-  eventRecieved(obj) {
-    //console.log(obj)
-  }
+  };
+ 
 
   handleChangeSlider = name => (event, value) => {
-
-    let prevmodel = this.state.model.model
-    let newmodel = { ...prevmodel, [name]: value }
-    console.log(newmodel)
-    this.saveState({ model: { ...prevmodel, model: newmodel } })
+    let prevmodel = this.state.model.model;
+    let newmodel = { ...prevmodel, [name]: value };
+    console.log(newmodel);
+    this.saveState({ model: { ...prevmodel, model: newmodel } });
     //this.setState(...model: { model: { [name]: event.target.value }}});
   };
   /* 
@@ -180,24 +153,21 @@ class RunTrainingCard extends React.Component {
   handleChangeSelect(event) {
     if (this.props.appdata.datasets) {
       this.props.appdata.datasets.forEach(ds => {
-
         if (ds._id.$oid === event.target.value) {
           this.saveState({ [event.target.name]: ds });
         }
-      })
+      });
     }
-
-
-  };
+  }
 
   handleChange = name => event => {
     if (name === "splitlang") {
       this.saveState({ [name]: event.target.checked });
     } else {
-      let prevmodel = this.state.model.model
-      let newmodel = { ...prevmodel, [name]: event.target.value }
-      console.log(newmodel)
-      this.saveState({ model: { ...prevmodel, model: newmodel } })
+      let prevmodel = this.state.model.model;
+      let newmodel = { ...prevmodel, [name]: event.target.value };
+      console.log(newmodel);
+      this.saveState({ model: { ...prevmodel, model: newmodel } });
       //this.setState({ model: { model: { [name]: event.target.value }}});
     }
     //else if (name==="datasetname") {}
@@ -208,12 +178,15 @@ class RunTrainingCard extends React.Component {
       <Card>
         <CardHeader color="primary">
           <h4 className={classes.cardTitleWhite}>Training Settings</h4>
-          <p className={classes.cardCategoryWhite}></p>
+          <p className={classes.cardCategoryWhite} />
         </CardHeader>
         <CardBody>
           <GridContainer>
             <GridItem xs={12} sm={12} md={3}>
-              <FormControl className={classes.formControl} error={this.state.datasetErrorText !== ''}>
+              <FormControl
+                className={classes.formControl}
+                error={this.state.datasetErrorText !== ""}
+              >
                 <InputLabel htmlFor="dataset-id">Dataset</InputLabel>
                 <Select
                   onChange={this.handleChangeSelect}
@@ -223,21 +196,20 @@ class RunTrainingCard extends React.Component {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {this.props.appdata.datasets ?
-
-                    this.props.appdata.datasets.map((ds) => {
-
-                      return (
-
-
-                        <MenuItem key={ds._id.$oid} value={ds._id.$oid}>{ds.dataset.name} {ds.dataset.version}</MenuItem>)
-
-                    }) : ""}
+                  {this.props.appdata.datasets
+                    ? this.props.appdata.datasets.map(ds => {
+                        return (
+                          <MenuItem key={ds._id.$oid} value={ds._id.$oid}>
+                            {ds.dataset.name} {ds.dataset.version}
+                          </MenuItem>
+                        );
+                      })
+                    : ""}
                 </Select>
                 <FormHelperText>{this.state.datasetErrorText}</FormHelperText>
               </FormControl>
             </GridItem>
-            <GridItem xs={12} sm={12} md={9}></GridItem>
+            <GridItem xs={12} sm={12} md={9} />
             <GridItem xs={12} sm={6} md={3}>
               <TextField
                 className={classes.textFields}
@@ -245,7 +217,6 @@ class RunTrainingCard extends React.Component {
                 id="datasetversion"
                 disabled
                 value={this.state.dataset.dataset.version}
-
               />
             </GridItem>
             <GridItem xs={12} sm={6} md={3}>
@@ -258,66 +229,85 @@ class RunTrainingCard extends React.Component {
                 formControlProps={{
                   fullWidth: true
                 }}
-              /></GridItem>
+              />
+            </GridItem>
           </GridContainer>
           <GridContainer>
-
-
             <GridItem xs={12} sm={12} md={6}>
-
-              <Typography className={classes.sliders} id="epochslabel">Epochs</Typography>
+              <Typography className={classes.sliders} id="epochslabel">
+                Epochs
+              </Typography>
               <GridContainer>
                 <GridItem xs={10} sm={10} md={10}>
-                  <Slider value={this.state.model.model.epochs} aria-labelledby="epochslabel" min={20} max={1000} step={1} onChange={this.handleChangeSlider('epochs')} />
+                  <Slider
+                    value={this.state.model.model.epochs}
+                    aria-labelledby="epochslabel"
+                    min={20}
+                    max={1000}
+                    step={1}
+                    onChange={this.handleChangeSlider("epochs")}
+                  />
                 </GridItem>
 
                 <GridItem xs={2} sm={2} md={2}>
                   <Typography>{this.state.model.model.epochs}</Typography>
                 </GridItem>
-
               </GridContainer>
             </GridItem>
 
-
-
             <GridItem xs={12} sm={12} md={6}>
-
-              <Typography className={classes.sliders} id="learningratelabel">Learning Rate</Typography>
+              <Typography className={classes.sliders} id="learningratelabel">
+                Learning Rate
+              </Typography>
               <GridContainer>
                 <GridItem xs={10} sm={10} md={10}>
-                  <Slider value={this.state.model.model.learningRate} aria-labelledby="learningratelabel" min={0} max={1} step={.1} onChange={this.handleChangeSlider('learningRate')} />
+                  <Slider
+                    value={this.state.model.model.learningRate}
+                    aria-labelledby="learningratelabel"
+                    min={0}
+                    max={1}
+                    step={0.1}
+                    onChange={this.handleChangeSlider("learningRate")}
+                  />
                 </GridItem>
 
                 <GridItem xs={2} sm={2} md={2}>
-                  <Typography>{this.state.model.model.learningRate.toFixed(2)}</Typography>
+                  <Typography>
+                    {this.state.model.model.learningRate.toFixed(2)}
+                  </Typography>
                 </GridItem>
-
               </GridContainer>
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
-              <Typography className={classes.sliders} id="ngramslabel">Ngrams</Typography>
+              <Typography className={classes.sliders} id="ngramslabel">
+                Ngrams
+              </Typography>
               <GridContainer>
                 <GridItem xs={10} sm={10} md={10}>
-                  <Slider value={this.state.model.model.ngrams} aria-labelledby="ngramslabel" min={1} max={5} step={1} onChange={this.handleChangeSlider('ngrams')} />
+                  <Slider
+                    value={this.state.model.model.ngrams}
+                    aria-labelledby="ngramslabel"
+                    min={1}
+                    max={5}
+                    step={1}
+                    onChange={this.handleChangeSlider("ngrams")}
+                  />
                 </GridItem>
                 <GridItem xs={2} sm={2} md={2}>
                   <Typography>{this.state.model.model.ngrams}</Typography>
                 </GridItem>
-
-
               </GridContainer>
             </GridItem>
-            <GridItem xs={12} sm={12} md={6}>
-            </GridItem>
+            <GridItem xs={12} sm={12} md={6} />
             <GridItem xs={12} sm={12} md={4}>
               <TextField
                 required
-                error={this.state.modelNameErrorText !== ''}
+                error={this.state.modelNameErrorText !== ""}
                 helperText={this.state.modelNameErrorText}
                 className={classes.textFields}
                 label="model name"
                 value={this.state.model.model.name}
-                onChange={this.handleChange('name')}
+                onChange={this.handleChange("name")}
                 id="model"
                 formControlProps={{
                   fullWidth: true
@@ -330,57 +320,52 @@ class RunTrainingCard extends React.Component {
                 label="version"
                 id="version"
                 value={this.state.model.model.version}
-                onChange={this.handleChange('version')}
+                onChange={this.handleChange("version")}
                 formControlProps={{
                   fullWidth: true
                 }}
               />
-
             </GridItem>
 
             <GridItem xs={12} sm={12} md={6}>
-
-              <Typography className={classes.sliders} id="splittestlabel">Split Training / testing data at : </Typography>
+              <Typography className={classes.sliders} id="splittestlabel">
+                Split Training / testing data at :{" "}
+              </Typography>
               <GridContainer>
                 <GridItem xs={10} sm={10} md={10}>
-                  <Slider value={this.state.model.model.splitAt} aria-labelledby="splittestlabel" min={50} max={100} step={1} onChange={this.handleChangeSlider('splitAt')} />
+                  <Slider
+                    value={this.state.model.model.splitAt}
+                    aria-labelledby="splittestlabel"
+                    min={50}
+                    max={100}
+                    step={1}
+                    onChange={this.handleChangeSlider("splitAt")}
+                  />
                 </GridItem>
 
                 <GridItem xs={2} sm={2} md={2}>
                   <Typography>{this.state.model.model.splitAt}%</Typography>
                 </GridItem>
-
               </GridContainer>
             </GridItem>
-            {/* <GridItem xs={12} sm={12} md={4}>
-              <FormControlLabel className={classes.formControl}
-                control={
-                  <Switch
-                    checked={this.state.splitlang}
-                    onChange={this.handleChange('splitlang')}
-                    value="splitlang"
-                  />
-                }
-                label="Split Language ?"
-              />
-            </GridItem> */}
           </GridContainer>
-
         </CardBody>
         <CardFooter>
-          <EventsContext.Consumer>{context =>
-            this.state.trainingStarted ? <Button disabled>In Progress</Button> : <Button onClick={() => this.start(context)} color="primary">Start training</Button>
-          }</EventsContext.Consumer>
+          <EventsContext.Consumer>
+            {context =>
+              context.getTask(this.state.id) ? (
+                <Button disabled>In Progress</Button>
+              ) : (
+                <Button onClick={() => this.start(context)} color="primary">
+                  Start training
+                </Button>
+              )
+            }
+          </EventsContext.Consumer>
         </CardFooter>
       </Card>
-
-    )
-
-
+    );
   }
 }
 
-
-export default withStyles(styles)(RunTrainingCard)
-
-
+export default withStyles(styles)(RunTrainingCard);
