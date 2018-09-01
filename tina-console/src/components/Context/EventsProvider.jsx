@@ -62,27 +62,28 @@ class EventsProvider extends React.Component {
 
   createEvent = (service, action, data) => {
     let id = this.makeid();
-    event = {
+    let e = {
       id: id,
       key: `${service}.${action}.${id}`,
-
       service: service,
       action: action,
       data: JSON.stringify(data)
-    }`http://ws.${gethost()}`;
+    };
 
-    this.props.websocket.on(event, obj => {
-      console.log(obj);
+    this.props.websocket.on(e, obj => {
+      this.eventRecieved(obj);
     });
     let tasks = this.state.activeTasks;
     tasks.push({ id: id });
-    this.setState({ activeTasks });
+    this.setState({ tasks });
 
-    this.props.websocket.emit(action, obj);
+    this.props.websocket.emit(action, e);
 
     return id;
   };
-
+  eventRecieved = obj => {
+    console.log(obj);
+  };
   subscribe = (event, cb) => {
     this.props.websocket.on(event, obj => {
       console.log(obj);
