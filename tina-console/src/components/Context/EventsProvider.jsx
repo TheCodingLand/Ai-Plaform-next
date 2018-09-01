@@ -83,6 +83,7 @@ class EventsProvider extends React.Component {
   };
   eventRecieved = obj => {
     let o = JSON.parse(obj.data);
+    o.text = o.data.action + " " + o.data.state;
     console.log(o);
     let notifications = this.state.notifications;
     let results = this.state.results;
@@ -95,38 +96,6 @@ class EventsProvider extends React.Component {
       events: events,
       newevent: o,
       notifications: notifications
-    });
-  };
-  subscribe = (event, cb) => {
-    this.props.websocket.on(event, obj => {
-      console.log(obj);
-
-      let o = JSON.parse(obj.data);
-
-      console.log(o);
-      o.text = o.action + " " + o.state;
-      let notifications = this.state.notifications;
-      let results = this.state.results;
-      if (o.result) {
-        let notifications = this.state.notifications;
-        let results = this.state.results;
-
-        //o.result = JSON.parse(o.result)
-        results.push(o);
-        notifications.push(o);
-      }
-
-      //console.log(o.text)
-      let events = this.state.events;
-
-      events.push(o);
-      this.setState({
-        results: results,
-        events: events,
-        newevent: o,
-        notifications: notifications
-      });
-      cb(o);
     });
   };
 
