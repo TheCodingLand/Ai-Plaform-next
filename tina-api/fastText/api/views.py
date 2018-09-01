@@ -72,11 +72,11 @@ class Model(Resource):
         text = api.payload.get('text')
         nbofresults = api.payload.get('nbofresults')  # default : 1
         ai = api.payload.get('ai')  # default : ft
-        evid = genId()
-        key = f"{ai!s}.predict.api{evid!s}"
+        taskid = genId()
+        key = f"{ai!s}.predict.api{taskid!s}"
         data = {'key': key,
                 'action': "predict",
-                'id': evid,
+                'id': taskid,
                 'data': {
                     'modelid': modelid,
                     'text': text,
@@ -84,7 +84,7 @@ class Model(Resource):
                 }
         logging.error(data)
         # taskIds can be returned for long operations, so the  client can query the status of an operation
-        taskid = pushToRedis(key, data)
+        pushToRedis(key, data)
 
         count = 0
         while not c.hgetall(taskid):
