@@ -20,6 +20,8 @@ const publishToredis = data => {
 
 let io = srv(3001);
 
+clientlist = redisIn.hgetall("registeredclients");
+
 //Listens to channels from the websockets and relays them to redis
 
 redisSub.on("pmessage", (channel, key) => {
@@ -69,7 +71,7 @@ const WebSocketListenTo = (channel, socket) => {
     console.log(`recieved ${channel} from ${socket} client`);
     //console.log(msg)
 
-    clientPushToRedisAndSub(client, msg);
+    clientPushToRedisAndSub(socket, msg);
 
     console.log(msg.id);
     //socket.emit(msg.id, JSON.stringify(msg))
