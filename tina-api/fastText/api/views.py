@@ -76,7 +76,7 @@ class Model(Resource):
         key = f"{ai!s}.predict.api{evid!s}"
         data = {'key': key,
                 'action': "predict",
-                'id': id,
+                'id': evid,
                 'data': {
                     'modelid': modelid,
                     'text': text,
