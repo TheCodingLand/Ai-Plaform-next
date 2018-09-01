@@ -69,18 +69,24 @@ class Listener(threading.Thread):
             data['started'] = timestamp
 
             job = worker.worker(data, self)
+            if 'error' in job.task.keys():
+                job.task['state'] = "error"
+                res = json.dumps(job.task)
+                self.redis_out.hmset(job.task['id'], {"data": res})
+                self.redis_out.publish(job.task['id'], job.task['id'])
+            else:
 
-            result = job.run()
-            result['state'] = "finished"
+                result = job.run()
+                result['state'] = "finished"
 
-            timestamp = time.time()
-            result['finished'] = timestamp
-            # write result database and notify redis of new info
-            res = json.dumps(result)
-            self.database.results.actions.insert_one(loads(res))
+                timestamp = time.time()
+                result['finished'] = timestamp
+                # write result database and notify redis of new info
+                res = json.dumps(result)
+                self.database.results.actions.insert_one(loads(res))
 
-            self.redis_out.hmset(result['id'], {"data": res})
-            self.redis_out.publish(result['id'], result['id'])
+                self.redis_out.hmset(result['id'], {"data": res})
+                self.redis_out.publish(result['id'], result['id'])
 
     def run(self):
         for item in self.pubsub.listen():
