@@ -88,7 +88,7 @@ class RunTestingCard extends React.Component {
       nbofresults: 1,
       text: ""
     };
-    this.eventRecieved = this.eventRecieved.bind(this);
+    //this.eventRecieved = this.eventRecieved.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
   }
   componentWillMount() {
