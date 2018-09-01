@@ -330,18 +330,6 @@ class RunTestingCard extends React.Component {
                 }}
               />
             </GridItem>
-            {/* <GridItem xs={12} sm={12} md={4}>
-              <FormControlLabel className={classes.formControl}
-                control={
-                  <Switch
-                    checked={this.state.splitlang}
-                    onChange={this.handleChange('splitlang')}
-                    value="splitlang"
-                  />
-                }
-                label="Split Language ?"
-              />
-            </GridItem> */}
           </GridContainer>
         </CardBody>
         <CardFooter>
