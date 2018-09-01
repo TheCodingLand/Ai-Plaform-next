@@ -47,7 +47,7 @@ class Dashboard extends React.Component {
         unique.push(action)
       }
     })
-    unique = actions
+
     console.log(ids)
     console.log(unique)
 
