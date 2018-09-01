@@ -14,41 +14,61 @@ class worker():
     textcolumns = ""
     filename = "dataset.ft"
     percentkept = 100
-    config = None
+    task = None
     thread = None
     id = None
 
-    def __init__(self, key, thread):
+    def __init__(self, task, thread):
         self.thread = thread
-        self.config = thread.redis_in.hgetall(key)
-        if 'classification' in self.config.keys():
-            self.classificationcolomn = self.config['classification']
-        if 'columns' in self.config.keys():
-            self.textcolumns = self.config['columns']
+        self.task = task
+        if 'classification' in self.task.keys():
+            self.classificationcolomn = self.task['classification']
+        if 'columns' in self.task.keys():
+            self.textcolumns = self.task['columns']
         self.columns = self.textcolumns.split(';')
-        print(self.columns)
-        if 'datasetName' in self.config.keys():
-            self.datasetName = self.config['datasetName']
-        if 'version' in self.config.keys():
-            self.version = self.config['version']
-        if 'collection' in self.config.keys():
-            self.collection = self.db[self.config['collection']]
-        if 'id' in self.config.keys():
-            self.id = self.config['id']
 
-        # log
+        if 'datasetName' in self.task.keys():
+            self.datasetName = self.task['datasetName']
+        if 'version' in self.task.keys():
+            self.version = self.task['version']
+        if 'collection' in self.task.keys():
+            self.collection = self.db[self.task['collection']]
+        if 'id' in self.task.keys():
+            self.id = self.task['id']
+        thread.redis_out.hmset(self.task['id'], {
+                               "data": json.dumps(self.task)})
+        thread.redis_out.publish(self.task['id'], self.task['id'])
 
-        self.config['state'] = 'in progress'
+    def run(self):
+        i = 0
+        if not os.path.exists(f"/data/datasets/{self.datasetName}/{self.version}/"):
+            os.makedirs(f"/data/datasets/{self.datasetName}/{self.version}/")
+        ftdata = open(
+            f'/data/datasets/{self.datasetName}/{self.version}/{self.filename}', 'w', encoding='utf-8')
 
-        timestamp = time.time()
-        self.config['started'] = timestamp
-        thread.redis_out.hmset(self.config['id'], {
-                               "data": json.dumps(self.config)})
-        thread.redis_out.publish(self.config['id'], self.config['id'])
-
-        # self.buildTrainingData()
-
-# script will Probably get this from a configuration file / redis key
+        # TODO: This is horrible. probably way better ways to do this
+        for entry in self.collection.find():
+            i = i+1
+            text = ""
+            for key, value in entry.items():
+                if key == self.classificationcolomn:
+                    category = value.replace(' ', '_')
+                else:
+                    if key in self.columns:
+                        if value == None:
+                            value = ""
+                        else:
+                            value = self.preparedata(value)
+                            if len(value) > 0:
+                                if value[0] == ' ':
+                                    value = value[1:]
+                                text = f'{text} {value}'
+            fulltext = text
+            txt = f'__label__{category!s} {fulltext!s} \n'
+            if len(txt.split()) > 10:
+                ftdata.write(txt)
+        ftdata.close()
+        return self.task
 
     def preparedata(self, s):
         """
@@ -113,35 +133,5 @@ class worker():
         result = ' '.join(result)
         return result
 
-    def run(self):
-        i = 0
-        if not os.path.exists(f"/data/datasets/{self.datasetName}/{self.version}/"):
-            os.makedirs(f"/data/datasets/{self.datasetName}/{self.version}/")
-        ftdata = open(
-            f'/data/datasets/{self.datasetName}/{self.version}/{self.filename}', 'w', encoding='utf-8')
-
-        # TODO: This is horrible. probably way better ways to do this
-        for entry in self.collection.find():
-            i = i+1
-            text = ""
-            for key, value in entry.items():
-                if key == self.classificationcolomn:
-                    category = value.replace(' ', '_')
-                else:
-                    if key in self.columns:
-                        if value == None:
-                            value = ""
-                        else:
-                            value = self.preparedata(value)
-                            if len(value) > 0:
-                                if value[0] == ' ':
-                                    value = value[1:]
-                                text = f'{text} {value}'
-            fulltext = text
-            txt = f'__label__{category!s} {fulltext!s} \n'
-            if len(txt.split()) > 10:
-                ftdata.write(txt)
-        ftdata.close()
-        return self.config
 
 # This, we should get from the redis key
