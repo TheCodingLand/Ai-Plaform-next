@@ -44,6 +44,8 @@ class Dashboard extends React.Component {
     actions.forEach(action => {
       if (ids.includes(action.model._id.$oid)) { } else { ids.push(action.model._id.$oid); unique.push(action) }
     })
+    console.log(ids)
+    console.log(unique)
 
 
     unique.sort(this.sortFloat)
