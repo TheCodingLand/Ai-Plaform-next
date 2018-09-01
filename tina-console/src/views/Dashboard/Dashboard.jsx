@@ -42,7 +42,7 @@ class Dashboard extends React.Component {
     let ids = []
     let unique = []
     actions.forEach(action => {
-      if (ids.includes(action.model._id.$oid)) { console.log(ids) } else { ids.push(action.model._id.$oid); unique.push(action) }
+      if (!ids.includes(action.model._id.$oid)) { ids.push(action.model._id.$oid); unique.push(action) }
     })
     console.log(ids)
     console.log(unique)
