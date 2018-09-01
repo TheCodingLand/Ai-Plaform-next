@@ -20,7 +20,10 @@ const publishToredis = data => {
 
 let io = srv(3001);
 
-clientlist = redisIn.hgetall("registeredclients");
+const initClientChannels = () => {
+  //This will be to hand socket scaling, we will get active sessions from redis and active tasks
+  //clientlist = redisIn.hgetall("registeredclients");
+};
 
 //Listens to channels from the websockets and relays them to redis
 
