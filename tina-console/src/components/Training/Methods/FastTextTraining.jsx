@@ -151,12 +151,11 @@ class RunTrainingCard extends React.Component {
     if (this.props.appdata.datasets) {
       this.props.appdata.datasets.forEach(ds => {
         if (ds._id.$oid === event.target.value) {
-          let prop = "model.name";
-          let prevmodel = this.state.model;
-          let newmodel = { ...prevmodel, [prop]: ds.dataset.classifier };
+          let prop = "model.model.name";
+
           this.saveState({
             [event.target.name]: ds,
-            model: { ...prevmodel, model: newmodel }
+            model: { ...this.state.model, [prop]: ds.dataset.classifier }
           });
         }
       });
