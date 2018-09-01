@@ -72,8 +72,8 @@ class Model(Resource):
         text = api.payload.get('text')
         nbofresults = api.payload.get('nbofresults')  # default : 1
         ai = api.payload.get('ai')  # default : ft
-        id = {genId()}
-        key = f"{ai}.predict.api{id}"
+        evid = genId()
+        key = f"{ai!s}.predict.api{evid!s}"
         data = {'key': key,
                 'action': "predict",
                 'id': id,
