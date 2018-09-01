@@ -139,6 +139,9 @@ class RunTrainingCard extends React.Component {
     let prevmodel = this.state.model.model;
     let newmodel = { ...prevmodel, [name]: value };
     console.log(newmodel);
+    newmodel.model.name = `${this.dataset.dataset.classifier}_${
+      newmodel.model.epochs
+    }_${newmodel.model.learningRate.toFixed(1)}_${newmodel.model.ngrams}`;
     this.saveState({ model: { ...prevmodel, model: newmodel } });
     //this.setState(...model: { model: { [name]: event.target.value }}});
   };
@@ -174,9 +177,7 @@ class RunTrainingCard extends React.Component {
 
       let newmodel = { ...prevmodel, [name]: event.target.value };
       console.log(newmodel);
-      newmodel.model.name = `${this.dataset.dataset.classifier}_${
-        newmodel.model.epochs
-      }_${newmodel.model.learningRate.toFixed(1)}_${newmodel.model.ngrams}`;
+
       this.saveState({ model: { ...prevmodel, model: newmodel } });
       //this.setState({ model: { model: { [name]: event.target.value }}});
     }
