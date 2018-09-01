@@ -41,7 +41,7 @@ class worker():
         if 'nbofresults' not in task['data'].keys():
             self.nbofresults = 1
         else:
-            self.nbofresults = task['data']['nbofresults']
+            self.nbofresults = int(task['data']['nbofresults'])
 
         if 'modelid' in task['data'].keys():
             self.modelid = task['data']['modelid']
