@@ -86,7 +86,8 @@ class RunTestingCard extends React.Component {
         }
       },
       nbofresults: 1,
-      text: ""
+      text: "",
+      result: ""
     };
     //this.eventRecieved = this.eventRecieved.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
@@ -163,7 +164,7 @@ class RunTestingCard extends React.Component {
           "\n";
       });
     }
-    return text;
+    this.setState({ result: text });
   }
 
   handleChangeSelect(event) {
@@ -298,7 +299,7 @@ class RunTestingCard extends React.Component {
                     id="result"
                     multiline
                     rows={10}
-                    value={this.state.text}
+                    value={this.state.result}
                     formControlProps={{
                       fullWidth: true
                     }}
