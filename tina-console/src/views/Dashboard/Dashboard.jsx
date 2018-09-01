@@ -49,7 +49,11 @@ class Dashboard extends React.Component {
     let top = unique
     return top
   }
-
+  getColor(percent) {
+    if (percent > 90) { return "success" }
+    if (percent < 75) { return "danger" }
+    return "warning"
+  }
   render() {
     const { classes } = this.props;
     return (<AppContext.Consumer>{context =>
@@ -62,7 +66,7 @@ class Dashboard extends React.Component {
           {this.top5(context.actions).map(result =>
             <GridItem key={result.key} xs={12} sm={6} md={3}>
               <Card>
-                <CardHeader color={result.result.percent > 90 ? "success" : result.result.percent < 75 ? "danger" : "warning"} stats icon>
+                <CardHeader color={this.getColor(result.result.percent)} stats icon>
                   <CardIcon color="success">
                     <Icon>content_copy</Icon>
                   </CardIcon>
