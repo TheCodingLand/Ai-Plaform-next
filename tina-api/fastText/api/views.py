@@ -98,11 +98,11 @@ class Model(Resource):
 
         k = c.hgetall(taskid)
         logging.error(k)
-        results = json.loads(k['result'])
+        results = json.loads(k['data'])
         logging.error(results)
 
         response_object = {
             'status': 'ok',
-            'results': results
+            'results': results['results']
         }
         return response_object, 201
