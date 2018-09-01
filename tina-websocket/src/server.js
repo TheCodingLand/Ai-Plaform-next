@@ -52,7 +52,7 @@ io.on("connection", function(socket) {
   socket.redisSubKeys = [];
   clients.push(socket);
 
-  WebSocketListenTo("*", socket);
+  WebSocketListenTo("message", socket);
 
   socket.on("disconnect", () => {
     socket.redisSubKeys.forEach(key => {
