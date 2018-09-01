@@ -46,7 +46,7 @@ redisSub.on("pmessage", (channel, key) => {
       clients.forEach(socket => {
         console.log(socket.redisSubKeys);
         socket.redisSubKeys.forEach(registeredkey => {
-          if (registeredkey === key) {
+          if (registeredkey === r.id) {
             socket.emit(r.id, r);
           }
         });
