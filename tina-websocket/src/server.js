@@ -32,7 +32,7 @@ redisSub.on("pmessage", (channel, key) => {
         key
       );
       clients.forEach(socket => {
-        socket.keys.forEach(registeredkey => {
+        socket.redisSubKeys.forEach(registeredkey => {
           if (registeredkey === key) {
             socket.emit(key, r);
           }
@@ -55,7 +55,7 @@ io.on("connection", function(socket) {
   WebSocketListenTo("*", socket);
 
   socket.on("disconnect", () => {
-    socket.keys.forEach(key => {
+    socket.redisSubKeys.forEach(key => {
       console.log("unsubscribing to :", key);
       redisSub.unsubscribe(key);
       clients.pop(socket);
