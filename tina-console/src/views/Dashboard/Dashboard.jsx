@@ -39,8 +39,15 @@ class Dashboard extends React.Component {
     //let results = actions.map((action) => action.result)
     actions = actions.filter(action => action.action === 'testing')
 
-    actions.sort(this.sortFloat)
-    let top = actions
+    let ids = []
+    let unique = []
+    actions.forEach(action => {
+      if (ids.includes(action.model._id.$oid)) { } else { ids.push(action.model._id.$oid); unique.push(action) }
+    })
+
+
+    unique.sort(this.sortFloat)
+    let top = unique
     //console.log(actions)
     //top = orderBy(actions, 'result.percent', 'desc');
     //console.log(top)
@@ -53,64 +60,65 @@ class Dashboard extends React.Component {
   }
   render() {
     const { classes } = this.props;
-    return (<AppContext.Consumer>{context =>
-      <div>
+    return (<AppContext.Consumer> {
+      context =>
+        <div>
 
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={12}>
-            Models:
+          <GridContainer>
+            <GridItem xs={12} sm={12} md={12}>
+              Models:
                 </GridItem>
-          {this.top5(context.actions).map(result =>
-            <GridItem key={result.key} xs={12} sm={6} md={3}>
+            {this.top5(context.actions).map(result =>
+              <GridItem key={result.key} xs={12} sm={6} md={3}>
+                <Card>
+                  <CardHeader color={result.result.percent > 90 ? "success" : result.result.percent < 60 ? "error" : "success"} stats icon>
+                    <CardIcon color="success">
+                      <Icon>content_copy</Icon>
+                    </CardIcon>
+                    <p className={classes.cardCategory}>Trained : {result.model.model.name}, success rate :</p>
+                    <h3 className={classes.cardTitle}>
+                      {result.result.percent.toFixed(2)}<small>%</small>
+                    </h3>
+                  </CardHeader>
+                  <CardContent><Typography>{result.model.model.label}</Typography></CardContent>
+                  <CardFooter stats>
+                    <div className={classes.stats}>
+
+                      <Typography>Model ID :</Typography>  {result.model._id.$oid}
+
+
+                    </div>
+                  </CardFooter>
+                </Card>
+              </GridItem>
+            )}
+
+
+            <GridItem xs={12} sm={12} md={12}>
+              Usage:
+    </GridItem>
+            <GridItem xs={12} sm={6} md={3}>
               <Card>
-                <CardHeader color={result.result.percent > 90 ? "success" : result.result.percent < 60 ? "error" : "success"} stats icon>
+                <CardHeader color="success" stats icon>
                   <CardIcon color="success">
-                    <Icon>content_copy</Icon>
+                    <Icon>timeline</Icon>
                   </CardIcon>
-                  <p className={classes.cardCategory}>Trained : {result.model.model.name}, success rate :</p>
+                  <p className={classes.cardCategory}>used : RCSL Vesion 1.3</p>
                   <h3 className={classes.cardTitle}>
-                    {result.result.percent.toFixed(2)}<small>%</small>
+                    15020<small>hits</small>
                   </h3>
                 </CardHeader>
-                <CardContent><Typography>{result.model.model.label}</Typography></CardContent>
-                <CardFooter stats>
-                  <div className={classes.stats}>
 
-                    <Typography>Model ID :</Typography>  {result.model._id.$oid}
-
-
-                  </div>
-                </CardFooter>
               </Card>
             </GridItem>
-          )}
 
-
-          <GridItem xs={12} sm={12} md={12}>
-            Usage:
-    </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="success" stats icon>
-                <CardIcon color="success">
-                  <Icon>timeline</Icon>
-                </CardIcon>
-                <p className={classes.cardCategory}>used : RCSL Vesion 1.3</p>
-                <h3 className={classes.cardTitle}>
-                  15020<small>hits</small>
-                </h3>
-              </CardHeader>
-
-            </Card>
-          </GridItem>
-
-        </GridContainer>
+          </GridContainer>
 
 
 
 
 
-      </div>
+        </div>
     }</AppContext.Consumer >)
 
 
