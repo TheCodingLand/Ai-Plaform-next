@@ -88,7 +88,7 @@ class RunTestingCard extends React.Component {
       nbofresults: 1,
       text: ""
     };
-    //this.eventRecieved = this.eventRecieved.bind(this);
+    this.eventRecieved = this.eventRecieved.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
   }
   componentWillMount() {
@@ -138,15 +138,14 @@ class RunTestingCard extends React.Component {
         text: this.state.text,
         nbofresults: this.state.nbofresults
       };
-      let id = context.createEvent("ft", "predict", data);
+      let id = context.createEvent("ft", "predict", data, this.getResult);
       //CALLBACK OR NOT CALLBACK, THIS IS THE QUESTION
       // let id = context.createEvent("ft", "predict", data, this.eventRecieved);
       this.setState({ id: id });
     }
   };
 
-  getResult(context) {
-    let task = context.getTaskResult(this.state.id);
+  getResult(task) {
     let text = "";
     if (task.result) {
       let i = 1;
@@ -299,11 +298,7 @@ class RunTestingCard extends React.Component {
                     id="result"
                     multiline
                     rows={10}
-                    value={
-                      context.getTask(this.state.id)
-                        ? this.getResult(context)
-                        : ""
-                    }
+                    value={this.state.text}
                     formControlProps={{
                       fullWidth: true
                     }}

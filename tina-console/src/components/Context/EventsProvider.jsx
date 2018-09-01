@@ -71,7 +71,7 @@ class EventsProvider extends React.Component {
     return active;
   };
 
-  createEvent = (service, action, data) => {
+  createEvent = (service, action, data, cb) => {
     let id = this.makeid();
     let e = {
       id: id,
@@ -82,7 +82,7 @@ class EventsProvider extends React.Component {
     };
 
     this.props.websocket.on("message", obj => {
-      this.eventRecieved(obj);
+      this.eventRecieved(obj, cb);
     });
     let tasks = this.state.activeTasks;
     tasks.push({ id: id });
@@ -92,7 +92,7 @@ class EventsProvider extends React.Component {
 
     return id;
   };
-  eventRecieved = obj => {
+  eventRecieved = (obj, cb) => {
     let o = JSON.parse(obj.data);
     o.text = o.action + " " + o.state;
     console.log(o);
@@ -106,6 +106,7 @@ class EventsProvider extends React.Component {
 
     if (o.state === "finished") {
       activeTasks = this.state.activeTasks.filter(task => task === o.id);
+      cb(o);
     }
     if (o.result) {
       results.push(o);
