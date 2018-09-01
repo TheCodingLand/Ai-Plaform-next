@@ -62,7 +62,8 @@ class Listener(threading.Thread):
         if item['data'] != 1:
             data = self.redis_in.hgetall(item['channel'])
             logging.warning(data)
-            data = data['data']
+
+            data['data'] = json.loads(data['data'])
             job = worker.worker(data, self)
 
             result = job.run()

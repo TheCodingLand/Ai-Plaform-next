@@ -14,50 +14,34 @@ class worker():
     dataset = None
     testmodel = False
     confidence = 85
-    config = None
+    task = None
     model = None
     thread = None
     ds = None
 
-    def __init__(self, data, thread):
+    def __init__(self, task, thread):
         self.thread = thread
+        self.task = task
 
-        self.config = data
-
-        print(self.config)
-        if 'id' in self.config.keys():
-            self.id = self.config['id']
-        if 'model' in self.config.keys():
-            self.model = self.config['model']
-        if 'dataset' in self.config.keys():
-            self.dataset = self.config['dataset']
-        if 'testmodel' in self.config.keys():
-            self.testmodel = self.config['testmodel']
-            if 'confidence' in self.config.keys():
-                self.confidence = int(self.config['confidence'])
-
-        self.config['state'] = 'in progress'
+        self.task['state'] = 'in progress'
 
         timestamp = time.time()
-        self.config['started'] = timestamp
-        self.config['model'] = json.loads(self.config.get('model'))
-        self.config['dataset'] = json.loads(self.config.get('dataset'))
-        thread.redis_out.hmset(self.config['id'], {
-                               "data": json.dumps(self.config)})
-        thread.redis_out.publish(self.config['id'], self.config['id'])
+        self.task['started'] = timestamp
 
-        self.ftmodel = self.config.get('model')
-        self.ds = self.config.get('dataset')
+        thread.redis_out.hmset(self.task['id'], {
+                               "data": json.dumps(self.task)})
+        thread.redis_out.publish(self.task['id'], self.task['id'])
+
+        self.ftmodel = self.task['data']['model']
+        # TODO ALLOW ID for dataset so we can load it from MongoDB directly
+        self.ds = self.task['data']['dataset']['dataset']
 
     def run(self):
 
         m = Model()
         m.initFromDict(self.ftmodel)
-        data = Dataset('datafile.ft', self.ds['dataset']['name'], True,
-                       self.ds['dataset']['version'], self.ds['dataset']['classifier'])
+        data = Dataset('datafile.ft', self.ds['name'], True,
+                       self.ds['version'], self.ds['classifier'])
         m.train(data)
 
-        if self.testmodel == 'true':
-            results = m.testRun(data, self.confidence)
-            self.config['result'] = results
-        return self.config
+        return self.task
