@@ -90,7 +90,7 @@ class RunTestingCard extends React.Component {
       testingStarted: false,
       splitAt: 95
     };
-    this.eventRecieved = this.eventRecieved.bind(this);
+
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
   }
   componentWillMount() {
