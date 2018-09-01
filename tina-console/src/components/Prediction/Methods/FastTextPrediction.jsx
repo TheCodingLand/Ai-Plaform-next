@@ -1,23 +1,23 @@
-import React, { Fragment } from "react"
-import CustomInput from 'components/CustomInput/CustomInput'
-import InputLabel from "@material-ui/core/InputLabel"
-import withStyles from "@material-ui/core/styles/withStyles"
-import MenuItem from '@material-ui/core/MenuItem'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import FormControl from '@material-ui/core/FormControl'
-import TextField from '@material-ui/core/TextField'
-import Select from '@material-ui/core/Select'
-import Input from '@material-ui/core/Input'
-import { saveState, loadState } from 'components/LocalStorage/LocalStorage'
+import React, { Fragment } from "react";
+import CustomInput from "components/CustomInput/CustomInput";
+import InputLabel from "@material-ui/core/InputLabel";
+import withStyles from "@material-ui/core/styles/withStyles";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import TextField from "@material-ui/core/TextField";
+import Select from "@material-ui/core/Select";
+import Input from "@material-ui/core/Input";
+import { saveState, loadState } from "components/LocalStorage/LocalStorage";
 // core components
-import GridItem from "components/Grid/GridItem.jsx"
-import GridContainer from "components/Grid/GridContainer.jsx"
-import Card from "components/Card/Card.jsx"
-import CardHeader from "components/Card/CardHeader.jsx"
-import CardBody from "components/Card/CardBody.jsx"
-import CardFooter from "components/Card/CardFooter.jsx"
-import Button from "components/CustomButtons/Button.jsx"
-import { EventsContext } from 'components/Context/EventsProvider'
+import GridItem from "components/Grid/GridItem.jsx";
+import GridContainer from "components/Grid/GridContainer.jsx";
+import Card from "components/Card/Card.jsx";
+import CardHeader from "components/Card/CardHeader.jsx";
+import CardBody from "components/Card/CardBody.jsx";
+import CardFooter from "components/Card/CardFooter.jsx";
+import Button from "components/CustomButtons/Button.jsx";
+import { EventsContext } from "components/Context/EventsProvider";
 
 const styles = theme => ({
   cardCategoryWhite: {
@@ -40,7 +40,7 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120,
-    marginTop: "27px",
+    marginTop: "27px"
   },
   sliders: {
     paddingBottom: "10px",
@@ -51,30 +51,25 @@ const styles = theme => ({
   textFields: {
     paddingBottom: "10px",
     margin: theme.spacing.unit,
-    width: '100%',
+    width: "100%",
     position: "relative"
   }
-
-})
-
-
+});
 
 class RunTestingCard extends React.Component {
   constructor() {
-    super()
-    this.saveState = (newstate) => {
-      saveState({ ...this.state, newstate }, 'prediction')
-      this.setState(newstate)
-    }
+    super();
+    this.saveState = newstate => {
+      saveState({ ...this.state, newstate }, "prediction");
+      this.setState(newstate);
+    };
     this.loadState = () => {
-      let savedstate = loadState('prediction')
+      let savedstate = loadState("prediction");
       if (savedstate) {
-
-        savedstate = { ...savedstate, predictStarted: false }
-        this.setState(...this.state, savedstate)
+        savedstate = { ...savedstate, predictStarted: false };
+        this.setState(...this.state, savedstate);
       }
-
-    }
+    };
     this.state = {
       id: "",
       predictions: [],
@@ -91,126 +86,124 @@ class RunTestingCard extends React.Component {
         }
       },
       nbofresults: 1,
-      text: "",
-    }
-    this.eventRecieved = this.eventRecieved.bind(this)
-    this.handleChangeSelect = this.handleChangeSelect.bind(this)
-
-
+      text: ""
+    };
+    this.eventRecieved = this.eventRecieved.bind(this);
+    this.handleChangeSelect = this.handleChangeSelect.bind(this);
   }
   componentWillMount() {
-    this.loadState()
-
+    this.loadState();
   }
 
   validateForm() {
-    let errors = {}
-    let valid = true
-    if (this.state.model._id.$oid === '') {
-      errors = { ...errors, modelErrorText: 'You must select a model !' }
-      valid = false
-      console.log("dataset not selected")
+    let errors = {};
+    let valid = true;
+    if (this.state.model._id.$oid === "") {
+      errors = { ...errors, modelErrorText: "You must select a model !" };
+      valid = false;
+      console.log("dataset not selected");
     }
-    if (this.state.text === '') {
-      errors = { ...errors, textErrorText: 'You must enter text !' }
-      valid = false
-      console.log("dataset not selected")
-    }
-
-    if (this.state.nbofresults === '') {
-      errors = { ...errors, nborresultsErrorText: 'You must enter a deired NB of results' }
-      valid = false
-      console.log("model not selected")
+    if (this.state.text === "") {
+      errors = { ...errors, textErrorText: "You must enter text !" };
+      valid = false;
+      console.log("dataset not selected");
     }
 
+    if (this.state.nbofresults === "") {
+      errors = {
+        ...errors,
+        nborresultsErrorText: "You must enter a deired NB of results"
+      };
+      valid = false;
+      console.log("model not selected");
+    }
 
     if (valid) {
-      this.saveState({ modelErrorText: "", textErrorText: "", nborresultsErrorText: "" })
-      return valid
-    }
-    else {
-      this.saveState(errors)
-      return valid
+      this.saveState({
+        modelErrorText: "",
+        textErrorText: "",
+        nborresultsErrorText: ""
+      });
+      return valid;
+    } else {
+      this.saveState(errors);
+      return valid;
     }
   }
 
-  makeid = () => {
-    var text = ""
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-
-    for (var i = 0; i < 10; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length))
-
-    return text
-  }
-
-  start = (context) => {
+  start = context => {
     if (this.validateForm() === true) {
-      let id = this.makeid()
-      this.setState({ predictStarted: true, id: id })
-      //console.log(context)
-      context.subscribe(id, (obj) => this.eventRecieved(obj))
-      context.action('predict', {
-        id: id,
-        ia: 'ft',
-        action: 'predict',
+      let data = {
         modelid: this.state.model._id.$oid,
         text: this.state.text,
-        nbofresults: this.state.nbofresults,
-
-      })
+        nbofresults: this.state.nbofresults
+      };
+      let id = context.createEvent("ft", "predict", data);
+      let id = context.createEvent("ft", "predict", data, this.eventRecieved);
+      this.setState({ id: id });
     }
+  };
+
+  getResult(context) {
+    obj = context.getTaskResult(this.state.id);
+
+    let i = 1;
+    let text = "";
+    obj.result.forEach(r => {
+      text =
+        text +
+        "\nResultat " +
+        i +
+        ":\n" +
+        "category : " +
+        r.category +
+        "\nconfidence : " +
+        r.confidence +
+        "\n";
+    });
+    return text;
   }
-  eventRecieved(obj) {
-    console.log(obj)
-
-    if (obj.state === "finished") {
-      let i = 1
-      let text = ""
-      obj.result.forEach(r => {
-        text = text + "\nResultat " + i + ":\n" + 'category : ' + r.category + '\nconfidence : ' + r.confidence + '\n'
-      })
-      this.setState({ result: text, predictStarted: false })
-    }
-  }
-
-
 
   handleChangeSelect(event) {
     if (this.props.appdata.models) {
       this.props.appdata.models.forEach(ds => {
-
         if (ds._id.$oid === event.target.value) {
-          this.saveState({ [event.target.name]: ds })
+          this.saveState({ [event.target.name]: ds });
         }
-      })
+      });
     }
   }
 
   handleChange = name => event => {
-    this.saveState({ [name]: event.target.value })
-  }
+    this.saveState({ [name]: event.target.value });
+  };
 
   getModels = () => {
-    return this.props.appdata.models.map((md) => {
-      return (<MenuItem key={md._id.$oid} value={md._id.$oid}>{md.model.name} {md.model.version}</MenuItem>)
-    })
-  }
-
+    return this.props.appdata.models.map(md => {
+      return (
+        <MenuItem key={md._id.$oid} value={md._id.$oid}>
+          {md.model.name} {md.model.version}
+        </MenuItem>
+      );
+    });
+  };
 
   render() {
     //console.log(this.props.appdata.datasets)
-    const { classes } = this.props
+    const { classes } = this.props;
     return (
       <Card>
         <CardHeader color="success">
           <h4 className={classes.cardTitleWhite}>FastText Testing Settings</h4>
-          <p className={classes.cardCategoryWhite}></p>
+          <p className={classes.cardCategoryWhite} />
         </CardHeader>
         <CardBody>
           <GridContainer>
             <GridItem xs={12} sm={12} md={3}>
-              <FormControl className={classes.formControl} error={this.state.modelErrorText != ''}>
+              <FormControl
+                className={classes.formControl}
+                error={this.state.modelErrorText != ""}
+              >
                 <InputLabel htmlFor="model-id">Model</InputLabel>
                 <Select
                   onChange={this.handleChangeSelect}
@@ -220,9 +213,7 @@ class RunTestingCard extends React.Component {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {this.props.appdata.models ?
-                    this.getModels()
-                    : ""}
+                  {this.props.appdata.models ? this.getModels() : ""}
                 </Select>
                 <FormHelperText>{this.state.modelErrorText}</FormHelperText>
               </FormControl>
@@ -242,7 +233,7 @@ class RunTestingCard extends React.Component {
 
             <GridItem xs={12} sm={12} md={12}>
               <TextField
-                error={this.state.textErrorText !== ''}
+                error={this.state.textErrorText !== ""}
                 className={classes.textFields}
                 label="Text"
                 id="text"
@@ -250,7 +241,7 @@ class RunTestingCard extends React.Component {
                 rows={10}
                 value={this.state.text}
                 helperText={this.state.textErrorText}
-                onChange={this.handleChange('text')}
+                onChange={this.handleChange("text")}
                 formControlProps={{
                   fullWidth: true
                 }}
@@ -258,27 +249,20 @@ class RunTestingCard extends React.Component {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <TextField
-                error={this.state.nborresultsErrorText !== ''}
+                error={this.state.nborresultsErrorText !== ""}
                 className={classes.textFields}
                 helperText={this.state.nborresultsErrorText}
                 label="Number Of Resuts"
                 id="nbofresults"
                 value={this.state.nbofresults}
-                onChange={this.handleChange('nbofresults')}
+                onChange={this.handleChange("nbofresults")}
                 formControlProps={{
                   fullWidth: true
                 }}
               />
             </GridItem>
-
-
-
           </GridContainer>
           <GridContainer>
-
-
-
-
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
                 className={classes.textFields}
@@ -290,61 +274,45 @@ class RunTestingCard extends React.Component {
                   fullWidth: true
                 }}
               />
-
             </GridItem>
-            {/* <GridItem xs={12} sm={12} md={4}>
-              <FormControlLabel className={classes.formControl}
-                control={
-                  <Switch
-                    checked={this.state.splitlang}
-                    onChange={this.handleChange('splitlang')}
-                    value="splitlang"
-                  />
-                }
-                label="Split Language ?"
-              />
-            </GridItem> */}
-
-
           </GridContainer>
-
         </CardBody>
         <CardFooter>
-          <EventsContext.Consumer>{context => <Fragment>
-            {this.state.predictStarted ? <Button disabled>In Progress</Button> : <Button onClick={() => this.start(context)} color="success">Predict</Button>}
+          <EventsContext.Consumer>
+            {context => (
+              <Fragment>
+                {this.state.predictStarted ? (
+                  <Button disabled>In Progress</Button>
+                ) : (
+                  <Button onClick={() => this.start(context)} color="success">
+                    Predict
+                  </Button>
+                )}
 
-            <GridItem xs={12} sm={12} md={12}>
-              <TextField
-
-                className={classes.textFields}
-                label="Results"
-                id="result"
-                multiline
-                rows={10}
-                value={this.state.result}
-
-
-                formControlProps={{
-                  fullWidth: true
-                }}
-              />
-            </GridItem>
-          </Fragment>
-          }</EventsContext.Consumer>
-
+                <GridItem xs={12} sm={12} md={12}>
+                  <TextField
+                    className={classes.textFields}
+                    label="Results"
+                    id="result"
+                    multiline
+                    rows={10}
+                    value={
+                      context.getTask(this.state.id)
+                        ? this.getResult(context)
+                        : ""
+                    }
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                  />
+                </GridItem>
+              </Fragment>
+            )}
+          </EventsContext.Consumer>
         </CardFooter>
       </Card>
-
-
-
-    )
-
-
+    );
   }
 }
 
-
-
-export default withStyles(styles)(RunTestingCard)
-
-
+export default withStyles(styles)(RunTestingCard);

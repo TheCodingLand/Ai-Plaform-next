@@ -50,6 +50,15 @@ class EventsProvider extends React.Component {
   };
 
   //returns state of a task id (true or false)
+
+  getTaskResult = id => {
+    let task = this.state.results.filter(task => {
+      task.id === id;
+    });
+
+    return task;
+  };
+
   getTask = id => {
     let active = false;
     this.state.activeTasks.forEach(task => {
@@ -88,14 +97,17 @@ class EventsProvider extends React.Component {
     let notifications = this.state.notifications;
     let results = this.state.results;
     let events = this.state.events;
-    results.push(o);
+
     notifications.push(o);
     events.push(o);
     let activeTasks = this.state.activeTasks;
+
     if (o.state === "finished") {
       activeTasks = this.state.activeTasks.filter(task => task === o.id);
     }
-
+    if (o.result) {
+      results.push(o);
+    }
     this.setState({
       results: results,
       events: events,
@@ -105,46 +117,23 @@ class EventsProvider extends React.Component {
     });
   };
 
-  //Actions:
-  action = (action, obj) => {
-    //this.setState({loading:true})
-    //console.log('getting all events')
-    this.props.websocket.emit(action, obj);
-  };
-
-  gotEvent = event => {
-    //console.log(event)
-    let o = JSON.parse(event);
-    let events = this.state.events.push(o);
-    //this.setState({events:events})
-  };
-
-  gotEvents = events => {
-    //console.log(events)
-    let o = JSON.parse(events);
-    //this.setState({events:o})
-  };
   handleClose = () => {
     this.setState({ open: false, newevent: { text: "" } });
   };
 
+  //DO WE DO THAT OD MONGOP QUERY ? I THINK I DO A MONGO QUERY, YEAH
   trigger_update = () => {
-    //this.setState({loading:true})
-    //console.log('getting all events')
     this.state.socket.emit("allevents");
   };
 
   render() {
-    //let newstate = loadState('events')
-    //if (newstate !== this.state) {
-    //this.setState(newstate)}
     if (this.state.events.length > 0) {
       saveState(this.state, "events");
     }
 
     this.props.websocket.on("event", this.gotEvent);
     this.props.websocket.on("allevents", this.gotEvents);
-    //console.log(this.props)
+
     return (
       <EventsContext.Provider value={this.state}>
         <Fragment>

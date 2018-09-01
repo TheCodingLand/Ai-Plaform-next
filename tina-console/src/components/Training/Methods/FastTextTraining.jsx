@@ -131,8 +131,6 @@ class RunTrainingCard extends React.Component {
       };
       let id = context.createEvent("ft", "training", data);
       this.setState({ id: id });
-
-      //context.sendEventAndSubscribe(id, obj => this.eventRecieved(obj));
     }
   };
 
