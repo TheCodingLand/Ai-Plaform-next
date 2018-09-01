@@ -146,12 +146,12 @@ class RunTestingCard extends React.Component {
   };
 
   getResult(context) {
-    let obj = context.getTaskResult(this.state.id);
+    let task = context.getTaskResult(this.state.id);
     let text = "";
-    if (obj.result) {
+    if (task.result) {
       let i = 1;
 
-      obj.result.forEach(r => {
+      task.result.forEach(r => {
         text =
           text +
           "\nResultat " +
