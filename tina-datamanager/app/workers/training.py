@@ -21,6 +21,7 @@ class worker():
 
     def __init__(self, data, thread):
         self.thread = thread
+
         self.config = data
 
         print(self.config)
