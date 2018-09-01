@@ -35,7 +35,7 @@ def pushToRedis(action, data):
     id = {genId()}
     key = f"{action}{genId()}"
     data.update({"action": action, "id": id})
-
+    data = json.dumps({data: data})
     b.hmset(key, data)
     b.publish(key, key)
     return id
@@ -78,7 +78,7 @@ class Model(Resource):
         data = {"modelid": modelid, "text": text, "nbofresults": nbofresults}
 
         # taskIds can be returned for long operations, so the  client can query the status of an operation
-        taskid = pushToRedis(f'{ai}.predict.api', json.dumps(data))
+        taskid = pushToRedis(f'{ai}.predict.api', data)
 
         count = 0
         while not c.hgetall(taskid):
