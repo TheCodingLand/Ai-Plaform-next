@@ -54,6 +54,7 @@ class EventsProvider extends React.Component {
 
   getTaskResult = id => {
     let task = this.state.results.filter(task => {
+      console.log(id, task.id);
       task.id === id;
     });
 
