@@ -31,11 +31,9 @@ def genId():
     return ''.join([choice(string.ascii_letters) for i in range(10)])
 
 
-def pushToRedis(action, data):
-    id = {genId()}
-    key = f"{action}{genId()}"
-    data.update({"action": action, "id": id})
-    data = json.dumps({"data": data})
+def pushToRedis(key, data):
+
+    data = json.dumps(data)
     b.hmset(key, data)
     b.publish(key, key)
     return id
@@ -74,11 +72,13 @@ class Model(Resource):
         text = api.payload.get('text')
         nbofresults = api.payload.get('nbofresults')  # default : 1
         ai = api.payload.get('ai')  # default : ft
-
-        data = {"modelid": modelid, "text": text, "nbofresults": nbofresults}
+        id = {genId()}
+        key = f"{ai}.predict.api{genId()}"
+        data = {"key": key, "action": 'predict', "id": id, "data": {
+            "modelid": modelid, "text": text, "nbofresults": nbofresults}}
 
         # taskIds can be returned for long operations, so the  client can query the status of an operation
-        taskid = pushToRedis(f'{ai}.predict.api', data)
+        taskid = pushToRedis(key, data)
 
         count = 0
         while not c.hgetall(taskid):
