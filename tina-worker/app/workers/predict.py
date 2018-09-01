@@ -34,7 +34,7 @@ class worker():
         self.task = task
 
         if 'text' in task['data'].keys():
-            self.modelid = task['data']['text']
+            self.text = task['data']['text']
         else:
             task['error'] = 'No text specified'
 
