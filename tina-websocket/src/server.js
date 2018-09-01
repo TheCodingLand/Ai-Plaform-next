@@ -85,5 +85,5 @@ const clientPushToRedisAndSub = (client, obj) => {
   console.log("subscribing to", obj.id);
   redisSub.psubscribe(obj.id);
   client.redisSubKeys.push(obj.id);
-  publishToredis(msg);
+  publishToredis(obj);
 };
