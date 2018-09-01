@@ -63,7 +63,7 @@ const Diagnostics = () => {
               rows={rows}
             />{" "}
             <EventsTable
-              title={"Testint results"}
+              title={"Testing results"}
               events={eventsWithResuts(context)}
               rows={rowsresults}
             />
