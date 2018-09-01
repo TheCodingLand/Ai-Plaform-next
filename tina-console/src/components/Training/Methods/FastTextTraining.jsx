@@ -81,7 +81,6 @@ class RunTrainingCard extends React.Component {
         }
       },
       model: {
-        _id: { $oid: "" },
         model: {
           name: "",
           epochs: 200,
