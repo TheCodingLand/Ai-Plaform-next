@@ -70,7 +70,7 @@ class EventsProvider extends React.Component {
       data: JSON.stringify(data)
     };
 
-    this.props.websocket.on(e, obj => {
+    this.props.websocket.on("message", obj => {
       this.eventRecieved(obj);
     });
     let tasks = this.state.activeTasks;
