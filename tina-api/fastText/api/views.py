@@ -34,7 +34,7 @@ def genId():
 def pushToRedis(key, data):
 
     data = json.dumps(data)
-    b.hmset(key, {data: data})
+    b.hmset(key, {"data": data})
     b.publish(key, key)
     return id
 
