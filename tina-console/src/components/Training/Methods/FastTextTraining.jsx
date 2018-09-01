@@ -151,7 +151,7 @@ class RunTrainingCard extends React.Component {
     if (this.props.appdata.datasets) {
       this.props.appdata.datasets.forEach(ds => {
         if (ds._id.$oid === event.target.value) {
-          let prop = "model.model.name";
+          let prop = "model.name";
 
           this.saveState({
             [event.target.name]: ds,
