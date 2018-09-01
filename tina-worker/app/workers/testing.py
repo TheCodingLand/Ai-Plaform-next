@@ -35,8 +35,8 @@ class worker():
     def run(self):
         m = Model()
         m.initFromDict(self.ftmodel)
-        data = Dataset('datafile.ft', self.ds['dataset']['name'], True,
-                       self.ds['dataset']['version'], self.ds['dataset']['classifier'])
+        data = Dataset('datafile.ft', self.ds['name'], True,
+                       self.ds['version'], self.ds['classifier'])
         results = m.testRun(data, self.confidence)
         self.task['result'] = results
         return self.task
