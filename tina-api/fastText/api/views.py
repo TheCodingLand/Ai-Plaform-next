@@ -35,7 +35,7 @@ def pushToRedis(action, data):
     id = {genId()}
     key = f"{action}{genId()}"
     data.update({"action": action, "id": id})
-    data = json.dumps({data: data})
+    data = json.dumps({"data": data})
     b.hmset(key, data)
     b.publish(key, key)
     return id
