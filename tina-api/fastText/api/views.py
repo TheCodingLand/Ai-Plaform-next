@@ -74,13 +74,12 @@ class Model(Resource):
         ai = api.payload.get('ai')  # default : ft
         taskid = genId()
         key = f"{ai!s}.predict.api{taskid!s}"
-        data = {'key': key,
-                'action': "predict",
-                'id': taskid,
-                'data': {
-                    'modelid': modelid,
-                    'text': text,
-                    'nbofresults': nbofresults}
+        data = {'data': {'key': key,
+                         'action': "predict",
+                         'id': taskid,
+                         'modelid': modelid,
+                         'text': text,
+                         'nbofresults': nbofresults}
                 }
         logging.error(data)
         # taskIds can be returned for long operations, so the  client can query the status of an operation
