@@ -72,13 +72,11 @@ class Dashboard extends React.Component {
                 <GridItem key={result.key} xs={12} sm={6} md={3}>
                   <Card>
                     <CardHeader
-                      color={this.getColor(result.data.result.percent)}
+                      color={this.getColor(result.result.percent)}
                       stats
                       icon
                     >
-                      <CardIcon
-                        color={this.getColor(result.data.result.percent)}
-                      >
+                      <CardIcon color={this.getColor(result.result.percent)}>
                         <Icon>content_copy</Icon>
                       </CardIcon>
                       <p className={classes.cardCategory}>
