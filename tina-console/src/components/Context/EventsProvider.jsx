@@ -20,7 +20,8 @@ class EventsProvider extends React.Component {
 
       removeNotificationByKey: this.removeNotificationByKey.bind(this),
       getTask: this.getTask.bind(this),
-      createEvent: this.createEvent.bind(this)
+      createEvent: this.createEvent.bind(this),
+      getTaskResult: this.getTaskResult.bind(this)
     };
 
     this.state = Object.assign({}, this.state, loadedstate);
