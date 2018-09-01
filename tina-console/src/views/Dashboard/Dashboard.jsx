@@ -36,9 +36,7 @@ class Dashboard extends React.Component {
   sortFloat(a, b) { return b.result.percent - a.result.percent }
   top5(actions) {
     console.log(actions)
-    //let results = actions.map((action) => action.result)
     actions = actions.filter(action => action.action === 'testing')
-
     let ids = []
     let unique = []
     actions.forEach((action) => {
@@ -47,22 +45,9 @@ class Dashboard extends React.Component {
         unique.push(action)
       }
     })
-
-    console.log(ids)
-    console.log(unique)
-
-
     unique.sort(this.sortFloat)
     let top = unique
-    //console.log(actions)
-    //top = orderBy(actions, 'result.percent', 'desc');
-    //console.log(top)
-    //top = orderBy(actions, 'result.percent', 'asc');
-    console.log(top)
-    //sortBy(actions, ['percent', "desc"])
-
     return top
-
   }
 
   render() {
@@ -77,7 +62,7 @@ class Dashboard extends React.Component {
           {this.top5(context.actions).map(result =>
             <GridItem key={result.key} xs={12} sm={6} md={3}>
               <Card>
-                <CardHeader color={result.result.percent > 90 ? "success" : result.result.percent < 60 ? "error" : "success"} stats icon>
+                <CardHeader color={result.result.percent > 90 ? "success" : result.result.percent < 75 ? "error" : "success"} stats icon>
                   <CardIcon color="success">
                     <Icon>content_copy</Icon>
                   </CardIcon>
