@@ -43,7 +43,7 @@ redisSub.on("pmessage", (channel, key) => {
   });
 });
 
-let clients = [];
+const clients = [];
 
 io.on("connection", function(socket) {
   //registering listening channels
