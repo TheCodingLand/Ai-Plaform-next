@@ -97,6 +97,9 @@ class EventsProvider extends React.Component {
       newevent: o,
       notifications: notifications
     });
+    if (o.state === "finished") {
+      this.setState(this.state.activeTasks.filter(task => task === o.id));
+    }
   };
 
   //Actions:
