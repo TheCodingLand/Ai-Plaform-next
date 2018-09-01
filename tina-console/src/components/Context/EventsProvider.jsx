@@ -82,8 +82,8 @@ class EventsProvider extends React.Component {
     return id;
   };
   eventRecieved = obj => {
-    console.log(obj);
     let o = JSON.parse(obj.data);
+    console.log(o);
     let notifications = this.state.notifications;
     let results = this.state.results;
     let events = this.state.events;
