@@ -153,7 +153,9 @@ class RunTrainingCard extends React.Component {
         if (ds._id.$oid === event.target.value) {
           let model = this.state.model;
           console.log(ds.dataset);
-          model.model.name = ds.dataset.classifier;
+          model.model.name = `${ds.dataset.classifier}_${
+            model.model.epochs
+          }_${model.model.learningRate.toFixed(1)}_${model.model.ngrams}`;
 
           this.saveState({
             [event.target.name]: ds,
