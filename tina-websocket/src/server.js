@@ -43,10 +43,11 @@ redisSub.on("pmessage", (channel, key) => {
         "recieved event from redis, sending to wo registered for this",
         key
       );
+
       clients.forEach(socket => {
-        console.log(socket.redisSubKeys);
+        console.log("keys registerd with client :", socket.redisSubKeys);
         socket.redisSubKeys.forEach(registeredkey => {
-          if (registeredkey === r.id) {
+          if (registeredkey === key) {
             console.log("found it, sending info", r);
             socket.emit(r.id, r);
           }
