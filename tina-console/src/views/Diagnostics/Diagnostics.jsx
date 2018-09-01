@@ -44,6 +44,7 @@ const Diagnostics = () => {
       e.column = e.data.model.model.label;
       e.model = e.data.model.model.name;
       e.percent = parseInt(e.percent);
+      e.confidence = e.data.confidence;
       e.started = new Date(e.started * 1000).toLocaleTimeString();
       e.finished = new Date(e.finished * 1000).toLocaleTimeString();
 
