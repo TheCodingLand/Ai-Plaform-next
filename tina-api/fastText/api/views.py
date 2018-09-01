@@ -74,8 +74,14 @@ class Model(Resource):
         ai = api.payload.get('ai')  # default : ft
         id = {genId()}
         key = f"{ai}.predict.api{genId()}"
-        data = {'key': key, 'action': 'predict', 'id': id, 'data': {
-            'modelid': modelid, 'text': text, 'nbofresults': nbofresults}}
+        data = {'key': key,
+                'action': 'predict',
+                'id': id,
+                'data': {
+                    'modelid': modelid,
+                    'text': text,
+                    'nbofresults': nbofresults}
+                }
 
         # taskIds can be returned for long operations, so the  client can query the status of an operation
         taskid = pushToRedis(key, data)
