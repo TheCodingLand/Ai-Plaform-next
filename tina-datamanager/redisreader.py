@@ -60,7 +60,9 @@ class Listener(threading.Thread):
         logging.info(item['channel'])
         logging.info(item['data'])
         if item['data'] != 1:
-            job = worker.worker(item['channel'], self)
+            data = self.redis_in.hgetall(item['channel'])
+            data = data.data
+            job = worker.worker(data, self)
 
             result = job.run()
             result['state'] = "finished"

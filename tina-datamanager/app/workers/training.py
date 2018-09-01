@@ -19,9 +19,9 @@ class worker():
     thread = None
     ds = None
 
-    def __init__(self, key, thread):
+    def __init__(self, data, thread):
         self.thread = thread
-        self.config = thread.redis_in.hgetall(key)
+        self.config = data
 
         print(self.config)
         if 'id' in self.config.keys():
