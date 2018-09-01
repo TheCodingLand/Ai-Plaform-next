@@ -21,6 +21,7 @@ class worker():
     def __init__(self, task, thread):
         self.thread = thread
         self.task = task
+
         # some service need to norify that they started :
         thread.redis_out.hmset(self.task['id'], {
                                "data": json.dumps(self.task)})

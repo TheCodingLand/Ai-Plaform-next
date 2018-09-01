@@ -124,7 +124,6 @@ class RunTestingCard extends React.Component {
       let data = {
         dataset: this.state.dataset,
         model: this.state.model,
-        testmodel: this.state.model.testmodel,
         confidence: this.state.confidence
       };
       let id = context.createEvent("ft", "testing", data);
