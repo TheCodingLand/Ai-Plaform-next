@@ -23,38 +23,43 @@ class worker():
     dataset = None
     testmodel = False
     confidence = 85
-    config = None
+    task = None
     thread = None
     modelid = None
     nbofresults = 1
     text = ""
 
-    def __init__(self, key, thread):
+    def __init__(self, task, thread):
         self.thread = thread
-        self.config = thread.redis_in.hgetall(key)
+        self.task = task
 
-        print(self.config)
-        if 'id' in self.config.keys():
-            self.id = self.config['id']
-        if 'modelid' in self.config.keys():
-            self.modelid = self.config['modelid']
-        if 'text' in self.config.keys():
-            self.text = self.config['text']
-        if 'nbofresults' in self.config.keys():
-            self.nbofresults = int(self.config['nbofresults'])
+        if 'text' in task['data'].keys():
+            self.modelid = task['data']['text']
+        else:
+            task['error'] = 'No text specified'
+
+        if 'nbofresults' not in task['data'].keys():
+            self.nbofresults = 1
+        else:
+            self.nbofresults = task['data']['nbofresults']
+
+        if 'modelid' in task['data'].keys():
+            self.modelid = task['data']['modelid']
+        else:
+            task['error'] = 'No model specified'
 
         if self.modelid in loadedModels.keys():
-            m = loadedModels.get(self.modelid)
+            self.m = loadedModels.get(self.modelid)
         else:
             self.m = Model(self.modelid)
             self.m.load()
             loadedModels.update({f"{id}": self.m})
 
-        #self.ftmodel = json.loads(self.config.get('model'))
-        #self.ds = json.loads(self.config.get('dataset'))
+        # self.ftmodel = json.loads(self.task.get('model'))
+        # self.ds = json.loads(self.task.get('dataset'))
 
     def run(self):
         result = self.m.predict(
             text=self.text, nbpredictions=self.nbofresults)
-        self.config['result'] = result
-        return self.config
+        self.task['result'] = result
+        return self.task
