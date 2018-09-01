@@ -61,6 +61,7 @@ class Listener(threading.Thread):
         logging.info(item['data'])
         if item['data'] != 1:
             data = self.redis_in.hgetall(item['channel'])
+            logging.warning(data)
             data = data['data']
             job = worker.worker(data, self)
 
