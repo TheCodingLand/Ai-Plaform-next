@@ -64,6 +64,10 @@ class Listener(threading.Thread):
             logging.warning(data)
 
             data['data'] = json.loads(data['data'])
+            data['state'] = 'in progress'
+            timestamp = time.time()
+            data['started'] = timestamp
+
             job = worker.worker(data, self)
 
             result = job.run()

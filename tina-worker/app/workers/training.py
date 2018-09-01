@@ -23,11 +23,7 @@ class worker():
         self.thread = thread
         self.task = task
 
-        self.task['state'] = 'in progress'
-
-        timestamp = time.time()
-        self.task['started'] = timestamp
-
+        # some service need to norify that they started :
         thread.redis_out.hmset(self.task['id'], {
                                "data": json.dumps(self.task)})
         thread.redis_out.publish(self.task['id'], self.task['id'])
