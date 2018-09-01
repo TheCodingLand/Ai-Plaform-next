@@ -128,6 +128,7 @@ class RunTestingCard extends React.Component {
 
     return text;
   };
+
   start = context => {
     if (this.validateForm() === true) {
       let data = {
@@ -138,8 +139,6 @@ class RunTestingCard extends React.Component {
       };
       let id = context.createEvent("ft", "testing", data);
       this.setState({ id: id });
-
-      //context.sendEventAndSubscribe(id, obj => this.eventRecieved(obj));
     }
   };
 
