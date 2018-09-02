@@ -14,6 +14,11 @@ const styles = theme => ({
   card: {
     width: "100%"
   },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+    marginTop: "27px"
+  },
   textFields: {
     paddingBottom: "10px",
     margin: theme.spacing.unit,
