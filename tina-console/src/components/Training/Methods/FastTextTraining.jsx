@@ -136,7 +136,7 @@ class RunTrainingCard extends React.Component {
     }
   };
   updateModels = () => {
-    this.props.appdata.get("db", "models");
+    this.props.appdata.get("ft", "models");
   };
   handleChangeSlider = name => (event, value) => {
     let prevmodel = this.state.model.model;
