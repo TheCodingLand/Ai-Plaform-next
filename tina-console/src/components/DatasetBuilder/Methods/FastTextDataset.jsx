@@ -31,20 +31,22 @@ class HorizontalLinearStepper extends React.Component {
     this.state = {
       activeStep: 0,
       skipped: new Set(),
-      classColumn: "",
-      dataSourceName: "",
+      collection: "",
       textColumns: "",
+      classification: "",
+      version: "",
+      datasetName: "",
       id: "",
       steps: [
         {
           valid: true,
           validated: false,
-          setVal: this.setDataSource.bind(this)
+          setVal: this.setCollection.bind(this)
         },
         {
           valid: true,
           validated: false,
-          setVal: this.setClassColumn.bind(this)
+          setVal: this.setClassificationCol.bind(this)
         },
         {
           valid: true,
@@ -54,43 +56,47 @@ class HorizontalLinearStepper extends React.Component {
       ]
     };
   }
-  validateStep() {}
+  //STEP 1
+  setCollection = data => {
+    if (data) {
+      if (data.collection && data.version && data.datasetName) {
+        let steps = this.state.steps;
+        steps[0].valid = true;
+        steps[0].validated = true;
+        this.setState({
+          collection: data.collection,
+          version: data.version,
+          datasetName: data.datasetName,
+          steps: steps
+        });
+      }
+    }
+  };
+  //STEP 2
+  setClassificationCol = data => {
+    if (data) {
+      let steps = this.state.steps;
+      steps[1].valid = true;
+      steps[1].validated = true;
+      this.setState({ classification: data, steps: steps });
+    }
+  };
+  //STEP 3
   setTextColumns = data => {
     if (data) {
       let steps = this.state.steps;
       steps[2].valid = true;
       steps[2].validated = true;
-
       this.setState({ textColumns: data, steps: steps });
     }
-  };
-  setClassColumn = data => {
-    if (data) {
-      let steps = this.state.steps;
-      steps[1].valid = true;
-      steps[1].validated = true;
-      this.setState({ classColumn: data, steps: steps });
-    }
-  };
-  setDataSource = data => {
-    if (data) {
-      let steps = this.state.steps;
-      steps[0].valid = true;
-      steps[0].validated = true;
-      this.setState({ dataSourceName: data, steps: steps });
-    }
-  };
-
-  isStepOptional = step => {
-    return step === 1;
   };
 
   finish = context => {
     let data = {
-      classification: this.state.classColumn,
+      classification: this.state.classification,
       datasetName: this.state.datasetName,
       version: this.state.version,
-      collection: this.state.dataSourceName,
+      collection: this.state.collection,
       colums: this.state.textColumns
     };
     let id = context.createEvent(

@@ -8,7 +8,7 @@ import Select from "@material-ui/core/Select";
 import Input from "@material-ui/core/Input";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import { withStyles } from "@material-ui/core";
+import { withStyles, TextField } from "@material-ui/core";
 
 const styles = theme => {};
 
@@ -21,7 +21,8 @@ class Step1 extends React.Component {
   }
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
-    this.props.setVal(event.target.value);
+
+    this.props.setVal({ [name]: event.target.value });
     //else if (name==="datasetname") {}
   };
   render() {
@@ -32,6 +33,24 @@ class Step1 extends React.Component {
           <Typography className={classes.typography}>
             Select input data :
           </Typography>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={6}>
+          <TextField
+            className={classes.textFields}
+            label="Dataset Name :"
+            name="datasetname"
+            id="datasetname"
+            onChange={this.handleChange("datasetName")}
+          />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={6}>
+          <TextField
+            className={classes.textFields}
+            label="Dataset Name :"
+            name="version"
+            id="version"
+            onChange={this.handleChange("version")}
+          />
         </GridItem>
 
         <GridItem xs={12} sm={12} md={3}>
