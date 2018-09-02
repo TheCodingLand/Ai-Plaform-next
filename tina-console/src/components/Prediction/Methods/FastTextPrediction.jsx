@@ -139,19 +139,24 @@ class RunTestingCard extends React.Component {
         text: this.state.text,
         nbofresults: this.state.nbofresults
       };
-      context.createEvent("ft", "predict", data, this.getResult);
+      let id = context.createEvent("ft", "predict", data, this.getResult);
+      this.setState({ id: id });
       //CALLBACK OR NOT CALLBACK, THIS IS THE QUESTION
       // let id = context.createEvent("ft", "predict", data, this.eventRecieved);
       //this.setState({ id: id });
     }
   };
 
-  getResult(task) {
+  getResult(context) {
+    let prediction = context.predictions.filter(
+      prediction => prediction.id === this.state.id
+    );
+
     let text = "";
-    if (task.result) {
+    if (prediction.result) {
       let i = 1;
 
-      task.result.forEach(r => {
+      prediction.result.forEach(r => {
         text =
           text +
           "\nResultat " +
@@ -165,7 +170,7 @@ class RunTestingCard extends React.Component {
         i = i++;
       });
     }
-    this.setState({ result: text });
+    return text;
   }
 
   handleChangeSelect(event) {
@@ -303,7 +308,7 @@ class RunTestingCard extends React.Component {
                     id="result"
                     multiline
                     rows={10}
-                    value={this.state.result}
+                    value={this.getResult(context)}
                     formControlProps={{
                       fullWidth: true
                     }}
