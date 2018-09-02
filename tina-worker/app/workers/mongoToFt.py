@@ -21,22 +21,17 @@ class worker():
     def __init__(self, task, thread):
         self.thread = thread
         self.task = task
-        if 'classification' in self.task.keys():
-            self.classificationcolomn = self.task['classification']
-        if 'columns' in self.task.keys():
+        if 'classification' in self.task['data'].keys():
+            self.classificationcolomn = self.task['data']['classification']
+        if 'columns' in self.task['data'].keys():
             self.columns = self.task['columns']
 
-        if 'datasetName' in self.task.keys():
-            self.datasetName = self.task['datasetName']
-        if 'version' in self.task.keys():
-            self.version = self.task['version']
-        if 'collection' in self.task.keys():
-            self.collection = self.db[self.task['collection']]
-        if 'id' in self.task.keys():
-            self.id = self.task['id']
-        thread.redis_out.hmset(self.task['id'], {
-                               "data": json.dumps(self.task)})
-        thread.redis_out.publish(self.task['id'], self.task['id'])
+        if 'datasetName' in self.task['data'].keys():
+            self.datasetName = self.task['data']['datasetName']
+        if 'version' in self.task['data'].keys():
+            self.version = self.task['data']['version']
+        if 'collection' in self.task['data'].keys():
+            self.collection = self.db[self.task['data']['collection']]
 
     def run(self):
         i = 0
