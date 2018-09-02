@@ -1,24 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import Avatar from '@material-ui/core/Avatar';
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemText from "@material-ui/core/ListItemText";
+import Checkbox from "@material-ui/core/Checkbox";
+import Avatar from "@material-ui/core/Avatar";
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: "100%",
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
+    backgroundColor: theme.palette.background.paper
+  }
 });
 
 class ListCheckboxMultiple extends React.Component {
   state = {
-    checked: [1],
+    checked: [1]
   };
 
   handleToggle = value => () => {
@@ -33,7 +33,7 @@ class ListCheckboxMultiple extends React.Component {
     }
 
     this.setState({
-      checked: newChecked,
+      checked: newChecked
     });
   };
 
@@ -45,8 +45,7 @@ class ListCheckboxMultiple extends React.Component {
         <List>
           {this.props.items.map(value => (
             <ListItem key={value} dense button className={classes.listItem}>
-              
-              <ListItemText primary={`Line item ${value + 1}`} />
+              <ListItemText primary={`${value}`} />
               <ListItemSecondaryAction>
                 <Checkbox
                   onChange={this.handleToggle(value)}
@@ -62,7 +61,7 @@ class ListCheckboxMultiple extends React.Component {
 }
 
 ListCheckboxMultiple.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(ListCheckboxMultiple);
