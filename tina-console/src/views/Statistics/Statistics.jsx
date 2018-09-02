@@ -32,6 +32,7 @@ const rowsresults = [
 
 const Statistics = () => {
   let eventsWithResuts = context => {
+    context.get("results", "actions");
     //let evs = []
     console.log(context.actions);
     let evs = context.actions.filter(e => e.result && e.action === "testing");
