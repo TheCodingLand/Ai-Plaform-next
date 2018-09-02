@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import FastTextTesting from "./Methods/FastTextTesting";
+import FastTextDataset from "./Methods/FastTextDataset";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -8,7 +8,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { AppContext } from "components/Context/AppProvider";
 import { EventsContext } from "components/Context/EventsProvider";
 
-class TestingPage extends React.Component {
+class DataBuilderPage extends React.Component {
   render() {
     const { classes } = this.props;
     return (
@@ -22,7 +22,7 @@ class TestingPage extends React.Component {
                     <Typography>FastText</Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
-                    <FastTextTesting appdata={context} />
+                    <FastTextDataset appdata={context} />
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
 
@@ -43,4 +43,4 @@ class TestingPage extends React.Component {
   }
 }
 
-export default TestingPage;
+export default DataBuilderPage;
