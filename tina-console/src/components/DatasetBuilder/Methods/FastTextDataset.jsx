@@ -57,25 +57,29 @@ class HorizontalLinearStepper extends React.Component {
     };
   }
   //STEP 1
-  validate() {
+  validate(newstate) {
     if (
-      this.state.collection !== "" &&
-      this.state.datasetName !== "" &&
-      this.state.version !== ""
+      newstate.collection !== "" &&
+      newstate.datasetName !== "" &&
+      newstate.version !== ""
     ) {
-      let steps = this.state.steps;
-      steps[0].valid = true;
-      steps[0].validated = true;
-      this.setState({
-        steps: steps
-      });
+      return true;
     }
+    return false;
   }
   setCollection = data => {
     if (data) {
       console.log(data);
+
+      let newstate = { ...this.state, data };
+      if (this.validate(newstate)) {
+        let steps = this.state.steps;
+        steps[0].valid = true;
+        steps[0].validated = true;
+        data.steps = steps;
+      }
+
       this.setState(data);
-      this.validate();
     }
   };
 
