@@ -8,7 +8,7 @@ import Select from "@material-ui/core/Select";
 import Input from "@material-ui/core/Input";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import { withStyles, TextField } from "@material-ui/core";
+import { withStyles, TextField, Card } from "@material-ui/core";
 
 const styles = theme => {};
 
@@ -29,59 +29,61 @@ class Step1 extends React.Component {
     const { classes } = this.props;
     return (
       <GridContainer>
-        <GridItem xs={6} sm={6} md={3}>
-          <Typography className={classes.typography}>
-            Select input data :
-          </Typography>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={6}>
-          <TextField
-            className={classes.textFields}
-            label="Dataset Name :"
-            name="datasetname"
-            id="datasetname"
-            onChange={this.handleChange("datasetName")}
-          />
-        </GridItem>
-        <GridItem xs={12} sm={12} md={6}>
-          <TextField
-            className={classes.textFields}
-            label="Version :"
-            name="version"
-            id="version"
-            onChange={this.handleChange("version")}
-          />
-        </GridItem>
+        <Card>
+          <GridItem xs={6} sm={6} md={3}>
+            <Typography className={classes.typography}>
+              Select input data :
+            </Typography>
+          </GridItem>
+          <GridItem xs={12} sm={12} md={6}>
+            <TextField
+              className={classes.textFields}
+              label="Dataset Name :"
+              name="datasetname"
+              id="datasetname"
+              onChange={this.handleChange("datasetName")}
+            />
+          </GridItem>
+          <GridItem xs={12} sm={12} md={6}>
+            <TextField
+              className={classes.textFields}
+              label="Version :"
+              name="version"
+              id="version"
+              onChange={this.handleChange("version")}
+            />
+          </GridItem>
 
-        <GridItem xs={12} sm={12} md={3}>
-          <FormControl
-            className={classes.formControl}
-            error={!this.props.valid}
-          >
-            <InputLabel htmlFor="collection-id">Data Collection</InputLabel>
-            <Select
-              onChange={this.handleChange("collection")}
-              value={this.props.collection}
-              input={<Input name="collection" id="collection-id" />}
+          <GridItem xs={12} sm={12} md={3}>
+            <FormControl
+              className={classes.formControl}
+              error={!this.props.valid}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {this.props.appdata.rawdataCollections
-                ? this.props.appdata.rawdataCollections.map(collection => {
-                    return (
-                      <MenuItem key={collection} value={collection}>
-                        <em>{collection}</em>
-                      </MenuItem>
-                    );
-                  })
-                : ""}
-            </Select>
-            <FormHelperText>
-              {!this.props.valid ? this.state.errorText : ""}
-            </FormHelperText>
-          </FormControl>
-        </GridItem>
+              <InputLabel htmlFor="collection-id">Data Collection</InputLabel>
+              <Select
+                onChange={this.handleChange("collection")}
+                value={this.props.collection}
+                input={<Input name="collection" id="collection-id" />}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {this.props.appdata.rawdataCollections
+                  ? this.props.appdata.rawdataCollections.map(collection => {
+                      return (
+                        <MenuItem key={collection} value={collection}>
+                          <em>{collection}</em>
+                        </MenuItem>
+                      );
+                    })
+                  : ""}
+              </Select>
+              <FormHelperText>
+                {!this.props.valid ? this.state.errorText : ""}
+              </FormHelperText>
+            </FormControl>
+          </GridItem>
+        </Card>
       </GridContainer>
     );
   }
