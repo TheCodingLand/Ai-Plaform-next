@@ -46,17 +46,18 @@ class Step2 extends React.Component {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {/* {this.props.appdata.rawdataCollections
-                ? this.props.appdata
-                    .getRawdataColumns(this.props.collectionName)
-                    .map(collection => {
-                      return (
-                        <MenuItem key={collection} value={collection}>
-                          <em>{collection}</em>
-                        </MenuItem>
-                      );
-                    })
-                : ""} */}
+              {this.props.appdata.rawdataColumns
+                ? this.props.appdata.rawdataColumns[
+                    this.props.collectionName
+                  ].map(collection => {
+                    return (
+                      <MenuItem key={collection} value={collection}>
+                        <em>{collection}</em>
+                      </MenuItem>
+                    );
+                  })
+                : ""}{" "}
+              */}
             </Select>
             <FormHelperText>
               {!this.props.valid ? this.state.errorText : ""}
