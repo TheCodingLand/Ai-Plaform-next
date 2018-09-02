@@ -61,7 +61,7 @@ class Step1 extends React.Component {
             <InputLabel htmlFor="collection-id">Data Collection</InputLabel>
             <Select
               onChange={this.handleChange("collection")}
-              value={this.props.data.collection}
+              value={this.props.collection}
               input={<Input name="collection" id="collection-id" />}
             >
               <MenuItem value="">
