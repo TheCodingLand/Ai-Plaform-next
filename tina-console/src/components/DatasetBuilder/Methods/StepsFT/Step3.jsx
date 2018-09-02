@@ -1,7 +1,8 @@
 import React, { Fragment } from "react";
 import Typography from "@material-ui/core/Typography";
 import GridItem from "components/Grid/GridItem";
-
+import GridItem from "components/Grid/GridItem";
+import GridContainer from "components/Grid/GridContainer";
 import { withStyles } from "@material-ui/core";
 import ListCheckBoxMultiple from "components/ListCheckbox/ListCheckboxMultiple";
 
@@ -30,7 +31,7 @@ class Step3 extends React.Component {
       .filter(item => item !== "_id")
       .filter(item => item !== this.props.classColumn);
     return (
-      <Fragment>
+      <GridContainer>
         <GridItem xs={6} sm={6} md={3}>
           <Typography className={classes.typography}>
             Select input data :
@@ -46,7 +47,7 @@ class Step3 extends React.Component {
             <Typography key={item}>"{item}" </Typography>
           ))}
         </GridItem>
-      </Fragment>
+      </GridContainer>
     );
   }
 }

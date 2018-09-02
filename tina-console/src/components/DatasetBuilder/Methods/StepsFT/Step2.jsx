@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
 import Typography from "@material-ui/core/Typography";
+
 import GridItem from "components/Grid/GridItem";
+import GridContainer from "components/Grid/GridContainer";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -25,7 +27,7 @@ class Step2 extends React.Component {
     console.log(this.props.appdata.rawdataColumns);
     const { classes } = this.props;
     return (
-      <Fragment>
+      <GridContainer>
         <GridItem xs={6} sm={6} md={3}>
           <Typography className={classes.typography}>
             Select input data :
@@ -64,7 +66,7 @@ class Step2 extends React.Component {
             </FormHelperText>
           </FormControl>
         </GridItem>
-      </Fragment>
+      </GridContainer>
     );
   }
 }
