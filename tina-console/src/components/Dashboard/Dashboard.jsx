@@ -105,26 +105,6 @@ class Dashboard extends React.Component {
                   </Card>
                 </GridItem>
               ))}
-
-              <GridItem xs={12} sm={12} md={12}>
-                Usage:
-              </GridItem>
-              <GridItem xs={12} sm={6} md={3}>
-                <Card>
-                  <CardHeader color="success" stats icon>
-                    <CardIcon color="success">
-                      <Icon>timeline</Icon>
-                    </CardIcon>
-                    <p className={classes.cardCategory}>
-                      used : RCSL Vesion 1.3
-                    </p>
-                    <h3 className={classes.cardTitle}>
-                      15020
-                      <small>hits</small>
-                    </h3>
-                  </CardHeader>
-                </Card>
-              </GridItem>
             </GridContainer>
           </div>
         )}
