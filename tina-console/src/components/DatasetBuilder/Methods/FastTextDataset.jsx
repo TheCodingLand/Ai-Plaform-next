@@ -58,6 +58,7 @@ class HorizontalLinearStepper extends React.Component {
   }
   //STEP 1
   validate(newstate) {
+    console.log(newstate);
     if (
       newstate.collection !== "" &&
       newstate.datasetName !== "" &&
@@ -69,7 +70,7 @@ class HorizontalLinearStepper extends React.Component {
   }
   setCollection = data => {
     if (data) {
-      console.log(data);
+      // console.log(data);
 
       let newstate = { ...this.state, data };
       if (this.validate(newstate)) {
