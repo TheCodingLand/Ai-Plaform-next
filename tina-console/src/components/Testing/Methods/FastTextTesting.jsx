@@ -277,7 +277,7 @@ class RunTestingCard extends React.Component {
             </GridItem>
             <GridItem xs={12} sm={12} md={6} />
 
-            <GridItem xs={12} sm={12} md={3}>
+            <GridItem xs={12} sm={12} md={6}>
               <FormControl
                 className={classes.formControl}
                 error={this.state.modelErrorText != ""}
@@ -296,7 +296,7 @@ class RunTestingCard extends React.Component {
                 <FormHelperText>{this.state.modelErrorText}</FormHelperText>
               </FormControl>
             </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
+            <GridItem xs={12} sm={12} md={6}>
               <CustomInput
                 className={classes.textFields}
                 labelText="model"
@@ -308,7 +308,7 @@ class RunTestingCard extends React.Component {
                 }}
               />
             </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
+            <GridItem xs={12} sm={12} md={6}>
               <CustomInput
                 className={classes.textFields}
                 labelText="version"

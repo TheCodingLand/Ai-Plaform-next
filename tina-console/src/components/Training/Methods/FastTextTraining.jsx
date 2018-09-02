@@ -309,7 +309,7 @@ class RunTrainingCard extends React.Component {
               </GridContainer>
             </GridItem>
             <GridItem xs={12} sm={12} md={6} />
-            <GridItem xs={12} sm={12} md={4}>
+            <GridItem xs={12} sm={12} md={6}>
               <TextField
                 required
                 error={this.state.modelNameErrorText !== ""}
@@ -324,7 +324,7 @@ class RunTrainingCard extends React.Component {
                 }}
               />
             </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
+            <GridItem xs={12} sm={12} md={6}>
               <TextField
                 className={classes.textFields}
                 label="version"
