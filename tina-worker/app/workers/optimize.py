@@ -25,8 +25,8 @@ def manageAction(keyname, k, redis_out):
 
     results = []
     dataset = json.loads(k.get('dataset'))
-    data = Dataset('datafile.ft', dataset['dataset']['name'], True,
-                   dataset['dataset']['version'], dataset['dataset']['classifier'])
+    data = Dataset('datafile.ft', dataset['dataset']['datasetName'], True,
+                   dataset['dataset']['version'], dataset['dataset']['classification'])
     for i in range(0, k.get('runs')):
         settings = generateSettings()
 
