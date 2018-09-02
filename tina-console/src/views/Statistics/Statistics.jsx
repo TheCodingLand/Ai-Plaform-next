@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { EventsContext } from "components/Context/EventsProvider";
 import EventsTable from "components/Statistics/EventsTable";
+import { AppProvider, AppContext } from "../../components/Context/AppProvider";
 
 const rows = [
   { id: "text", numeric: false, disablePadding: true, label: "Text" },
@@ -55,22 +56,26 @@ const Statistics = () => {
   };
   return (
     <Fragment>
-      <EventsContext.Consumer>
-        {context => (
-          <Fragment>
-            <EventsTable
-              title={"Training Events"}
-              events={context.events}
-              rows={rows}
-            />{" "}
-            <EventsTable
-              title={"Testing results"}
-              events={eventsWithResuts(context)}
-              rows={rowsresults}
-            />
-          </Fragment>
+      <AppContext.Consumer>
+        {app => (
+          <EventsContext.Consumer>
+            {context => (
+              <Fragment>
+                <EventsTable
+                  title={"Training Events"}
+                  events={app.events}
+                  rows={rows}
+                />{" "}
+                <EventsTable
+                  title={"Testing results"}
+                  events={eventsWithResuts(app)}
+                  rows={rowsresults}
+                />
+              </Fragment>
+            )}
+          </EventsContext.Consumer>
         )}
-      </EventsContext.Consumer>
+      </AppContext.Consumer>
     </Fragment>
   );
 };
