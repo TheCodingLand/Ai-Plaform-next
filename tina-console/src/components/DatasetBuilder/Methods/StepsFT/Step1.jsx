@@ -14,11 +14,13 @@ const styles = theme => {};
 class Step1 extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      collection: ""
+    };
   }
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
-    this.props.setVal();
+    this.props.setVal(event.target.value);
     //else if (name==="datasetname") {}
   };
   render() {
@@ -39,7 +41,7 @@ class Step1 extends React.Component {
             <InputLabel htmlFor="collection-id">Data Collection</InputLabel>
             <Select
               onChange={this.handleChange("collection")}
-              value={this.state.collection}
+              value={this.props.value}
               input={<Input name="collection" id="collection-id" />}
             >
               <MenuItem value="">
