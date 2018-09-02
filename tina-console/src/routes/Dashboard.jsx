@@ -1,5 +1,5 @@
 import Dashboard from "@material-ui/icons/Dashboard";
-import DashboardPage from "views/Dashboard/Dashboard";
+import DashboardPage from "views/Dashboard/DashboardPage";
 import Documentation from "views/Documentation/Documentation";
 import TrainingPage from "views/Training/TrainingPage";
 import PredictionPage from "views/Prediction/PredictionPage";
@@ -70,14 +70,14 @@ var dashboardRoutes = [
     component: UploadPage
   },
   {
-    path: "/Datasets",
+    path: "/datasets",
     sidebarName: "Datasets",
     navbarName: "Datasets",
     icon: FormatListNumbered,
     component: DatasetBuilder
   },
   {
-    path: "/Statistics",
+    path: "/statistics",
     sidebarName: "Statistics",
     navbarName: "Statistics",
     icon: Timeline,
