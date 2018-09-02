@@ -71,6 +71,7 @@ class Dashboard extends React.Component {
       <AppContext.Consumer>
         {context => (
           <div>
+            <div {...this.updateStats(context)} />
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 Models:
