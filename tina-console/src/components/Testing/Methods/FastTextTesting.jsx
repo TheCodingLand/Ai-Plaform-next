@@ -74,10 +74,10 @@ class RunTestingCard extends React.Component {
       dataset: {
         _id: { $oid: "" },
         dataset: {
-          name: "",
+          datasetName: "",
           version: 0,
-          classifier: "",
-          TextColumns: []
+          classification: "",
+          columns: []
         }
       },
       model: {
@@ -163,7 +163,7 @@ class RunTestingCard extends React.Component {
   getModels = () => {
     let models = [];
     this.props.appdata.models.forEach(model => {
-      if (model.model.label === this.state.dataset.dataset.classifier) {
+      if (model.model.label === this.state.dataset.dataset.classification) {
         models.push(model);
       } else {
         console.log(model.model.label);
@@ -209,7 +209,7 @@ class RunTestingCard extends React.Component {
                     ? this.props.appdata.datasets.map(ds => {
                         return (
                           <MenuItem key={ds._id.$oid} value={ds._id.$oid}>
-                            {ds.dataset.name} {ds.dataset.version}
+                            {ds.dataset.datasetName} {ds.dataset.version}
                           </MenuItem>
                         );
                       })
@@ -236,7 +236,7 @@ class RunTestingCard extends React.Component {
                 labelText="Column label :"
                 id="column"
                 disabled
-                value={this.state.dataset.dataset.classifier}
+                value={this.state.dataset.dataset.classification}
                 formControlProps={{
                   fullWidth: true
                 }}
@@ -248,7 +248,7 @@ class RunTestingCard extends React.Component {
                 labelText="Text used from columns :"
                 id="column"
                 disabled
-                value={this.state.dataset.dataset.TextColumns}
+                value={this.state.dataset.dataset.columns}
                 formControlProps={{
                   fullWidth: true
                 }}
