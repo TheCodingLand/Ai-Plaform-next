@@ -161,7 +161,7 @@ class HorizontalLinearStepper extends React.Component {
     switch (step) {
       case 0:
         return (
-          <Fragment className={this.props.classes.step}>
+          <Fragment>
             <Step1
               collection={this.state.collection}
               valid={this.state.steps[0].valid}
@@ -172,7 +172,7 @@ class HorizontalLinearStepper extends React.Component {
         );
       case 1:
         return (
-          <Fragment className={this.props.classes.step}>
+          <Fragment>
             <Step2
               value={this.state.classColumn}
               collectionName={this.state.dataSourceName}
@@ -184,7 +184,7 @@ class HorizontalLinearStepper extends React.Component {
         );
       case 2:
         return (
-          <Fragment className={this.props.classes.step}>
+          <Fragment>
             <Step3
               value={this.state.classColumn}
               collectionName={this.state.dataSourceName}
