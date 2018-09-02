@@ -6,8 +6,22 @@ import GridContainer from "components/Grid/GridContainer";
 import { withStyles } from "@material-ui/core";
 import ListCheckBoxMultiple from "components/ListCheckbox/ListCheckboxMultiple";
 
-const styles = theme => {};
-
+const styles = theme => ({
+  card: {
+    width: "100%"
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+    marginTop: "27px"
+  },
+  textFields: {
+    paddingBottom: "10px",
+    margin: theme.spacing.unit,
+    width: "100%",
+    position: "relative"
+  }
+});
 class Step3 extends React.Component {
   constructor() {
     super();
@@ -33,21 +47,23 @@ class Step3 extends React.Component {
       .filter(item => item !== this.props.classColumn);
     return (
       <GridContainer>
-        <GridItem xs={6} sm={6} md={3}>
-          <Typography className={classes.typography}>
-            Select input data :
-          </Typography>
-        </GridItem>
+        <Card className={classes.card}>
+          <GridItem xs={6} sm={6} md={3}>
+            <Typography className={classes.typography}>
+              Select input data :
+            </Typography>
+          </GridItem>
 
-        <GridItem xs={12} sm={12} md={3}>
-          <ListCheckBoxMultiple update={this.update} items={items} />
-        </GridItem>
-        <GridItem xs={12} sm={12} md={3}>
-          <Typography>PREVIEW :</Typography>
-          {this.state.checked.map(item => (
-            <Typography key={item}>"{item}" </Typography>
-          ))}
-        </GridItem>
+          <GridItem xs={12} sm={12} md={3}>
+            <ListCheckBoxMultiple update={this.update} items={items} />
+          </GridItem>
+          <GridItem xs={12} sm={12} md={3}>
+            <Typography>PREVIEW :</Typography>
+            {this.state.checked.map(item => (
+              <Typography key={item}>"{item}" </Typography>
+            ))}
+          </GridItem>
+        </Card>
       </GridContainer>
     );
   }
