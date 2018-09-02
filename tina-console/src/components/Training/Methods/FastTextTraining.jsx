@@ -144,7 +144,7 @@ class RunTrainingCard extends React.Component {
     newmodel.name = `${this.state.dataset.dataset.classifier}_${
       newmodel.epochs
     }_${newmodel.learningRate.toFixed(1)}_${newmodel.ngrams}`;
-    this.saveState({ model: { ...prevmodel, newmodel } });
+    this.saveState({ model: { newmodel } });
     //this.setState(...model: { model: { [name]: event.target.value }}});
   };
   /* 
