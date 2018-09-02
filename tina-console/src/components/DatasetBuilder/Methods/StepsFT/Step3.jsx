@@ -13,6 +13,7 @@ class Step2 extends React.Component {
     this.state = {
       checked: []
     };
+    this.update = this.update.bind(this);
   }
   update(checked) {
     this.setState({ checked });
@@ -37,7 +38,7 @@ class Step2 extends React.Component {
         </GridItem>
 
         <GridItem xs={12} sm={12} md={3}>
-          <ListCheckBoxMultiple update={this.state.update} items={items} />
+          <ListCheckBoxMultiple update={this.update} items={items} />
         </GridItem>
       </Fragment>
     );
