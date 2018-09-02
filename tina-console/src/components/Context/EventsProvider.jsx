@@ -13,6 +13,9 @@ class EventsProvider extends React.Component {
       results: [],
       events: [],
       activeTasks: [],
+      predictions: [],
+      trainings: [],
+      testings: [],
 
       open: false,
       newevent: { text: "" },
@@ -28,6 +31,9 @@ class EventsProvider extends React.Component {
     //this.state = {...this.state, loadedstate}
   }
   componentWillMount() {
+    this.props.websocket.on("message", obj => {
+      this.eventRecieved(obj);
+    });
     this.setState({ socket: this.props.websocket });
   }
   removeNotificationByKey = key => {
@@ -71,7 +77,7 @@ class EventsProvider extends React.Component {
     return active;
   };
 
-  createEvent = (service, action, data, cb) => {
+  createEvent = (service, action, data) => {
     let id = this.makeid();
     let e = {
       id: id,
@@ -81,9 +87,6 @@ class EventsProvider extends React.Component {
       data: JSON.stringify(data)
     };
 
-    this.props.websocket.on("message", obj => {
-      this.eventRecieved(obj, cb);
-    });
     let tasks = this.state.activeTasks;
     tasks.push({ id: id });
     this.setState({ tasks });
@@ -92,33 +95,43 @@ class EventsProvider extends React.Component {
 
     return id;
   };
+
   eventRecieved = (obj, cb) => {
     let o = JSON.parse(obj.data);
-    o.text = o.action + " " + o.state;
-    console.log(o);
-    let notifications = this.state.notifications;
+    let trainings = this.state.trainings;
+    let predictions = this.state.predictions;
     let results = this.state.results;
     let events = this.state.events;
-    notifications.filter(obj => (o = obj));
-    notifications.push(o);
-    events.push(o);
-    let activeTasks = this.state.activeTasks;
-
+    activeTasks = this.state.activeTasks;
+    let notifications = this.state.notifications;
+    if (o.action === "training") {
+      trainings.push(o);
+    }
+    if (o.action === "testing") {
+      testings.push(o);
+    }
+    if (o.action === "prediction") {
+      predictions.push(o);
+    }
     if (o.state === "finished") {
       activeTasks = this.state.activeTasks.filter(task => task === o.id);
-
-      cb(o);
     }
     if (o.result) {
-      results = results.filter(obj => obj === o);
       results.push(o);
+      events.push(o);
     }
+
+    notifications.push(o);
+
     this.setState({
       results: results,
       events: events,
       newevent: o,
       notifications: notifications,
-      activeTasks: activeTasks
+      activeTasks: activeTasks,
+      trainings: trainings,
+      predictions: predictions,
+      testings: testings
     });
   };
 

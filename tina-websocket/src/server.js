@@ -79,7 +79,7 @@ io.on("connection", function(socket) {
 });
 
 const WebSocketListenTo = (channel, socket) => {
-  socket.on(channel, function(msg) {
+  socket.on("message", function(msg) {
     //Recieved msg from websocket
     console.log(`recieved ${channel} from ${socket} client`);
     //console.log(msg)
