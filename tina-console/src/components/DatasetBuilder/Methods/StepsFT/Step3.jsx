@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import Typography from "@material-ui/core/Typography";
-
+import Card from "@material-ui/core/Card";
 import GridItem from "components/Grid/GridItem";
 import GridContainer from "components/Grid/GridContainer";
 import { withStyles } from "@material-ui/core";
