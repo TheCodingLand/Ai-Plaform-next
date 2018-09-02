@@ -18,7 +18,7 @@ const styles = theme => ({
 
 class ListCheckboxMultiple extends React.Component {
   state = {
-    checked: [1]
+    checked: []
   };
 
   handleToggle = value => () => {
