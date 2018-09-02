@@ -66,8 +66,9 @@ class worker():
                 ftdata.write(txt)
         ftdata.close()
         self.task['data']['fullpath'] = f'/data/datasets/{self.datasetName}/{self.version}/{self.filename}'
-        self.client.ft.models.find_one_and_replace(
-            filter=self.task['data'], replacement=self.task['data'], upsert=True)
+        self.dataset = {"dataset": self.task['data']}
+        self.client.ft.datasets.find_one_and_replace(
+            filter=self.dataset, replacement=self.dataset, upsert=True)
 
         return self.task
 
