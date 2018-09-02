@@ -14,7 +14,7 @@ export class AppProvider extends React.Component {
       rawdataCollections: [],
       rawdataColumns: [],
       actions: [],
-      get: this.get
+      get: this.get.bind(this)
     };
   }
   getState() {
