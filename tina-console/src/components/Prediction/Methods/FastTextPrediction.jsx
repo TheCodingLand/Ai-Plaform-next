@@ -89,7 +89,7 @@ class RunTestingCard extends React.Component {
       text: "",
       result: ""
     };
-    this.getResult = this.getResult.bind(this);
+    //this.getResult = this.getResult.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
   }
   componentWillMount() {
@@ -139,12 +139,7 @@ class RunTestingCard extends React.Component {
         text: this.state.text,
         nbofresults: this.state.nbofresults
       };
-      let id = context.createEvent(
-        "ft",
-        "predict",
-        data,
-        this.getResult.bind(this)
-      );
+      let id = context.createEvent("ft", "predict", data, this.getResult());
       //CALLBACK OR NOT CALLBACK, THIS IS THE QUESTION
       // let id = context.createEvent("ft", "predict", data, this.eventRecieved);
       //this.setState({ id: id });
@@ -170,7 +165,7 @@ class RunTestingCard extends React.Component {
         i = i++;
       });
     }
-    this.setState({ result: text });
+    this.setState({ result: text }).bind(this);
   }
 
   handleChangeSelect(event) {
