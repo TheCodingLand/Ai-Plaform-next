@@ -6,7 +6,7 @@ import PredictionPage from "views/Prediction/PredictionPage";
 import TestingPage from "views/Testing/TestingPage";
 import SettingsPage from "views/Settings/Settings";
 import UploadPage from "views/Upload/Upload";
-import Statistics from "views/Statistics/Statistics";
+import StatisticsPage from "views/Statistics/StatisticsPage";
 import Debug from "views/Debug/Debug";
 import DatasetBuilder from "views/DatasetBuilder/DatasetBuilderPage";
 
@@ -81,7 +81,7 @@ var dashboardRoutes = [
     sidebarName: "Statistics",
     navbarName: "Statistics",
     icon: Timeline,
-    component: Statistics
+    component: StatisticsPage
   },
   {
     path: "/debug",

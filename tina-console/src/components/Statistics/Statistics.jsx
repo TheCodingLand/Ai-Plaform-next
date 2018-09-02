@@ -30,12 +30,16 @@ const rowsresults = [
   { id: "percent", numeric: true, disablePadding: false, label: "%" }
 ];
 
-const Statistics = () => {
-  let eventsWithResuts = context => {
-    context.get("results", "actions");
+class Statistics extends React.Component {
+  componentWillMount() {
+    this.props.context.get("results", "actions");
+  }
+  eventsWithResuts = () => {
     //let evs = []
-    console.log(context.actions);
-    let evs = context.actions.filter(e => e.result && e.action === "testing");
+    console.log(this.props.context.actions);
+    let evs = this.props.context.actions.filter(
+      e => e.result && e.action === "testing"
+    );
 
     //context.events.forEach((e) => { if (e.result && e.action === 'testing') { evs.push(e) } })
     console.log(evs);
@@ -55,25 +59,19 @@ const Statistics = () => {
 
     return events;
   };
-  return (
-    <Fragment>
-      <AppContext.Consumer>
-        {app => (
-          <EventsContext.Consumer>
-            {context => (
-              <Fragment>
-                <EventsTable
-                  title={"Testing results"}
-                  events={eventsWithResuts(app)}
-                  rows={rowsresults}
-                />
-              </Fragment>
-            )}
-          </EventsContext.Consumer>
-        )}
-      </AppContext.Consumer>
-    </Fragment>
-  );
-};
 
+  render() {
+    return (
+      <Fragment>
+        <Fragment>
+          <EventsTable
+            title={"Testing results"}
+            events={this.eventsWithResuts()}
+            rows={rowsresults}
+          />
+        </Fragment>
+      </Fragment>
+    );
+  }
+}
 export default Statistics;
