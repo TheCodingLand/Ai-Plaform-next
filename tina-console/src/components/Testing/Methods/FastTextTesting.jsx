@@ -96,6 +96,8 @@ class RunTestingCard extends React.Component {
   }
   componentWillMount() {
     this.loadState();
+    this.props.appdata.get("ft", "models");
+    this.props.appdata.get("ft", "datasets");
   }
   validateForm() {
     let valid = true;
