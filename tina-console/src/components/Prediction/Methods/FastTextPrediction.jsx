@@ -139,7 +139,7 @@ class RunTestingCard extends React.Component {
         text: this.state.text,
         nbofresults: this.state.nbofresults
       };
-      let id = context.createEvent("ft", "predict", data, this.getResult);
+      context.createEvent("ft", "predict", data, this.getResult);
       //CALLBACK OR NOT CALLBACK, THIS IS THE QUESTION
       // let id = context.createEvent("ft", "predict", data, this.eventRecieved);
       //this.setState({ id: id });
