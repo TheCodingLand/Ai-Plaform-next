@@ -68,41 +68,49 @@ class Model(Resource):
     # @api.marshal_with(prediction) #modelID, text, nbofresults
     def post(self):
         '''Fetch a given resource'''
-        modelid = api.payload.get('id')
-        text = api.payload.get('text')
-        nbofresults = api.payload.get('nbofresults')  # default : 1
-        ai = api.payload.get('ai')  # default : ft
-        taskid = genId()
-        key = f"{ai!s}.predict.api{taskid!s}"
-        data = {'key': key,
-                'action': "predict",
-                'id': taskid,
-                'modelid': modelid,
-                'text': text,
-                'nbofresults': nbofresults
-                }
-        logging.error(data)
-        # taskIds can be returned for long operations, so the  client can query the status of an operation
-        pushToRedis(key, taskid, data)
+        try:       
 
-        count = 0
-        while not c.hgetall(taskid):
-            time.sleep(0.1)
-            count = count + 1
-            if count > 100:  # 10 seconds
-                response_object = {
-                    'status': 'timeout error',
-                    'results': 'please check the data input'
-                }
-                return response_object, 408
+            modelid = api.payload.get('id')
+            text = api.payload.get('text')
+            nbofresults = api.payload.get('nbofresults')  # default : 1
+            ai = api.payload.get('ai')  # default : ft
+            taskid = genId()
+            key = f"{ai!s}.predict.api{taskid!s}"
+            data = {'key': key,
+                    'action': "predict",
+                    'id': taskid,
+                    'modelid': modelid,
+                    'text': text,
+                    'nbofresults': nbofresults
+                    }
+            logging.error(data)
+            # taskIds can be returned for long operations, so the  client can query the status of an operation
+            pushToRedis(key, taskid, data)
 
-        k = c.hgetall(taskid)
-        logging.error(k)
-        results = json.loads(k['data'])
-        logging.error(results)
+            count = 0
+            while not c.hgetall(taskid):
+                time.sleep(0.1)
+                count = count + 1
+                if count > 100:  # 10 seconds
+                    response_object = {
+                        'status': 'timeout error',
+                        'results': 'please check the data input'
+                    }
+                    return response_object, 408
 
-        response_object = {
-            'status': 'ok',
-            'results': results['result']
-        }
-        return response_object, 201
+            k = c.hgetall(taskid)
+            logging.error(k)
+            results = json.loads(k['data'])
+            logging.error(results)
+
+            response_object = {
+                'status': 'ok',
+                'results': results['result']
+            }
+            return response_object, 201
+        except:
+            response_object = {
+                'status': 'unknown server error',
+                'results': "please check input"
+            }
+            return response_object, 500
