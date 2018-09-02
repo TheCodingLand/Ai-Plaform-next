@@ -39,11 +39,11 @@ class Step2 extends React.Component {
             className={classes.formControl}
             error={!this.props.valid}
           >
-            <InputLabel htmlFor="collection-id">Data Collection</InputLabel>
+            <InputLabel htmlFor="classification-id">Data Collection</InputLabel>
             <Select
-              onChange={this.handleChange("collection")}
-              value={this.props.value}
-              input={<Input name="collection" id="collection-id" />}
+              onChange={this.handleChange("classification")}
+              value={this.props.classification}
+              input={<Input name="classification" id="classification-id" />}
             >
               <MenuItem value="">
                 <em>None</em>
