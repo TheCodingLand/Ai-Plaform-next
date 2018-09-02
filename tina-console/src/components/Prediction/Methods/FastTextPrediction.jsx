@@ -93,7 +93,7 @@ class RunTestingCard extends React.Component {
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
   }
   componentWillMount() {
-    this.loadState();
+    //this.loadState();
   }
 
   validateForm() {
