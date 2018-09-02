@@ -64,8 +64,10 @@ class Listener(threading.Thread):
             state='ok'
             try:
                 data = self.redis_in.hgetall(item['channel'])
-                self.redis_in.delete(item['channel'])
+                k = self.redis_in.delete(item['channel'])
             except:
+                state='already in progress'
+            if k == 0:
                 state='already in progress'
 
             try:
