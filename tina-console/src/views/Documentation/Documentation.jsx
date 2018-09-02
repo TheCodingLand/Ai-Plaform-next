@@ -127,13 +127,13 @@ return (
                 <h2 className={classes.cardTitle}>ARCHITECTURE</h2>
                 </CardHeader>
                 <CardBody>
-                <ListItem>Reverse proxy at : <a href={`http://proxy.${window.location.host}`}>proxy.{window.location.host}</a></ListItem>
+                <ListItem>Reverse proxy at : <a href={`http://proxy.${window.location.host.replace('console.','')}`}>proxy.{window.location.host.replace('console.','')}</a></ListItem>
                 
-                <ListItem>This console at : <a href={`http://console.${window.location.host}`}>console.{window.location.host}</a></ListItem>
+                <ListItem>This console at : <a href={`http://console.${window.location.host.replace('console.','')}`}>console.{window.location.host.replace('console.','')}</a></ListItem>
                 
-                <ListItem>Portainer container Management at : <a href={`http://portainer.${window.location.host}`}>portainer.{window.location.host}</a></ListItem>
+                <ListItem>Portainer container Management at : <a href={`http://portainer.${window.location.host.replace('console.','')}`}>portainer.{window.location.host.replace('console.','')}</a></ListItem>
                 
-                <ListItem>Web Api : <a href={`http://api.${window.location.host}`}>api.{window.location.host}</a></ListItem>
+                <ListItem>Web Api : <a href={`http://api.${window.location.host.replace('console.','')}`}>api.{window.location.host.replace('console.','')}</a></ListItem>
                 <h3 className={classes.cardTitle}>
                   
                 </h3>

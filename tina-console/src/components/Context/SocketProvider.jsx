@@ -15,8 +15,8 @@ export class SocketProvider extends React.Component {
     websocket = () => {
 
         const gethost = () => {
-            //let host = window.location.host
-            return 'tina.ctg.lu'
+            let host = window.location.host.replace('console.','')
+            return host
 
         }
         let SOCKET_URL = `http://ws.${gethost()}`
