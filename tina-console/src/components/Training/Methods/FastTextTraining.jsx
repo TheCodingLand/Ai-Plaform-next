@@ -75,10 +75,10 @@ class RunTrainingCard extends React.Component {
       dataset: {
         _id: { $oid: "" },
         dataset: {
-          name: "",
+          datasetName: "",
           version: 0,
-          classifier: "",
-          TextColumns: []
+          classification: "",
+          columns: []
         }
       },
       model: {
@@ -142,7 +142,7 @@ class RunTrainingCard extends React.Component {
     let prevmodel = this.state.model.model;
     let newmodel = { ...prevmodel, [name]: value };
     console.log(newmodel);
-    newmodel.name = `${this.state.dataset.dataset.classifier}_${
+    newmodel.name = `${this.state.dataset.dataset.classification}_${
       newmodel.epochs
     }_${newmodel.learningRate.toFixed(1)}_${newmodel.ngrams}`;
     this.saveState({ model: { model: newmodel } });
@@ -159,7 +159,7 @@ class RunTrainingCard extends React.Component {
         if (ds._id.$oid === event.target.value) {
           let model = this.state.model;
           console.log(ds.dataset);
-          model.model.name = `${ds.dataset.classifier}_${
+          model.model.name = `${ds.dataset.classification}_${
             model.model.epochs
           }_${model.model.learningRate.toFixed(1)}_${model.model.ngrams}`;
 
@@ -214,7 +214,7 @@ class RunTrainingCard extends React.Component {
                     ? this.props.appdata.datasets.map(ds => {
                         return (
                           <MenuItem key={ds._id.$oid} value={ds._id.$oid}>
-                            {ds.dataset.name} {ds.dataset.version}
+                            {ds.dataset.datasetName} {ds.dataset.version}
                           </MenuItem>
                         );
                       })
@@ -239,7 +239,7 @@ class RunTrainingCard extends React.Component {
                 label="Column label :"
                 id="column"
                 disabled
-                value={this.state.dataset.dataset.classifier}
+                value={this.state.dataset.dataset.classification}
                 formControlProps={{
                   fullWidth: true
                 }}
