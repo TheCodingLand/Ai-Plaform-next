@@ -13,7 +13,7 @@ class worker():
     collection = None
     classificationcolomn = ""
     textcolumns = ""
-    filename = "dataset.ft"
+    filename = "datafile.ft"
     percentkept = 100
     task = None
     thread = None
