@@ -101,7 +101,7 @@ class HorizontalLinearStepper extends React.Component {
     };
     let id = context.createEvent(
       "ft",
-      "databuilder",
+      "datasetbuilder",
       data,
       this.updateDataSets()
     );
