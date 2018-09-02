@@ -36,8 +36,8 @@ class worker():
 
         m = Model()
         m.initFromDict(self.ftmodel)
-        data = Dataset('datafile.ft', self.ds['name'], True,
-                       self.ds['version'], self.ds['classifier'])
+        data = Dataset('datafile.ft', self.ds['datasetName'], True,
+                       self.ds['version'], self.ds['classification'])
         m.train(data)
 
         return self.task
