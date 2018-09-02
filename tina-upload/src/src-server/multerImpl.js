@@ -35,13 +35,16 @@ module.exports = (app) => {
         console.log('Received data', req.body);
       }
       res.send({ responseText: req.file.path }); // You can send any response to the user here
+      let obj = {filename : req.file.originalname, token: req.token, id : req.token, key : 'upload.'+obj.filename }
+      redisOut.hmset('upload.'+obj.filename, obj)
+      redisPub.publish('upload.'+obj.filename,'upload.'+obj.filename)
     });
     app.post('/getstatus', function (req, res, next) {
         if (req.file && req.file.originalname) {
           console.log(`Received file ${req.file.originalname}`);
         }
     
-        res.send({ responseText: "file conversion in progress :" + req.file.path }); // You can send any response to the user here
+        res.send({ responseText: "file Import in progress :" + req.file.path }); // You can send any response to the user here
       });
 
     
