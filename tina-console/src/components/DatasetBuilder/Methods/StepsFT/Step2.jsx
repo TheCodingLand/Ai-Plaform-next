@@ -22,6 +22,7 @@ class Step2 extends React.Component {
     //else if (name==="datasetname") {}
   };
   render() {
+    console.log(this.props.appdata.rawdataColumns);
     const { classes } = this.props;
     return (
       <Fragment>
@@ -45,7 +46,7 @@ class Step2 extends React.Component {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {this.props.appdata.rawdataCollections
+              {/* {this.props.appdata.rawdataCollections
                 ? this.props.appdata
                     .getRawdataColumns(this.props.collectionName)
                     .map(collection => {
@@ -55,7 +56,7 @@ class Step2 extends React.Component {
                         </MenuItem>
                       );
                     })
-                : ""}
+                : ""} */}
             </Select>
             <FormHelperText>
               {!this.props.valid ? this.state.errorText : ""}
