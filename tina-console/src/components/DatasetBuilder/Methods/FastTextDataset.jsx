@@ -121,16 +121,8 @@ class HorizontalLinearStepper extends React.Component {
       collection: this.state.collection,
       columns: this.state.textColumns
     };
-    let id = context.createEvent(
-      "ft",
-      "datasetbuilder",
-      data,
-      this.updateDataSets()
-    );
+    let id = context.createEvent("ft", "datasetbuilder", data);
     this.setState({ id: id });
-  };
-  updateDataSets = () => {
-    this.props.appdata.get("ft", "datasets");
   };
 
   handleNext = context => {
