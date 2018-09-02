@@ -99,7 +99,7 @@ class EventsProvider extends React.Component {
     let notifications = this.state.notifications;
     let results = this.state.results;
     let events = this.state.events;
-
+    notifications.filter(obj => (o = obj));
     notifications.push(o);
     events.push(o);
     let activeTasks = this.state.activeTasks;
