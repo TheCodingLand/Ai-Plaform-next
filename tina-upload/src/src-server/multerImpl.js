@@ -14,7 +14,7 @@ module.exports = (app) => {
         
         let root = app.get('destination')
         
-        root = `${root}/${req.body.type}/${req.body.name}/${req.body.version}/`
+        root = `${root}/uploaded/${req.body.name}/${req.body.version}/`
         shell.mkdir('-p', root)
         cb(null, root)
       },
@@ -35,7 +35,7 @@ module.exports = (app) => {
         console.log('Received data', req.body);
       }
       res.send({ responseText: req.file.path }); // You can send any response to the user here
-      let obj = {filename : req.file.originalname, token: req.token, id : req.token, key : 'upload.'+obj.filename }
+      let obj = {filename : req.file.originalname, token: req.token, id : req.token, key : 'upload.'+obj.filename, name: req.body.name, version : req.body.version, path:`${root}/uploaded/${req.body.name}/${req.body.version}/` }
       redisOut.hmset('upload.'+obj.filename, obj)
       redisPub.publish('upload.'+obj.filename,'upload.'+obj.filename)
     });

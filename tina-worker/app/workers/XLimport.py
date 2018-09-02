@@ -1,0 +1,43 @@
+import json
+import os
+import time
+import xlrd
+from collections import OrderedDict
+from app import client
+
+class worker():
+    thread = None
+
+    def __init__(self, task, thread):
+        db = client['rawdata']
+        
+        self.thread = thread
+        self.task = task
+        self.collection_rawdata = db[self.task['name']]
+        self.filename = self.task['filename']
+        #TODO add path to filename first
+        self.wb = xlrd.open_workbook(self.task['path']+self.filename)
+        self.sh = wb.sheet_by_index(0)
+        #first line contains titles
+        self.titles = sh.row_values(0)
+        totalcolumns=len(titles)
+        self.objs = []
+        for rownum in range(1, sh.nrows):
+            item = OrderedDict()
+            row_values = sh.row_values(rownum)
+            i=0
+            for title in titles:
+                item[title]=row_values[i]
+                i = i+1
+                self.objs.append(item)
+        
+       
+
+        # some service need to norify that they started :
+        
+
+    def run(self):
+
+        self.collection_rawdata.insert_many(self.objs)
+
+        return self.task
