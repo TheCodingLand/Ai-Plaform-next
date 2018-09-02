@@ -89,7 +89,7 @@ class RunTestingCard extends React.Component {
       text: "",
       result: ""
     };
-    //this.getResult = this.getResult.bind(this);
+    this.getResult = this.getResult.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
   }
   componentWillMount() {
@@ -165,7 +165,7 @@ class RunTestingCard extends React.Component {
         i = i++;
       });
     }
-    this.setState({ result: text }).bind(this);
+    this.setState({ result: text });
   }
 
   handleChangeSelect(event) {
