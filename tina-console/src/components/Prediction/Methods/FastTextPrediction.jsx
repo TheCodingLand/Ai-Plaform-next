@@ -148,6 +148,7 @@ class RunTestingCard extends React.Component {
   };
 
   getResult(context) {
+    console.log(context.predictions);
     let prediction = context.predictions.filter(
       prediction => prediction.id === this.state.id
     );

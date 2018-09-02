@@ -111,7 +111,7 @@ class EventsProvider extends React.Component {
     if (o.action === "testing") {
       testings.push(o);
     }
-    if (o.action === "prediction") {
+    if (o.action === "predict") {
       predictions.push(o);
     }
     if (o.state === "finished") {
