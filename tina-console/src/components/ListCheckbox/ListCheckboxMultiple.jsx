@@ -44,7 +44,13 @@ class ListCheckboxMultiple extends React.Component {
       <div className={classes.root}>
         <List>
           {this.props.items.map(value => (
-            <ListItem key={value} dense button className={classes.listItem}>
+            <ListItem
+              onClick={this.handleToggle(value)}
+              key={value}
+              dense
+              button
+              className={classes.listItem}
+            >
               <ListItemText primary={`${value}`} />
               <ListItemSecondaryAction>
                 <Checkbox
