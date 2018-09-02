@@ -240,9 +240,6 @@ class RunTrainingCard extends React.Component {
                 id="column"
                 disabled
                 value={this.state.dataset.dataset.classification}
-                formControlProps={{
-                  fullWidth: true
-                }}
               />
             </GridItem>
           </GridContainer>
