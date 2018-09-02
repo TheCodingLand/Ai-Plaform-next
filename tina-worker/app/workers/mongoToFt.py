@@ -8,7 +8,8 @@ from app import client
 
 
 class worker():
-    db = client['rawdata']
+    client = client
+
     collection = None
     classificationcolomn = ""
     textcolumns = ""
@@ -19,6 +20,7 @@ class worker():
     id = None
 
     def __init__(self, task, thread):
+        self.raw_database = self.client['rawdata']
         self.thread = thread
         self.task = task
         if 'classification' in self.task['data'].keys():
@@ -31,7 +33,8 @@ class worker():
         if 'version' in self.task['data'].keys():
             self.version = self.task['data']['version']
         if 'collection' in self.task['data'].keys():
-            self.collection = self.db[self.task['data']['collection']]
+            self.collection = self.raw_database[self.task['data']
+                                                ['collection']]
 
     def run(self):
         i = 0
@@ -62,6 +65,9 @@ class worker():
             if len(txt.split()) > 10:
                 ftdata.write(txt)
         ftdata.close()
+        self.client.ft.models.find_one_and_replace(
+            filter=self.task['data'], replacement=self.task['data'], upsert=True)
+
         return self.task
 
     def preparedata(self, s):
