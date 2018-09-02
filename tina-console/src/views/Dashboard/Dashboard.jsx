@@ -31,6 +31,13 @@ import { AppContext } from "components/Context/AppProvider";
 import dashboardStyle from "assets/jss/ctg-ai-lab/views/dashboardStyle.jsx";
 
 class Dashboard extends React.Component {
+  constructor() {
+    super();
+    const dummy = this.updateStats();
+  }
+  updateStats = () => {
+    this.props.appdata.get("results", "actions");
+  };
   sortFloat(a, b) {
     return b.result.percent - a.result.percent;
   }
