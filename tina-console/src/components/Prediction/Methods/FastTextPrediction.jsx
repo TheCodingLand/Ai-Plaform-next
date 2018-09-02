@@ -160,17 +160,8 @@ class RunTestingCard extends React.Component {
         let i = 1;
 
         prediction[0].result.forEach(r => {
-          text =
-            text +
-            "\nResultat " +
-            i +
-            ":\n" +
-            "category : " +
-            r.category +
-            "\nconfidence : " +
-            r.confidence +
-            "\n";
-          i = i++;
+          text =`${text}\nResultat ${i}:\ncategory : ${r.category}\nconfidence : ${r.confidence}\n`
+          i = i+1;
         });
       }
       return text;
