@@ -96,7 +96,6 @@ class RunTrainingCard extends React.Component {
       trainingStarted: false
     };
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
-    this.updateModels = this.updateModels.bind(this);
   }
   componentWillMount() {
     this.loadState();
@@ -133,13 +132,11 @@ class RunTrainingCard extends React.Component {
         testmodel: this.state.model.testmodel,
         confidence: this.state.confidence
       };
-      let id = context.createEvent("ft", "training", data, this.updateModels());
+      let id = context.createEvent("ft", "training", data);
       this.setState({ id: id });
     }
   };
-  updateModels = () => {
-    this.props.appdata.get("ft", "models");
-  };
+
   handleChangeSlider = name => (event, value) => {
     let prevmodel = this.state.model.model;
     let newmodel = { ...prevmodel, [name]: value };
