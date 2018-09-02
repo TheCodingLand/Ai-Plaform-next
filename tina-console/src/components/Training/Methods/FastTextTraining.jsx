@@ -96,6 +96,7 @@ class RunTrainingCard extends React.Component {
       trainingStarted: false
     };
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
+    this.updateModels = this.updateModels.bind(this);
   }
   componentWillMount() {
     this.loadState();
