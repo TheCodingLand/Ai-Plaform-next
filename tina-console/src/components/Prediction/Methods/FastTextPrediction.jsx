@@ -150,12 +150,12 @@ class RunTestingCard extends React.Component {
   getResult(context) {
     console.log(context.predictions);
     let prediction = context.predictions.filter(
-      prediction => prediction.id !== this.state.id
+      prediction => prediction.id === this.state.id
     );
     console.log(prediction);
 
     let text = "";
-    if (prediction.result) {
+    if (prediction[0].result) {
       let i = 1;
 
       prediction.result.forEach(r => {
