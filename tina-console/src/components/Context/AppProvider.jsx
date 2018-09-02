@@ -14,7 +14,8 @@ export class AppProvider extends React.Component {
       rawdataCollections: [],
       rawdataColumns: [],
       actions: [],
-      get: this.get.bind(this)
+      get: this.get.bind(this),
+      getRawdataColumns: this.getRawdataColumns.bind(this)
     };
   }
   getState() {
@@ -23,6 +24,18 @@ export class AppProvider extends React.Component {
     this.get("ft", "datasets");
     this.getCollections("rawdata");
   }
+  getRawdataColumns(collectionName) {
+    let url = `http://rest.tina.ctg.lu/rawdata/${collectionName}/?pagesize=1&np`;
+    axios.get(url).then(res => {
+      console.log(res);
+      if (res.data.length > 0) {
+        let keys = Object.getOwnPropertyNames(res.data[0]);
+
+        return keys;
+      }
+    });
+  }
+
   getCollections(db) {
     let url = `http://rest.tina.ctg.lu/${db}/`;
     let cols = [];
