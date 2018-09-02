@@ -20,11 +20,9 @@ class Step2 extends React.Component {
   render() {
     console.log(this.props.appdata.rawdataColumns);
     const { classes } = this.props;
-    let items = this.props.appdata.rawdataColumns.filter(
-      item => item !== "_id"
-    );
-
-    items = items.filter(item => item !== this.props.classColumn);
+    let items = this.props.appdata.rawdataColumns[this.props.collectionName]
+      .filter(item => item !== "_id")
+      .filter(item => item !== this.props.classColumn);
     return (
       <Fragment>
         <GridItem xs={6} sm={6} md={3}>
