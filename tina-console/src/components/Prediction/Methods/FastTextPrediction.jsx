@@ -155,24 +155,27 @@ class RunTestingCard extends React.Component {
     console.log(prediction);
 
     let text = "";
-    if (prediction[0].result) {
-      let i = 1;
+    if (prediction.length > 0) {
+      if (prediction[0].result) {
+        let i = 1;
 
-      prediction.result.forEach(r => {
-        text =
-          text +
-          "\nResultat " +
-          i +
-          ":\n" +
-          "category : " +
-          r.category +
-          "\nconfidence : " +
-          r.confidence +
-          "\n";
-        i = i++;
-      });
+        prediction.result.forEach(r => {
+          text =
+            text +
+            "\nResultat " +
+            i +
+            ":\n" +
+            "category : " +
+            r.category +
+            "\nconfidence : " +
+            r.confidence +
+            "\n";
+          i = i++;
+        });
+      }
+      return text;
     }
-    return text;
+    return "";
   }
 
   handleChangeSelect(event) {
