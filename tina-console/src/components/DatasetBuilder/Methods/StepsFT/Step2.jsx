@@ -18,7 +18,7 @@ class Step2 extends React.Component {
   }
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
-    this.props.setVal();
+    this.props.setVal(event.target.value);
     //else if (name==="datasetname") {}
   };
   render() {
