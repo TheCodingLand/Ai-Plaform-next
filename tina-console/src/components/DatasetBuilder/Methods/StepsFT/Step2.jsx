@@ -40,22 +40,22 @@ class Step2 extends React.Component {
             <InputLabel htmlFor="collection-id">Data Collection</InputLabel>
             <Select
               onChange={this.handleChange("collection")}
-              value={this.state.collection}
+              value={this.props.value}
               input={<Input name="collection" id="collection-id" />}
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
               {this.props.appdata.rawdataColumns
-                ? this.props.appdata.rawdataColumns[
-                    this.props.collectionName
-                  ].map(collection => {
-                    return (
-                      <MenuItem key={collection} value={collection}>
-                        <em>{collection}</em>
-                      </MenuItem>
-                    );
-                  })
+                ? this.props.appdata.rawdataColumns[this.props.collectionName]
+                    .filter(collection => collection !== "_id")
+                    .map(collection => {
+                      return (
+                        <MenuItem key={collection} value={collection}>
+                          <em>{collection}</em>
+                        </MenuItem>
+                      );
+                    })
                 : ""}{" "}
               */}
             </Select>

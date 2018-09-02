@@ -133,6 +133,7 @@ class HorizontalLinearStepper extends React.Component {
         return (
           <Fragment className={this.props.classes.step}>
             <Step2
+              value={this.state.classColumn}
               collectionName={this.state.dataSourceName}
               valid={this.state.steps[1].valid}
               setVal={this.state.steps[1].setVal}
