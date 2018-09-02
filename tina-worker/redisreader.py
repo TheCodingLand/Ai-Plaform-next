@@ -67,7 +67,7 @@ class Listener(threading.Thread):
             try:
                 state = data['state']
             except:
-                pass
+                state=''
 
             if state=='':
                 data['state']='in progress'
@@ -100,15 +100,15 @@ class Listener(threading.Thread):
                     self.redis_out.hmset(result['id'], {"data": res})
                     self.redis_out.publish(result['id'], result['id'])
 
-        def run(self):
-            for item in self.pubsub.listen():
-                if item['data'] == "KILL":
-                    self.pubsub.unsubscribe()
-                    print(self, "unsubscribed and finished")
-                    break
-                else:
-                    logging.info(item)
-                    self.work(item)
+    def run(self):
+        for item in self.pubsub.listen():
+            if item['data'] == "KILL":
+                self.pubsub.unsubscribe()
+                print(self, "unsubscribed and finished")
+                break
+            else:
+                logging.info(item)
+                self.work(item)
 
 
 if __name__ == "__main__":
