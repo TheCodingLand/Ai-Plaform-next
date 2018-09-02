@@ -73,7 +73,7 @@ class Listener(threading.Thread):
             if state=='ok':
                 
                 #reserve this job for worker
-                self.redis_in.hmset(item['channel'],data)
+               
                 logging.warning(data)
 
                 data['data'] = json.loads(data['data'])
