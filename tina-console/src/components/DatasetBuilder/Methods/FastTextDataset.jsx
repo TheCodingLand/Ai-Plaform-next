@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Step1 from "./StepsFT/Step1";
 import Step2 from "./StepsFT/Step2";
 import Step3 from "./StepsFT/Step3";
+import { EventsContext } from "components/Context/EventsProvider";
 
 const styles = theme => ({
   root: {
@@ -33,7 +34,7 @@ class HorizontalLinearStepper extends React.Component {
       classColumn: "",
       dataSourceName: "",
       textColumns: "",
-
+      id: "",
       steps: [
         {
           valid: true,
@@ -53,6 +54,7 @@ class HorizontalLinearStepper extends React.Component {
       ]
     };
   }
+  validateStep() {}
   setTextColumns = data => {
     if (data) {
       let steps = this.state.steps;
@@ -83,7 +85,27 @@ class HorizontalLinearStepper extends React.Component {
     return step === 1;
   };
 
-  handleNext = () => {
+  finish = context => {
+    let data = {
+      classification: this.state.classColumn,
+      datasetName: this.state.datasetName,
+      version: this.state.version,
+      collection: this.state.dataSourceName,
+      colums: this.state.textColumns
+    };
+    let id = context.createEvent(
+      "ft",
+      "databuilder",
+      data,
+      this.updateDataSets()
+    );
+    this.setState({ id: id });
+  };
+  updateDataSets = () => {
+    this.props.appdata.get("ft", "datasets");
+  };
+
+  handleNext = context => {
     const { activeStep } = this.state;
     if (!this.state.steps[activeStep].validated) {
       let steps = this.state.steps;
@@ -92,9 +114,13 @@ class HorizontalLinearStepper extends React.Component {
     }
 
     if (this.state.steps[activeStep].valid) {
-      this.setState({
-        activeStep: activeStep + 1
-      });
+      if (this.state.activeStep === this.state.steps.length - 1) {
+        this.finish(context);
+      } else {
+        this.setState({
+          activeStep: activeStep + 1
+        });
+      }
     }
 
     /* let { skipped } = this.state;
@@ -209,15 +235,18 @@ class HorizontalLinearStepper extends React.Component {
                 >
                   Back
                 </Button>
-
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleNext}
-                  className={classes.button}
-                >
-                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                </Button>
+                <EventsContext.Consumer>
+                  {context => (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => this.handleNext(context)}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                    </Button>
+                  )}
+                </EventsContext.Consumer>
               </div>
             </div>
           )}

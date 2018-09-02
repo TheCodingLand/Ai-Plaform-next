@@ -18,6 +18,7 @@ class Step3 extends React.Component {
   }
   update(checked) {
     this.setState({ checked: checked });
+    this.props.setVal(checked);
   }
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });

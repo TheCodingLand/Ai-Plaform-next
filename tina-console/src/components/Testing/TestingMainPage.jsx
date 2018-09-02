@@ -12,33 +12,29 @@ class TestingPage extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <EventsContext.Consumer>
-        {events => (
-          <AppContext.Consumer>
-            {context => (
-              <Fragment>
-                <ExpansionPanel>
-                  <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography>FastText</Typography>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
-                    <FastTextTesting appdata={context} />
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
+      <AppContext.Consumer>
+        {context => (
+          <Fragment>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>FastText</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <FastTextTesting appdata={context} />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
 
-                <ExpansionPanel>
-                  <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography>Allen NLP</Typography>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
-                    <div />
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
-              </Fragment>
-            )}
-          </AppContext.Consumer>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>Allen NLP</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <div />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </Fragment>
         )}
-      </EventsContext.Consumer>
+      </AppContext.Consumer>
     );
   }
 }

@@ -1,33 +1,28 @@
-import React, { Fragment } from 'react'
-import FastTextTraining from './Methods/FastTextTraining'
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import Typography from '@material-ui/core/Typography'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import { withStyles } from '@material-ui/core/styles'
-import { Paper } from '@material-ui/core'
-import { AppContext } from 'components/Context/AppProvider'
-import { EventsContext } from 'components/Context/EventsProvider'
-
-
+import React, { Fragment } from "react";
+import FastTextTraining from "./Methods/FastTextTraining";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { withStyles } from "@material-ui/core/styles";
+import { Paper } from "@material-ui/core";
+import { AppContext } from "components/Context/AppProvider";
+import { EventsContext } from "components/Context/EventsProvider";
 
 class TrainingPage extends React.Component {
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
     return (
-      <EventsContext.Consumer>{events =>
-        <AppContext.Consumer>{context =>
+      <AppContext.Consumer>
+        {context => (
           <Fragment>
-
             <ExpansionPanel>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography>FastText</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-
                 <FastTextTraining appdata={context} />
-
               </ExpansionPanelDetails>
             </ExpansionPanel>
 
@@ -36,19 +31,14 @@ class TrainingPage extends React.Component {
                 <Typography>Allen NLP</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <div></div>
+                <div />
               </ExpansionPanelDetails>
             </ExpansionPanel>
-
           </Fragment>
-        }
-        </AppContext.Consumer>}
-      </EventsContext.Consumer>
-    )
-
+        )}
+      </AppContext.Consumer>
+    );
   }
 }
 
-export default TrainingPage
-
-
+export default TrainingPage;

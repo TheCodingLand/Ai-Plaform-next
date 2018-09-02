@@ -24,8 +24,7 @@ class worker():
         if 'classification' in self.task.keys():
             self.classificationcolomn = self.task['classification']
         if 'columns' in self.task.keys():
-            self.textcolumns = self.task['columns']
-        self.columns = self.textcolumns.split(';')
+            self.columns = self.task['columns']
 
         if 'datasetName' in self.task.keys():
             self.datasetName = self.task['datasetName']
