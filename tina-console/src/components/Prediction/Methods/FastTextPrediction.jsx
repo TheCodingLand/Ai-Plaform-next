@@ -139,7 +139,7 @@ class RunTestingCard extends React.Component {
         text: this.state.text,
         nbofresults: this.state.nbofresults
       };
-      let id = new context.createEvent(
+      let id = context.createEvent(
         "ft",
         "predict",
         data,
@@ -293,7 +293,10 @@ class RunTestingCard extends React.Component {
                 {this.state.predictStarted ? (
                   <Button disabled>In Progress</Button>
                 ) : (
-                  <Button onClick={() => this.start(context)} color="success">
+                  <Button
+                    onClick={() => new this.start(context)}
+                    color="success"
+                  >
                     Predict
                   </Button>
                 )}
