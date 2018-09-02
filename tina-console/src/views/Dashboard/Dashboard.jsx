@@ -33,10 +33,9 @@ import dashboardStyle from "assets/jss/ctg-ai-lab/views/dashboardStyle.jsx";
 class Dashboard extends React.Component {
   constructor() {
     super();
-    this.updateStats();
   }
-  updateStats = () => {
-    this.props.appdata.get("results", "actions");
+  updateStats = context => {
+    context.get("results", "actions");
   };
   sortFloat(a, b) {
     return b.result.percent - a.result.percent;
