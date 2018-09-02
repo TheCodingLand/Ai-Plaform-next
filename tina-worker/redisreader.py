@@ -61,16 +61,17 @@ class Listener(threading.Thread):
         logging.info(item['channel'])
         logging.info(item['data'])
         if item['data'] != 1:
-            data = self.redis_in.hgetall(item['channel'])
-            state=''
-
+            state='ok'
             try:
-                state = data['state']
+                data = self.redis_in.hgetall(item['channel'])
+                self.redis_in.delete(item['channel'])
             except:
-                state=''
+                state='already in progress'
 
-            if state=='':
-                data['state']='in progress'
+           
+
+            if state=='ok':
+                
                 #reserve this job for worker
                 self.redis_in.hmset(item['channel'],data)
                 logging.warning(data)
