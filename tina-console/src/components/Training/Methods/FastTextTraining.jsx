@@ -130,11 +130,13 @@ class RunTrainingCard extends React.Component {
         testmodel: this.state.model.testmodel,
         confidence: this.state.confidence
       };
-      let id = context.createEvent("ft", "training", data);
+      let id = context.createEvent("ft", "training", data, this.updateModels());
       this.setState({ id: id });
     }
   };
-
+  updateModels = () => {
+    this.props.appdata.get("db", "models");
+  };
   handleChangeSlider = name => (event, value) => {
     let prevmodel = this.state.model.model;
     let newmodel = { ...prevmodel, [name]: value };
