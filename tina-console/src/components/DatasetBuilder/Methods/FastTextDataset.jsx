@@ -51,24 +51,30 @@ class HorizontalLinearStepper extends React.Component {
       ]
     };
   }
-  setTextColumns = textColumns => {
-    let steps = this.state.steps;
-    steps[2].valid = true;
-    steps[2].validated = true;
+  setTextColumns = data => {
+    if (data) {
+      let steps = this.state.steps;
+      steps[2].valid = true;
+      steps[2].validated = true;
 
-    this.setState({ textColumns: textColumns, steps: steps });
+      this.setState({ textColumns: data, steps: steps });
+    }
   };
-  setClassColumn = classColumn => {
-    let steps = this.state.steps;
-    steps[1].valid = true;
-    steps[1].validated = true;
-    this.setState({ classColumn: classColumn, steps: steps });
+  setClassColumn = data => {
+    if (data) {
+      let steps = this.state.steps;
+      steps[1].valid = true;
+      steps[1].validated = true;
+      this.setState({ classColumn: data, steps: steps });
+    }
   };
-  setDataSource = dataSourceName => {
-    let steps = this.state.steps;
-    steps[0].valid = true;
-    steps[0].validated = true;
-    this.setState({ dataSourceName: dataSourceName, steps: steps });
+  setDataSource = data => {
+    if (data) {
+      let steps = this.state.steps;
+      steps[0].valid = true;
+      steps[0].validated = true;
+      this.setState({ dataSourceName: data, steps: steps });
+    }
   };
 
   isStepOptional = step => {
