@@ -1,6 +1,10 @@
 var shell = require('shelljs');
-
-
+const redis_host = process.env.REDIS_HOST;
+const host = "redis://" + redis_host + ":6379";
+var redis = require('redis')
+const redisOut = redis.createClient(host);
+const redisPub = redis.createClient(host);
+redisOut.select(1)
 
 module.exports = (app) => {
     const multer = require('multer');
