@@ -46,7 +46,7 @@ class Step1 extends React.Component {
         <GridItem xs={12} sm={12} md={6}>
           <TextField
             className={classes.textFields}
-            label="Dataset Name :"
+            label="Version :"
             name="version"
             id="version"
             onChange={this.handleChange("version")}
