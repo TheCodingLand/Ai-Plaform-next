@@ -56,7 +56,7 @@ class Step2 extends React.Component {
               error={!this.props.valid}
             >
               <InputLabel htmlFor="classification-id">
-                Data Collection
+                Classification Column :
               </InputLabel>
               <Select
                 onChange={this.handleChange("classification")}
