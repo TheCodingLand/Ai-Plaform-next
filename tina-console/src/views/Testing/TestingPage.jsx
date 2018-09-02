@@ -3,16 +3,11 @@ import React from "react";
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
-import TestingMainPage from "components/Testing/TestingMainPage"
-
-
-
+import TestingMainPage from "components/Testing/TestingMainPage";
 
 class TestingPage extends React.Component {
   constructor() {
-    super()
-
-
+    super();
   }
 
   render() {
@@ -20,24 +15,14 @@ class TestingPage extends React.Component {
 
     return (
       <div>
-
         <GridContainer>
           <GridItem xs={12} sm={12} md={12}>
-
-
             <TestingMainPage />
-
-
           </GridItem>
-        </GridContainer></div>
-
-
-    )
-
-
+        </GridContainer>
+      </div>
+    );
   }
 }
 
-export default TestingPage
-
-
+export default TestingPage;

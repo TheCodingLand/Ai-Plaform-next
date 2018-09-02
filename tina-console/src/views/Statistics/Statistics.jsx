@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { EventsContext } from "components/Context/EventsProvider";
-import EventsTable from "components/Diagnostics/EventsTable";
+import EventsTable from "components/Statistics/EventsTable";
 
 const rows = [
   { id: "text", numeric: false, disablePadding: true, label: "Text" },
@@ -29,7 +29,7 @@ const rowsresults = [
   { id: "percent", numeric: true, disablePadding: false, label: "%" }
 ];
 
-const Diagnostics = () => {
+const Statistics = () => {
   let eventsWithResuts = context => {
     //let evs = []
     console.log(context.results);
@@ -75,4 +75,4 @@ const Diagnostics = () => {
   );
 };
 
-export default Diagnostics;
+export default Statistics;
