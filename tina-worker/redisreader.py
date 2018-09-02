@@ -21,7 +21,7 @@ if WORKER == "optimize":
 if WORKER == "datasetbuilder":
     import app.workers.mongoToFt as worker
 if WORKER == "upload":
-    import app.wip.XLexport as worker
+    import app.workers.XLimport as worker
 
 logger = logging.getLogger()
 handler = logging.StreamHandler()
