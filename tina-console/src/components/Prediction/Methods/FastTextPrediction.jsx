@@ -139,7 +139,7 @@ class RunTestingCard extends React.Component {
         text: this.state.text,
         nbofresults: this.state.nbofresults
       };
-      let id = context.createEvent(
+      let id = new context.createEvent(
         "ft",
         "predict",
         data,
