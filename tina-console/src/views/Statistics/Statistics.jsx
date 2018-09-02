@@ -33,8 +33,8 @@ const rowsresults = [
 const Statistics = () => {
   let eventsWithResuts = context => {
     //let evs = []
-    console.log(context.results);
-    let evs = context.results.filter(e => e.result && e.action === "testing");
+    console.log(context.actions);
+    let evs = context.actions.filter(e => e.result && e.action === "testing");
 
     //context.events.forEach((e) => { if (e.result && e.action === 'testing') { evs.push(e) } })
     console.log(evs);
