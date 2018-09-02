@@ -100,6 +100,8 @@ class RunTrainingCard extends React.Component {
   }
   componentWillMount() {
     this.loadState();
+
+    this.props.appdata.get("ft", "datasets");
   }
   validateForm() {
     let valid = true;
