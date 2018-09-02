@@ -194,6 +194,23 @@ services:
     networks:
       - ai-internal
 
+  ### WORKERS
+  upload-worker:
+    build: ./tina-worker
+    restart: always
+    volumes:
+      - tina_data:/data/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - WORKER=upload
+      - MONGODB_SERVER=${MONGODB_SERVER}
+      - LOGLEVEL=${TRAIN_LOGLEVEL}
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
+
+
   data-worker:
     build: ./tina-worker
     restart: always
