@@ -3,7 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import GridItem from "components/Grid/GridItem";
 
 import { withStyles } from "@material-ui/core";
-import ListCheckBoxMultiple from "components/ListCheckBox/ListCheckboxMultiple";
+import ListCheckBoxMultiple from "components/ListCheckbox/ListCheckboxMultiple";
 
 const styles = theme => {};
 

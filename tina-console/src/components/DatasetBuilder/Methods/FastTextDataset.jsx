@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Step1 from "./StepsFT/Step1";
 import Step2 from "./StepsFT/Step2";
+import Step3 from "./StepsFT/Step3";
 const styles = theme => ({
   root: {
     width: "90%"
@@ -144,7 +145,7 @@ class HorizontalLinearStepper extends React.Component {
       case 2:
         return (
           <Fragment className={this.props.classes.step}>
-            <Step2
+            <Step3
               value={this.state.classColumn}
               collectionName={this.state.dataSourceName}
               valid={this.state.steps[2].valid}
