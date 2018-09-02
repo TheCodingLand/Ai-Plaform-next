@@ -65,6 +65,7 @@ class worker():
             if len(txt.split()) > 10:
                 ftdata.write(txt)
         ftdata.close()
+        self.task['data']['fullpath'] = f'/data/datasets/{self.datasetName}/{self.version}/{self.filename}'
         self.client.ft.models.find_one_and_replace(
             filter=self.task['data'], replacement=self.task['data'], upsert=True)
 
