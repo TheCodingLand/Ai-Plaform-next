@@ -29,7 +29,7 @@ class worker():
 
         #thread.redis_out.hmset(self.id, {"data": self.task})
         #thread.redis_out.publish(self.id, self.id)
-
+        self.confidence=self.task['data']['confidence']
         self.ftmodel = self.task['data']['model']
         self.ds = self.task['data']['dataset']['dataset']
 
