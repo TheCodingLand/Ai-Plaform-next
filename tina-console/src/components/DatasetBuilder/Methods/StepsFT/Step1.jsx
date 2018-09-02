@@ -10,7 +10,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { withStyles, TextField, Card } from "@material-ui/core";
 
-const styles = theme => {};
+const styles = theme => ({
+  card: {
+    width: "100%"
+  }
+});
 
 class Step1 extends React.Component {
   constructor() {
@@ -29,7 +33,7 @@ class Step1 extends React.Component {
     const { classes } = this.props;
     return (
       <GridContainer>
-        <Card>
+        <Card className={classes.card}>
           <GridItem xs={6} sm={6} md={3}>
             <Typography className={classes.typography}>
               Select input data :
