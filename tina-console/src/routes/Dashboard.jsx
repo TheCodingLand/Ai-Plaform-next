@@ -8,10 +8,14 @@ import SettingsPage from "views/Settings/Settings";
 import UploadPage from "views/Upload/Upload";
 import Statistics from "views/Statistics/Statistics";
 import Debug from "views/Debug/Debug";
+import DatasetBuilder from "views/DatasetBuilder/DatasetBuilderPage";
+
+//Icons
 import Play from "@material-ui/icons/PlayArrow";
 import NetworkCheck from "@material-ui/icons/NetworkCheck";
 import BugReport from "@material-ui/icons/BugReport";
 import MonitorIcon from "@material-ui/icons/MovieCreationTwoTone";
+import FormatListNumbered from "@material-ui/icons/FormatListNumbered";
 import Upload from "@material-ui/icons/CloudUpload";
 import Settings from "@material-ui/icons/SettingsOutlined";
 import Help from "@material-ui/icons/Help";
@@ -64,6 +68,13 @@ var dashboardRoutes = [
     navbarName: "Data Upload",
     icon: Upload,
     component: UploadPage
+  },
+  {
+    path: "/Datasets",
+    sidebarName: "Datasets",
+    navbarName: "Datasets",
+    icon: FormatListNumbered,
+    component: DatasetBuilder
   },
   {
     path: "/Statistics",

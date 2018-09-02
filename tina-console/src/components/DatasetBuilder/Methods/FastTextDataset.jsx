@@ -6,7 +6,7 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-
+import Step1 from "./StepsFT/Steps1";
 const styles = theme => ({
   root: {
     width: "90%"
@@ -20,33 +20,31 @@ const styles = theme => ({
   }
 });
 
-function getSteps() {
-  return [
-    <Step1 appdata={this.props.appdata} />,
-    "Create an ad group",
-    "Create an ad"
-  ];
-}
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return "Select campaign settings...";
-    case 1:
-      return "What is an ad group anyways?";
-    case 2:
-      return "This is the bit I really care about!";
-    default:
-      return "Unknown step";
-  }
-}
-
 class HorizontalLinearStepper extends React.Component {
-  state = {
-    activeStep: 0,
-    skipped: new Set()
+  constructor() {
+    super();
+    this.state = {
+      activeStep: 0,
+      skipped: new Set(),
+      steps: {
+        step1: {
+          valid: true,
+          setVal: this.setDataSource.bind(this)
+        },
+        step2: {
+          valid: true,
+          setVal: this.setDataSource.bind(this)
+        },
+        step3: {
+          valid: true,
+          setVal: this.setDataSource.bind(this)
+        }
+      }
+    };
+  }
+  setDataSource = DataSourceName => {
+    this.setState({ DataSourceName: DataSourceName });
   };
-
   isStepOptional = step => {
     return step === 1;
   };
@@ -70,6 +68,28 @@ class HorizontalLinearStepper extends React.Component {
       activeStep: activeStep - 1
     });
   };
+  getSteps() {
+    return ["select a Data source", "Create an ad group", "Create an ad"];
+  }
+
+  getStepContent(step) {
+    switch (step) {
+      case 0:
+        return (
+          <Step1
+            valid={this.state.dsvalid}
+            setVal={this.state.steps.step1.setVal}
+            appdata={this.props.appdata}
+          />
+        );
+      case 1:
+        return "What is an ad group anyways?";
+      case 2:
+        return "This is the bit I really care about!";
+      default:
+        return "Unknown step";
+    }
+  }
 
   handleSkip = () => {
     const { activeStep } = this.state;
@@ -101,7 +121,7 @@ class HorizontalLinearStepper extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const steps = getSteps();
+    const steps = this.getSteps();
     const { activeStep } = this.state;
 
     return (
@@ -138,7 +158,7 @@ class HorizontalLinearStepper extends React.Component {
           ) : (
             <div>
               <Typography className={classes.instructions}>
-                {getStepContent(activeStep)}
+                {this.getStepContent(activeStep)}
               </Typography>
               <div>
                 <Button

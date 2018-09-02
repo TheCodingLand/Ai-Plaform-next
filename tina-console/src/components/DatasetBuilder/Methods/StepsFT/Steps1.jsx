@@ -1,13 +1,28 @@
 import React, { Fragment } from "react";
+import Typography from "@material-ui/core/Typography";
+import GridItem from "components/Grid/GridItem";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import Input from "@material-ui/core/Input";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import { withStyles } from "@material-ui/core";
+
+const styles = theme => {};
 
 class Step1 extends React.Component {
   constructor() {
-    state = {
-        valid = false,
-        errors = { ...errors, dataCollectionErrorText: 'or select one !' }
-    };
+    super();
+    this.state = {};
   }
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.value });
+    this.props.setVal();
+    //else if (name==="datasetname") {}
+  };
   render() {
+    const { classes } = this.props;
     return (
       <Fragment>
         <GridItem xs={6} sm={6} md={3}>
@@ -19,7 +34,7 @@ class Step1 extends React.Component {
         <GridItem xs={12} sm={12} md={3}>
           <FormControl
             className={classes.formControl}
-            error={this.state.dataCollectionErrorText != ""}
+            error={!this.props.valid}
           >
             <InputLabel htmlFor="collection-id">Data Collection</InputLabel>
             <Select
@@ -41,7 +56,7 @@ class Step1 extends React.Component {
                 : ""}
             </Select>
             <FormHelperText>
-              {this.state.dataCollectionErrorText}
+              {!this.props.valid ? this.state.errorText : ""}
             </FormHelperText>
           </FormControl>
         </GridItem>
@@ -49,3 +64,4 @@ class Step1 extends React.Component {
     );
   }
 }
+export default withStyles(styles)(Step1);
