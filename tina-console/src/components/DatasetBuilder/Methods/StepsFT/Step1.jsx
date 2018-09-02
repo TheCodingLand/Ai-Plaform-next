@@ -13,6 +13,12 @@ import { withStyles, TextField, Card } from "@material-ui/core";
 const styles = theme => ({
   card: {
     width: "100%"
+  },
+  textFields: {
+    paddingBottom: "10px",
+    margin: theme.spacing.unit,
+    width: "100%",
+    position: "relative"
   }
 });
 
