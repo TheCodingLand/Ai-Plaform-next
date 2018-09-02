@@ -7,7 +7,7 @@ import ListCheckBoxMultiple from "components/ListCheckbox/ListCheckboxMultiple";
 
 const styles = theme => {};
 
-class Step2 extends React.Component {
+class Step3 extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -16,7 +16,7 @@ class Step2 extends React.Component {
     this.update = this.update.bind(this);
   }
   update(checked) {
-    this.setState({ checked });
+    this.setState({ checked: checked });
   }
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
@@ -44,4 +44,4 @@ class Step2 extends React.Component {
     );
   }
 }
-export default withStyles(styles)(Step2);
+export default withStyles(styles)(Step3);
