@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Step1 from "./StepsFT/Step1";
 import Step2 from "./StepsFT/Step2";
 import Step3 from "./StepsFT/Step3";
+
 const styles = theme => ({
   root: {
     width: "90%"
