@@ -35,6 +35,7 @@ class ListCheckboxMultiple extends React.Component {
     this.setState({
       checked: newChecked
     });
+    this.props.update(checked);
   };
 
   render() {

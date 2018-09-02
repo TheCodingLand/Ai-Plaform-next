@@ -10,7 +10,12 @@ const styles = theme => {};
 class Step2 extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      checked: []
+    };
+  }
+  update(checked) {
+    this.setState({ checked });
   }
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
@@ -32,7 +37,7 @@ class Step2 extends React.Component {
         </GridItem>
 
         <GridItem xs={12} sm={12} md={3}>
-          <ListCheckBoxMultiple items={items} />
+          <ListCheckBoxMultiple update={this.state.update} items={items} />
         </GridItem>
       </Fragment>
     );
