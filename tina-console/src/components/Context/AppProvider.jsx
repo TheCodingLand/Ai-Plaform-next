@@ -25,7 +25,7 @@ export class AppProvider extends React.Component {
     this.getCollections("rawdata");
   }
   getRawdataColumns(collectionName) {
-    let url = `http://rest.tina.ctg.lu/rawdata/${collectionName}/?pagesize=1&np`;
+    let url = `http://rest.${window.location.host}/rawdata/${collectionName}/?pagesize=1&np`;
     axios.get(url).then(res => {
       console.log(res);
       if (res.data.length > 0) {
@@ -37,13 +37,13 @@ export class AppProvider extends React.Component {
   }
 
   getCollections(db) {
-    let url = `http://rest.tina.ctg.lu/${db}/`;
+    let url = `http://rest.${window.location.host}/${db}/`;
     let cols = [];
     axios.get(url).then(res => {
       console.log(res.data._embedded);
       res.data._embedded.forEach(coll => {
         cols.push(coll._id);
-        url = `http://rest.tina.ctg.lu/${db}/${coll._id}/?pagesize=1&np`;
+        url = `http://rest.${window.location.host}/${db}/${coll._id}/?pagesize=1&np`;
         axios.get(url).then(res => {
           console.log(res);
           if (res.data.length > 0) {
@@ -59,7 +59,7 @@ export class AppProvider extends React.Component {
     this.getState();
   }
   get(db, coll) {
-    let url = `http://rest.tina.ctg.lu/${db}/${coll}`;
+    let url = `http://rest.${window.location.host}/${db}/${coll}`;
 
     axios.get(url).then(res => {
       console.log(res.data._embedded);

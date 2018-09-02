@@ -91,7 +91,7 @@ class Upload extends Component {
     this.componentConfig = {
       iconFiletypes: [],
       showFiletypeIcon: false,
-      postUrl: 'http://upload.tina.ctg.lu/uploadHandler'
+      postUrl: `http://upload.${window.location.host}/uploadHandler`
     };
 
 

@@ -127,7 +127,7 @@ return (
                 <h2 className={classes.cardTitle}>ARCHITECTURE</h2>
                 </CardHeader>
                 <CardBody>
-                <ListItem>Reverse proxy at : <a href="http://proxy.tina.ctg.lu">proxy.tina.ctg.lu</a></ListItem>
+                <ListItem>Reverse proxy at : <a href={`http://proxy.${window.location.host}`}>proxy.tina.ctg.lu</a></ListItem>
                 
                 <ListItem>This console at : <a href="http://console.tina.ctg.lu">console.tina.ctg.lu</a></ListItem>
                 

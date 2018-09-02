@@ -6,7 +6,7 @@ from pymongo import MongoClient
 username = 'root'
 password = 'example'
 
-client = MongoClient('mongodb://%s:%s@tina.ctg.lu' % (username, password),27017)
+client = MongoClient('mongodb://%s:%s@tina-mongodb' % (username, password),27017)
 db = client['rawdata']
 collection_rawdata = db['bnp']
 

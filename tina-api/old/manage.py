@@ -38,7 +38,7 @@ logger.addHandler(handler)
 
 
 app = Flask('ft')
-app.config["MONGO_URI"] = "mongodb://root:example@tina.ctg.lu:27017/rawdata"
+app.config["MONGO_URI"] = "mongodb://root:example@tina-mongodb:27017/rawdata"
 ft.db = PyMongo(app)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 CORS(app)
