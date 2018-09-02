@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
@@ -6,7 +6,8 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import Step1 from "./StepsFT/Steps1";
+import Step1 from "./StepsFT/Step1";
+import Step2 from "./StepsFT/Step2";
 const styles = theme => ({
   root: {
     width: "90%"
@@ -17,7 +18,8 @@ const styles = theme => ({
   instructions: {
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit
-  }
+  },
+  step: {}
 });
 
 class HorizontalLinearStepper extends React.Component {
@@ -26,6 +28,10 @@ class HorizontalLinearStepper extends React.Component {
     this.state = {
       activeStep: 0,
       skipped: new Set(),
+      classColumn: "",
+      dataSourceName: "",
+      textColumns: "",
+
       steps: {
         step1: {
           valid: true,
@@ -33,32 +39,39 @@ class HorizontalLinearStepper extends React.Component {
         },
         step2: {
           valid: true,
-          setVal: this.setDataSource.bind(this)
+          setVal: this.setClassColumn.bind(this)
         },
         step3: {
           valid: true,
-          setVal: this.setDataSource.bind(this)
+          setVal: this.setTextColumns.bind(this)
         }
       }
     };
   }
-  setDataSource = DataSourceName => {
-    this.setState({ DataSourceName: DataSourceName });
+  setTextColumns = textColumns => {
+    this.setState({ textColumns: textColumns });
   };
+  setClassColumn = classColumn => {
+    this.setState({ classColumn: classColumn });
+  };
+  setDataSource = dataSourceName => {
+    this.setState({ dataSourceName: dataSourceName });
+  };
+
   isStepOptional = step => {
     return step === 1;
   };
 
   handleNext = () => {
     const { activeStep } = this.state;
-    let { skipped } = this.state;
+    /* let { skipped } = this.state;
     if (this.isStepSkipped(activeStep)) {
       skipped = new Set(skipped.values());
       skipped.delete(activeStep);
-    }
+    } */
     this.setState({
-      activeStep: activeStep + 1,
-      skipped
+      activeStep: activeStep + 1
+      //skipped
     });
   };
 
@@ -69,21 +82,35 @@ class HorizontalLinearStepper extends React.Component {
     });
   };
   getSteps() {
-    return ["select a Data source", "Create an ad group", "Create an ad"];
+    return [
+      "Select a Data source",
+      "Select the Classification column",
+      "Select Text columns"
+    ];
   }
 
   getStepContent(step) {
     switch (step) {
       case 0:
         return (
-          <Step1
-            valid={this.state.dsvalid}
-            setVal={this.state.steps.step1.setVal}
-            appdata={this.props.appdata}
-          />
+          <Fragment className={this.props.classes.step}>
+            <Step1
+              valid={this.state.dsvalid}
+              setVal={this.state.steps.step1.setVal}
+              appdata={this.props.appdata}
+            />
+          </Fragment>
         );
       case 1:
-        return "What is an ad group anyways?";
+        return (
+          <Fragment className={this.props.classes.step}>
+            <Step2
+              valid={this.state.dsvalid}
+              setVal={this.state.steps.step1.setVal}
+              appdata={this.props.appdata}
+            />
+          </Fragment>
+        );
       case 2:
         return "This is the bit I really care about!";
       default:
@@ -91,33 +118,11 @@ class HorizontalLinearStepper extends React.Component {
     }
   }
 
-  handleSkip = () => {
-    const { activeStep } = this.state;
-    if (!this.isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    this.setState(state => {
-      const skipped = new Set(state.skipped.values());
-      skipped.add(activeStep);
-      return {
-        activeStep: state.activeStep + 1,
-        skipped
-      };
-    });
-  };
-
   handleReset = () => {
     this.setState({
       activeStep: 0
     });
   };
-
-  isStepSkipped(step) {
-    return this.state.skipped.has(step);
-  }
 
   render() {
     const { classes } = this.props;
@@ -130,14 +135,7 @@ class HorizontalLinearStepper extends React.Component {
           {steps.map((label, index) => {
             const props = {};
             const labelProps = {};
-            if (this.isStepOptional(index)) {
-              labelProps.optional = (
-                <Typography variant="caption">Optional</Typography>
-              );
-            }
-            if (this.isStepSkipped(index)) {
-              props.completed = false;
-            }
+
             return (
               <Step key={label} {...props}>
                 <StepLabel {...labelProps}>{label}</StepLabel>
@@ -168,16 +166,7 @@ class HorizontalLinearStepper extends React.Component {
                 >
                   Back
                 </Button>
-                {this.isStepOptional(activeStep) && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleSkip}
-                    className={classes.button}
-                  >
-                    Skip
-                  </Button>
-                )}
+
                 <Button
                   variant="contained"
                   color="primary"
