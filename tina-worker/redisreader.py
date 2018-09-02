@@ -68,15 +68,19 @@ class Listener(threading.Thread):
             except:
                 state='already in progress'
 
-           
-
+            try:
+                data['data'] = json.loads(data['data'])
+            except KeyError:
+                state='already in progress'
             if state=='ok':
                 
                 #reserve this job for worker
                
                 logging.warning(data)
+                
+                
+                
 
-                data['data'] = json.loads(data['data'])
                 data['state'] = 'in progress'
                 timestamp = time.time()
                 data['started'] = timestamp
