@@ -42,7 +42,7 @@ class Step3 extends React.Component {
         </GridItem>
         <GridItem xs={12} sm={12} md={3}>
           <Typography>PREVIEW :</Typography>
-          {this.checked.map(item => (
+          {this.state.checked.map(item => (
             <Typography key={item}>"{item}" </Typography>
           ))}
         </GridItem>
