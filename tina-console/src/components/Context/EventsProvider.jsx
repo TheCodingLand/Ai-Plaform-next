@@ -110,6 +110,7 @@ class EventsProvider extends React.Component {
       typeof cb === "function" && cb(o);
     }
     if (o.result) {
+      results = results.filter(obj => obj === o);
       results.push(o);
     }
     this.setState({
