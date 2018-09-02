@@ -98,6 +98,7 @@ class EventsProvider extends React.Component {
 
   eventRecieved = obj => {
     let o = JSON.parse(obj.data);
+    o.text = `${o.action} ${o.state}`;
     let trainings = this.state.trainings;
     let testings = this.state.testings;
     let predictions = this.state.predictions;
