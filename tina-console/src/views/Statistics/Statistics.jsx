@@ -41,7 +41,7 @@ const Statistics = () => {
     let events = evs.map(event => {
       let e = event;
       e = Object.assign({}, e, event.result);
-      e.dataset = e.data.dataset.dataset.name;
+      e.dataset = e.data.dataset.dataset.datasetName;
       e.column = e.data.model.model.label;
       e.model = e.data.model.model.name;
       e.percent = parseInt(e.percent);
@@ -61,11 +61,6 @@ const Statistics = () => {
           <EventsContext.Consumer>
             {context => (
               <Fragment>
-                <EventsTable
-                  title={"Training Events"}
-                  events={app.events}
-                  rows={rows}
-                />{" "}
                 <EventsTable
                   title={"Testing results"}
                   events={eventsWithResuts(app)}
