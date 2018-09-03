@@ -13,20 +13,20 @@ class worker():
         
         self.thread = thread
         self.task = task
-        self.collection_rawdata = db[self.task['name']]
+        self.collection_rawdata = db[self.task['data']['name']]
         self.filename = self.task['filename']
         #TODO add path to filename first
         self.wb = xlrd.open_workbook(self.task['path']+self.filename)
-        self.sh = wb.sheet_by_index(0)
+        self.sh = self.wb.sheet_by_index(0)
         #first line contains titles
-        self.titles = sh.row_values(0)
-        totalcolumns=len(titles)
+        self.titles = self.sh.row_values(0)
+        totalcolumns=len(self.titles)
         self.objs = []
-        for rownum in range(1, sh.nrows):
+        for rownum in range(1, self.sh.nrows):
             item = OrderedDict()
-            row_values = sh.row_values(rownum)
+            row_values = self.sh.row_values(rownum)
             i=0
-            for title in titles:
+            for title in self.titles:
                 item[title]=row_values[i]
                 i = i+1
                 self.objs.append(item)
