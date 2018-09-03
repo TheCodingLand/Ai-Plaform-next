@@ -14,7 +14,7 @@ module.exports = (app) => {
         
         let root = app.get('destination')
         
-        root = `${root}/uploaded/${req.body.name}/${req.body.version}/`
+        root = `${root}/uploaded/${req.body.name}/`
         shell.mkdir('-p', root)
         cb(null, root)
       },
