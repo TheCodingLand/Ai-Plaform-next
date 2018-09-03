@@ -173,9 +173,17 @@ class Model(object):
                     else:
                         count = mostFailedLabels.get(label) + 1
                         mostFailedLabels.update({label: count})
+        fails = []
+        for key, value in mostFailedLabels.items():
+            c = { "category" : key,
+                    "count" : value }
+            fails.append(c)
+
+            
+
 
         result = {"total": total, "success": correct, "ignored": ignored,
-                  "failures": failures, "percent": percent, "failed": mostFailedLabels}
+                  "failures": failures, "percent": percent, "failed": fails}
         if delete == True:
             os.remove(self.model.fullpath)
             os.rmdir(f"{MODELDIR}/{self.name}/{self.version!s}")
