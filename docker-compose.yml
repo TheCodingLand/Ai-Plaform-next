@@ -308,7 +308,7 @@ services:
     expose:
       - "8080"
     volumes:
-      - tina_data:/data
+      - tina_data:/data/
     networks:
       - ai-web
       - ai-internal
