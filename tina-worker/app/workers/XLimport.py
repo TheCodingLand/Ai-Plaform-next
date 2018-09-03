@@ -39,7 +39,11 @@ class worker():
                 except TypeError:
                     pass
                 try:
+                    if isinstance(s, float):
+                        s = int(s)
                     s = f'{s!s}'
+                except:
+                    pass
                         
                 item[title]=s
                 i = i+1
