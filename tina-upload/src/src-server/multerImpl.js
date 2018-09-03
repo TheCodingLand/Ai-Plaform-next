@@ -24,8 +24,8 @@ module.exports = (app) => {
         //let ext=path.parse(file.originalname).ext;
         // Mimetype stores the file type, set extensions according to filetype
         //let name = path.parse(file.originalname).name
-  
-        cb(null, file.originalname );
+        console.log(`writing file : ${req.file.originalname}`)
+        cb(null, req.file.originalname );
       }
     });
 
@@ -35,13 +35,15 @@ module.exports = (app) => {
       if (req.file && req.file.originalname) {
         console.log(`Received file ${req.file.originalname}`);
         console.log('Received data', req.body);
-      }
-      res.send({ responseText: req.file.path }); // You can send any response to the user here
+     
+
+      //res.send({ responseText: req.file.path }); // You can send any response to the user here
       var key = 'ft.upload.'+req.body.token
       var data = JSON.stringify({filename : req.file.originalname, name: req.body.name, path:`${app.get('destination')}/uploaded/${req.body.name}/`})
       var obj = { token: req.body.token, id : req.body.token, key : 'ft.upload.'+req.body.token, data : data }
       redisOut.hmset(key, obj)
-      redisPub.publish(key,key)
+      redisPub.publish(key,key) }
+      res.send({ responseText: req.file.path });
     });
     app.post('/getstatus', function (req, res, next) {
         if (req.file && req.file.originalname) {
