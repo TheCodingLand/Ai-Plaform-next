@@ -27,6 +27,7 @@ module.exports = (app) => {
         cb(null, 'datafile.' + ext);
       }
     });
+    
     const upload = multer({storage: storage});
   
     app.post('/uploadHandler', upload.single('file'), function (req, res, next) {
