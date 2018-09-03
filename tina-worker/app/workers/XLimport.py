@@ -14,7 +14,7 @@ class worker():
         self.thread = thread
         self.task = task
         self.collection_rawdata = db[self.task['data']['name']]
-        self.filename = self.task['filename']
+        self.filename = self.task['data']['filename']
         #TODO add path to filename first
         self.wb = xlrd.open_workbook(self.task['data']['path']+self.filename)
         self.sh = self.wb.sheet_by_index(0)
