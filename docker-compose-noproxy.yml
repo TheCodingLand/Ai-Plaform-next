@@ -49,7 +49,6 @@ services:
     image: redis:latest
     expose:
       - "6379"
-
     volumes:
       - redis_data:/data
     networks:
