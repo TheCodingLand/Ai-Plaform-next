@@ -13,7 +13,7 @@ class worker():
         db = client['rawdata']
         
         
-        soup = BeautifulSoup(htmltxt, 'lxml')
+   
         
         self.thread = thread
         self.task = task
