@@ -27,6 +27,11 @@ class worker():
             row_values = self.sh.row_values(rownum)
             i=0
             for title in self.titles:
+                s =row_values[i]
+                if "<p>" in s:
+                    s = s
+                    logging.warining(f"found html column {title}")
+                        
                 item[title]=row_values[i]
                 i = i+1
                 self.objs.append(item)
