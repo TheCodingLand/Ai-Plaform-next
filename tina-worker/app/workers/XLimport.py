@@ -35,7 +35,6 @@ class worker():
                 try:
                     if "<p>" in s:
                         soup = BeautifulSoup(s, 'lxml')
-                        logging.warning(f"found html column {title}")
                         s= soup.text
                 except TypeError:
                     pass
