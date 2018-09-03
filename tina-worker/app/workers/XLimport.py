@@ -26,6 +26,7 @@ class worker():
         self.titles = self.sh.row_values(0)
         totalcolumns=len(self.titles)
         self.objs = []
+        #we really want Strings for fastText
         for rownum in range(1,self.sh.nrows):
             item = OrderedDict()
             row_values = self.sh.row_values(rownum)
