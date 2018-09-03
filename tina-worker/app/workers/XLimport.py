@@ -2,6 +2,7 @@ import json
 import os
 import time
 import xlrd
+from bs4 import BeautifulSoup
 from collections import OrderedDict
 from app import client
 import logging
@@ -10,6 +11,9 @@ class worker():
 
     def __init__(self, task, thread):
         db = client['rawdata']
+        
+        
+        soup = BeautifulSoup(htmltxt, 'lxml')
         
         self.thread = thread
         self.task = task
@@ -29,8 +33,9 @@ class worker():
             for title in self.titles:
                 s =row_values[i]
                 if "<p>" in s:
-                    s = s
+                    soup = BeautifulSoup(s, 'lxml')
                     logging.warning(f"found html column {title}")
+                    s= soup.text
                         
                 item[title]=row_values[i]
                 i = i+1
