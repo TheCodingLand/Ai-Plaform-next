@@ -259,6 +259,7 @@ services:
       - tina_data:/data'
     networks:
       - ai-web
+      - ai-internal
     working_dir: /usr/src/app
     command: sh -c 'node ./src/index.js'
 
