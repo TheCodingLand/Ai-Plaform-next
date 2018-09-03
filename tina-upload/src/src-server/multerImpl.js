@@ -35,9 +35,10 @@ module.exports = (app) => {
         console.log('Received data', req.body);
       }
       res.send({ responseText: req.file.path }); // You can send any response to the user here
+      var key = 'ft.upload.'+req.body.token
       var obj = {filename : req.file.originalname, token: req.body.token, id : req.body.token, key : 'ft.upload.'+req.body.token, name: req.body.name, path:`${app.get('destination')}/uploaded/${req.body.name}/` }
-      redisOut.hmset('upload.'+obj.filename, obj)
-      redisPub.publish('upload.'+obj.filename,'upload.'+obj.filename)
+      redisOut.hmset(key, obj)
+      redisPub.publish(key,key)
     });
     app.post('/getstatus', function (req, res, next) {
         if (req.file && req.file.originalname) {
