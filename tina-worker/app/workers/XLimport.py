@@ -30,7 +30,7 @@ class worker():
                 s =row_values[i]
                 if "<p>" in s:
                     s = s
-                    logging.warining(f"found html column {title}")
+                    logging.warning(f"found html column {title}")
                         
                 item[title]=row_values[i]
                 i = i+1
