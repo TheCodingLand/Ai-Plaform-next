@@ -4,7 +4,7 @@ import time
 import xlrd
 from collections import OrderedDict
 from app import client
-
+import logging
 class worker():
     thread = None
 
