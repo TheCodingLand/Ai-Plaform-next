@@ -32,10 +32,14 @@ class worker():
             i=0
             for title in self.titles:
                 s =row_values[i]
-                if "<p>" in s:
-                    soup = BeautifulSoup(s, 'lxml')
-                    logging.warning(f"found html column {title}")
-                    s= soup.text
+                try:
+                    if "<p>" in s:
+                        soup = BeautifulSoup(s, 'lxml')
+                        logging.warning(f"found html column {title}")
+                        s= soup.text
+                except TypeError:
+                    pass
+                    
                         
                 item[title]=row_values[i]
                 i = i+1
