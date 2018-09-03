@@ -70,13 +70,16 @@ class Model(Resource):
         '''Fetch a given resource'''
         try:
             nbofresults = api.payload.get('nbofresults')  # default : 1
-        except KeyError:
+        except:
+            nbofresults = 1
+        if nbofresults == None:
             nbofresults = 1
         try:
             ai = api.payload.get('ai')  # default : ft
-        except KeyError:
+        except:
             ai = "ft"
-
+        if ai == None:
+            ai="ft"
         try:       
 
             modelid = api.payload.get('id')
