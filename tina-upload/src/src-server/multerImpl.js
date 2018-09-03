@@ -17,7 +17,7 @@ module.exports = (app) => {
         root = `${root}/uploaded/${req.body.name}/`
         console.log(`creating dir ${root}`)
         shell.mkdir('-p', root)
-        
+
         cb(null, root)
       },
       
@@ -25,8 +25,8 @@ module.exports = (app) => {
         //let ext=path.parse(file.originalname).ext;
         // Mimetype stores the file type, set extensions according to filetype
         //let name = path.parse(file.originalname).name
-        console.log(`writing file : ${req.file.originalname}`)
-        cb(null, req.file.originalname );
+        console.log(`writing file : ${file.originalname}`)
+        cb(null, file.originalname );
       }
     });
 
