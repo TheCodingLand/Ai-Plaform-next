@@ -38,7 +38,8 @@ class worker():
                         s= soup.text
                 except TypeError:
                     pass
-                    
+                try:
+                    s = f'{s!s}'
                         
                 item[title]=s
                 i = i+1
