@@ -15,6 +15,7 @@ module.exports = (app) => {
         let root = app.get('destination')
         
         root = `${root}/uploaded/${req.body.name}/`
+        console.log(`creating dir ${root}`)
         shell.mkdir('-p', root)
         cb(null, root)
       },
