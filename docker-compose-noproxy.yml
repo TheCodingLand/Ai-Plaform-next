@@ -18,6 +18,7 @@ services:
     networks:
       - ai-internal
       - ai-web
+      - web
 
   #####NODE SERVER WEBSOCKET#####
   tina-websocket:
@@ -42,6 +43,7 @@ services:
     networks:
       - ai-internal
       - ai-web
+      - web
 
   #####REDIS MESSAGE QUEUE#####
   tina-redis:
@@ -80,6 +82,7 @@ services:
     networks:
       - ai-web
       - ai-internal
+      - web
 
   restheart:
     ### Change the tag below to run a different version of RESTHeart
@@ -98,6 +101,7 @@ services:
     networks:
       - ai-web
       - ai-internal
+      - web
     volumes:
       - ./tina-restheart/restheart.yml:/opt/restheart/etc/restheart.yml:ro
       - ./tina-restheart/security.yml:/opt/restheart/etc/security.yml:ro
@@ -124,6 +128,7 @@ services:
     networks:
       - ai-web
       - ai-internal
+      - web
 
   ### WORKERS
   training-worker:
@@ -140,6 +145,7 @@ services:
       - tina-redis
     networks:
       - ai-internal
+      - web
 
   ### WORKERS
   upload-worker:
@@ -156,6 +162,7 @@ services:
       - tina-redis
     networks:
       - ai-internal
+      - web
 
 
   data-worker:
@@ -172,6 +179,7 @@ services:
       - tina-redis
     networks:
       - ai-internal
+      - web
 
   prediction-worker:
     build: ./tina-worker
@@ -187,6 +195,7 @@ services:
       - tina-redis
     networks:
       - ai-internal
+      - web
   testing-worker:
     build: ./tina-worker
     restart: always
@@ -201,6 +210,7 @@ services:
       - tina-redis
     networks:
       - ai-internal
+      - web
 
   tina-api:
     build: ./tina-api
@@ -223,6 +233,7 @@ services:
     networks:
       - ai-internal
       - ai-web
+      - web
 
   tina-console:
     build: ./tina-console
@@ -239,6 +250,7 @@ services:
       - "8080"
     networks:
       - ai-web
+      - web
 
   tina-upload:
     environment:
@@ -260,6 +272,7 @@ services:
     networks:
       - ai-web
       - ai-internal
+      - web
     working_dir: /usr/src/app
     command: sh -c 'node ./src/index.js'
 
@@ -271,6 +284,8 @@ volumes:
 
 networks:
   ai-web:
+    external: true
+  web:
     external: true
   ai-internal:
     external: false
