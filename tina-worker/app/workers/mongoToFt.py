@@ -49,7 +49,11 @@ class worker():
             text = ""
             for key, value in entry.items():
                 if key == self.classificationcolomn:
-                    category = value.replace(' ', '_')
+                    value = f'{value!s}'
+                    try:                        
+                        category = value.replace(' ', '_')
+                    except:
+                        pass
                 else:
                     if key in self.columns:
                         if value == None:
