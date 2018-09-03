@@ -68,12 +68,20 @@ class Model(Resource):
     # @api.marshal_with(prediction) #modelID, text, nbofresults
     def post(self):
         '''Fetch a given resource'''
+        try:
+            nbofresults = api.payload.get('nbofresults')  # default : 1
+        except KeyError:
+            nbofresults = 1
+        try:
+            ai = api.payload.get('ai')  # default : ft
+        except KeyError:
+            ai = "ft"
+
         try:       
 
             modelid = api.payload.get('id')
             text = api.payload.get('text')
-            nbofresults = api.payload.get('nbofresults')  # default : 1
-            ai = api.payload.get('ai')  # default : ft
+            
             taskid = genId()
             key = f"{ai!s}.predict.api{taskid!s}"
             data = {'key': key,
