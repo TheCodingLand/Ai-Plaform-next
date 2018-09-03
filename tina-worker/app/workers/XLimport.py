@@ -43,7 +43,7 @@ class worker():
                         
                 item[title]=s
                 i = i+1
-                self.objs.append(item)
+            self.objs.append(item)
         
        
 
