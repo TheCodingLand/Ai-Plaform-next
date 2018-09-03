@@ -67,6 +67,7 @@ class Listener(threading.Thread):
             try:
                 data['data'] = json.loads(data['data'])
             except KeyError:
+                logging.error('already in progress')
                 state='already in progress'
             if state=='ok':
                 

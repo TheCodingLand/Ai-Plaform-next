@@ -29,7 +29,7 @@ services:
 
     labels:
       - "traefik.backend=websocket"
-      - "traefik.docker.network=ai-web"
+      - "traefik.docker.network=web"
       - "traefik.enable=true"
       - "traefik.port=3001"
       - "traefik.frontend.rule=Host:ws.${D_HOST}"
@@ -70,7 +70,7 @@ services:
 
     labels:
       - "traefik.backend=mongoexpress"
-      - "traefik.docker.network=ai-web"
+      - "traefik.docker.network=web"
       - "traefik.enable=true"
       - "traefik.port=8081"
       - "traefik.frontend.rule=Host:mongoexpress.${D_HOST}"
@@ -90,7 +90,7 @@ services:
     ### Uncomment to name the container explicitly
     labels:
       - "traefik.backend=rest"
-      - "traefik.docker.network=ai-web"
+      - "traefik.docker.network=web"
       - "traefik.enable=true"
       - "traefik.port=8080"
       - "traefik.frontend.rule=Host:rest.${D_HOST}"
@@ -115,7 +115,7 @@ services:
 
     labels:
       - "traefik.backend=pra"
-      - "traefik.docker.network=ai-web"
+      - "traefik.docker.network=web"
       - "traefik.enable=true"
       - "traefik.port=80"
       - "traefik.frontend.rule=Host:pra.${D_HOST}"
@@ -223,7 +223,7 @@ services:
 
     labels:
       - "traefik.backend=api"
-      - "traefik.docker.network=ai-web"
+      - "traefik.docker.network=web"
       - "traefik.enable=true"
       - "traefik.port=5000"
       - "traefik.frontend.rule=Host:api.${D_HOST}"
