@@ -36,7 +36,8 @@ module.exports = (app) => {
       }
       res.send({ responseText: req.file.path }); // You can send any response to the user here
       var key = 'ft.upload.'+req.body.token
-      var obj = {filename : req.file.originalname, token: req.body.token, id : req.body.token, key : 'ft.upload.'+req.body.token, name: req.body.name, path:`${app.get('destination')}/uploaded/${req.body.name}/` }
+      data = JSON.stringify({filename : req.file.originalname, name: req.body.name, path:`${app.get('destination')}/uploaded/${req.body.name}/`})
+      var obj = { token: req.body.token, id : req.body.token, key : 'ft.upload.'+req.body.token, data : data }
       redisOut.hmset(key, obj)
       redisPub.publish(key,key)
     });
