@@ -1,0 +1,275 @@
+version: "3"
+
+services:
+
+  
+
+  tina-mongodb:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+
+    volumes:
+      - mongo_db:/data/db
+    logging:
+      driver: "none"
+    networks:
+      - ai-internal
+      - ai-web
+
+  #####NODE SERVER WEBSOCKET#####
+  tina-websocket:
+    restart: always
+    build: ./tina-websocket/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+
+    labels:
+      - "traefik.backend=websocket"
+      - "traefik.docker.network=ai-web"
+      - "traefik.enable=true"
+      - "traefik.port=3001"
+      - "traefik.frontend.rule=Host:ws.${D_HOST}"
+      - "traefik.frontend.entryPoints=http"
+    #test debug ws and traefik
+    expose:
+      - "3001"
+   
+    depends_on:
+      - tina-redis
+    networks:
+      - ai-internal
+      - ai-web
+
+  #####REDIS MESSAGE QUEUE#####
+  tina-redis:
+    restart: always
+    image: redis:latest
+    expose:
+      - "6379"
+
+    volumes:
+      - redis_data:/data
+    networks:
+      - ai-internal
+
+  #####REDIS ADMIN SERVER#####
+  tina-mongo-express:
+    image: mongo-express
+
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=${MONGODB_SERVER}
+      - ME_CONFIG_OPTIONS_EDITORTHEME=${ME_CONFIG_OPTIONS_EDITORTHEME}
+      - ME_CONFIG_BASICAUTH_USERNAME=${ME_CONFIG_BASICAUTH_USERNAME}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${ME_CONFIG_BASICAUTH_PASSWORD}
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=${ME_CONFIG_MONGODB_ADMINPASSWORD}
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=${ME_CONFIG_MONGODB_ADMINUSERNAME}
+
+    labels:
+      - "traefik.backend=mongo"
+      - "traefik.docker.network=ai-web"
+      - "traefik.enable=true"
+      - "traefik.port=8081"
+      - "traefik.frontend.rule=Host:mongo.${D_HOST}"
+      - "traefik.frontend.entryPoints=http"
+    expose:
+      - "8081"
+    depends_on:
+      - tina-mongodb
+    networks:
+      - ai-web
+      - ai-internal
+
+  restheart:
+    ### Change the tag below to run a different version of RESTHeart
+    image: softinstigate/restheart
+    ### Uncomment to name the container explicitly
+    labels:
+      - "traefik.backend=rest"
+      - "traefik.docker.network=ai-web"
+      - "traefik.enable=true"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:rest.${D_HOST}"
+      - "traefik.frontend.entryPoints=http"
+
+    depends_on:
+      - tina-mongodb
+    networks:
+      - ai-web
+      - ai-internal
+    volumes:
+      - ./tina-restheart/restheart.yml:/opt/restheart/etc/restheart.yml:ro
+      - ./tina-restheart/security.yml:/opt/restheart/etc/security.yml:ro
+
+  #####REDIS ADMIN SERVER#####
+  tina-redis-admin:
+    image: faktiva/php-redis-admin
+
+    environment:
+      - PHPREDMIN_DATABASE_REDIS_0_HOST=${REDIS_HOST}
+
+    labels:
+      - "traefik.backend=pra"
+      - "traefik.docker.network=ai-web"
+      - "traefik.enable=true"
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:pra.${D_HOST}"
+      - "traefik.frontend.entryPoints=http"
+    expose:
+      - "80"
+
+    depends_on:
+      - tina-redis
+    networks:
+      - ai-web
+      - ai-internal
+
+  ### WORKERS
+  training-worker:
+    build: ./tina-worker
+    restart: always
+    volumes:
+      - tina_data:/data/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - WORKER=training
+      - MONGODB_SERVER=${MONGODB_SERVER}
+      - LOGLEVEL=${TRAIN_LOGLEVEL}
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
+
+  ### WORKERS
+  upload-worker:
+    build: ./tina-worker
+    restart: always
+    volumes:
+      - tina_data:/data/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - WORKER=upload
+      - MONGODB_SERVER=${MONGODB_SERVER}
+      - LOGLEVEL=${TRAIN_LOGLEVEL}
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
+
+
+  data-worker:
+    build: ./tina-worker
+    restart: always
+    volumes:
+      - tina_data:/data/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - WORKER=datasetbuilder
+      - MONGODB_SERVER=${MONGODB_SERVER}
+      - LOGLEVEL=${DATA_LOGLEVEL}
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
+
+  prediction-worker:
+    build: ./tina-worker
+    restart: always
+    volumes:
+      - tina_data:/data/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - WORKER=predict
+      - MONGODB_SERVER=${MONGODB_SERVER}
+      - LOGLEVEL=${PRED_LOGLEVEL}
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
+  testing-worker:
+    build: ./tina-worker
+    restart: always
+    volumes:
+      - tina_data:/data/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - WORKER=testing
+      - MONGODB_SERVER=${MONGODB_SERVER}
+      - LOGLEVEL=${TEST_LOGLEVEL}
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
+
+  tina-api:
+    build: ./tina-api
+    restart: always
+    volumes:
+      - tina_data:/data/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - MONGODB_SERVER=${MONGODB_SERVER}
+
+    labels:
+      - "traefik.backend=api"
+      - "traefik.docker.network=ai-web"
+      - "traefik.enable=true"
+      - "traefik.port=5000"
+      - "traefik.frontend.rule=Host:api.${D_HOST}"
+      - "traefik.frontend.entryPoints=http"
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
+      - ai-web
+
+  tina-console:
+    build: ./tina-console
+    restart: always
+    labels:
+      - "traefik.backend=console"
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:console.${D_HOST}"
+      - "traefik.frontend.entryPoints=http"
+
+    expose:
+      - "8080"
+    networks:
+      - ai-web
+
+  tina-upload:
+    environment:
+      - DESTINATION=/data
+    build: ./tina-upload/
+    restart: always
+    labels:
+      - "traefik.backend=upload"
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:upload.${D_HOST}"
+      - "traefik.frontend.entryPoints=http"
+    expose:
+      - "8080"
+    volumes:
+      - tina_data:/data'
+    networks:
+      - ai-web
+    working_dir: /usr/src/app
+    command: sh -c 'node ./src/index.js'
+
+volumes:
+  portainer_data:
+  tina_data:
+  mongo_db:
+  redis_data:
+
+networks:
+  ai-web:
+    external: true
+  ai-internal:
+    external: false
