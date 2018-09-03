@@ -20,14 +20,14 @@ module.exports = (app) => {
       },
       
       filename: function (req, file, cb) {
-        let ext=path.parse(file.originalname).ext;
+        //let ext=path.parse(file.originalname).ext;
         // Mimetype stores the file type, set extensions according to filetype
         //let name = path.parse(file.originalname).name
   
-        cb(null, 'datafile.' + ext);
+        cb(null, file.originalname );
       }
     });
-    
+
     const upload = multer({storage: storage});
   
     app.post('/uploadHandler', upload.single('file'), function (req, res, next) {
