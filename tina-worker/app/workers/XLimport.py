@@ -16,7 +16,7 @@ class worker():
         self.collection_rawdata = db[self.task['data']['name']]
         self.filename = self.task['filename']
         #TODO add path to filename first
-        self.wb = xlrd.open_workbook(self.task['path']+self.filename)
+        self.wb = xlrd.open_workbook(self.task['data']['path']+self.filename)
         self.sh = self.wb.sheet_by_index(0)
         #first line contains titles
         self.titles = self.sh.row_values(0)
