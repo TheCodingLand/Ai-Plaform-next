@@ -41,7 +41,7 @@ class worker():
                     pass
                     
                         
-                item[title]=row_values[i]
+                item[title]=s
                 i = i+1
                 self.objs.append(item)
         
