@@ -48,6 +48,8 @@ class worker():
             i = i+1
             text = ""
             for key, value in entry.items():
+                #try to convert the value to a string
+                value = f'{value!s}'
                 if key == self.classificationcolomn:
                     value = f'{value!s}'
                     try:                        
