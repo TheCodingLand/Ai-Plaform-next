@@ -22,7 +22,7 @@ class worker():
         self.titles = self.sh.row_values(0)
         totalcolumns=len(self.titles)
         self.objs = []
-        for rownum in range(1, self.sh.nrows):
+        for rownum in self.sh.nrows[1]:
             item = OrderedDict()
             row_values = self.sh.row_values(rownum)
             i=0
