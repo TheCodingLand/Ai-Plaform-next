@@ -243,7 +243,8 @@ services:
 
   tina-upload:
     environment:
-      - DESTINATION=/data
+      - DESTINATION=/data      
+      - REDIS_HOST=${REDIS_HOST}
     build: ./tina-upload/
     restart: always
     labels:

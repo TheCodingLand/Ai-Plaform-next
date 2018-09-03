@@ -295,6 +295,7 @@ services:
 
   tina-upload:
     environment:
+      - REDIS_HOST=${REDIS_HOST}
       - DESTINATION=/data
     build: ./tina-upload/
     restart: always
@@ -315,10 +316,10 @@ services:
     command: sh -c 'node ./src/index.js'
 
 volumes:
-  ? portainer_data
-  ? tina_data
-  ? mongo_db
-  ? redis_data
+  portainer_data:
+  tina_data:
+  mongo_db:
+  redis_data:
 
 networks:
   ai-web:
