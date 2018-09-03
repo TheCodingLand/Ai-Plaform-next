@@ -5,4 +5,4 @@ redis
 pybind11
 Cython
 xlrd
-python3-lxml
+lxml
