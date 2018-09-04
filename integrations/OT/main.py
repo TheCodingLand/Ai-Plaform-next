@@ -24,8 +24,7 @@ while True:
                 confidence = prediction['results'][0]['confidence']
                 if confidence > 0.9:
                     categ_title=OT.getCategoryTitle(prediction1) #cleanup category name
-                    if categ_title =="":
-                        categ_title=OT.getCategoryTitle(prediction1).strip()
+                   
                     cat = categ_title
                 else:
                     cat = "-"          
