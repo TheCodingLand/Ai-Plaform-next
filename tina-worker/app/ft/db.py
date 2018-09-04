@@ -1,5 +1,6 @@
 from app import client
 from bson.objectid import ObjectId
+import logging
 class db():
     
     client = client
