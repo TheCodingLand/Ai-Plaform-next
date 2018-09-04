@@ -5,7 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from '@material-ui/core/Typography';
 // @material-ui/icons
 import ListItem from 'components/ListItem/ListItem.jsx'
-
+import API_ROOT from "appConfig"
 // import ArrowRight from "@material-ui/icons/ArrowRight";
 // import Warning from "@material-ui/icons/Warning";
 // import DateRange from "@material-ui/icons/DateRange";
@@ -127,13 +127,13 @@ return (
                 <h2 className={classes.cardTitle}>ARCHITECTURE</h2>
                 </CardHeader>
                 <CardBody>
-                <ListItem>Reverse proxy at : <a href={`http://proxy.${window.location.host.replace('console.','')}`}>proxy.{window.location.host.replace('console.','')}</a></ListItem>
+                <ListItem>Reverse proxy at : <a href={`http://proxy.${API_ROOT}`}>proxy.{API_ROOT}</a></ListItem>
                 
-                <ListItem>This console at : <a href={`http://console.${window.location.host.replace('console.','')}`}>console.{window.location.host.replace('console.','')}</a></ListItem>
+                <ListItem>This console at : <a href={`http://console.${API_ROOT}`}>console.{API_ROOT}</a></ListItem>
                 
-                <ListItem>Portainer container Management at : <a href={`http://portainer.${window.location.host.replace('console.','')}`}>portainer.{window.location.host.replace('console.','')}</a></ListItem>
+                <ListItem>Portainer container Management at : <a href={`http://portainer.${API_ROOT}`}>portainer.{API_ROOT}</a></ListItem>
                 
-                <ListItem>Web Api : <a href={`http://api.${window.location.host.replace('console.','')}`}>api.{window.location.host.replace('console.','')}</a></ListItem>
+                <ListItem>Web Api : <a href={`http://api.${API_ROOT}`}>api.{API_ROOT}</a></ListItem>
                 <h3 className={classes.cardTitle}>
                   
                 </h3>

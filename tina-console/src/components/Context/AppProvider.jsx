@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-
+import API_ROOT from "appConfig"
 export const AppContext = React.createContext();
 
 export class AppProvider extends React.Component {
@@ -25,7 +25,7 @@ export class AppProvider extends React.Component {
     this.getCollections("rawdata");
   }
   getRawdataColumns(collectionName) {
-    let url = `http://rest.${window.location.host.replace('console.','')}/rawdata/${collectionName}/?pagesize=1&np`;
+    let url = `http://rest.${API_ROOT}/rawdata/${collectionName}/?pagesize=1&np`;
     axios.get(url).then(res => {
       console.log(res);
       if (res.data.length > 0) {
@@ -37,13 +37,13 @@ export class AppProvider extends React.Component {
   }
 
   getCollections(db) {
-    let url = `http://rest.${window.location.host.replace('console.','')}/${db}/`;
+    let url = `http://rest.${API_ROOT}/${db}/`;
     let cols = [];
     axios.get(url).then(res => {
       console.log(res.data._embedded);
       res.data._embedded.forEach(coll => {
         cols.push(coll._id);
-        url = `http://rest.${window.location.host.replace('console.','')}/${db}/${coll._id}/?pagesize=1&np`;
+        url = `http://rest.${API_ROOT}/${db}/${coll._id}/?pagesize=1&np`;
         axios.get(url).then(res => {
           console.log(res);
           if (res.data.length > 0) {
@@ -59,7 +59,7 @@ export class AppProvider extends React.Component {
     this.getState();
   }
   get(db, coll) {
-    let url = `http://rest.${window.location.host.replace('console.','')}/${db}/${coll}`;
+    let url = `http://rest.${API_ROOT}/${db}/${coll}`;
 
     axios.get(url).then(res => {
       console.log(res.data._embedded);

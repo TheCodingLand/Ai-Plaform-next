@@ -1,6 +1,6 @@
 import React from 'react'
 import io from 'socket.io-client'
-
+import API_ROOT from "appConfig"
 export const SocketContext = React.createContext()
 
 
@@ -15,11 +15,11 @@ export class SocketProvider extends React.Component {
     websocket = () => {
 
         const gethost = () => {
-            let host = window.location.host.replace('console.','')
+            let host = API_ROOT
             return host
 
         }
-        let SOCKET_URL = `http://ws.${gethost()}`
+        let SOCKET_URL = `http://ws.${API_ROOT}`
         //SOCKET_URL = 'http://localhost:3000' //TEMPORARY, DEBUG
         let socket = io.connect(SOCKET_URL)
 
