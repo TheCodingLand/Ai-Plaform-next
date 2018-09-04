@@ -136,7 +136,7 @@ while True:
             value = parseHtml(f'{subject!s} {body!s}')
             value = value.replace('\n',' ').strip()
             value = value.split(' ')
-            value = value[0:int(len(value)*75/100)] #WE CAN CUT THE TEXT AT THE END TO REMOVE THE SIGNATURES
+            value = value[0:int(len(value)*85/100)] #WE CAN CUT THE TEXT AT THE END TO REMOVE THE SIGNATURES
             value = ' '.join(value)
             
             value = preparedata(value)
