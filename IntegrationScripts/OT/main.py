@@ -126,7 +126,7 @@ def getEmails():
 def predict(text):
     """ Query for TINA to predict TEXT and return a Value"""
 
-    url = 'http://ai-api.lbr.lu/predict'
+    url = 'http://api.tina.lbr.lu/predict'
     headers = {'Content-type': 'application/json',
                    'Accept': 'text/plain'}
     #MODEL ID is obtained for trained models on the dashboard, console.tina.lbr.lu
@@ -139,7 +139,7 @@ def predict(text):
 
 while True:
     """ INFINITE LOOP, GETS NEW EMAILS, if emails are found with no predicted category field, runs the whole process."""
-    time.sleep(20)
+    time.sleep(2)
     data = getEmails()
     #print (data['status'])
     if data['status'] == "success":
@@ -162,7 +162,7 @@ while True:
             
             prediction = predict(value)
             
-
+            print (prediction)
             prediction = prediction.json()
             #print(prediction)
             if prediction['status'] == "ok":
