@@ -1,5 +1,6 @@
 import withStyles from "@material-ui/core/styles/withStyles";
-
+import React from 'react'
+import {AppContext} from 'components/Context/AppProvider'
 
 const styles = theme => ({
     event: {
@@ -21,10 +22,11 @@ class EventLog extends React.Component {
     }
 
     render(){
+        const {classes} = this.props
 
         return (
         <AppContext.Consumer>{context =>
-        <li>{context.results.map(result => <ul className={classes.event}>{result.action}</ul>)}</li>
+        <li>{context.actions.map(action => <ul className={classes.event}>{action.action}</ul>)}</li>
         }</AppContext.Consumer>
 
     )
