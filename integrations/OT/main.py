@@ -1,6 +1,6 @@
 #DRAFT DEBUG/TESTING     
 import requests
-from tina import Tina
+from .tina import Tina
 import time
 
 #MODEL to use for predictions
