@@ -5,7 +5,7 @@ import time
 
 #MODEL to use for predictions
 MODELID = "5b8e68951842adebc7309a0"
-IA = tina.Tina(MODELID)
+IA = Tina(MODELID)
 
 
 def getCategoryTitle(cat):
