@@ -1,4 +1,13 @@
 import requests
+
+
+
+class email():
+    id = ""
+    subject = ""
+    body = ""
+    fulltext = ""
+
 class Ot():
     def __init__(self, api):
         print("Initialized OT API")
@@ -15,7 +24,7 @@ class Ot():
         data = r.json()
         if data['status'] == "success":
             title = data['data']['Title']
-            return title
+            return title.split(':')[-1].strip()
 
 
     def getEmails(self):
@@ -35,9 +44,23 @@ class Ot():
             ]
         }
         r = requests.post(url=url, json=payload, headers=self.headers)
-
+        
         data = r.json()
-        return data
+        emails = []
+
+        if data['status'] == "success":
+            for email in data['Email']:
+                e = email()
+                e.id = email['id']
+                try:
+                    e.subject=email['data']['Subject']
+                except:
+                    e.subject=""
+                e.body = email['data']['Body Plain Text']
+
+                e.text = f'{e.subject!s} {e.body!s}'
+                emails.append(e)
+        return emails
 
     def setPredictedCategory(self,id,cat):
         modurl=f'{self.api}/api/ot/objectmod/{id!s}'
