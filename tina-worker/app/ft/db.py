@@ -13,9 +13,6 @@ class db():
         if m:
             return m
         
-
-
-        return self.client.models
     def getFtDatasets(self):
         return self.client.datasets
     def getFtStats(self):
