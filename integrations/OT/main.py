@@ -5,6 +5,8 @@ import time
 import os, re
 from bs4 import BeautifulSoup
 
+#MODEL to use for predictions
+MODELID = "5b8e4f021f48c363129ffed4"
 
 def parseHtml(html):
     """removes HTML TAGS"""
@@ -111,9 +113,9 @@ def predict(text):
     headers = {'Content-type': 'application/json',
                    'Accept': 'text/plain'}
     #MODEL ID is obtained for trained models on the dashboard, console.tina.lbr.lu
-    modelid = "5b8d3c0b2643e8676c3b77a6"
+   
     payload = {
-        "id": modelid,
+        "id": MODELID,
         "text": text }
     prediction = requests.post(url=url, json=payload, headers=headers)
     return prediction
