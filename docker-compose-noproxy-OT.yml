@@ -252,7 +252,7 @@ services:
       - ai-web
       - web
 
-  #quick and dirty omnitracker integration
+  #quick and dirty omnitracker integration demo
   tina-ot-integration:
     build: ./integrations/OT
     restart: always
