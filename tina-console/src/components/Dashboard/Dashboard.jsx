@@ -41,7 +41,7 @@ class Dashboard extends React.Component {
     return b.result.percent - a.result.percent;
   }
   top5(actions) {
-
+    console.log(actions);
     actions = actions.filter(action => action.action === "testing");
     let ids = [];
     let unique = [];
@@ -49,7 +49,6 @@ class Dashboard extends React.Component {
       if (!ids.includes(action.data.model._id.$oid)) {
         ids.push(action.data.model._id.$oid);
         unique.push(action);
-        console.log (action)
       }
     });
     unique.sort(this.sortFloat);
@@ -75,7 +74,7 @@ class Dashboard extends React.Component {
               <GridItem xs={12} sm={12} md={12}>
                 Models:
               </GridItem>
-              {this.top5(context.actions).map(result => (
+              {this.top5(context.testedModels).map(result => (
                 <GridItem key={result.key} xs={12} sm={6} md={3}>
                   <Card>
                     <CardHeader

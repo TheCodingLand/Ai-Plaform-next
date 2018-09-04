@@ -12,6 +12,7 @@ export class AppProvider extends React.Component {
       datasets: [],
       models: [],
       rawdataCollections: [],
+      testedModels : [],
       rawdataColumns: [],
       actions: [],
       get: this.get.bind(this),
