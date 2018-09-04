@@ -20,7 +20,7 @@ class Ot():
 
     def getEmails(self):
         """GETS EMAILS BASED ON FILTER"""
-        url = '{self.api}/api/ot/objects'
+        url = f'{self.api}/api/ot/objects'
         
         payload = {
             "objectclass": "Email",
