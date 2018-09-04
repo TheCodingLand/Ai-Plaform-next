@@ -24,7 +24,10 @@ class Ot():
         data = r.json()
         if data['status'] == "success":
             title = data['data']['Title']
-            return title.split(':')[-1].strip()
+            t = title.split(':')[-1].strip() #Handle special case where category is not written with the usual format
+            if t =="":
+                t=title.strip()
+            return t
 
 
     def getEmails(self):
