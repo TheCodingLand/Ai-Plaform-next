@@ -2,7 +2,7 @@ import requests
 
 
 
-class email():
+class Email():
     id = ""
     subject = ""
     body = ""
@@ -53,7 +53,7 @@ class Ot():
 
         if data['status'] == "success":
             for email in data['Email']:
-                e = email()
+                e = Email()
                 e.id = email['id']
                 try:
                     e.subject=email['data']['Subject']
