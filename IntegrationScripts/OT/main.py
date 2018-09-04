@@ -77,26 +77,7 @@ def preparedata(s):
     return s
 
 
-def preparedata(s):
-    """
-    Given a text, cleans and normalizes it.
-    """
 
-    s = s.lower()
-    s= s.replace(".","")
-    # Replace ips
-    s = re.sub(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ' _ip_ ', s)
-    # Isolate punctuation, remove numbers
-    s = re.sub(r'([\'\"\.\(\)\!\?\-\\\/\,])', r' \1 ', s)
-    s = re.sub(r'([0-9])' , ' ', s)
-    s = s.replace('*', '')
-    s = s.replace('_', '')
-    # Remove some special characters
-    s = re.sub(r'([\;\:\|•«\n])', ' ', s)
-
-    s = s.replace('&', ' and ')
-    s = s.replace('@', ' at ')
-    return s
 
 def getEmails():
     """GETS EMAILS BASED ON FILTER"""
@@ -139,7 +120,7 @@ def predict(text):
 
 while True:
     """ INFINITE LOOP, GETS NEW EMAILS, if emails are found with no predicted category field, runs the whole process."""
-    time.sleep(2)
+    time.sleep(10)
     data = getEmails()
     #print (data['status'])
     if data['status'] == "success":
