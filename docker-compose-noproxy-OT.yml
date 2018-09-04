@@ -257,7 +257,7 @@ services:
     build: ./integrations/OT
     restart: always
     networks:
-      - ai-interal
+      - ai-internal
     
 
   tina-upload:
