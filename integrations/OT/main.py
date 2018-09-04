@@ -1,12 +1,12 @@
 #DRAFT DEBUG/TESTING     
 import requests
 
-import tina.Tina
+import tina.tina as tina
 import time
 
 #MODEL to use for predictions
 MODELID = "5b8e68951842adebc7309a0"
-IA = Tina(MODELID)
+IA = tina.Tina(MODELID)
 
 
 def getCategoryTitle(cat):
