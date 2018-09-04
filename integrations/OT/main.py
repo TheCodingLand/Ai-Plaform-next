@@ -30,7 +30,7 @@ while True:
             prediction = prediction.json()
             if prediction['status'] == "ok":
                 cat = "-"
-                if len(prediction['results']>0):
+                if len(prediction['results']) > 0:
                     prediction1 = prediction['results'][0]['category']
                     confidence = prediction['results'][0]['confidence']
                     if confidence > 0.9:
