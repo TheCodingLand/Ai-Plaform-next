@@ -3,6 +3,7 @@ import requests
 
 
 class Email():
+    """simple classe prototype for emails"""
     id = ""
     subject = ""
     body = ""
