@@ -6,7 +6,7 @@ import time
 import ot
 
 #MODEL to use for predictions
-MODELID = "5b8e68951842adebc7309a0"
+MODELID = "5b8e68951842adebc7309a0e"
 IA = tina.Tina(MODELID)
 API = "http://ot-ws.lbr.lu:5001"
 OT = ot.Ot(API)

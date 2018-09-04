@@ -5,7 +5,10 @@ class db():
     client = client
 
     def getFtModel(self, id):
-        m = self.client.ft.models.find_one(filter={"_id":ObjectId(id)})
+        try:
+            m = self.client.ft.models.find_one(filter={"_id":ObjectId(id)})
+        except:
+            logging.error(f'INVALID MODEL ID {id}')
         if m:
             return m
         
