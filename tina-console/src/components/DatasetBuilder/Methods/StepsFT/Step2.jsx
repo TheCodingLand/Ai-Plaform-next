@@ -10,7 +10,7 @@ import Input from "@material-ui/core/Input";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { withStyles } from "@material-ui/core";
-
+import CircularProgress from "@material-ui/core/CircularProgress"
 const styles = theme => ({
   card: {
     width: "100%"
@@ -42,7 +42,9 @@ class Step2 extends React.Component {
     console.log(this.props.appdata.rawdataColumns);
     const { classes } = this.props;
     return (
+      
       <GridContainer>
+        {this.props.collectionName ? 
         <Card className={classes.card}>
           <GridItem xs={6} sm={6} md={3}>
             <Typography className={classes.typography}>
@@ -84,7 +86,7 @@ class Step2 extends React.Component {
               </FormHelperText>
             </FormControl>
           </GridItem>
-        </Card>
+        </Card> : <CircularProgress />}
       </GridContainer>
     );
   }
