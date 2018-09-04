@@ -23,9 +23,7 @@ while True:
                 prediction1 = prediction['results'][0]['category']
                 confidence = prediction['results'][0]['confidence']
                 if confidence > 0.9:
-                    categ_title=OT.getCategoryTitle(prediction1) #cleanup category name
-                   
-                    cat = categ_title
+                    cat=OT.getCategoryTitle(prediction1) #cleanup category name
                 else:
                     cat = "-"          
                 OT.setPredictedCategory(email.id,cat)
