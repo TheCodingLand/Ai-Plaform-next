@@ -1,23 +1,12 @@
-#DRAFT DEBUG/TESTING
-            
+#DRAFT DEBUG/TESTING     
 import requests
+import tina
 import time
-import os, re
-from bs4 import BeautifulSoup
 
 #MODEL to use for predictions
-MODELID = "5b8e68951842adebc7309a0e"
+MODELID = "5b8e68951842adebc7309a0"
+IA = tina.Tina(MODELID)
 
-
-def parseHtml(html):
-    """removes HTML TAGS"""
-    try:
-        if "<p>" in html:
-            soup = BeautifulSoup(html, 'lxml')
-            html= soup.text
-    except TypeError:
-        pass
-    return html
 
 def getCategoryTitle(cat):
     """gets category from a custom REST JSON API for OMNITRACKER"""
@@ -33,62 +22,11 @@ def getCategoryTitle(cat):
         return title
 
 
-def preparedata(s):
-    """
-    Given a text, cleans and normalizes it.
-    """
-
-    s = s.lower()
-    # s = re.sub(r"."," ", s)
-    # s = re.sub(r'\n', ' ', s)
-    # s = re.sub(r'\r\n', ' ', s)
-    s = re.sub(r'&nbsp;', ' ', s)
-    s = re.sub(r'&#09;&#09;', ' ', s)
-    s = re.sub(r'<p>', ' ', s)
-    s = re.sub(r'</p>', ' ', s)
-    s = re.sub(r'\«', ' ', s)
-    s = re.sub(r'\»', ' ', s)
-    s = re.sub(r'/<img .*?>/g', " ", s)
-    s = re.sub(r'\[cid:.*?\]', " ", s)
-    s = re.sub(r'\_', ' ', s)
-    #s = re.sub(r'\-', ' ', s)
-    s = re.sub(r'\\', ' ', s)
-    s = re.sub(r'\,', ' ', s)
-    s = re.sub(r'\?', ' ', s)
-    s = re.sub(r'\!', ' ', s)
-    s = re.sub(r'\.', ' ', s)
-    s = re.sub(r'\/', ' ', s)
-    s = re.sub(r'\:', ' ', s)
-    s = re.sub(r'\(', ' ', s)
-    s = re.sub(r'\)', ' ', s)
-    s = re.sub(r'\+', ' ', s)
-    s = re.sub(r'\*', ' ', s)
-    s = re.sub(r'\•', ' ', s)
-    s = re.sub(r'\[', ' ', s)
-    s = re.sub(r'\]', ' ', s)
-    s = re.sub(r'\{', ' ', s)
-    s = re.sub(r'\}', ' ', s)
-    s = re.sub(r'\’', ' ', s)
-    s = re.sub(r'\'', ' ', s)
-    s = re.sub(r'\&', ' and ', s)
-    s = re.sub(r'\@', ' at ', s)
-    s = re.sub(r'[0-9]{3,}', ' ', s)
-    s = re.sub(r'[0-9]{2,}\s', ' ', s)
-    s = re.sub(r'\"', ' ', s)
-    s = re.sub(r'\#', ' ', s)
-    s = re.sub(r'\s+', ' ', s)
-    return s
-
-
-
-
 def getEmails():
     """GETS EMAILS BASED ON FILTER"""
     url = 'http://ot-ws.lbr.lu:5001/api/ot/objects'
     headers = {'Content-type': 'application/json',
                    'Accept': 'text/plain'}
-
-
     payload = {
         "objectclass": "Email",
         "filter": "emailtopredict",
@@ -102,31 +40,20 @@ def getEmails():
         ]
     }
     r = requests.post(url=url, json=payload, headers=headers)
-    print (r.status_code)
+
     data = r.json()
     return data
 
-
-def predict(text):
-    """ Query for TINA to predict TEXT and return a Value"""
-
-    url = 'http://api.tina.lbr.lu/predict'
+def setPredictedCategory(id,cat):
+    modurl=f'http://ot-ws.lbr.lu:5001/api/ot/objectmod/{id!s}'
+    payloadmod = { 'PredictedCategory' : f'{cat!s}' }
     headers = {'Content-type': 'application/json',
-                   'Accept': 'text/plain'}
-    #MODEL ID is obtained for trained models on the dashboard, console.tina.lbr.lu
-   
-    payload = {
-        "id": MODELID,
-        "text": text }
-    prediction = requests.post(url=url, json=payload, headers=headers)
-    return prediction
+        'Accept': 'text/plain'}
+    r = requests.put(url=modurl, json=payloadmod, headers=headers)
+    print(r.json())
 
-def removeSingleLetterWords(words):
-    newWords=[]
-    for word in words:
-        if len(word) > 1:
-            newWords.append(word)
-    return newWords
+
+
 
 
 
@@ -144,55 +71,25 @@ while True:
             except:
                 subject=""
             body = email['data']['Body Plain Text']
-            value = parseHtml(f'{subject!s} {body!s}')
-            #value = value.replace('\n',' ').strip()
-            value = preparedata(value)
-            value = value.split(' ')
-            print (value)
-            
-            value = value[0:int(len(value)*85/100)] #WE CAN CUT THE TEXT AT THE END TO REMOVE THE SIGNATURES
-            print(value)
-            value  = removeSingleLetterWords(value)
-            print(value)
-            value = ' '.join(value)
-            
-           
-            
-            #print(value)   
-            
-            prediction = predict(value)
-            
+            text = f'{subject!s} {body!s}'
+            prediction = IA.predict(text)            
             print (prediction)
             prediction = prediction.json()
-            #print(prediction)
+            
             if prediction['status'] == "ok":
                 cat = "-"
                 prediction1 = prediction['results'][0]['category']
                 confidence = prediction['results'][0]['confidence']
                 if confidence > 0.9:
                     print (prediction1)
-
                     categ_title=getCategoryTitle(prediction1).split(':')[-1].strip() #cleanup category name
-
                     if categ_title =="":
                         categ_title=getCategoryTitle(prediction1).strip()
-
                     cat = categ_title
-
                     print(cat)
             else:
                 cat = "-"
             
                 
                 
-
-            modurl=f'http://ot-ws.lbr.lu:5001/api/ot/objectmod/{id!s}'
-            #Modify object into the custom omnitracker API
-            print(modurl)
-            payloadmod = { 'PredictedCategory' : f'{cat!s}' }
-            print (payloadmod)
-            headers = {'Content-type': 'application/json',
-                'Accept': 'text/plain'}
-
-            r = requests.put(url=modurl, json=payloadmod, headers=headers)
-            print(r.json())
+            setPredictedCategory(id,cat)
