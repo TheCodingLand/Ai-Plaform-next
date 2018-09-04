@@ -6,7 +6,8 @@ import os, re
 from bs4 import BeautifulSoup
 
 #MODEL to use for predictions
-MODELID = "5b8e4f021f48c363129ffed4"
+MODELID = "5b8e68951842adebc7309a0e"
+
 
 def parseHtml(html):
     """removes HTML TAGS"""
@@ -120,11 +121,21 @@ def predict(text):
     prediction = requests.post(url=url, json=payload, headers=headers)
     return prediction
 
+def removeSingleLetterWords(words):
+    newWords=[]
+    for word in words:
+        if len(word) > 1:
+            newWords.append(word)
+    return newWords
+
+
+
 while True:
     """ INFINITE LOOP, GETS NEW EMAILS, if emails are found with no predicted category field, runs the whole process."""
     time.sleep(10)
     data = getEmails()
     #print (data['status'])
+    print(data)
     if data['status'] == "success":
         for email in data['Email']:
             id = email['id']
@@ -134,12 +145,18 @@ while True:
                 subject=""
             body = email['data']['Body Plain Text']
             value = parseHtml(f'{subject!s} {body!s}')
-            value = value.replace('\n',' ').strip()
+            #value = value.replace('\n',' ').strip()
+            value = preparedata(value)
             value = value.split(' ')
+            print (value)
+            
             value = value[0:int(len(value)*85/100)] #WE CAN CUT THE TEXT AT THE END TO REMOVE THE SIGNATURES
+            print(value)
+            value  = removeSingleLetterWords(value)
+            print(value)
             value = ' '.join(value)
             
-            value = preparedata(value)
+           
             
             #print(value)   
             
@@ -152,7 +169,7 @@ while True:
                 cat = "-"
                 prediction1 = prediction['results'][0]['category']
                 confidence = prediction['results'][0]['confidence']
-                if confidence > 0.7:
+                if confidence > 0.9:
                     print (prediction1)
 
                     categ_title=getCategoryTitle(prediction1).split(':')[-1].strip() #cleanup category name
