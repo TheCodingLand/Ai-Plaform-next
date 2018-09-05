@@ -8,7 +8,8 @@ export class SocketProvider extends React.Component {
     constructor() {
         super()
         this.state = {
-            socket: this.websocket()
+            socket: this.websocket(),
+  
         }
     }
 
@@ -22,15 +23,17 @@ export class SocketProvider extends React.Component {
         let SOCKET_URL = `http://ws.${API_ROOT}`
         //SOCKET_URL = 'http://localhost:3000' //TEMPORARY, DEBUG
         let socket = io.connect(SOCKET_URL)
-
+        
+        
         return socket
+    
     }
 
 
 
     render() {
         return (
-            <SocketContext.Provider value={{ socket: this.state.socket }}>
+            <SocketContext.Provider value={{ socket: this.state.socket, id:this.state.id }}>
                 {this.props.children}
             </SocketContext.Provider>
         )
