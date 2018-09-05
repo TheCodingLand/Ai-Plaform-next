@@ -35,7 +35,7 @@ class Dashboard extends React.Component {
     super();
   }
   componentWillMount() {
-    this.props.appdata.get("results", "actions");
+    this.props.appdata.getTestedModels()
   }
   sortFloat(a, b) {
     return b.result.percent - a.result.percent;
