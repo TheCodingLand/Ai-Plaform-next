@@ -8,7 +8,7 @@ if (origin.includes(':3000')) {
     console.log(apiRoot)
     
 } else {
-    apiRoot = origin.replace("console.","")
+    apiRoot = origin.replace("http://console.","")
 }
 const API_ROOT = apiRoot
 export default API_ROOT 
