@@ -1,0 +1,2439 @@
+{
+	"info": {
+		"_postman_id": "47ef54a0-c812-4fbe-b46e-4b5638d2c790",
+		"name": "auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "prepare",
+			"description": null,
+			"item": [
+				{
+					"name": "add superadmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9f9615af-6652-485d-8c19-ae7fa0370ab4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"superadmin\",\n  \"passwd\":\"superadmin\",\n  \"phone\":\"18918911889\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/register",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with superadmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var token = jsonData.token||jsonData.data.token;",
+									"tests[\"token found\"] = token;",
+									"if(token){",
+									"   postman.setEnvironmentVariable(\"token\", token); ",
+									"}",
+									""
+								],
+								"id": "e7984c45-e62a-46e8-87cc-3dc96282152c",
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\":\"superadmin\",\n  \"password\":\"superadmin\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "clean",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/hidden/clean",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"hidden",
+								"clean"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "department",
+			"description": null,
+			"item": [
+				{
+					"name": "add department 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;",
+									"if(jsonData.uuid){",
+									"    postman.setEnvironmentVariable(\"department_1_id\", jsonData.uuid);",
+									"}",
+									""
+								],
+								"id": "3bbe28c3-7041-425c-94a4-75c3bb8854a8",
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"department1\",\n  \"root\":true\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/departments",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"departments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get department 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ca2f6a6e-7d72-4ef1-a497-2ca9de782873",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"department4\",\n      \"parent\":\"{{department_3_id}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/departments/{{department_1_id}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"departments",
+								"{{department_1_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add department 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;",
+									"if(jsonData.uuid){",
+									"    postman.setEnvironmentVariable(\"department_2_id\", jsonData.uuid);",
+									"}",
+									""
+								],
+								"id": "d4f83c2a-f6a5-419f-92e9-90c76d0de9a5",
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"department2\",\n      \"parent\":\"{{department_1_id}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/departments",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"departments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add department 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;",
+									"if(jsonData.uuid){",
+									"    postman.setEnvironmentVariable(\"department_3_id\", jsonData.uuid);",
+									"}",
+									""
+								],
+								"id": "c1ea4b46-2431-45f6-9634-b95c52840f52",
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"department3\",\n      \"parent\":\"{{department_1_id}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/departments",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"departments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add department 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9efa1747-968f-4166-bc07-734db9527a64",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;",
+									"if(jsonData.uuid){",
+									"    postman.setEnvironmentVariable(\"department_4_id\", jsonData.uuid);",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"department4\",\n      \"parent\":\"{{department_3_id}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/departments",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"departments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add department 5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e67b7a91-33a1-4390-a38e-bbcd4d472116",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;",
+									"if(jsonData.uuid){",
+									"    postman.setEnvironmentVariable(\"department_5_id\", jsonData.uuid);",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"department5\",\n      \"parent\":\"{{department_3_id}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/departments",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"departments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patch department 5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "522da7f2-fd6f-471b-b3dd-500aca4dd191",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"success\"] = responseCode.code == 200"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"department5\",\n  \"test\":\"hello\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/departments/{{department_5_id}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"departments",
+								"{{department_5_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get departments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d427afde-1af4-4eba-b035-575d484ef6f8",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"success\"] = responseCode.code == 200",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"department4\",\n      \"parent\":\"{{department_3_id}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/departments/",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"departments",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "role&user",
+			"description": null,
+			"item": [
+				{
+					"name": "batch add roles legacy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"add role success\"] = responseCode.code == 200"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t\t  {\n\t\t      \"name\":\"viewer\",\n\t\t     \"allows\":[{\"resources\":\"own\",\"permissions\":[\"READ\"]}],\n\t\t     \"additional\":[\"a\"],\n\t\t     \"currentUserRole\":[]\n\t\t  },\n\t\t  {\n\t\t      \"name\":\"contributor\",\n\t\t     \"allows\":[{\"resources\":\"own\",\"permissions\":[\"CREATE\",\"UPDATE\",\"DELETE\",\"READ\"]}]\n\t\t  },\n\t\t  {\n\t\t      \"name\":\"superAdmin\",\n\t\t     \"allows\":[{\"resources\":\"*\",\"permissions\":\"*\"}]\n\t\t  },\n\t\t  {\n\t\t      \"name\":\"external\",\n\t\t     \"allows\":[{\"resources\":\"*\",\"permissions\":[\"READ\"]}],\n\t\t     \"type\":\"external\"\n\t\t  }\n\t\t]\n"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/roles?token={{token}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"roles"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "batch add roles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"add role success\"] = responseCode.code == 200"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"procedure\":{\"ignoreUniqueCheck\":true},\n\t\"data\":{\n\t\t\"category\":\"Role\",\n\t\t\"fields\":\n\t\t\t[\n\t\t\t\t\t  {\n\t\t\t\t\t      \"name\":\"viewer\",\n\t\t\t\t\t     \"allows\":[{\"resources\":\"own\",\"permissions\":[\"READ\"]}],\n\t\t\t\t\t     \"additional\":[\"a\"],\n\t\t\t\t\t     \"currentUserRole\":[]\n\t\t\t\t\t  },\n\t\t\t\t\t  {\n\t\t\t\t\t      \"name\":\"contributor\",\n\t\t\t\t\t     \"allows\":[{\"resources\":\"own\",\"permissions\":[\"CREATE\",\"UPDATE\",\"DELETE\",\"READ\"]}]\n\t\t\t\t\t  },\n\t\t\t\t\t  {\n\t\t\t\t\t      \"name\":\"superAdmin\",\n\t\t\t\t\t     \"allows\":[{\"resources\":\"*\",\"permissions\":\"*\"}]\n\t\t\t\t\t  },\n\t\t\t\t\t  {\n\t\t\t\t\t      \"name\":\"external\",\n\t\t\t\t\t     \"allows\":[{\"resources\":\"*\",\"permissions\":[\"READ\"]}],\n\t\t\t\t\t     \"type\":\"external\"\n\t\t\t\t\t  }\n\t\t\t]\n\t}\n}\n"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/api/roles/batch",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"api",
+								"roles",
+								"batch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "query role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var role = jsonData.data||jsonData",
+									"tests[\"at least one permission found\"] = role.allows.length >=1"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/role/contributor?token={{token}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"role",
+								"contributor"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patch role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "22e3cd19-8690-41e9-a044-ab103fd3e149",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"patch role success\"] = responseCode.code == 200"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"test\":\"test\",\n  \"token\":\"{{token}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/role/contributor",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"role",
+								"contributor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "query roles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4175f6e4-2191-46f9-8478-be7ba69ca27c",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var roles = jsonData.data||jsonData;",
+									"tests[\"at least one role found\"] = roles.length >=1"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/role",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"role"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "query internal roles paginated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9aaf717-5ae6-438f-8123-84bd60796d17",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var roles = jsonData.data||jsonData;",
+									"tests[\"at least one role found\"] = roles.count >=1"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"body\":\n\t  {\n\t      \"query\": {\n\t        \"bool\":{\n\t          \"must\":[\n\t            {\"match\":{\"type\":\"internal\"}}\n\t          ]\n\t        }\n\t      }\n\t  },\n\t  \"page\":1,\n\t  \"per_page\":2,\n\t  \"source\": [\"uuid\"]\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/role/search",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"role",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add superadmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "79e8480b-a6be-439c-b9df-b87cfbcbe692",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var uuid = jsonData.uuid||jsonData.data.uuid;",
+									"if(uuid){",
+									"   postman.setEnvironmentVariable(\"superadmin_id\", uuid); ",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"superadmin\",\n  \"passwd\":\"superadmin\",\n  \"phone\":\"18918911889\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/register",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with superadmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e7984c45-e62a-46e8-87cc-3dc96282152c",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var token = jsonData.token||jsonData.data.token;",
+									"tests[\"token found\"] = token;",
+									"if(token){",
+									"   postman.setEnvironmentVariable(\"token\", token); ",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\":\"superadmin\",\n  \"password\":\"superadmin\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bind department",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"user modified\"] = responseCode.code == 200",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"department\":\"{{department_1_id}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/userinfo/{{superadmin_id}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"userinfo",
+								"{{superadmin_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "query  root department with members",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "740fc797-a177-4ae9-a982-df8259b892e2",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"query ok\"] = responseCode.code == 200;",
+									"",
+									"// var jsonData = JSON.parse(responseBody);",
+									"// var data = jsonData.data||jsonData",
+									"// tests[\"found\"] = data[0].name==='department1'",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"category\":\"Department\",\n\t\"root\":true\n}\n"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/api/departments/members",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"api",
+								"departments",
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add demo user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c5f2a222-a0bd-45f0-8817-62a91872ee7b",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var uuid = jsonData.uuid||jsonData.data.uuid;",
+									"if(uuid){",
+									"   postman.setEnvironmentVariable(\"auth_user_id\", uuid); ",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"{{auth_user}}\",\n  \"passwd\":\"{{auth_passwd}}\",\n  \"created_time\":\"2018-05-09\",\n  \"phone\":\"{{auth_mobile}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/register",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bind role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"bind role to user success\"] = responseCode.code == 200"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n      \"roles\":[\"superAdmin\"]\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/userinfo/{{auth_user_id}}?token={{token}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"userinfo",
+								"{{auth_user_id}}"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete role already used failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"delete role already used failed\"] = responseCode.code != 200"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/role/superAdmin?token={{token}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"role",
+								"superAdmin"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "query User By userid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"user found\"] = responseCode.code == 200"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/userinfo/{{auth_user_id}}?token={{token}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"userinfo",
+								"{{auth_user_id}}"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "modify user passwd",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"passwd modified\"] = responseCode.code == 200",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"oldpwd\":\"{{auth_passwd}}\",\n  \"newpwd\":\"{{auth_passwd}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/changepwd/{{auth_user_id}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"changepwd",
+								"{{auth_user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "modify user info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4a10984c-1909-4e24-9ca7-0df0fd9fa9c9",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"user modified\"] = responseCode.code == 200",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"token\":\"{{token}}\",\n  \"avatar\":\"/upload/avatar/ca92d560-05a6-11e7-98ba-e1d08df9a25f\",\n  \"per_page\":90\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/userinfo/{{auth_user_id}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"userinfo",
+								"{{auth_user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bind department",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"user modified\"] = responseCode.code == 200",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"department\":\"{{department_2_id}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/userinfo/{{auth_user_id}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"userinfo",
+								"{{auth_user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with demo user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var token = jsonData.token||jsonData.data.token;",
+									"tests[\"token found\"] = token;",
+									"if(token){",
+									"   postman.setEnvironmentVariable(\"token\", token); ",
+									"}",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\":\"{{auth_user}}\",\n  \"password\":\"{{auth_passwd}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "query departments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"at least one found\"] = jsonData.length >=1||jsonData.data.length >=1",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/departments",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"departments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "query  root department with members",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5413d127-c9cc-431b-bcad-08e977a34d8f",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"query ok\"] = responseCode.code == 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"var data = jsonData.data||jsonData",
+									"tests[\"found\"] = data.name==='department2'",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"category\":\"Department\",\n\t\"root\":true\n}\n"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/api/departments/members",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"api",
+								"departments",
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add test user as external",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"add user success\"] = responseCode.code == 200",
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData",
+									"var userid = jsonData.uuid",
+									"tests[\"userid found\"] = userid;",
+									"if(userid){",
+									"  postman.setEnvironmentVariable(\"test_user_id\", userid);  ",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"test\",\n  \"passwd\":\"test\",\n  \"email\":\"test@email.com\",\n  \"type\":\"external\",\n  \"phone\":\"13613611336\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/register",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bind internal user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"user modified\"] = responseCode.code == 200",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"token\":\"{{token}}\",\n  \"internal\":\"{{auth_user_id}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/userinfo/{{test_user_id}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"userinfo",
+								"{{test_user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bind role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "04139459-e894-475c-8f59-e7aef4c9079c",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"bind role to user success\"] = responseCode.code == 200"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n      \"roles\":[\"external\"]\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/userinfo/{{test_user_id}}?token={{token}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"userinfo",
+								"{{test_user_id}}"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bind department",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"user modified\"] = responseCode.code == 200",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"department\":\"{{department_3_id}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/userinfo/{{test_user_id}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"userinfo",
+								"{{test_user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "query internal user paginated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var users = jsonData.data||jsonData",
+									"tests[\"at least one user found\"] = users.count >=1"
+								],
+								"id": "b240473e-1993-46de-ab5b-cd750f1a37ef",
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"body\":\n\t  {\n\t      \"query\": {\n\t        \"bool\":{\n\t          \"must\":[\n\t             {\"match\":{\"type\":\"internal\"}}\n\t          ]\n\t        }\n\t      }\n\t     \n\t  },\n\t  \"source\":[\"uuid\"],\n\t  \"page\":1,\n\t  \"per_page\":10\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/userinfo/search",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"userinfo",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user aggs by department",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9bb67f68-7b91-4fd7-8550-0075b632ca29",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var tree = jsonData.data||jsonData",
+									"tests[\"department found\"] = tree.department"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"body\":{\n   \"aggs\": {\n          \"department\" : {\n              \"terms\" : { \"field\" : \"department_path\" }\n          }\n      }\n    }\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/userinfo/search",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"userinfo",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "query all user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c18dacf9-bdcd-40be-9cce-691c54e628e9",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var users = jsonData.data||jsonData",
+									"tests[\"at least one user found\"] = users.length >=1"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/userinfo",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"userinfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with external role invalid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7c3219ce-e6aa-46e9-bdb6-0ec285e748b8",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"failed\"] = responseCode.code != 200"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\":\"test\",\n  \"password\":\"test\",\n  \"illegalRoles\":[\"external\"]\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "token",
+			"description": null,
+			"item": [
+				{
+					"name": "login with user not exist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"login failed\"] = responseCode.code != 200",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\":\"wronguser\",\n  \"password\":\"test\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with wrong passwd",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"login failed\"] = responseCode.code != 200",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\":\"{{auth_user}}\",\n  \"password\":\"wrongpasswd\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check valid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"token valid\"] = responseCode.code == 200"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\":\"{{token}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/check",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"token invalid\"] = responseCode.code != 200",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\":\"hello\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/check",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "query active tokens",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"var tokens = jsonData.data||jsonData",
+									"tests[\"token found\"] = tokens.length >0",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/active_users?token={{token}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"active_users"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "generate sms code from  phone number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4fa4921d-bca5-43b2-a49c-8fde41fd7d60",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"var code = jsonData.code",
+									"tests[\"code found\"] = code;",
+									"if(code){",
+									"   postman.setEnvironmentVariable(\"auth_code\", code); ",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/smsGenerateCode/{{auth_mobile}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"smsGenerateCode",
+								"{{auth_mobile}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with sms code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7fe10175-67f1-4f31-bfb8-f6f8cb964f7b",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var token = jsonData.token||jsonData.data.token;",
+									"tests[\"token found\"] = token;",
+									"if(token){",
+									"   postman.setEnvironmentVariable(\"token\", token); ",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"phone\":\"{{auth_mobile}}\",\n  \"code\":\"{{auth_code}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/smsLogin",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"smsLogin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ldap",
+			"description": null,
+			"item": [
+				{
+					"name": "login-ldap",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var token = jsonData.data&&jsonData.data.token||jsonData.token",
+									"tests[\"token found\"] = token;",
+									"if(token){",
+									"    postman.setEnvironmentVariable(\"token\", token);",
+									"}",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\":\"{{auth_ldap_user}}\",\n  \"password\":\"{{auth_ldap_passwd}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/login-ldap",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"login-ldap"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bind ldap",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"assoc with ldap success\"] = responseCode.code == 200",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"token\":\"{{token}}\",\n   \"ldapId\":\"cn=test test,ou=users,dc=test,dc=com\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/userinfo/{{auth_user_id}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"userinfo",
+								"{{auth_user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search ldap user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var ldap_users = jsonData.data||jsonData",
+									"tests['ldap users found']=ldap_users.length>0"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/enterprise/users?token={{token}}&page=1&per_page=5",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"enterprise",
+								"users"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search ldap user advanced",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var ldap_users = jsonData.data||jsonData",
+									"tests['ldap users found']=ldap_users.length>0",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"base\":\"ou=users,dc=test,dc=com\",\n  \"options\":{\n    \"filter\": \"(objectclass=posixAccount)\"\n  }\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/ldapsearch?token={{token}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"ldapsearch"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search ldap department",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var ldap_users = jsonData.data||jsonData",
+									"tests['ldap department found']=ldap_users.length>0"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"base\":\"dc=test,dc=com\",\n  \"options\":{\n    \"filter\": \"(objectclass=posixGroup)\",\n    \"paged\": {\n        \"pageSize\": 5,\n        \"page\":2\n      }\n  }\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/enterprise/departments?token={{token}}&page=1&per_page=5",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"enterprise",
+								"departments"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search ldap department advanced",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var ldap_users = jsonData.data||jsonData",
+									"tests['ldap department found']=ldap_users.length>0",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"base\":\"dc=test,dc=com\",\n  \"options\":{\n    \"filter\": \"(objectclass=posixGroup)\",\n    \"paged\": {\n        \"pageSize\": 5,\n        \"page\":2\n      }\n  }\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/ldapsearch?token={{token}}",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"ldapsearch"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
