@@ -17,17 +17,18 @@ export class AppProvider extends React.Component {
       actions: [],
       get: this.get.bind(this),
       getRawdataColumns: this.getRawdataColumns.bind(this),
-
+      dashboardLoaded:false,
       getTestedModels: this.getTestedModels.bind(this)
     };
   }
   
   getState() {
-    this.get("ft", "models")
+    
+   this.get("ft", "models").then(() => this.getTestedModels()).then(() => this.setState({dashboardLoaded: true}))
     this.get("results", "actions")
     this.get("ft", "datasets")
     this.getCollections("rawdata")
-    this.getTestedModels()
+    
   }
 
 
@@ -91,7 +92,7 @@ export class AppProvider extends React.Component {
   getCollections(db) {
     let url = `http://rest.${API_ROOT}/${db}/`;
     let cols = [];
-    axios.get(url).then(res => {
+    return axios.get(url).then(res => {
       //console.log(res.data._embedded);
       res.data._embedded.forEach(coll => {
         cols.push(coll._id);
@@ -113,7 +114,7 @@ export class AppProvider extends React.Component {
   get(db, coll) {
     let url = `http://rest.${API_ROOT}/${db}/${coll}`;
 
-    axios.get(url).then(res => {
+    return axios.get(url).then(res => {
       //console.log(res.data._embedded);
       this.setState({ [coll]: res.data._embedded });
     });

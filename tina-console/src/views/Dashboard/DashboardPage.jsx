@@ -4,6 +4,7 @@ import React from "react";
 
 import Dashboard from "components/Dashboard/Dashboard";
 import { AppContext } from "components/Context/AppProvider";
+import { CircularProgress } from "@material-ui/core";
 class DashboardPage extends React.Component {
   constructor() {
     super();
@@ -14,7 +15,12 @@ class DashboardPage extends React.Component {
 
     return (
       <AppContext.Consumer>
-        {context => <Dashboard appdata={context} />}
+        {context => 
+        context.dashboardLoaded?
+        <Dashboard appdata={context} />
+          :
+          <CircularProgress />
+      }
       </AppContext.Consumer>
     );
   }
