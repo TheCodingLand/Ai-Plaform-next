@@ -9,6 +9,8 @@ current work :
     - implementing JWT LDAP auth and Dummy LDAP server.
     - Start writing unit tests for critical parts of the app
     - Write documentation for : redis message model (protocol used)
+    - add ability to delete models / datasets
+    
     
 
 
