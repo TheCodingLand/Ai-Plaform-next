@@ -323,7 +323,7 @@ services:
     
     restart: unless-stopped
     volumes:
-      - ./prometheus:/etc/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - promotheus:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
