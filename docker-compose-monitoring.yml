@@ -324,7 +324,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./prometheus/config:/etc/prometheus/
-      - ./prometheus/data:/prometheus
+      - promotheus:/prometheus
     command:
       - '-config.file=/etc/prometheus/prometheus.yml'
       - '-storage.local.path=/prometheus'
@@ -355,7 +355,6 @@ services:
     container_name: monitoring_cadvisor
     restart: unless-stopped
     volumes:
-      - /:/rootfs:ro
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
@@ -378,7 +377,7 @@ services:
     links:
       - prometheus:prometheus
     volumes:
-      - ./data/grafana:/var/lib/grafana
+      - grafana:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=MYPASSWORT
       - GF_USERS_ALLOW_SIGN_UP=false
@@ -398,6 +397,8 @@ volumes:
   tina_data:
   mongo_db:
   redis_data:
+  grafana:
+  promotheus:
 
 networks:
   ai-web:
