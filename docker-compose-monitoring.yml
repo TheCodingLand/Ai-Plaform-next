@@ -327,7 +327,8 @@ services:
       - promotheus:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
-      
+    ports:
+      - 9090:9090
     expose:
       - 9090
 
@@ -361,7 +362,6 @@ services:
 
   grafana:
     image: grafana/grafana:latest
-    
     restart: unless-stopped
     labels:
       - "traefik.backend=grafana"
@@ -370,7 +370,6 @@ services:
       - "traefik.port=3000"
       - "traefik.frontend.rule=Host:grafana.${D_HOST}"
       - "traefik.frontend.entryPoints=http"
-   
     volumes:
       - grafana:/var/lib/grafana
     environment:
