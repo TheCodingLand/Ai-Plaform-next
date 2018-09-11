@@ -10,14 +10,19 @@ import tornado.ioloop
 import tornado.web
 from tornado.httpclient import HTTPError
 
-import jwt
-import ldap3
 
+import ldap3
+from jwt import (
+    JWT,
+    jwk_from_dict,
+    jwk_from_pem,
+)
 class BaseHandler(tornado.web.RequestHandler):
     def initialize(self, secret, ldap_uri, ldap_base):
         self.secret = secret
         self.ldap_uri = ldap_uri
         self.ldap_base = ldap_base
+        
 
 def auth_rpc(func):
     @wraps(func)
@@ -34,8 +39,9 @@ class RPCHandler(BaseHandler):
 
     def get_current_user(self):
         try:
+            jwt = JWT()
             token = self.request.headers['Authorization']
-            data = jwt.decode(token, self.secret, algorithm='HS256')
+            data = jwt.decode(token, self.secret)
             return data['user']
         except Exception:
             pass
@@ -75,7 +81,8 @@ class LoginHandler(BaseHandler):
 
         #else:
             # successful login
-        token = jwt.encode({'username':username}, self.secret, algorithm='HS256')
+        jwt = JWT()
+        token = jwt.encode({'username':username}, self.secret)
         self.set_secure_cookie('token', token)
         self.redirect("/")
 
@@ -84,7 +91,7 @@ class MainHandler(BaseHandler):
     def get_current_user(self):
         try:
             token = self.get_secure_cookie('token')
-            data = jwt.decode(token, self.secret, algorithm='HS256')
+            data = jwt.decode(token, self.secret)
             return data['user']
         except Exception:
             pass
