@@ -1,45 +1,25 @@
 {
-  "name": "auth",
-  "version": "1.0.0",
-  "description": "",
+  "name": "ldap-jwt",
+  "version": "1.0.1",
+  "description": "Lightweight node.js based web service that provides user authentication against LDAP server (Active Directory / Windows network) credentials and returns a JSON Web Token.",
+  "main": "index.js",
   "scripts": {
-    "setenv": "set -a;source ../config/.env;source .env;set +a",
-    "prebuild": "yarn install&&rm -rf build",
-    "build": "webpack",
-    "init": "initSchema",
-    "initES": "INIT_ES=1 initSchema && /bin/sh script/modify_es_schema.sh",
-    "start": "scirichon-crud-api",
-    "test": "mocha",
-    "sync-mysql": "SYNC_TYPE=mysql node sync.js",
-    "sync-nextcloud": "SYNC_TYPE=nextcloud node sync.js",
-    "sync-ldap": "SYNC_TYPE=ldap node sync.js",
-    "sync-roles": "SYNC_TYPE=acl node sync.js",
-    "upgradeUserId2Str": "cat ./cypher/upgradeUserId2Str.cyp | $NEO4J_HOME/bin/cypher-shell -u neo4j -p admin --format plain"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "jwt",
-    "rbac",
-    "acl",
-    "passport",
     "ldap",
-    "nextcloud"
+    "jwt"
   ],
-  "author": "Ron.Yang <yrong1997@gmail.com>",
+  "author": "Lucian Weber <lucian@weber.xyz>",
   "license": "MIT",
   "dependencies": {
-    "acl-fork": "0.4.10-beta.3",
-    "bcryptjs": "^2.3.0",
-    "jsonwebtoken": "^7.2.1",
-    "uuid": "^3.0.0",
-    "koa-passport": "^4.0",
-    "koa-session": "^5.0",
-    "mysql": "^2.12.0",
-    "passport-ldapauth-fork": "^1.0.2",
-    "passport-local": "^1.0.0",
-    "webdav": "^0.9.0",
-    "scirichon-crud-handler": "1.0.5-beta.10"
-  },
-  "devDependencies": {
-    "webpack-builder-advanced": "^1.0.1"
+    "body-parser": "1.15.0",
+    "cors": "2.7.1",
+    "express": "4.13.4",
+    "jwt-simple": "0.5.0",
+    "ldapauth-fork": "2.5.2",
+    "moment": "2.21.0",
+    "promise": "^7.1.1"
   }
 }

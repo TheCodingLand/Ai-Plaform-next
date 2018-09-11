@@ -1,109 +1,67 @@
-redis-jwt-token-auth
-===============================
+# Simple "ldap-jwt" service
+Lightweight node.js based web service that provides user authentication against LDAP server (Active Directory / Windows network) credentials and returns a JSON Web Token.
 
-### Features
-
-+ local authentication/ldap authentication/ldap account binding
-+ role and resource based access control support(rbac)
-+ user/role/department provisioning api(register,add-role,bind-role,bind-ldap,login,logout,destroy)
-+ provide search interface provided by elasticsearch
-+ generate jwt token when login/provide token check interface to integrate with other apps
-+ sync.js script for user synchronization with [nextcloud-token-auth](https://github.com/yrong/nextcloud-token-auth) which is integrated with this project and customized from [nextcloud](https://github.com/nextcloud/server)
-+ webpack wrapper
+Heavily based on the work of [gregfroese/ldapservice](https://github.com/gregfroese/ldapservice).
 
 
-### Interfaces
+## Changes
 
-#### Restful Apis
+* Replaced yaml config-files with json
+* Removed support for RabbitMQ
+* Updated npm dependencies
+* Simplified endpoints
 
-import test/auth.postman_collection.json into postman
+
+## Usage
+
+1. Rename/Copy `config.test.json` to `config.json`
+2. Update config in `config.json`
+3. Deploy
 
 
-#### Sync local user to nextcloud
+## Endpoints
 
-```
-SYNC_TYPE=nextcloud node sync.js
-```
+### /authenticate
 
-### Usage
+**Payload**
 
-#### configuration
-
-```
-git clone https://github.com/yrong/config ../config
-ln -s ../config .
-```
-then config db servers as required,e.g:
-
-```
-  ...
-  "neo4j": {
-    "host": "localhost",
-    "port": 7687,
-    "user": "neo4j",
-    "password": "admin"
-  },
-  "elasticsearch":{
-  	"host": "localhost",
-  	"port": 9200,
-  	"user":"elastic",
-  	"password":"elastic",
-  	"mode": "strict"
-  },
-  "redis": {
-    "host": "localhost",
-    "port": 6379
-  },
-  "ldap":{
-    "url": "ldap://localhost:389",
-    "bindType":"dn",
-    "bindDn": "cn=admin,dc=test,dc=com",
-    "bindCredentials": "admin",
-    "searchFilter": "(cn={{username}})",
-    "userSearchBase": "ou=users,dc=test,dc=com",
-    "departmentSearchBase": "dc=test,dc=com",
-    "userClass": "posixAccount",
-    "userAttributes":["dn","cn","uidNumber"],
-    "departmentClass":"posixGroup",
-    "departmentAttributes":["dn","cn","gidNumber"],
-    "reconnect": true
-  },
-  "nextcloud":{
-    "host":"http://localhost:8089/FileStore",
-    "adminuser":"admin",
-    "password":"admin",
-    "group":"share",
-    "permissions": 1,//1 = read; 2 = update; 4 = create; 8 = delete; 16 = share; 31 = all
-    "publicUpload": true //allow public upload or not
-  },
-  ...
+```json
+{
+    "username": "euler",
+    "password": "password"
+}
 ```
 
-#### start server
+**Response**
 
-```
-yarn install
-
-//set envirionment variables required
-set -a;source ../config/.env;source .env;set +a
-
-//init schema required when first time started
-npm run init
-
-//start server
-scirichon-crud-api
-
+```json
+{
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjE3OTQxMjY0NjAsInVzZXJfbmFtZSI6ImV1bGVyIiwiZnVsbF9uYW1lIjoiTGVvbmhhcmQgRXVsZXIiLCJtYWlsIjoiZXVsZXJAbGRhcC5mb3J1bXN5cy5jb20ifQ.bqSjshvLnHsTJwcXBXsNVtGGNatvQHyqhL8MSXuMwFI",
+  "full_name": "Leonhard Euler"
+}
 ```
 
-#### test
+### /verify
 
+**Payload**
+
+```json
+{
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NjE3OTQxMjY0NjAsInVzZXJfbmFtZSI6ImV1bGVyIiwiZnVsbF9uYW1lIjoiTGVvbmhhcmQgRXVsZXIiLCJtYWlsIjoiZXVsZXJAbGRhcC5mb3J1bXN5cy5jb20ifQ.bqSjshvLnHsTJwcXBXsNVtGGNatvQHyqhL8MSXuMwFI"
+}
 ```
-//run postman testcases with newman
-node ../config/config/test/index.js
+
+**Response**
+
+```json
+{
+  "exp":1495058246
+  "user_name": "euler",
+  "full_name": "Leonhard Euler",
+  "mail": "euler@ldap.forumsys.com"
+}
 ```
 
+## ToDo
 
-### License
-
-MIT
-
+* Write Tests
