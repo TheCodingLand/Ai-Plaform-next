@@ -5,7 +5,7 @@
 		"url": "ldap://dcrcsl01.rcsl.lu:389",
 		"bindCredentials": "password",
 		"searchBase": "dc=rcsl,dc=lu",
-		"searchFilter": "(uid={{username}})",
+		"searchFilter": "(uid={{samAccountName}})",
 		"timeout": 5000,
 		"connectTimeout": 10000,
 		"reconnect": true
