@@ -35,7 +35,8 @@ class LoginPage extends React.Component {
       password:"",
       email:"",
       loggingIn:false,
-      erromsg:""
+      erromsg:"",
+      full_name: ""
     };
   }
   auth = () => {
@@ -43,7 +44,10 @@ class LoginPage extends React.Component {
     
   }
 
-  authResult= () => { if (!ressult.token) { this.setState({ erromsg:"invalid user of password"}) } }
+  authResult= (result) => { if (!result.token) { this.setState({ erromsg:"invalid user of password"}) } else {
+
+  this.setState({token:result.token, full_name :result.full_name })
+  } }
 
   login = (context) => {
     this.auth()
