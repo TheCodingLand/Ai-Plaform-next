@@ -1,0 +1,15 @@
+{
+	"ldap": {
+		"url": "ldap://rcsl.lu:389",
+
+		"bindCredentials": "password",
+		"searchBase": "dc=rcsl,dc=lu",
+		"searchFilter": "(uid={{username}})",
+		"timeout": 5000,
+		"connectTimeout": 10000,
+		"reconnect": true
+	},
+	"jwt": {
+		"secret": "test_secret"
+	}
+}

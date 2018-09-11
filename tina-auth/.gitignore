@@ -5,4 +5,4 @@
 node_modules/
 
 ### Project
-config/config.json
+#config/config.json
