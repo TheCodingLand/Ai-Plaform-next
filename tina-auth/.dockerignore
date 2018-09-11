@@ -1,7 +1,7 @@
 # From .gitignore
 .idea/
 node_modules/
-config/config.json
+# config/config.json
 
 # Others
 .git

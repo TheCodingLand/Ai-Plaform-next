@@ -1,7 +1,6 @@
 {
 	"ldap": {
 		"url": "ldap://rcsl.lu:389",
-
 		"bindCredentials": "password",
 		"searchBase": "dc=rcsl,dc=lu",
 		"searchFilter": "(uid={{username}})",
