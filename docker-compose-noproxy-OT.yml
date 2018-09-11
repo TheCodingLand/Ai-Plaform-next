@@ -2,7 +2,21 @@ version: "3"
 
 services:
 
-  
+  tina-auth:
+    build: ./tina-auth
+    restart: always
+    labels:
+      - "traefik.backend=auth"
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.port=3000"
+      - "traefik.frontend.rule=Host:auth.${D_HOST}"
+      - "traefik.frontend.entryPoints=http"
+
+    networks:
+      - ai-internal
+      - ai-web
+      - web
 
   tina-mongodb:
     image: mongo
