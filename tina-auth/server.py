@@ -109,7 +109,7 @@ def main():
         (r'/login', LoginHandler, handler_settings),
         (r'/', MainHandler, handler_settings),
     ], **app_settings)
-    app.listen(8888)
+    app.listen(3000)
     tornado.ioloop.IOLoop.current().start()
 
 if __name__ == '__main__':
