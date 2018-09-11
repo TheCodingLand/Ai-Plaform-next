@@ -8,10 +8,7 @@ import "assets/css/ctg-ai-lab.css?v=1.4.0";
 import { UserContext, UserProvider } from "components/Context/UserProvider";
 import indexRoutes from "routes/index.jsx";
 //import websocket from 'components/Context/socket'
-({
-  babel: true,
-  plugins: ["jsdom-quokka-plugin"]
-});
+
 import {
   SocketContext,
   SocketProvider
