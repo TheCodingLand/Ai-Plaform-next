@@ -256,12 +256,12 @@ services:
       - "traefik.backend=console"
       - "traefik.docker.network=web"
       - "traefik.enable=true"
-      - "traefik.port=8080"
+      - "traefik.port=80"
       - "traefik.frontend.rule=Host:console.${D_HOST}"
       - "traefik.frontend.entryPoints=http"
 
     expose:
-      - "8080"
+      - "80"
     networks:
       - ai-web
       - web
