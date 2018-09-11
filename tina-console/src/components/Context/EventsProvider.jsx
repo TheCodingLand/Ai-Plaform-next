@@ -35,16 +35,16 @@ class EventsProvider extends React.Component {
 
 
   reconnect() {
-     //we need a unique websocket ID, so scaling websockets server will work. basicaly, redis will hold a key list, which will contain a client ID, and a list of events the client is subbed to.
+    //we need a unique websocket ID, so scaling websockets server will work. basicaly, redis will hold a key list, which will contain a client ID, and a list of events the client is subbed to.
     //if ID doesnt exist, I ask a new ID to the websocket. 
-    
+    // ID will be the jwt token
     // But if it does exist, it will ask the websocket to get all past redis subscription keys. 
     // this will allow client to lose websocket connexions, reconnect to another server and still get redis keys updates/notifications he was subbed to !
     this.state.id ? this.props.websocket.on('identifier', identifier => { this.setState({id:identifier})}) : this.props.websocket.emit('redisResub', this.id)
 }
 
   componentWillMount() {
- 
+    
     this.reconnect()
     
     this.props.websocket.on("message", obj => {
