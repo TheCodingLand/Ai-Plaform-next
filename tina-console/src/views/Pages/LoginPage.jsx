@@ -22,7 +22,7 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import {UserContext} from 'components/Context/UserProvider'
 import { Link, withRouter } from "react-router-dom";
 import loginPageStyle from "assets/jss/ctg-ai-lab/views/loginPageStyle.jsx";
-
+import API_ROOT  from '../../appConfig'
 
 
 class LoginPage extends React.Component {
@@ -34,12 +34,19 @@ class LoginPage extends React.Component {
       username:"",
       password:"",
       email:"",
-      loggingIn:false
+      loggingIn:false,
+      erromsg:""
     };
   }
+  auth = () => {
+    fetch(`auth.${API_ROOT}/authenticate`, {username: this.state.username, password:this.state.password}).then(result => this.authResult)
+    
+  }
 
+  authResult= () => { if (!ressult.token) { this.setState({ erromsg:"invalid user of password"}) } }
 
   login = (context) => {
+    this.auth()
     this.setState({loggingIn:true})
     context.login(this.state.username,this.state.password).then((token) => this.props.history.push("/dashboard"))
   }
