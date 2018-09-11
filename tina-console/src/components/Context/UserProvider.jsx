@@ -10,19 +10,19 @@ export class UserProvider extends React.Component {
 
 
         this.state = {
-            user: {
+            
                 name: "julien",
                 erromsg:"",
                 full_name: "",
                 token:""
-                
+            
 
-            }
-
+       
 
         }
+        this.login = this.login.bind(this)
 
-        this.getUserToken = (username, password) => {
+        /* this.getUserToken = (username, password) => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     console.log("getting user token")
@@ -34,21 +34,25 @@ export class UserProvider extends React.Component {
                     resolve(token)
                 }, 2000);
             })
-        }
-        this.login = (username, password) => {
+        } */
+        //this.login = (username, password) => {
 
-            return this.getUserToken(username, password)
+            //return this.getUserToken(username, password)
 
-        }
+        //}
 
 
     }
   
 
-    login = (creds) => {
+    login(creds) {
         console.log("logging user")
         fetch(`http://auth.${API_ROOT}/authenticate`, {
           method: 'post',
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            // "Content-Type": "application/x-www-form-urlencoded",
+        },
           body: JSON.stringify(creds)
           }).then(result => { if (!result.token) { this.setState({ erromsg:"invalid user of password"}) } else {
     
@@ -61,8 +65,8 @@ export class UserProvider extends React.Component {
     render() {
         return (
             <UserContext.Provider value={{
-                user: this.state.user,
-                full_name:this.state.full_name,
+                user: this.state,
+                
                 token: this.token,
                 login : this.login
             }}

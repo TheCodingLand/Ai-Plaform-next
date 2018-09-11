@@ -43,9 +43,9 @@ class LoginPage extends React.Component {
   
 
   login = (context) => {
-    this.context.login({username: this.state.username, password :this.state.password} )
+    context.login({username: this.state.username, password : this.state.password} )
     //this.setState({loggingIn:true})
-    context.login(this.state.username,this.state.password).then((token) => this.props.history.push("/dashboard"))
+    //context.login(this.state.username,this.state.password).then((token) => this.props.history.push("/dashboard"))
   }
 
   handleChange = (name) => event => {
