@@ -50,15 +50,13 @@ authenticator.authenticateAndSign('user@domain.com', 'password', 'no-so-secret-k
         }, app.get('jwtTokenSecret'));
 
         res.json({token: token, full_name: user.cn});
+    }).catch((err) => {
+        console.log(err);
     })
 
 
 
 
-})
-.catch((err) => {
-    console.log(err);
-})
+}}
+)
 
-    }
-})

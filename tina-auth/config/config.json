@@ -2,10 +2,11 @@
 	"ldap": {
 		
 		"url": "ldap://dcrcsl01.rcsl.lu:389",
-		"bindCredentials": "password",
+		"bindDN": "adminctg",
+		"bindCredentials": "Ctgsup*0322",
 		"searchBase": "dc=rcsl,dc=lu",
-		"baseDN": "dc=rcsl,dc=lu",
-		"searchFilter": "(sAMAccountName={{username}})",
+		
+		"searchFilter": "(&(objectClass=user)(sAMAccountName={{username}}))",
 		"timeout": 5000,
 		"connectTimeout": 10000,
 		"reconnect": true
