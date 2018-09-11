@@ -19,6 +19,29 @@ import {
 
 const hist = createBrowserHistory();
 
+
+// NO AUTH 
+/* export const PrivateRoute = ({ component: Component, ...rest }) => (
+  <UserContext.Consumer>
+    {user => (
+      <Route
+        {...rest}
+        render={props => (
+         // user.authenticated === true
+         // ?
+          <Component {...props} />
+         //   :
+         // <Redirect to='/pages/login-page' />
+        )}
+      />
+    )}
+  </UserContext.Consumer>
+); */
+
+
+
+
+// AUTH
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <UserContext.Consumer>
     {user => (
