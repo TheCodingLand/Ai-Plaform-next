@@ -1,10 +1,10 @@
 {
 	"ldap": {
-		"adminDn": "uid=adminctg,ou=OU_Users_Luxembourg,ou=OU_RCS_LUXEMBOURG,o=rcsl.lu",
-    	"adminPassword": "Ctgsup*0322",
+		
 		"url": "ldap://dcrcsl01.rcsl.lu:389",
 		"bindCredentials": "password",
 		"searchBase": "dc=rcsl,dc=lu",
+		"baseDN": "dc=rcsl,dc=lu",
 		"searchFilter": "(sAMAccountName={{username}})",
 		"timeout": 5000,
 		"connectTimeout": 10000,
