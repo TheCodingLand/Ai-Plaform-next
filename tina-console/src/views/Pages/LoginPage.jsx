@@ -22,7 +22,8 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import {UserContext} from 'components/Context/UserProvider'
 import { Link, withRouter } from "react-router-dom";
 import loginPageStyle from "assets/jss/ctg-ai-lab/views/loginPageStyle.jsx";
-import API_ROOT  from '../../appConfig'
+import { Typography } from "@material-ui/core";
+
 
 
 class LoginPage extends React.Component {
@@ -42,14 +43,16 @@ class LoginPage extends React.Component {
   
 
   login = (context) => {
-    
+    this.context.login({username: this.state.username, password :this.state.password} )
     //this.setState({loggingIn:true})
     context.login(this.state.username,this.state.password).then((token) => this.props.history.push("/dashboard"))
   }
 
-  handleChange = name => event => {
+  handleChange = (name) => event => {
     
     this.setState({ [name]: event.target.value });
+    
+
   }
   
   componentDidMount() {
@@ -66,6 +69,7 @@ class LoginPage extends React.Component {
     return (
       <div className={classes.content}>
         <div className={classes.container}>
+        <UserContext.Consumer>{ context => 
           <GridContainer justify="center">
             <GridItem xs={12} sm={6} md={4}>
               <form>
@@ -128,21 +132,22 @@ class LoginPage extends React.Component {
                       }}
                     />
                   </CardBody>
-                  
+                  <Typography>{context.erromsg}</Typography>
 
                   <CardFooter className={classes.justifyContentCenter}>
                   {this.state.loggingIn ?<CircularProgress size={50} />:
-                  <UserContext.Consumer>{ context => 
+                  
                     <Button disabled={this.state.loggingIn} onClick={() => this.login(context)} color="rose" simple size="lg" block>
                       Let's Go
                     </Button>}
-                    </UserContext.Consumer>}
                   </CardFooter>
                   
                 </Card>
               </form>
             </GridItem>
           </GridContainer>
+          }
+          </UserContext.Consumer>
         </div>
       </div>
     );

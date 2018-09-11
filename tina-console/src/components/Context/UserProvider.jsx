@@ -1,5 +1,5 @@
 import React from 'react'
-
+import API_ROOT  from '../../appConfig'
 
 export const UserContext = React.createContext()
 
@@ -11,7 +11,12 @@ export class UserProvider extends React.Component {
 
         this.state = {
             user: {
-                name: "julien"
+                name: "julien",
+                erromsg:"",
+                full_name: "",
+                token:""
+                
+
             }
 
 
@@ -38,22 +43,18 @@ export class UserProvider extends React.Component {
 
 
     }
-    auth = () => {
-    
+  
+
+    login = (creds) => {
+        console.log("logging user")
         fetch(`http://auth.${API_ROOT}/authenticate`, {
           method: 'post',
-          body: JSON.stringify({username: this.state.username, password:this.state.password})
-          }).then(result => this.authResult(result))
-        
-      }
+          body: JSON.stringify(creds)
+          }).then(result => { if (!result.token) { this.setState({ erromsg:"invalid user of password"}) } else {
     
-    authResult= (result) => { if (!result.token) { this.setState({ erromsg:"invalid user of password"}) } else {
-    
-    this.setState({token:result.token, full_name :result.full_name })
-    } }
+            this.setState({token:result.token, full_name :result.full_name })
+            } })
 
-    login = (socket) => {
-        console.log("loggingin User")
         
 
     }
@@ -61,7 +62,9 @@ export class UserProvider extends React.Component {
         return (
             <UserContext.Provider value={{
                 user: this.state.user,
-                update: this.update,
+                full_name:this.state.full_name,
+                token: this.token,
+                login : this.login
             }}
             >
                 {this.props.children}
