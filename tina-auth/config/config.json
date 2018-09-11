@@ -1,7 +1,7 @@
 {
 	"ldap": {
 		"url": "ldap://dcrcsl01.rcsl.lu:389",
-		"bindDN": "cn=adminctg",
+		"bindDN": "CN=AdminCTG,OU=OU_Users_Luxembourg,OU=OU_RCS_LUXEMBOURG,DC=rcsl,DC=lu",
 		"bindCredentials": "Ctgsup*0322",
 		"searchBase": "dc=rcsl,dc=lu",
 		"searchFilter": "(&(objectClass=user)(sAMAccountName={{username}}))",
