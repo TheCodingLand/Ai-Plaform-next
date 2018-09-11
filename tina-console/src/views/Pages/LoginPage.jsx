@@ -39,23 +39,11 @@ class LoginPage extends React.Component {
       full_name: ""
     };
   }
-  auth = () => {
-    
-    fetch(`http://auth.${API_ROOT}/authenticate`, {
-      method: 'post',
-      body: JSON.stringify({username: this.state.username, password:this.state.password})
-      }).then(result => this.authResult(result))
-    
-  }
-
-  authResult= (result) => { if (!result.token) { this.setState({ erromsg:"invalid user of password"}) } else {
-
-  this.setState({token:result.token, full_name :result.full_name })
-  } }
+  
 
   login = (context) => {
-    this.auth()
-    this.setState({loggingIn:true})
+    
+    //this.setState({loggingIn:true})
     context.login(this.state.username,this.state.password).then((token) => this.props.history.push("/dashboard"))
   }
 
