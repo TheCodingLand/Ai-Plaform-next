@@ -12,11 +12,7 @@ from tornado.httpclient import HTTPError
 
 
 import ldap3
-from jwt import (
-    JWT,
-    jwk_from_dict,
-    jwk_from_pem,
-)
+import jwt
 class BaseHandler(tornado.web.RequestHandler):
     def initialize(self, secret, ldap_uri, ldap_base):
         self.secret = secret
@@ -39,9 +35,9 @@ class RPCHandler(BaseHandler):
 
     def get_current_user(self):
         try:
-            jwt = JWT()
+           
             token = self.request.headers['Authorization']
-            data = jwt.decode(token, self.secret)
+            data = jwt.decode(token, self.secret, 'RS256')
             return data['user']
         except Exception:
             pass
@@ -64,14 +60,14 @@ class LoginHandler(BaseHandler):
     def post(self):
         username = self.get_argument("username")
         password = self.get_argument("password")
-        #try:
+        try:
             # will fail if invalid
-        conn = ldap3.Connection(self.ldap_uri, 'uid={},{}'.format(username, self.ldap_base),
+            conn = ldap3.Connection(self.ldap_uri, 'uid={},{}'.format(username, self.ldap_base),
                                     password, auto_bind=False,auto_referrals=False)
             
-        #except Exception:
+        except Exception:
          
-        self.write('<html><body><p style="color:red">Username or password invalid!</p>'
+            self.write('<html><body><p style="color:red">Username or password invalid!</p>'
                        '<form action="/login" method="post">'
                        'Username: <input type="text" name="username"><br>'
                        'Password: <input type="password" name="password"><br>'
@@ -79,19 +75,21 @@ class LoginHandler(BaseHandler):
                        +self.xsrf_form_html()+
                        '</form></body></html>')
 
-        #else:
+        else:
+            
             # successful login
-        jwt = JWT()
-        token = jwt.encode({'username':username}, self.secret)
-        self.set_secure_cookie('token', token)
-        self.redirect("/")
+        
+            token = jwt.encode({'username':username}, self.secret, 'RS256')
+            self.set_secure_cookie('token', token)
+            self.redirect("/")
 
 class MainHandler(BaseHandler):
     """For human requests, use secure cookies"""
     def get_current_user(self):
         try:
+            
             token = self.get_secure_cookie('token')
-            data = jwt.decode(token, self.secret)
+            data = jwt.decode(token, self.secret, 'RS256')
             return data['user']
         except Exception:
             pass
@@ -106,7 +104,7 @@ def main():
     app_settings = {
         'login_url': '/login',
         'xsrf_cookies': True,
-        'cookie_secret': 'supersecret',
+        'cookie_secret': 'secret',
     }
     handler_settings = {
         'secret': 'secret',
