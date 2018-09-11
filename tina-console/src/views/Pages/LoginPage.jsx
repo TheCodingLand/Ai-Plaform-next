@@ -41,7 +41,7 @@ class LoginPage extends React.Component {
   }
   auth = () => {
     
-    fetch(`auth.${API_ROOT}/authenticate`, {
+    fetch(`http://auth.${API_ROOT}/authenticate`, {
       method: 'post',
       body: JSON.stringify({username: this.state.username, password:this.state.password})
       }).then(result => this.authResult)
