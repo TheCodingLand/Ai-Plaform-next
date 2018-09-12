@@ -13,7 +13,7 @@ app.secret_key = "welfhwdlhwdlfhwelfhwlehfwlehfelwehflwefwlehflwefhlwefhlewjfhwe
 app.add_url_rule('/login', 'login', ldap.login, methods=['GET', 'POST'])
 
 @app.route('/')
-@ldap.login_required
+@login_required
 def index():
         pass
 
