@@ -10,9 +10,12 @@ import tornado.ioloop
 import tornado.web
 from tornado.httpclient import HTTPError
 
-
 import ldap3
 import jwt
+JWT_SECRET = 'secret'
+JWT_ALGORITHM = 'HS256'
+JWT_EXP_DELTA_SECONDS = 20
+
 class BaseHandler(tornado.web.RequestHandler):
     def initialize(self, secret, ldap_uri, ldap_base):
         self.secret = secret
@@ -37,7 +40,7 @@ class RPCHandler(BaseHandler):
         try:
            
             token = self.request.headers['Authorization']
-            data = jwt.decode(token, self.secret, 'RS256')
+            data = jwt.decode(token, self.secret, 'HS256')
             return data['user']
         except Exception:
             pass
@@ -63,7 +66,7 @@ class LoginHandler(BaseHandler):
         try:
             # will fail if invalid
             conn = ldap3.Connection(self.ldap_uri, 'uid={},{}'.format(username, self.ldap_base),
-                                    password, auto_bind=False,auto_referrals=False)
+                                    password, auto_bind=True, auto_referrals=False)
             
         except Exception:
          
@@ -78,8 +81,8 @@ class LoginHandler(BaseHandler):
         else:
             
             # successful login
-        
-            token = jwt.encode({'username':username}, self.secret, 'RS256')
+            print (f"encoding {username}, with {self.secret}, in HS256")
+            token = jwt.encode({'username':username}, self.secret, 'HS256')
             self.set_secure_cookie('token', token)
             self.redirect("/")
 
@@ -89,7 +92,7 @@ class MainHandler(BaseHandler):
         try:
             
             token = self.get_secure_cookie('token')
-            data = jwt.decode(token, self.secret, 'RS256')
+            data = jwt.decode(token, self.secret, 'HS256')
             return data['user']
         except Exception:
             pass
