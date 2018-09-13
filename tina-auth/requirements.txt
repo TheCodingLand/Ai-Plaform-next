@@ -5,3 +5,4 @@ flask
 flask-ldap
 Flask-SQLAlchemy
 Flask-Login
+Flask-WTF
