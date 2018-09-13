@@ -4,7 +4,12 @@ FROM python:latest
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-
+RUN apt-get update && apt-get install -y \
+        build-essential \
+        wget \
+        git \
+        python3-dev \
+        libsasl2-dev python-dev libldap2-dev libssl-dev
 
 # install requirements
 ADD ./requirements.txt /usr/src/app/requirements.txt
