@@ -2,3 +2,6 @@ tornado
 pyjwt
 ldap3
 flask
+flask-ldap
+Flask-SQLAlchemy
+Flask-Login
