@@ -1,2 +1,2 @@
-from auth-app import app
+from authapp import app
 app.run(debug=True)

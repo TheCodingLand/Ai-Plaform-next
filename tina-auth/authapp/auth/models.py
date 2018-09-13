@@ -2,11 +2,13 @@ import ldap
 from flask_wtf import Form
 from wtforms import TextField, PasswordField
 from wtforms.validators import InputRequired
-from auth-app import db, app
+from authapp import db, app
 
 
 def get_ldap_connection():
     conn = ldap.initialize(app.config['LDAP_PROVIDER_URL'])
+    conn.protocol_version = ldap.VERSION3
+    conn.set_option(ldap.OPT_REFERRALS, 0)
     return conn
 
 
@@ -16,13 +18,18 @@ class User(db.Model):
 
     def __init__(self, username, password):
         self.username = username
-
+#lju@rcsl.lu","B186o73l7a"
     @staticmethod
     def try_login(username, password):
         conn = get_ldap_connection()
-        conn.simple_bind_s(
-            'cn=%s,ou=Users,dc=testathon,dc=net' % username, password
-        )
+        conn.simple_bind_s(username, password)
+        base = "dc=example, dc=com"
+        criteria = "(&(objectClass=user)(sAMAccountName=username))"
+        attributes = ['displayName', 'company']
+        result = l.search_s(base, ldap.SCOPE_SUBTREE, criteria, attributes)
+ 
+        results = [entry for dn, entry in result if isinstance(entry, dict)]
+        print results
 
     def is_authenticated(self):
         return True
