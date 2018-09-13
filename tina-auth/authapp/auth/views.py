@@ -25,7 +25,15 @@ def home():
     return render_template('home.html')
 
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth.route('/login', methods=['POST'])
+def verify():
+    if request.method == 'POST' and form.validate():
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+
+
+@auth.route('/login', methods=['POST'])
 def login():
     if current_user.is_authenticated:
         flash('You are already logged in.')
@@ -41,6 +49,7 @@ def login():
             User.try_login(username, password)
         except ldap.INVALID_CREDENTIALS:
             flash('Invalid username or password. Please try again.', 'danger')
+            
             return render_template('login.html', form=form)
 
         user = User.query.filter_by(username=username).first()
@@ -51,7 +60,9 @@ def login():
             db.session.commit()
         login_user(user)
         flash('You have successfully logged in.', 'success')
-        return redirect(url_for('auth.home'))
+        jwt.encode(encoded, 'secret', algorithms=['HS256'])
+        return { 'username' : username, "token" : 'aklsjdfajklsöj' }
+        #return redirect(url_for('auth.home'))
 
     if form.errors:
         flash(form.errors, 'danger')
