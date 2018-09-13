@@ -26,7 +26,7 @@ class User(db.Model):
         base = "dc=example, dc=com"
         criteria = "(&(objectClass=user)(sAMAccountName=username))"
         attributes = ['displayName', 'company']
-        result = l.search_s(base, ldap.SCOPE_SUBTREE, criteria, attributes)
+        #result = l.search_s(base, ldap.SCOPE_SUBTREE, criteria, attributes)
  
         results = [entry for dn, entry in result if isinstance(entry, dict)]
         print (results)
