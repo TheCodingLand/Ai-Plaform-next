@@ -29,7 +29,7 @@ class User(db.Model):
         result = l.search_s(base, ldap.SCOPE_SUBTREE, criteria, attributes)
  
         results = [entry for dn, entry in result if isinstance(entry, dict)]
-        print results
+        print (results)
 
     def is_authenticated(self):
         return True
@@ -41,7 +41,7 @@ class User(db.Model):
         return False
 
     def get_id(self):
-        return unicode(self.id)
+        return f"{self.id}"
 
 
 class LoginForm(Form):
