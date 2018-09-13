@@ -9,7 +9,11 @@ RUN apt-get update && apt-get install -y \
         libsasl2-dev python-dev libldap2-dev libssl-dev
 
 
-ADD . .
+COPY requirements.txt requirements.txt
+
 RUN pip3 install -r requirements.txt
+
+ADD . .
+
 
 CMD [ "python3", "run.py" ]
