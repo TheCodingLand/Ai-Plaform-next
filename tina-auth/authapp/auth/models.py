@@ -18,7 +18,7 @@ class User(db.Model):
 
     def __init__(self, username, password):
         self.username = username
-#lju@rcsl.lu","B186o73l7a"
+
     @staticmethod
     def try_login(username, password):
         conn = get_ldap_connection()
