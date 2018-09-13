@@ -19,17 +19,24 @@ class User(db.Model):
     def __init__(self, username, password):
         self.username = username
 
+
     @staticmethod
     def try_login(username, password):
         conn = get_ldap_connection()
+        conn.simple_bind_s(username + "@rcsl.lu", password)
+
+
+    """ @staticmethod
+    def try_login(username, password):
+        conn = get_ldap_connection()
         conn.simple_bind_s(username, password)
-        base = "dc=example, dc=com"
+        base = "dc=rcsl, dc=lu"
         criteria = "(&(objectClass=user)(sAMAccountName=username))"
         attributes = ['displayName', 'company']
         result = conn.search_s(base, ldap.SCOPE_SUBTREE, criteria, attributes)
  
         results = [entry for dn, entry in result if isinstance(entry, dict)]
-        print (results)
+        print (results) """
 
     def is_authenticated(self):
         return True
