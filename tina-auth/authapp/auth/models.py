@@ -24,6 +24,7 @@ class User(db.Model):
     def try_login(username, password):
         conn = get_ldap_connection()
         conn.simple_bind_s(username + "@rcsl.lu", password)
+        
 
 
     """ @staticmethod
