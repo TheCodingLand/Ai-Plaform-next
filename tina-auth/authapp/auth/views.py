@@ -1,7 +1,7 @@
 import ldap
 from flask import request, render_template, flash, redirect, url_for, \
     Blueprint, g
-from flask.ext.login import current_user, login_user, logout_user, \
+from flask_login import current_user, login_user, logout_user, \
     login_required
 from authapp import login_manager, db
 from authapp.auth.models import User, LoginForm
