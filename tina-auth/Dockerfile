@@ -7,7 +7,9 @@ RUN apt-get update && apt-get install -y \
         git \
         python3-dev \
         libsasl2-dev python-dev libldap2-dev libssl-dev
+
+
 ADD . .
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 CMD [ "python3", "run.py" ]
