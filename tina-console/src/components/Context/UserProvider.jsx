@@ -54,7 +54,7 @@ export class UserProvider extends React.Component {
             // "Content-Type": "application/x-www-form-urlencoded",
         },
           body: JSON.stringify(creds)
-          }).then(result => { if (!result.token) { this.setState({ erromsg:"invalid user of password"}) } else {
+          }).then(result => { result = JSON.parse(result); if (!result.token) { this.setState({ erromsg:"invalid user of password"}) } else {
     
             this.setState({token:result.token, full_name :result.displayName })
             } })
