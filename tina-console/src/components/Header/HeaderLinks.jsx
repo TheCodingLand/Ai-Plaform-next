@@ -47,7 +47,7 @@ class HeaderLinks extends React.Component {
     return (
       <div>
       <UserContext.Consumer>{context =>
-        <Typography className={classes.linkText}>Welcome : <b>{context.user.name}</b></Typography>}
+        <Typography className={classes.linkText}>Welcome : <b>{context.user.full_name}</b></Typography>}
       </UserContext.Consumer>
         <div className={classes.searchWrapper}>
         
