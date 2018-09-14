@@ -114,7 +114,7 @@ class Login(Resource):
             'token' : token.decode('utf-8'),
             'expire': "TODO"
             })
-        
+        usersRedisDb.expire(f"user.{token.decode('utf-8')}", 20)
         
         #Success : 
         
