@@ -153,7 +153,7 @@ class Login(Resource):
         response_object = {
             "username" : username,
             "token" : token,
-            "result" : 'success'          
+            "result" : "success"        
         }        
         try:
             return response_object, 200
