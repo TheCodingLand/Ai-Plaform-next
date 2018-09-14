@@ -235,6 +235,7 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - MONGODB_SERVER=${MONGODB_SERVER}
       - DOMAIN=${DOMAIN}
+      - LDAP_SESSION_EXPIRE_TIME=${LDAP_SESSION_EXPIRE_TIME}
     labels:
       - "traefik.backend=api"
       - "traefik.docker.network=web"
