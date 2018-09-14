@@ -125,12 +125,13 @@ class Login(Resource):
         
         token = jwt.encode({ "user" : result }, "secret", "HS256")
         #token = username
-        
-        usersRedisDb.hmset(f"user.{token.decode('utf-8')}",  {
+        result.update({
             'username' : username,
             'token' : token.decode('utf-8'),
+            
             'expire': "TODO"
             })
+        usersRedisDb.hmset(f"user.{token.decode('utf-8')}", result )
         usersRedisDb.expire(f"user.{token.decode('utf-8')}", LDAP_SESSION_EXPIRE_TIME)
         
         #Success : 
