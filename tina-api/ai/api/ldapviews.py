@@ -59,12 +59,15 @@ def loggedin(token):
         user = usersRedisDb.hgetall(f"user.{token}")
     except:
          return False
-    
+    try:
+        result = { "username" : user['username'], "token": token }
+    except:
+        result = False
     #if user['token'] == token:
         #TODO ADD CHECK FOR EXPIRED SESSION
     #    return True
     
-    return { "username" : user['username'], "token": token }
+    return result
 
 
 
