@@ -100,8 +100,15 @@ class Login(Resource):
             conn.simple_bind_s(username + "@" + domain, password)
             base_dn = 'dc=rcsl,dc=lu'
             filter = f'(&(objectClass=user)(sAMAccountName={username}))'
-            result = conn.search_s(base_dn, ldap.SCOPE_SUBTREE, filter)
-            logging.error(result)
+            attrs = ['sAMAccountName','memberOf', 'displayName', 'userAccountControl', 'accountExpires']
+            result = conn.search_s(base_dn, ldap.SCOPE_SUBTREE, filter, attrs)
+            if len(result)>0:
+                result = result[0][1]
+                for attr, value in result.items():
+                    result['attr'] = value.encode('utf-8')
+        
+            
+
 
             #conn.search    
         except:
@@ -115,11 +122,8 @@ class Login(Resource):
                 logging.error("failed to serialize response object")
                 logging.error(response_object)
         
-        try:
-            username = username.decode('utf-8')
-        except:
-            pass
-        token = jwt.encode({ "user" : { "username" : f"{username}" } }, "secret", "HS256")
+        
+        token = jwt.encode({ "user" : result }, "secret", "HS256")
         #token = username
         
         usersRedisDb.hmset(f"user.{token.decode('utf-8')}",  {
