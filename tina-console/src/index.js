@@ -8,6 +8,7 @@ import "assets/css/ctg-ai-lab.css?v=1.4.0";
 import { UserContext, UserProvider } from "components/Context/UserProvider";
 import indexRoutes from "routes/index.jsx";
 //import websocket from 'components/Context/socket'
+import {LOGINREQUIRED} from './appConfig'
 
 import {
   SocketContext,
@@ -39,15 +40,16 @@ const hist = createBrowserHistory();
 ); */
 
 
-
-
-// AUTH
-export const PrivateRoute = ({ component: Component, ...rest }) => (
-  <UserContext.Consumer>
+  export const PrivateRoute = ({ component: Component, ...rest }) => 
+  { if (LOGINREQUIRED == true) { 
+    return <UserContext.Consumer>
     {user => (
       <Route
         {...rest}
+        
         render={props => (
+
+          
           user.authenticated === true
           ?
           <Component {...props} />
@@ -57,7 +59,27 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
       />
     )}
   </UserContext.Consumer>
-);
+  }
+  else{
+    return <UserContext.Consumer>
+    {user => (
+      <Route
+        {...rest}
+        
+        render={props => (
+          <Component {...props} />
+        )}
+      />
+    )}
+  </UserContext.Consumer>
+
+  }
+
+  };
+
+
+// AUTH
+
 
 ReactDOM.render(
   <SocketProvider>

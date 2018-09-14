@@ -1,5 +1,6 @@
 import React from 'react'
-import API_ROOT  from '../../appConfig'
+import API_ROOT from '../../appConfig'
+import {LOGINREQUIRED} from '../../appConfig'
 
 export const UserContext = React.createContext()
 
@@ -42,7 +43,6 @@ export class UserProvider extends React.Component {
 
         //}
 
-
     }
   
 
@@ -57,17 +57,13 @@ export class UserProvider extends React.Component {
         },
           body: JSON.stringify(creds)
           }).then(result => result.json()).then(result => { 
-
-            
             if (!result.token) { this.setState({ erromsg:"invalid user of password"}) } else {
-    
             this.setState({token:result.token, full_name :result.displayName, authenticated: true })
             } }, err => console.log(err)
             )
         }
 
 
-        
     verify() {
         return fetch(`http://api.${API_ROOT}/auth/verify`, {
           method: 'POST',
@@ -78,14 +74,10 @@ export class UserProvider extends React.Component {
         },
           body: JSON.stringify({ token : this.state.token})
           }).then(result => result.json()).then(result => { 
-
-            
-            if (!result.token) { this.setState({ erromsg:"not found", authenticated : false}) } else {
-    
+            if (!result.token) { this.setState({ erromsg:"not found", authenticated : false }) } else {
             this.setState({token:result.token, full_name :result.displayName, authenticated: true })
             } }, err => console.log(err)
             )
-        
         }
 
     

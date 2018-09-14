@@ -132,8 +132,8 @@ class RunTrainingCard extends React.Component {
         testmodel: this.state.model.testmodel,
         confidence: this.state.confidence
       };
-      let id = context.createEvent("ft", "training", data);
-      this.setState({ id: id });
+      context.createEvent("ft", "training", data).then(id=>this.setState({id:id}));
+
     }
   };
 
