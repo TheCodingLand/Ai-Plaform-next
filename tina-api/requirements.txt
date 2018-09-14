@@ -9,3 +9,4 @@ cysignals==1.7.1
 cython==0.28.3
 redis
 python-ldap
+pyjwt
