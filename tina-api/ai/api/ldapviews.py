@@ -106,7 +106,9 @@ class Login(Resource):
                 for attr, value in result.items():
                     if attr != "memberOf":
                         result[attr] = value[0].decode('utf-8')
-                   
+                    else:
+                        result[attr] = json.dumps(value[0])
+                        
         
             
 
