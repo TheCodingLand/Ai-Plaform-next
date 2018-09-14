@@ -5,7 +5,7 @@ const origin = window && window.location && window.location.origin;
 if (origin.includes(':3000')) {
     console.log(origin)
     apiRoot = origin.replace("http://localhost:3000", "tina.lbr.lu");
-    loginRequired = false
+    loginRequired = true
     console.log(apiRoot)
     
 } else {
