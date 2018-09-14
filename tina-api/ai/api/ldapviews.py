@@ -108,15 +108,13 @@ class Login(Resource):
             pass
         token = jwt.encode({ "user" : { "username" : f"{username}" } }, "secret", "HS256")
         #token = username
-        try:
-            usersRedisDb.hmset(f"user.{token}",  {
+        
+        usersRedisDb.hmset(f"user.{token.decode('utf-8')}",  {
             'username' : username,
             'token' : token.decode('utf-8'),
             'expire': "TODO"
             })
-        except:
-            pass
-
+        
         
         #Success : 
         
@@ -163,7 +161,7 @@ class Verify(Resource):
             response_object = {
             'username' : user['username'],
             'token' : token.decode('utf-8'),
-            'result' : 'success'          
+            'result' : 'success'
             }        
             return response_object, 200
 
