@@ -104,7 +104,7 @@ class Login(Resource):
                 #logging.error(result)
                 for attr, value in result.items():
                     if attr == "memberOf":
-                        memberof = value
+                        memberof = value[0]
                         #result[attr] = json.dumps(value)
                         logging.error(memberof)
                         for a, v in memberof.items():
