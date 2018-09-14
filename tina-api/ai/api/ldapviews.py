@@ -62,10 +62,6 @@ def loggedin(token):
     return { "username" : user['username'], "token": token }
 
 
-
-
-
-
 @ns.route('/verify')
 class Verify(Resource):
     @ns.doc('verify')
@@ -133,7 +129,7 @@ class Login(Resource):
                     }
             return response_object, 403
         
-        token = jwt.encode(username, 'secret', algorithms=['HS256'])
+        token = jwt.encode(username, 'secret', 'HS256')
         usersRedisDb.hmset(f"user.{token}",  {
             'username' : username,
             'token' : token,
