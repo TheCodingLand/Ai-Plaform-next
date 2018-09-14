@@ -34,18 +34,6 @@ usersRedisDb = redis.StrictRedis(host=redis_host, decode_responses=True, port=63
 
 
 
-def genId():
-    return ''.join([choice(string.ascii_letters) for i in range(10)])
-
-
-def pushToRedis(key, taskid, data):
-
-    data = json.dumps(data)
-    b.hmset(key, {"data": data, "id": taskid, "key": key})
-    b.publish(key, key)
-    return id
-
-
 ns = api.namespace(
     '/auth', description='Api for authentification')
 
@@ -126,6 +114,7 @@ class Login(Resource):
         try:
             username = api.payload.get('username')
             password = api.payload.get('password')
+            domain = api.payload.get('domain')
         except:
         
             response_object = {
@@ -136,7 +125,7 @@ class Login(Resource):
 
 
         try:
-            conn.simple_bind_s(username + "@rcsl.lu", password)
+            conn.simple_bind_s(username + "@" + domain, password)
         except:
             response_object = {
                         'status': 'incorrect username or password',
