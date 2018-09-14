@@ -63,9 +63,7 @@ def loggedin(token):
         result = user
     except:
         result = False
-    #if user['token'] == token:
-        #TODO ADD CHECK FOR EXPIRED SESSION
-    #    return True
+   
     
     return result
 
