@@ -125,7 +125,7 @@ class Login(Resource):
                 logging.error(response_object)
         
         
-        token = jwt.encode({ "user" : result }, "secret", "HS256")
+        token = jwt.encode({ "user" : username }, "secret", "HS256")
         #token = username
         result.update({
             'username' : username,
