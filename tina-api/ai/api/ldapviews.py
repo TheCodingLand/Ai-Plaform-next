@@ -104,12 +104,13 @@ class Login(Resource):
                 #logging.error(result)
                 for attr, value in result.items():
                     if attr == "memberOf":
-                        memberof = value[0]
+                        memberof = value
                         #result[attr] = json.dumps(value)
                         logging.error(memberof)
-                        for a, v in memberof.items():
-                            memberof[a] = v.decode('utf-8')
-                        result[attr] = memberof
+                        m = []
+                        for a in memberof:
+                            m.append(a.decode('utf-8'))
+                        result[attr] = m
                     else:
                         result[attr] = value[0].decode('utf-8')
         except:
