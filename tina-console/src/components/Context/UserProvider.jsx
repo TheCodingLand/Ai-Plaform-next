@@ -60,7 +60,7 @@ export class UserProvider extends React.Component {
             
             if (!result.token) { this.setState({ erromsg:"invalid user of password"}) } else {
     
-            this.setState({token:result.token, full_name :result.displayName })
+            this.setState({token:result.token, full_name :result.displayName, authenticated: true })
             } }, err => console.log(err)
             )
         }
