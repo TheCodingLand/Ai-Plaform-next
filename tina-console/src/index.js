@@ -64,8 +64,9 @@ ReactDOM.render(
     <SocketContext.Consumer>
       {socket => (
         <UserProvider>
-          <AppProvider>
-            <EventsProvider websocket={socket.socket}>
+          <UserContext.Consumer>{user=>
+          <AppProvider user={user}>
+            <EventsProvider user={user} websocket={socket.socket}>
               <Router history={hist}>
                 <Switch>
                   {indexRoutes.map((prop, key) => {
@@ -92,6 +93,7 @@ ReactDOM.render(
               </Router>
             </EventsProvider>
           </AppProvider>
+          }</UserContext.Consumer>
         </UserProvider>
       )}
     </SocketContext.Consumer>

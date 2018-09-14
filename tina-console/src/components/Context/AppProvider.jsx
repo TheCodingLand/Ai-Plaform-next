@@ -34,7 +34,7 @@ export class AppProvider extends React.Component {
 
   
   getModelResult(model) {
-    
+      
       let url = `http://rest.${API_ROOT}/results/actions/?filter={"data.model._id":{'$oid':'${model._id.$oid}'}}`
 
       return axios.get(url).then(res => {

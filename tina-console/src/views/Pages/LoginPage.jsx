@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import {Redirect } from "react-router-dom";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -20,10 +20,8 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import {UserContext} from 'components/Context/UserProvider'
-import { Link, withRouter } from "react-router-dom";
 import loginPageStyle from "assets/jss/ctg-ai-lab/views/loginPageStyle.jsx";
 import { Typography } from "@material-ui/core";
-
 
 
 class LoginPage extends React.Component {
@@ -67,9 +65,11 @@ class LoginPage extends React.Component {
   render() {
     const { classes } = this.props;
     return (
+      
       <div className={classes.content}>
         <div className={classes.container}>
         <UserContext.Consumer>{ context => 
+          context.authenticated ? <Redirect from='/pages/login' to='/Dashboard' /> :
           <GridContainer justify="center">
             <GridItem xs={12} sm={6} md={4}>
               <form>
