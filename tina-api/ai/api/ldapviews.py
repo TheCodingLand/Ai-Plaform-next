@@ -106,6 +106,7 @@ class Login(Resource):
                     if attr == "memberOf":
                         memberof = value
                         #result[attr] = json.dumps(value)
+                        logging.error(memberof)
                         for a, v in memberof.items():
                             memberof[a] = v.decode('utf-8')
                         result[attr] = memberof
