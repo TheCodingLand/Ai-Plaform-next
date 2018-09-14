@@ -106,7 +106,7 @@ class Login(Resource):
             result = result[0][1]
             logging.error(result)
             for attr, value in result.items():
-                result[attr] = value[0].encode('utf-8')
+                result[attr] = value[0].decode('utf-8')
     
             
 
