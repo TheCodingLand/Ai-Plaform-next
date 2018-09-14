@@ -105,7 +105,7 @@ class Login(Resource):
         if len(result)>0:
             result = result[0][1]
             for attr, value in result.items():
-                result['attr'] = value.encode('utf-8')
+                result[attr] = value.encode('utf-8')
     
             
 
