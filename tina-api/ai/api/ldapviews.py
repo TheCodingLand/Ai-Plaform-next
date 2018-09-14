@@ -63,6 +63,7 @@ def loggedin(token):
 
 
 @ns.route('/verify')
+@ns.response(404, 'Model Not Found')
 class Verify(Resource):
     @ns.doc('verify')
     @ns.expect(verify_token_model)
@@ -100,6 +101,7 @@ class Verify(Resource):
 
 
 @ns.route('/login')
+@ns.response(404, 'Model Not Found')
 class Login(Resource):
     @ns.doc('login')
     @ns.expect(login_model)
