@@ -21,6 +21,7 @@ export class UserProvider extends React.Component {
 
         }
         this.login = this.login.bind(this)
+        this.verify = this.verify.bind(this)
 
         /* this.getUserToken = (username, password) => {
             return new Promise((resolve, reject) => {
@@ -67,7 +68,27 @@ export class UserProvider extends React.Component {
 
 
         
+    verify() {
+        return fetch(`http://api.${API_ROOT}/auth/verify`, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            // "Content-Type": "application/x-www-form-urlencoded",
+        },
+          body: JSON.stringify({ token : this.state.token})
+          }).then(result => result.json()).then(result => { 
 
+            
+            if (!result.token) { this.setState({ erromsg:"not found", authenticated : false}) } else {
+    
+            this.setState({token:result.token, full_name :result.displayName, authenticated: true })
+            } }, err => console.log(err)
+            )
+        
+        }
+
+    
     
     render() {
         return (
@@ -75,7 +96,8 @@ export class UserProvider extends React.Component {
                 user: this.state,
                 authenticated: this.state.authenticated,
                 token: this.token,
-                login : this.login
+                login : this.login,
+                verify : this.verify
             }}
             >
                 {this.props.children}

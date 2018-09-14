@@ -40,10 +40,12 @@ class EventsProvider extends React.Component {
     // ID will be the jwt token
     // But if it does exist, it will ask the websocket to get all past redis subscription keys. 
     // this will allow client to lose websocket connexions, reconnect to another server and still get redis keys updates/notifications he was subbed to !
+
     this.state.id ? this.props.websocket.on('identifier', identifier => { this.setState({id:identifier})}) : this.props.websocket.emit('redisResub', this.id)
 }
 
   componentWillMount() {
+    
     
     this.reconnect()
     
@@ -94,6 +96,8 @@ class EventsProvider extends React.Component {
   };
 
   createEvent = (service, action, data) => {
+    this.props.user.verify().then(() => { 
+    
     let id = this.makeid();
     let e = {
       id: id,
@@ -110,6 +114,7 @@ class EventsProvider extends React.Component {
     this.props.websocket.emit("message", e);
 
     return id;
+  })
   };
 
   eventRecieved = obj => {

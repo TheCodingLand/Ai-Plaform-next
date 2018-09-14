@@ -59,7 +59,7 @@ def loggedin(token):
     result = usersRedisDb.hgetall(f"user.{token}")
     
     try:
-        result.get('token')
+        result['sAMAccountName']
     except:
         result = False
     
