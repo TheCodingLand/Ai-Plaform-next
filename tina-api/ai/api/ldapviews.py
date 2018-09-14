@@ -51,7 +51,7 @@ verify_token_model = api.model( 'verify:', {
 
 def loggedin(token):
     try:
-        user = usersRedisDb.hgetall(f"user.{token.decode('utf-8')}")
+        user = usersRedisDb.hgetall(f"user.{token}")
     except:
          return False
     
