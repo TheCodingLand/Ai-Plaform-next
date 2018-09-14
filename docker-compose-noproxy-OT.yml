@@ -234,7 +234,7 @@ services:
     environment:
       - REDIS_HOST=${REDIS_HOST}
       - MONGODB_SERVER=${MONGODB_SERVER}
-
+      - DOMAIN=${DOMAIN}
     labels:
       - "traefik.backend=api"
       - "traefik.docker.network=web"
