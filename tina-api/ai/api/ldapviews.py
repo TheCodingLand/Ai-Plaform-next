@@ -125,7 +125,6 @@ class Login(Resource):
         try:
             conn.simple_bind_s(username + "@" + domain, password)
         except:
-            
             response_object = {
                         'status': 'incorrect username or password',
                         'error': 'please check your input'
@@ -140,8 +139,8 @@ class Login(Resource):
             username = username.decode('utf-8')
         except:
             pass
-        #token = jwt.encode({ "user" : { "username" : f"{username}" } }, "secret", "HS256")
-        token = username
+        token = jwt.encode({ "user" : { "username" : f"{username}" } }, "secret", "HS256")
+        #token = username
         usersRedisDb.hmset(f"user.{token}",  {
             'username' : username,
             'token' : token,
