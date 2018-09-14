@@ -103,15 +103,11 @@ class Login(Resource):
                 result = result[0][1]
                 logging.error(result)
                 for attr, value in result.items():
-                    if attr != "memberOf":
-                        result[attr] = value[0].decode('utf-8')
-                    else:
+                    if attr == "memberOf":
+                        memberof = value
                         result[attr] = json.dumps(value)
-
-        
-            
-
-
+                    else:
+                        result[attr] = value[0].decode('utf-8')
         except:
             response_object = {
                         "status": "incorrect username or password",
@@ -122,7 +118,7 @@ class Login(Resource):
             except:
                 logging.error("failed to serialize response object")
                 logging.error(response_object)
-    
+        json.dumps(memberof)
         
         token = jwt.encode({ "user" : result }, "secret", "HS256")
         #token = username
