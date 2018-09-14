@@ -90,7 +90,7 @@ class Verify(Resource):
         else:
             response_object = {
             'username' : user['username'],
-            'token :' : token.decode('utf-8'),
+            'token' : token.decode('utf-8'),
             'result' : 'success'          
             }        
             return response_object, 200
