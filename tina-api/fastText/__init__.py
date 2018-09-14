@@ -6,7 +6,7 @@ from werkzeug.contrib.fixers import ProxyFix
 from flask import Flask
 from fastText.api.restplus import api
 from fastText.api.ftviews import ns as ft_events_namespace
-#from fastText.api.ldapviews import ns as login_events_namespace
+from fastText.api.ldapviews import ns as login_events_namespace
 
 from flask_cors import CORS
 
@@ -32,6 +32,6 @@ def create_app():
     app.config.from_object(app_settings)
     # register namespace
     api.add_namespace(ft_events_namespace)
-    #api.add_namespace(login_events_namespace)
+    api.add_namespace(login_events_namespace)
     app.register_blueprint(blueprint)
     return app
