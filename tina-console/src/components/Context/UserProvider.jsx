@@ -56,7 +56,7 @@ export class UserProvider extends React.Component {
           body: JSON.stringify(creds)
           }).then(result => { if (!result.token) { this.setState({ erromsg:"invalid user of password"}) } else {
     
-            this.setState({token:result.token, full_name :result.full_name })
+            this.setState({token:result.token, full_name :result.displayName })
             } })
 
         
