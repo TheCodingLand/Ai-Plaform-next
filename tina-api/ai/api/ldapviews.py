@@ -98,6 +98,11 @@ class Login(Resource):
 
         try:
             conn.simple_bind_s(username + "@" + domain, password)
+            base_dn = 'dc=rcsl,dc=lu'
+            filter = f'(&(objectClass=user)(sAMAccountName={username}))'
+            result = conn.search_s(base_dn, ldap.SCOPE_SUBTREE, filter)
+            logging.error(result)
+
             #conn.search    
         except:
             response_object = {
