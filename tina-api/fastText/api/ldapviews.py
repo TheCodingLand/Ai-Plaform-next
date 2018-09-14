@@ -16,6 +16,7 @@ import ldap
 import time
 import redis
 import os
+import jwt
 from random import randint, choice
 redis_host = os.getenv('REDIS_HOST')
 
@@ -27,10 +28,10 @@ def get_ldap_connection():
 #ft = fastTextApp()
 
 # Here we store actions :
-b = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=1)
+usersRedisDb = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=1)
 
 # Here we store the state of actions
-c = redis.StrictRedis(host=redis_host, decode_responses=True, port=6379, db=2)
+
 
 
 def genId():
@@ -49,85 +50,114 @@ ns = api.namespace(
     '/auth', description='Api for authentification')
 
 
-@ns.route('/schema')
-class Swagger(Resource):
-    def get(self):
-        return api.__schema__
+login_model = api.model( 'login:', {
+    'username' : fields.String(description='ldap username'),
+    'password': fields.String(description='ldap password'),
+    'domain'  : fields.String(description='Domain', default = f"{os.getenv('DOMAIN')}"),
+    
+})
+
+verify_token_model = api.model( 'verify:', {
+    'token' : fields.String(description='jwt'),     
+})
+
+def loggedin(token):
+    try:
+        user = usersRedisDb.hgetall(f"user.{token}")
+    except:
+         return False
+    
+    #if user['token'] == token:
+        #TODO ADD CHECK FOR EXPIRED SESSION
+    #    return True
+    
+    return { "username" : user['username'], "token": token }
 
 
-@ns.route('/ping')
-class SanityCheck(Resource):
-    def get(self):
-        # log.info(json.dumps(api.__schema__))
-        return {
-            'status': 'success',
-            'message': 'pong!'
-        }
 
 
-@ns.route('/predict')
-@ns.response(404, 'Model Not Found')
-class Model(Resource):
-    '''Takes text in entry, returns a prediction using the specified model'''
-    @ns.doc('predict')
-    @ns.expect(prediction)
-    # @api.marshal_with(prediction) #modelID, text, nbofresults
+
+
+@ns.route('/verify')
+class Verify(Resource):
+    @ns.doc('verify')
+    @ns.expect(verify_token_model)
     def post(self):
-        '''Fetch a given resource'''
+        '''verify if user is logged in with ldap'''
+    
         try:
-            nbofresults = api.payload.get('nbofresults')  # default : 1
+            token = api.payload.get('token')
         except:
-            nbofresults = 1
-        if nbofresults == None:
-            nbofresults = 1
-        try:
-            ai = api.payload.get('ai')  # default : ft
-        except:
-            ai = "ft"
-        if ai == None:
-            ai="ft"
-        try:       
+        
+            response_object = {
+                        'status': 'error',
+                        'error': 'need token in payload'
+                    }
+            return response_object, 403
 
-            modelid = api.payload.get('id')
-            text = api.payload.get('text')
+        
+        user = loggedin(token)
+        if user == False:
+            response_object = {
+                        'status': 'error',
+                        'error': 'user is not logged in'
+                    }
+            return response_object, 403
+        else:
+            response_object = {
+            'username' : user['username'],
+            'token :' : token,
+            'result' : 'success'          
+            }        
+            return response_object, 200
+
             
-            taskid = genId()
-            key = f"{ai!s}.predict.api{taskid!s}"
-            data = {'key': key,
-                    'action': "predict",
-                    'id': taskid,
-                    'modelid': modelid,
-                    'text': text,
-                    'nbofresults': nbofresults
-                    }
-            logging.error(data)
-            # taskIds can be returned for long operations, so the  client can query the status of an operation
-            pushToRedis(key, taskid, data)
 
-            count = 0
-            while not c.hgetall(taskid):
-                time.sleep(0.1)
-                count = count + 1
-                if count > 100:  # 10 seconds
-                    response_object = {
-                        'status': 'timeout error',
-                        'results': 'please check the data input'
-                    }
-                    return response_object, 408
 
-            k = c.hgetall(taskid)
-            logging.error(k)
-            results = json.loads(k['data'])
-            logging.error(results)
 
+@ns.route('/login')
+class Login(Resource):
+    @ns.doc('login')
+    @ns.expect(login_model)
+    def post(self):
+        '''logins with ldap'''
+        conn = get_ldap_connection()
+
+        try:
+            username = api.payload.get('username')
+            password = api.payload.get('password')
+        except:
+        
             response_object = {
-                'status': 'ok',
-                'results': results['result']
-            }
-            return response_object, 201
+                        'status': 'error',
+                        'error': 'could not get fields username and/or password. please check input'
+                    }
+            return response_object, 403
+
+
+        try:
+            conn.simple_bind_s(username + "@rcsl.lu", password)
         except:
             response_object = {
-                'status': 'unknown server error',
-                'results': "please check input"
-            }
-            return response_object, 500
+                        'status': 'incorrect username or password',
+                        'error': 'please check your input'
+                    }
+            return response_object, 403
+        
+        token = jwt.encode(username, 'secret', algorithms=['HS256'])
+        usersRedisDb.hmset(f"user.{token}",  {
+            'username' : username,
+            'token' : token,
+            'expire': "TODO"
+            })
+
+        
+        #Success : 
+        response_object = {
+            'username' : username,
+            'token :' : token,
+            'result' : 'success'          
+        }        
+        return response_object, 200
+
+        
