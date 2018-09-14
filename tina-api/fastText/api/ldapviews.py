@@ -35,7 +35,7 @@ usersRedisDb = redis.StrictRedis(host=redis_host, decode_responses=True, port=63
 
 
 ns = api.namespace(
-    '/auth', description='Api for authentification')
+    'auth', description='Api for authentification')
 
 
 login_model = api.model( 'login:', {
