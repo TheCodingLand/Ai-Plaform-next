@@ -137,7 +137,7 @@ class Login(Resource):
         #Success : 
         result.update({"username" : username,
             "token" : token.decode('utf-8'),
-            "result" : "success"}        
+            "result" : "success"} )   
         try:
             return result, 200
         except:
