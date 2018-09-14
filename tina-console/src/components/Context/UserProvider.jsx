@@ -65,6 +65,9 @@ export class UserProvider extends React.Component {
 
 
     verify() {
+        if (LOGINREQUIRED === true) {
+
+        
         return fetch(`http://api.${API_ROOT}/auth/verify`, {
           method: 'POST',
           mode: 'cors',
@@ -78,6 +81,10 @@ export class UserProvider extends React.Component {
             this.setState({token:result.token, full_name :result.displayName, authenticated: true })
             } }, err => console.log(err)
             )
+        }
+        else {
+            this.setState({token:"guestmode", full_name :"Guest", authenticated:true})
+        }
         }
 
     

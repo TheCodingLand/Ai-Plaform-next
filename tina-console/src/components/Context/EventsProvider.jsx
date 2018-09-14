@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import Snackbar from "@material-ui/core/Snackbar";
 import { saveState, loadState } from "components/LocalStorage/LocalStorage";
+import { LOGINREQUIRED } from "../../appConfig";
 
 export const EventsContext = React.createContext();
 
@@ -95,28 +96,40 @@ class EventsProvider extends React.Component {
     return active;
   };
 
+  execute = (service, action, data) => {
+    
+      let id = this.makeid();
+      let e = {
+        id: id,
+        key: `${service}.${action}.${id}`,
+        service: service,
+        action: action,
+        data: JSON.stringify(data)
+      };
+  
+      let tasks = this.state.activeTasks;
+      tasks.push({ id: id });
+      this.setState({ tasks });
+  
+      this.props.websocket.emit("message", e);
+  
+      return id;
+  
+}
+
   createEvent = (service, action, data) => {
+    if (LOGINREQUIRED===true) {
+      if (this.props.user.authenticated === true) {
     return this.props.user.verify().then(() => { 
-    if (this.props.user.authenticated === true) {
-    let id = this.makeid();
-    let e = {
-      id: id,
-      key: `${service}.${action}.${id}`,
-      service: service,
-      action: action,
-      data: JSON.stringify(data)
-    };
+    return this.execute(service, action, data)
+    }).then(id => {return id})
+  }}
+  else{
+    return this.execute(service, action, data)
 
-    let tasks = this.state.activeTasks;
-    tasks.push({ id: id });
-    this.setState({ tasks });
-
-    this.props.websocket.emit("message", e);
-
-    return id;
   }
-  })
-  };
+}
+  
 
   eventRecieved = obj => {
     let o = JSON.parse(obj.data);
