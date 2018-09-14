@@ -81,7 +81,7 @@ class Login(Resource):
         try:
             username = api.payload.get('username')
             password = api.payload.get('password')
-            domain = api.payload.get('domain')
+            domain = 'rcsl.lu'
         except:
             response_object = {
                         "status": "error",
