@@ -55,15 +55,14 @@ verify_token_model = api.model( 'verify:', {
 })
 
 def loggedin(token):
+    
+    result = usersRedisDb.hgetall(f"user.{token}")
+    
     try:
-        user = usersRedisDb.hgetall(f"user.{token}")
-    except:
-         return False
-    try:
-        result = user
+        result.get('token')
     except:
         result = False
-   
+    
     
     return result
 
@@ -107,8 +106,8 @@ class Login(Resource):
                     if attr != "memberOf":
                         result[attr] = value[0].decode('utf-8')
                     else:
-                        result[attr] = json.dumps(value[0])
-                        
+                        result[attr] = json.dumps(value)
+
         
             
 
