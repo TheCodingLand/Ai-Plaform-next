@@ -135,17 +135,14 @@ class Login(Resource):
         usersRedisDb.expire(f"user.{token.decode('utf-8')}", LDAP_SESSION_EXPIRE_TIME)
         
         #Success : 
-        
-        response_object = {
-            "username" : username,
+        result.update({"username" : username,
             "token" : token.decode('utf-8'),
-            "result" : "success"        
-        }        
+            "result" : "success"}        
         try:
-            return response_object, 200
+            return result, 200
         except:
             logging.error("failed to serialize response object")
-            logging.error(response_object)
+            logging.error(result)
 
         
 
