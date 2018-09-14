@@ -144,7 +144,7 @@ class Login(Resource):
         
         response_object = {
             'username' : username,
-            'token' : token.decode('utf-8'),
+            'token' : token,
             'result' : 'success'          
         }        
         try:
