@@ -110,18 +110,17 @@ class Login(Resource):
             
 
 
-            #conn.search    
-    """     except:
-            response_object = {
-                        "status": "incorrect username or password",
-                        "error": "please check your input"
-                    }
-            try: 
-                return response_object, 403
-            except:
-                logging.error("failed to serialize response object")
-                logging.error(response_object)
-     """    
+        #except:
+        #    response_object = {
+        #                "status": "incorrect username or password",
+        #                "error": "please check your input"
+        #            }
+        #    try: 
+        #        return response_object, 403
+        #    except:
+        #        logging.error("failed to serialize response object")
+        #        logging.error(response_object)
+    
         
         token = jwt.encode({ "user" : result }, "secret", "HS256")
         #token = username
