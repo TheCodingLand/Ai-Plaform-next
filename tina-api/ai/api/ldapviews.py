@@ -51,7 +51,7 @@ verify_token_model = api.model( 'verify:', {
 
 def loggedin(token):
     try:
-        user = usersRedisDb.hgetall(f"user.{token}")
+        user = usersRedisDb.hgetall(f"user.{token.decode('utf-8')}")
     except:
          return False
     
@@ -160,7 +160,7 @@ class Verify(Resource):
         else:
             response_object = {
             'username' : user['username'],
-            'token' : token.decode('utf-8'),
+            'token' : token,
             'result' : 'success'
             }        
             return response_object, 200
