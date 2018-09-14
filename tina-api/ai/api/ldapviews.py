@@ -104,7 +104,9 @@ class Login(Resource):
                 result = result[0][1]
                 logging.error(result)
                 for attr, value in result.items():
-                    result[attr] = value[0].decode('utf-8')
+                    if attr != "memberOf":
+                        result[attr] = value[0].decode('utf-8')
+                   
         
             
 
@@ -174,7 +176,7 @@ class Verify(Resource):
         else:
 
             response_object = {
-            'username' : user['username'],
+            'username' : user['sAMAccountName'],
             'token' : token,
             'result' : 'success'
 
