@@ -56,7 +56,7 @@ const styles = theme => ({
   }
 });
 
-class RunTestingCard extends React.Component {
+class FastTextPrediction extends React.Component {
   constructor() {
     super();
     this.saveState = newstate => {
@@ -139,8 +139,9 @@ class RunTestingCard extends React.Component {
         text: this.state.text,
         nbofresults: this.state.nbofresults
       };
-      let id = context.createEvent("ft", "predict", data, this.getResult);
-      this.setState({ id: id });
+      
+      context.createEvent("ft", "predict", data, this.getResult).then(id=>this.setState({id:id}));
+      
       //CALLBACK OR NOT CALLBACK, THIS IS THE QUESTION
       // let id = context.createEvent("ft", "predict", data, this.eventRecieved);
       //this.setState({ id: id });
@@ -319,4 +320,4 @@ class RunTestingCard extends React.Component {
   }
 }
 
-export default withStyles(styles)(RunTestingCard);
+export default withStyles(styles)(FastTextPrediction);

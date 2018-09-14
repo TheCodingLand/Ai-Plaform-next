@@ -96,7 +96,7 @@ class EventsProvider extends React.Component {
   };
 
   createEvent = (service, action, data) => {
-    this.props.user.verify().then(() => { 
+    return this.props.user.verify().then(() => { 
     if (this.props.user.authenticated === true) {
     let id = this.makeid();
     let e = {
