@@ -140,8 +140,8 @@ class FastTextPrediction extends React.Component {
         nbofresults: this.state.nbofresults
       };
       
-      let id = context.createEvent("ft", "predict", data, this.getResult)
-      this.setState({id:id})
+      context.createEvent("ft", "predict", data, this.getResult)
+      
       
       //CALLBACK OR NOT CALLBACK, THIS IS THE QUESTION
       // let id = context.createEvent("ft", "predict", data, this.eventRecieved);
@@ -149,12 +149,14 @@ class FastTextPrediction extends React.Component {
     }
   };
 
-  getResult(context) {
+  getResult = (context) => {
+    
     console.log(context.predictions);
     let prediction = context.predictions.filter(
-      prediction => prediction.id === this.state.id
+     prediction => prediction.id === context.lastTaskId
     );
     console.log(prediction);
+    
 
     let text = "";
     if (prediction.length > 0) {

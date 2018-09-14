@@ -18,6 +18,7 @@ class EventsProvider extends React.Component {
       predictions: [],
       trainings: [],
       testings: [],
+      lastTaskId: "",
       
 
       open: false,
@@ -120,9 +121,9 @@ class EventsProvider extends React.Component {
   createEvent = (service, action, data) => {
     if (LOGINREQUIRED===true) {
       if (this.props.user.authenticated === true) {
-    return this.props.user.verify().then(() => { 
+    this.props.user.verify().then(() => { 
     return this.execute(service, action, data)
-    }).then(id => {return id})
+    }).then(id => this.setState({lastTaskId:id }))
   }}
   else{
     return this.execute(service, action, data)
@@ -149,6 +150,7 @@ class EventsProvider extends React.Component {
     }
     if (o.action === "predict") {
       predictions.push(o);
+      
     }
     if (o.state === "finished") {
       activeTasks = this.state.activeTasks.filter(task => task === o.id);
