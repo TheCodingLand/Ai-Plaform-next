@@ -73,7 +73,7 @@ export class UserProvider extends React.Component {
         return (
             <UserContext.Provider value={{
                 user: this.state,
-                
+                authenticated: this.state.authenticated,
                 token: this.token,
                 login : this.login
             }}
