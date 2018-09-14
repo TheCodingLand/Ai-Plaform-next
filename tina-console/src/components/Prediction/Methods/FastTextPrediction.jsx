@@ -140,7 +140,7 @@ class FastTextPrediction extends React.Component {
         nbofresults: this.state.nbofresults
       };
       
-      context.createEvent("ft", "predict", data, this.getResult).then(id=>this.setState({id:id}));
+      context.createEvent("ft", "predict", data, this.getResult);
       
       //CALLBACK OR NOT CALLBACK, THIS IS THE QUESTION
       // let id = context.createEvent("ft", "predict", data, this.eventRecieved);
