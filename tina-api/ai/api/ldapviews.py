@@ -60,7 +60,7 @@ def loggedin(token):
     except:
          return False
     try:
-        result = { "username" : user['username'], "token": token }
+        result = user
     except:
         result = False
     #if user['token'] == token:
@@ -182,6 +182,7 @@ class Verify(Resource):
 
             }
             response_object.update(user)
+
             return response_object, 200
 
             
