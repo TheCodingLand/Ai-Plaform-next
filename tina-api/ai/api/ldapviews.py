@@ -62,46 +62,11 @@ def loggedin(token):
     return { "username" : user['username'], "token": token }
 
 
-@ns.route('/verify')
-@ns.response(404, 'Model Not Found')
-class Verify(Resource):
-    @ns.doc('verify')
-    @ns.expect(verify_token_model)
-    def post(self):
-        '''verify if user is logged in with ldap'''
-    
-        try:
-            token = api.payload.get('token')
-        except:
-        
-            response_object = {
-                        'status': 'error',
-                        'error': 'need token in payload'
-                    }
-            return response_object, 403
-
-        
-        user = loggedin(token)
-        if user == False:
-            response_object = {
-                        'status': 'error',
-                        'error': 'user is not logged in'
-                    }
-            return response_object, 403
-        else:
-            response_object = {
-            'username' : user['username'],
-            'token' : token.decode('utf-8'),
-            'result' : 'success'          
-            }        
-            return response_object, 200
-
-            
 
 
 
 @ns.route('/login')
-@ns.response(404, 'Model Not Found')
+@ns.response(404, 'user not found')
 class Login(Resource):
     @ns.doc('login')
     @ns.expect(login_model)
@@ -164,3 +129,39 @@ class Login(Resource):
             logging.error(response_object)
 
         
+
+@ns.route('/verify')
+@ns.response(404, 'user not found')
+class Verify(Resource):
+    @ns.doc('verify')
+    @ns.expect(verify_token_model)
+    def post(self):
+        '''verify if user is logged in with ldap'''
+    
+        try:
+            token = api.payload.get('token')
+        except:
+        
+            response_object = {
+                        'status': 'error',
+                        'error': 'need token in payload'
+                    }
+            return response_object, 403
+
+        
+        user = loggedin(token)
+        if user == False:
+            response_object = {
+                        'status': 'error',
+                        'error': 'user is not logged in'
+                    }
+            return response_object, 403
+        else:
+            response_object = {
+            'username' : user['username'],
+            'token' : token.decode('utf-8'),
+            'result' : 'success'          
+            }        
+            return response_object, 200
+
+            
