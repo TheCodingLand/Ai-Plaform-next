@@ -106,6 +106,9 @@ class Login(Resource):
                     if attr == "memberOf":
                         memberof = value
                         #result[attr] = json.dumps(value)
+                        for a, v in result.items():
+                            memberof[a] = v.decode('utf-8')
+                        result[attr] = memberof
                     else:
                         result[attr] = value[0].decode('utf-8')
         except:
@@ -118,7 +121,7 @@ class Login(Resource):
             except:
                 logging.error("failed to serialize response object")
                 logging.error(response_object)
-        logging.error(json.dumps(memberof))
+        
         
         token = jwt.encode({ "user" : result }, "secret", "HS256")
         #token = username
