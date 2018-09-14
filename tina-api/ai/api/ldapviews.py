@@ -89,7 +89,7 @@ class Verify(Resource):
             return response_object, 403
         else:
             response_object = {
-            'username' : user['username'].decode('utf-8'),
+            'username' : user['username'],
             'token :' : token.decode('utf-8'),
             'result' : 'success'          
             }        
@@ -143,7 +143,7 @@ class Login(Resource):
         #Success : 
         response_object = {
             'username' : username,
-            'token :' : token,
+            'token :' : token.decode('utf-8'),
             'result' : 'success'          
         }        
         return response_object, 200
