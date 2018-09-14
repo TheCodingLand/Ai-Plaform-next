@@ -113,8 +113,8 @@ class Login(Resource):
             domain = api.payload.get('domain')
         except:
             response_object = {
-                        'status': 'error',
-                        'error': 'could not get fields username and/or password. please check input'
+                        "status": "error",
+                        "error": "could not get fields username or password. please check input"
                     }
             try: 
                 return response_object, 403
@@ -126,8 +126,8 @@ class Login(Resource):
             conn.simple_bind_s(username + "@" + domain, password)
         except:
             response_object = {
-                        'status': 'incorrect username or password',
-                        'error': 'please check your input'
+                        "status": "incorrect username or password",
+                        "error": "please check your input"
                     }
             try: 
                 return response_object, 403
@@ -151,9 +151,9 @@ class Login(Resource):
         #Success : 
         
         response_object = {
-            'username' : username,
-            'token' : token,
-            'result' : 'success'          
+            "username" : username,
+            "token" : token,
+            "result" : 'success'          
         }        
         try:
             return response_object, 200
