@@ -19,6 +19,11 @@ import os
 import jwt
 from random import randint, choice
 redis_host = os.getenv('REDIS_HOST')
+try:
+    LDAP_SESSION_EXPIRE_TIME = int(os.getenv('LDAP_SESSION_EXPIRE_TIME'))
+except:
+    LDAP_SESSION_EXPIRE_TIME = 3600
+DOMAIN = os.getenv('DOMAIN')
 
 def get_ldap_connection():
     conn = ldap.initialize('ldap://dcrcsl01.rcsl.lu:389/')
@@ -41,7 +46,7 @@ ns = api.namespace(
 login_model = api.model( 'login:', {
     'username' : fields.String(description='ldap username'),
     'password': fields.String(description='ldap password'),
-    'domain'  : fields.String(description='Domain', default = f"{os.getenv('DOMAIN')}"),
+    'domain'  : fields.String(description='Domain', default = f"{DOMAIN}"),
     
 })
 
@@ -114,7 +119,7 @@ class Login(Resource):
             'token' : token.decode('utf-8'),
             'expire': "TODO"
             })
-        usersRedisDb.expire(f"user.{token.decode('utf-8')}", 20)
+        usersRedisDb.expire(f"user.{token.decode('utf-8')}", LDAP_SESSION_EXPIRE_TIME)
         
         #Success : 
         
