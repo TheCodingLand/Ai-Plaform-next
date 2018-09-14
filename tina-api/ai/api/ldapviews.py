@@ -112,27 +112,36 @@ class Login(Resource):
             password = api.payload.get('password')
             domain = api.payload.get('domain')
         except:
-        
             response_object = {
                         'status': 'error',
                         'error': 'could not get fields username and/or password. please check input'
                     }
-            return response_object, 403
-
+            try: 
+                return response_object, 403
+            except:
+                logging.error("failed to serialize response object")
+                logging.error(response_object)
 
         try:
             conn.simple_bind_s(username + "@" + domain, password)
         except:
+            
             response_object = {
                         'status': 'incorrect username or password',
                         'error': 'please check your input'
                     }
-            return response_object, 403
+            try: 
+                return response_object, 403
+            except:
+                logging.error("failed to serialize response object")
+                logging.error(response_object)
+
         try:
             username = username.decode('utf-8')
         except:
             pass
-        token = jwt.encode({ "user" : { "username" : f"{username}" } }, "secret", "HS256")
+        #token = jwt.encode({ "user" : { "username" : f"{username}" } }, "secret", "HS256")
+        token = username
         usersRedisDb.hmset(f"user.{token}",  {
             'username' : username,
             'token' : token,
