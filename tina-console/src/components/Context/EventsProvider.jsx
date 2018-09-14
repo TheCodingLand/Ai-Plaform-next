@@ -97,7 +97,7 @@ class EventsProvider extends React.Component {
 
   createEvent = (service, action, data) => {
     this.props.user.verify().then(() => { 
-    
+    if (this.props.user.authenticated === true) {
     let id = this.makeid();
     let e = {
       id: id,
@@ -114,6 +114,7 @@ class EventsProvider extends React.Component {
     this.props.websocket.emit("message", e);
 
     return id;
+  }
   })
   };
 
