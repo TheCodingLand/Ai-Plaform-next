@@ -96,31 +96,31 @@ class Login(Resource):
                 logging.error("failed to serialize response object")
                 logging.error(response_object)
 
-        #try:
-        conn.simple_bind_s(username + "@" + domain, password)
-        base_dn = 'dc=rcsl,dc=lu'
-        filter = f'(&(objectClass=user)(sAMAccountName={username}))'
-        attrs = ['sAMAccountName','memberOf', 'displayName', 'userAccountControl', 'accountExpires']
-        result = conn.search_s(base_dn, ldap.SCOPE_SUBTREE, filter, attrs)
-        if len(result)>0:
-            result = result[0][1]
-            logging.error(result)
-            for attr, value in result.items():
-                result[attr] = value[0].decode('utf-8')
-    
+        try:
+            conn.simple_bind_s(username + "@" + domain, password)
+            base_dn = 'dc=rcsl,dc=lu'
+            filter = f'(&(objectClass=user)(sAMAccountName={username}))'
+            attrs = ['sAMAccountName','memberOf', 'displayName', 'userAccountControl', 'accountExpires']
+            result = conn.search_s(base_dn, ldap.SCOPE_SUBTREE, filter, attrs)
+            if len(result)>0:
+                result = result[0][1]
+                logging.error(result)
+                for attr, value in result.items():
+                    result[attr] = value[0].decode('utf-8')
+        
             
 
 
-        #except:
-        #    response_object = {
-        #                "status": "incorrect username or password",
-        #                "error": "please check your input"
-        #            }
-        #    try: 
-        #        return response_object, 403
-        #    except:
-        #        logging.error("failed to serialize response object")
-        #        logging.error(response_object)
+        except:
+            response_object = {
+                        "status": "incorrect username or password",
+                        "error": "please check your input"
+                    }
+            try: 
+                return response_object, 403
+            except:
+                logging.error("failed to serialize response object")
+                logging.error(response_object)
     
         
         token = jwt.encode({ "user" : result }, "secret", "HS256")
