@@ -128,8 +128,11 @@ class Login(Resource):
                         'error': 'please check your input'
                     }
             return response_object, 403
-        
-        token = jwt.encode({ 'user' : { 'username' : username.encode('utf-8') } }, 'secret', 'HS256')
+        try:
+            username = username.decode('utf-8')
+        except:
+            pass
+        token = jwt.encode({ 'user' : { 'username' : username } }, 'secret', 'HS256')
         usersRedisDb.hmset(f"user.{token}",  {
             'username' : username,
             'token' : token,
