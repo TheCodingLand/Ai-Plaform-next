@@ -118,7 +118,7 @@ class Login(Resource):
             except:
                 logging.error("failed to serialize response object")
                 logging.error(response_object)
-        json.dumps(memberof)
+        logging.error(json.dumps(memberof))
         
         token = jwt.encode({ "user" : result }, "secret", "HS256")
         #token = username
