@@ -141,11 +141,16 @@ class Login(Resource):
 
         
         #Success : 
+        
         response_object = {
             'username' : username,
             'token :' : token.decode('utf-8'),
             'result' : 'success'          
         }        
-        return response_object, 200
+        try:
+            return response_object, 200
+        except:
+            logging.error("failed to serialize response object")
+            logging.error(response_object)
 
         
