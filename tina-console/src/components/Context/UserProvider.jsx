@@ -48,14 +48,14 @@ export class UserProvider extends React.Component {
     login(creds) {
         console.log("logging user")
         fetch(`http://api.${API_ROOT}/auth/login`, {
-          method: 'post',
+          method: 'POST',
           headers: {
             "Content-Type": "application/json; charset=utf-8",
             // "Content-Type": "application/x-www-form-urlencoded",
         },
           body: JSON.stringify(creds)
           }).then(result => {
-            console.log(result)  
+            console.log(result.json())  
             if (!result.token) { this.setState({ erromsg:"invalid user of password"}) } else {
     
             this.setState({token:result.token, full_name :result.displayName })
