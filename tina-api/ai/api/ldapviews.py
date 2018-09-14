@@ -78,7 +78,6 @@ class Login(Resource):
     def post(self):
         '''logins with ldap'''
         conn = get_ldap_connection()
-
         try:
             username = api.payload.get('username')
             password = api.payload.get('password')
@@ -96,6 +95,7 @@ class Login(Resource):
 
         try:
             conn.simple_bind_s(username + "@" + domain, password)
+            #conn.search    
         except:
             response_object = {
                         "status": "incorrect username or password",
@@ -106,7 +106,7 @@ class Login(Resource):
             except:
                 logging.error("failed to serialize response object")
                 logging.error(response_object)
-
+        
         try:
             username = username.decode('utf-8')
         except:
