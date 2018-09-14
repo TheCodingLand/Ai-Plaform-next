@@ -101,7 +101,7 @@ class Login(Resource):
             result = conn.search_s(base_dn, ldap.SCOPE_SUBTREE, filter, attrs)
             if len(result)>0:
                 result = result[0][1]
-                logging.error(result)
+                #logging.error(result)
                 for attr, value in result.items():
                     if attr == "memberOf":
                         memberof = value
