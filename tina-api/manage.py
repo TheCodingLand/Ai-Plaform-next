@@ -6,7 +6,7 @@ import unittest
 
 from flask_script import Manager
 
-from fastText import create_app
+from ai import create_app
 
 import logging
 
