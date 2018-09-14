@@ -111,7 +111,7 @@ class Login(Resource):
         try:
             usersRedisDb.hmset(f"user.{token}",  {
             'username' : username,
-            'token' : token,
+            'token' : token.decode('utf-8'),
             'expire': "TODO"
             })
         except:
