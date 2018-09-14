@@ -128,8 +128,6 @@ class Login(Resource):
         result.update({
             'username' : username,
             'token' : token.decode('utf-8'),
-            
-            'expire': "TODO"
             })
         usersRedisDb.hmset(f"user.{token.decode('utf-8')}", result )
         usersRedisDb.expire(f"user.{token.decode('utf-8')}", LDAP_SESSION_EXPIRE_TIME)
@@ -176,11 +174,14 @@ class Verify(Resource):
                     }
             return response_object, 403
         else:
+
             response_object = {
             'username' : user['username'],
             'token' : token,
             'result' : 'success'
-            }        
+
+            }
+            response_object.update(user)
             return response_object, 200
 
             
