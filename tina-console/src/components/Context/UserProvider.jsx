@@ -47,7 +47,7 @@ export class UserProvider extends React.Component {
 
     login(creds) {
         console.log("logging user")
-        fetch(`http://auth.${API_ROOT}/authenticate`, {
+        fetch(`http://api.${API_ROOT}/auth/login`, {
           method: 'post',
           headers: {
             "Content-Type": "application/json; charset=utf-8",
