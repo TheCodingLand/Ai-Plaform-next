@@ -3,7 +3,7 @@ version: "3"
 services:
   #####PROXY#####
   tina-traefik:
-    image: traefik:latest
+    image: traefik:1.7
     restart: always
     ports:
       - 80:80
