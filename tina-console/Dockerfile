@@ -35,8 +35,7 @@ WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN npm i
 ADD . /usr/src/app
-RUN chmod 777 ./generateConfig.sh
-RUN ./generateConfig.sh
+
 RUN npm run build
 
 # Stage 2 - the production environment
