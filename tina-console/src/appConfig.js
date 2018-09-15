@@ -18,7 +18,7 @@ if (origin.includes(':3000')) {
 
 
 //overrides for julien.tech test env
-https = () => { if (config.https) { return 'https' } else { return  'http' } }
+https = config.https ? 'https' : 'http'
 apiRoot = config.apiRoot
 loginRequired = config.loginRequired
 
