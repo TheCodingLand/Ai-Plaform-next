@@ -19,9 +19,8 @@ defaultEntryPoints = [ "http", "https"]
   [entryPoints.https]
   address = ":443"
     [entryPoints.https.tls]
-      [[entryPoints.https.tls.certificates]]
-      certFile = "examples/traefik.crt"
-      keyFile = "examples/traefik.key"
+      
+      
 
 [entryPoints.ping]
   address = ":8082"
