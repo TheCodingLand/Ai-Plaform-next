@@ -25,7 +25,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik/traefik-${HTTPMODE}.toml:/etc/traefik/traefik.toml
-      - ./traefik/acme.json:/etc/traefik/acme.json
+      - ./traefik/acme/:/etc/traefik/
   #####CONTAINER MANAGEMENT#####
   tina-portainer:
     image: portainer/portainer:1.19.2
