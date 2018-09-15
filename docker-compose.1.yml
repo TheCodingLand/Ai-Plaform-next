@@ -274,7 +274,7 @@ services:
     restart: always
     labels:
       - "traefik.backend=console"
-      - "traefik.docker.network=web"
+      - "traefik.docker.network=ai-web"
       - "traefik.enable=true"
       - "traefik.port=80"
       - "traefik.frontend.rule=Host:${D_HOST}"
@@ -293,7 +293,7 @@ services:
     restart: always
     labels:
       - "traefik.backend=upload"
-      - "traefik.docker.network=web"
+      - "traefik.docker.network=ai-web"
       - "traefik.enable=true"
       - "traefik.port=8080"
       - "traefik.frontend.rule=Host:upload.${D_HOST}"
