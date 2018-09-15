@@ -1,5 +1,5 @@
 import React from 'react'
-import API_ROOT from '../../appConfig'
+import {API_ROOT} from '../../appConfig'
 import {LOGINREQUIRED} from '../../appConfig'
 
 export const UserContext = React.createContext()

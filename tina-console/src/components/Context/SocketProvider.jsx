@@ -1,6 +1,6 @@
 import React from 'react'
 import io from 'socket.io-client'
-import API_ROOT from "appConfig"
+import {API_ROOT} from "appConfig"
 export const SocketContext = React.createContext()
 
 

@@ -3,7 +3,7 @@ import DropzoneComponent from 'react-dropzone-component';
 import Button from 'components/CustomButtons/Button'
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
-import API_ROOT from "appConfig"
+import {API_ROOT} from "appConfig"
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import withStyles from "@material-ui/core/styles/withStyles";

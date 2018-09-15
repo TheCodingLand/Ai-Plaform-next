@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import API_ROOT from "appConfig"
+import {API_ROOT} from "appConfig"
 export const AppContext = React.createContext();
 
 export class AppProvider extends React.Component {

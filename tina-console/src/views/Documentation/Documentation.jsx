@@ -5,7 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from '@material-ui/core/Typography';
 // @material-ui/icons
 import ListItem from 'components/ListItem/ListItem.jsx'
-import API_ROOT from "appConfig"
+import {API_ROOT} from "appConfig"
 // import ArrowRight from "@material-ui/icons/ArrowRight";
 // import Warning from "@material-ui/icons/Warning";
 // import DateRange from "@material-ui/icons/DateRange";

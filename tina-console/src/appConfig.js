@@ -15,13 +15,14 @@ if (origin.includes(':3000')) {
     apiRoot = origin.replace("http://console.","")
     loginRequired = true
 }
-const API_ROOT = apiRoot
+
 
 //overrides for julien.tech test env
 https = config.https ? 'https' : 'http'
 apiRoot = config.apiRoot
 loginRequired = config.loginRequired
 
-export default API_ROOT 
+export const API_ROOT = apiRoot
 export const HTTPS = https
 export const LOGINREQUIRED = loginRequired
+export default config
