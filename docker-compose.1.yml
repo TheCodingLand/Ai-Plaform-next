@@ -310,13 +310,9 @@ services:
 
 volumes:
   portainer_data:
-    - {}
   tina_data:
-    - {}
   mongo_db:
-    - {}
   redis_data:
-    - {}
 
 networks:
   ai-web:
