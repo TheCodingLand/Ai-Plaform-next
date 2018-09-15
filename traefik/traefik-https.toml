@@ -37,7 +37,7 @@ defaultEntryPoints = [ "http", "https"]
 [api]
   entryPoint = "admin"
   dashboard = true
-  [web.statistics]
+ 
 
 
 [acme]
