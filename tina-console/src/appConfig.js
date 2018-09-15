@@ -15,5 +15,9 @@ if (origin.includes(':3000')) {
 }
 const API_ROOT = apiRoot
 
+//overrides for julien.tech test env
+apiRoot = "julien.tech"
+loginRequired = false
+
 export default API_ROOT 
 export const LOGINREQUIRED = loginRequired
