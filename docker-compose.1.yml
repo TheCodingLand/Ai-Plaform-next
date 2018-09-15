@@ -17,11 +17,7 @@ services:
       - "traefik.port=8081"
       - "traefik.enable=true"
       - "traefik.docker.domain=${D_HOST}"
-      - "traefik.acme.email=${ACME_EMAIL}"
-      - "traefik.acme.storage=/etc/traefik/acme.json"
-      - "traefik.acme.entryPoint=http"
-      - "traefik.acme.onHostRule=true"
-      - "traefik.acme.httpChallenge.entryPoint=http"
+      
 
     networks:
       - ai-web
