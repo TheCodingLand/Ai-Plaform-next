@@ -79,7 +79,7 @@ export class AppProvider extends React.Component {
   }
 
   getRawdataColumns(collectionName) {
-    let url = `http://rest.${API_ROOT}/rawdata/${collectionName}/?pagesize=1&np`;
+    let url = `${HTTPS}://rest.${API_ROOT}/rawdata/${collectionName}/?pagesize=1&np`;
     axios.get(url).then(res => {
       //console.log(res);
       if (res.data.length > 0) {
@@ -91,7 +91,7 @@ export class AppProvider extends React.Component {
   }
 
   getCollections(db) {
-    let url = `http://rest.${API_ROOT}/${db}/`;
+    let url = `${HTTPS}://rest.${API_ROOT}/${db}/`;
     let cols = [];
     return axios.get(url).then(res => {
       //console.log(res.data._embedded);
@@ -113,7 +113,7 @@ export class AppProvider extends React.Component {
     this.getState();
   }
   get(db, coll) {
-    let url = `http://rest.${API_ROOT}/${db}/${coll}`;
+    let url = `${HTTPS}://rest.${API_ROOT}/${db}/${coll}`;
 
     return axios.get(url).then(res => {
       //console.log(res.data._embedded);
