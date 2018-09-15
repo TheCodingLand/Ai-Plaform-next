@@ -37,6 +37,7 @@ class HorizontalLinearStepper extends React.Component {
       version: "",
       datasetName: "",
       id: "",
+      dataBuilderStarted: false,
       steps: [
         {
           valid: true,
@@ -54,7 +55,9 @@ class HorizontalLinearStepper extends React.Component {
           setVal: this.setTextColumns.bind(this)
         }
       ]
+    
     };
+    this.onFinished = this.onFinished.bind(this)
   }
   //STEP 1
   validate1() {
@@ -121,10 +124,10 @@ class HorizontalLinearStepper extends React.Component {
       collection: this.state.collection,
       columns: this.state.textColumns
     };
-    let id = context.createEvent("ft", "datasetbuilder", data);
-    this.setState({ id: id });
+    let id = context.createEvent("ft", "datasetbuilder", data, this.onFinished());
+    this.setState({ id: id, dataBuilderStarted: true});
   };
-
+  onFinished = () => this.setState({dataBuilderStarted:false})
   handleNext = context => {
     const { activeStep } = this.state;
 
@@ -271,6 +274,7 @@ class HorizontalLinearStepper extends React.Component {
                       color="primary"
                       onClick={() => this.handleNext(context)}
                       className={classes.button}
+                      disabled = {this.state.dataBuilderStarted}
                     >
                       {activeStep === steps.length - 1 ? "Finish" : "Next"}
                     </Button>
