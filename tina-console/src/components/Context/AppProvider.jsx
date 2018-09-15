@@ -53,28 +53,8 @@ export class AppProvider extends React.Component {
 
   getTestedModels = () => {
     
-    
-    
     Promise.all(this.state.models.map(this.getModelResult)).then(models => this.setState({testedModels:models}))
 
-
-
-
-/* 
-    this.state.models.map(model => {
-      let url = `http://rest.${API_ROOT}/results/actions/?filter={"data.model._id":{'$oid':'${model._id.$oid}'}}`
-      axios.get(url).then(res => {
-        console.log(res);
-        if (res.data._embedded.length > 0) {
-          models.push(res.data._embedded[0])
-          
-        }
-      return models
-      }
-  )
-  return Promise(models)
-    }).then(models => this.setState({testedModels:models})) */
-    
     
   }
 
