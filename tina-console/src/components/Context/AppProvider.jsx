@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import {API_ROOT} from "appConfig"
+import {API_ROOT, HTTPS} from "appConfig"
 export const AppContext = React.createContext();
 
 export class AppProvider extends React.Component {
@@ -36,7 +36,7 @@ export class AppProvider extends React.Component {
   getModelResult(model) {
       
       
-      let url = `http://rest.${API_ROOT}/results/actions/?filter={"data.model._id":{'$oid':'${model._id.$oid}'}}`
+      let url = `${HTTPS}://rest.${API_ROOT}/results/actions/?filter={"data.model._id":{'$oid':'${model._id.$oid}'}}`
 
       return axios.get(url).then(res => {
         console.log(res);
