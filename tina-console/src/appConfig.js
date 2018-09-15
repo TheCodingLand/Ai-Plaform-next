@@ -1,5 +1,5 @@
 import config from './config.js'
-
+let https
 let apiRoot;
 let loginRequired
 const origin = window && window.location && window.location.origin;
