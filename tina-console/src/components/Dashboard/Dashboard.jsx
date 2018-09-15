@@ -41,10 +41,12 @@ class Dashboard extends React.Component {
     return b.result.percent - a.result.percent;
   }
   top5(actions) {
+    let unique = [];
     console.log(actions);
+    if (actions.length > 0) {
     actions = actions.filter(action => action.action === "testing");
     let ids = [];
-    let unique = [];
+    
     actions.forEach(action => {
       if (!ids.includes(action.data.model._id.$oid)) {
         ids.push(action.data.model._id.$oid);
@@ -52,7 +54,7 @@ class Dashboard extends React.Component {
       }
     });
     unique.sort(this.sortFloat);
-    
+  }
     return unique
   }
   getColor(percent) {
