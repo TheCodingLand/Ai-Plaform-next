@@ -18,7 +18,7 @@ if (origin.includes(':3000')) {
 const API_ROOT = apiRoot
 
 //overrides for julien.tech test env
-https = config.https
+https = config.https ? 'https' : 'http'
 apiRoot = config.apiRoot
 loginRequired = config.loginRequired
 

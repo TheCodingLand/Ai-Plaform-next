@@ -18,7 +18,7 @@ import FormControl from '@material-ui/core/FormControl'
 import InputLabel from "@material-ui/core/InputLabel"
 import Select from '@material-ui/core/Select'
 import Input from '@material-ui/core/Input'
-import {https} from '../../appConfig'
+import {HTTPS} from '../../appConfig'
 
 const styles = theme => ({
   cardCategoryWhite: {
@@ -89,11 +89,11 @@ class Upload extends Component {
       maxFilesize: 50000,
       autoProcessQueue: false
     };
-    let urlscheme = https ? "https" : "http"
+    
     this.componentConfig = {
       iconFiletypes: [],
       showFiletypeIcon: false,
-      postUrl: `${urlscheme}://upload.${API_ROOT}/uploadHandler`
+      postUrl: `${HTTPS}://upload.${API_ROOT}/uploadHandler`
     };
 
 
