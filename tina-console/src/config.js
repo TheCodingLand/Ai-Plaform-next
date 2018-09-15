@@ -1,0 +1,1 @@
+export default config = { https: true, apiRoot : "julien.tech", loginRequired : false }
