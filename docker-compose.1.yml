@@ -276,12 +276,11 @@ services:
       - "traefik.backend=console"
       - "traefik.docker.network=web"
       - "traefik.enable=true"
-      - "traefik.port=8080"
-      - "traefik.frontend.rule=Host:console.${D_HOST}"
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:${D_HOST}"
       - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
 
-    expose:
-      - "8080"
+  
     networks:
       - ai-web
 
