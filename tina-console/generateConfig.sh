@@ -1,0 +1,1 @@
+echo "export default const config = { https: ${HTTPS}, apiRoot = ${D_HOST}, loginRequired = ${LOGINREQUIRED} }" > config.js

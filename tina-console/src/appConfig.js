@@ -1,3 +1,5 @@
+import config from './config.js'
+
 let apiRoot;
 let loginRequired
 const origin = window && window.location && window.location.origin;
@@ -16,6 +18,7 @@ if (origin.includes(':3000')) {
 const API_ROOT = apiRoot
 
 //overrides for julien.tech test env
+https=true
 apiRoot = "julien.tech"
 loginRequired = false
 
