@@ -280,7 +280,8 @@ services:
       - "traefik.frontend.rule=Host:${D_HOST}"
       - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
 
-  
+    expose:
+      - 80
     networks:
       - ai-web
 
