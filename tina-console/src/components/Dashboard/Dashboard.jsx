@@ -44,7 +44,9 @@ class Dashboard extends React.Component {
     
     console.log(actions);
     if (actions.length > 0) {
-    actions = actions.filter(action => action.action === "testing") 
+    
+    actions = actions.filter(action => { if (action !== undefined) { if (action.action === "testing") { return true } 
+    return false } } ) 
     }
     let ids = [];
     let unique = [];
