@@ -1,6 +1,6 @@
 import React from 'react'
 import io from 'socket.io-client'
-import {API_ROOT} from "appConfig"
+import {API_ROOT, HTTPS} from "appConfig"
 export const SocketContext = React.createContext()
 
 
@@ -20,7 +20,7 @@ export class SocketProvider extends React.Component {
             return host
 
         }
-        let SOCKET_URL = `http://ws.${API_ROOT}`
+        let SOCKET_URL = `${HTTPS}://ws.${API_ROOT}`
         //SOCKET_URL = 'http://localhost:3000' //TEMPORARY, DEBUG
         let socket = io.connect(SOCKET_URL)
         

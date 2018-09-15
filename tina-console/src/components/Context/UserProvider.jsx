@@ -1,6 +1,6 @@
 import React from 'react'
-import {API_ROOT} from '../../appConfig'
-import {LOGINREQUIRED} from '../../appConfig'
+import {API_ROOT,LOGINREQUIRED,HTTPS} from '../../appConfig'
+
 
 export const UserContext = React.createContext()
 
@@ -48,7 +48,7 @@ export class UserProvider extends React.Component {
 
     login(creds) {
         console.log("logging user")
-        fetch(`http://api.${API_ROOT}/auth/login`, {
+        fetch(`${HTTPS}://api.${API_ROOT}/auth/login`, {
           method: 'POST',
           mode: 'cors',
           headers: {
