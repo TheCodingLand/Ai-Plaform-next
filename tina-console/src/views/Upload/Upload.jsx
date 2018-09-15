@@ -75,7 +75,8 @@ class Upload extends Component {
       type: '',
       dataCollectionErrorText: "",
       nameError: "",
-      collection: ""
+      collection: "",
+      uploadInProgress:false
 
     }
     this.validateForm = this.validateForm.bind(this)
@@ -99,7 +100,7 @@ class Upload extends Component {
     this.added = (file) => { this.setState({ visible: 'None', filesize: file.size, uploading: true }) }
 
     this.send = (file, xhr, formData) => {
-      this.setState({ links: [] })
+      this.setState({ links: [], uploadInProgress:true })
 
       let currentdate = new Date()
       let s = Date.now();
@@ -130,7 +131,7 @@ class Upload extends Component {
 
     this.success = file => {
       console.log('uploaded', file);
-
+      this.setState({uploadInProgress:false})
       //this.props.ws.emit("fileuploaded", file.name ) 
       //TODO: add an event
       this.dropzone.removeFile(file);
@@ -261,7 +262,7 @@ class Upload extends Component {
                   </FormControl>
                 </GridItem>
                 <GridItem xs={6} sm={6} md={3}>
-                  <Button color="danger" onClick={this.handlePost}>Start Upload</Button>
+                  <Button disabled={this.state.uploadInProgress} color="danger" onClick={this.handlePost}>Start Upload</Button>
                 </GridItem>
 
               </GridContainer>
