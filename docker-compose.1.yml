@@ -32,7 +32,7 @@ services:
       - ./traefik/acme.json:/etc/traefik/acme.json
   #####CONTAINER MANAGEMENT#####
   tina-portainer:
-    image: portainer/portainer
+    image: portainer/portainer:1.19.2
     labels:
       - "traefik.backend=portainer"
       - "traefik.docker.network=ai-web"
