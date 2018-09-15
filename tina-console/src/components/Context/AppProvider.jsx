@@ -97,7 +97,7 @@ export class AppProvider extends React.Component {
       //console.log(res.data._embedded);
       res.data._embedded.forEach(coll => {
         cols.push(coll._id);
-        url = `http://rest.${API_ROOT}/${db}/${coll._id}/?pagesize=1&np`;
+        url = `${HTTPS}://rest.${API_ROOT}/${db}/${coll._id}/?pagesize=1&np`;
         axios.get(url).then(res => {
          // console.log(res);
           if (res.data.length > 0) {
