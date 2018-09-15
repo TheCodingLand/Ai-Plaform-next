@@ -275,7 +275,10 @@ services:
       - "traefik.port=80"
       - "traefik.frontend.rule=Host:${D_HOST}"
       - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
-
+    environment:
+      - HTTPS=${HTTPS}
+      - LOGINREQUIRED=${LOGINREQUIRED}
+      - D_HOST=${D_HOST}
     expose:
       - 80
     networks:
