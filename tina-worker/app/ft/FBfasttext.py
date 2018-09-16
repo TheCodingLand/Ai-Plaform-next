@@ -120,7 +120,10 @@ class Model(object):
             f=f"{dataf.fullpath}.test"
         else:
             f=dataf.fullpath
+        
         data=open(f, 'r').readlines()
+        
+
         i=0
         correct=0
         percent=0
