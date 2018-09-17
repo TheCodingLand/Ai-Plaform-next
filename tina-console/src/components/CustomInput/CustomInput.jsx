@@ -25,7 +25,9 @@ function CustomInput({ ...props }) {
     disabled,
     success,
     value,
-    helperText
+    helperText,
+    type,
+    onKeyPress
   } = props;
 
   const labelClasses = classNames({
@@ -64,7 +66,8 @@ function CustomInput({ ...props }) {
         id={id}
         disabled={disabled}
         value={value}
-
+        type={type}
+        onKeyPress={onKeyPress}
 
         {...inputProps}
       />

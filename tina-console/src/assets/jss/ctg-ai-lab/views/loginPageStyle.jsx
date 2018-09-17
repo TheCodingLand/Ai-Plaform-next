@@ -49,6 +49,11 @@ const loginPageStyle = {
   error : {
     color : "red",
   },
+  iconButton:{
+    margin: '0 0 0 0',
+    width: '100%',
+    padding: '0 0 0 0'
+  },
   socialLine: {
     padding: "0.9375rem 0"
   }

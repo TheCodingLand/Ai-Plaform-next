@@ -9,7 +9,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
 import LockOutline from "@material-ui/icons/LockOutlined";
-
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
@@ -35,10 +37,14 @@ class LoginPage extends React.Component {
       email:"",
       loggingIn:false,
       erromsg:"",
-      full_name: ""
+      full_name: "",
+      showPassword: false,
     };
   }
-  
+  handleClickShowPassword = () => {
+    this.setState(state => ({ showPassword: !state.showPassword }));
+  };
+
 
   login = (context) => {
     context.login({username: this.state.username, password : this.state.password} )
@@ -62,6 +68,13 @@ class LoginPage extends React.Component {
       700
     );
   }
+
+  _handleKeyPress = (context) => (e) => {
+    if (e.key === 'Enter') {
+      this.login(context)
+    }
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -116,6 +129,8 @@ class LoginPage extends React.Component {
                     />
                     <CustomInput
                       labelText="Password"
+                      onKeyPress={this._handleKeyPress(context)} 
+                      type={this.state.showPassword ? 'text' : 'password'}
                       id="password"
                       onChange={this.handleChange('password')}
                       formControlProps={{
@@ -124,9 +139,12 @@ class LoginPage extends React.Component {
                       inputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
-                            <LockOutline
-                              className={classes.inputAdornmentIcon}
-                            />
+                            <IconButton className={classes.iconButton}
+                  aria-label="Toggle password visibility"
+                  onClick={this.handleClickShowPassword}
+                >
+                  {this.state.showPassword ? <VisibilityOff className={classes.inputAdornmentIcon} /> : <Visibility className={classes.inputAdornmentIcon} />}
+                </IconButton>
                           </InputAdornment>
                         )
                       }}
