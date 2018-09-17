@@ -99,7 +99,7 @@ class LoginPage extends React.Component {
                     </div>
                   </CardHeader>
                   <CardBody>
-                    <TextField
+                    <CustomInput
                       labelText="Username.."
                       id="username"
                       onChange={this.handleChange('username')}
@@ -114,7 +114,7 @@ class LoginPage extends React.Component {
                         )
                       }}
                     />
-                    <TextField
+                    <CustomInput
                       labelText="Password"
                       id="password"
                       onChange={this.handleChange('password')}
