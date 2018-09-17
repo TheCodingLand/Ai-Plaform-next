@@ -96,7 +96,8 @@ export class UserProvider extends React.Component {
                 authenticated: this.state.authenticated,
                 token: this.token,
                 login : this.login,
-                verify : this.verify
+                verify : this.verify,
+                errormsg : this.state.erromsg
             }}
             >
                 {this.props.children}

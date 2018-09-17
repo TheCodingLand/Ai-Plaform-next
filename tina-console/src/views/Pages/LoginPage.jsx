@@ -21,7 +21,7 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import {UserContext} from 'components/Context/UserProvider'
 import loginPageStyle from "assets/jss/ctg-ai-lab/views/loginPageStyle.jsx";
-import { Typography } from "@material-ui/core";
+import { Typography, TextField } from "@material-ui/core";
 
 
 class LoginPage extends React.Component {
@@ -78,7 +78,7 @@ class LoginPage extends React.Component {
                     className={`${classes.cardHeader} ${classes.textCenter}`}
                     color="ctg"
                   >
-                    <h5 className={classes.cardTitle}>Log in With your CTG Windows account</h5>
+                    <h5 className={classes.cardTitle}>Log in With your Windows account</h5>
                     <div className={classes.socialLine}>
                       {[
                         "fab fa-windows"
@@ -99,7 +99,7 @@ class LoginPage extends React.Component {
                     </div>
                   </CardHeader>
                   <CardBody>
-                    <CustomInput
+                    <TextField
                       labelText="Username.."
                       id="username"
                       onChange={this.handleChange('username')}
@@ -114,7 +114,7 @@ class LoginPage extends React.Component {
                         )
                       }}
                     />
-                    <CustomInput
+                    <TextField
                       labelText="Password"
                       id="password"
                       onChange={this.handleChange('password')}
@@ -132,9 +132,10 @@ class LoginPage extends React.Component {
                       }}
                     />
                   </CardBody>
-                  <Typography>{context.erromsg}</Typography>
+                  <Typography color='red'>{context.erromsg}</Typography>
 
                   <CardFooter className={classes.justifyContentCenter}>
+         
                   {this.state.loggingIn ?<CircularProgress size={50} />:
                   
                     <Button disabled={this.state.loggingIn} onClick={() => this.login(context)} color="rose" simple size="lg" block>
