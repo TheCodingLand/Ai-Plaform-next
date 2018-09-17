@@ -131,13 +131,14 @@ class LoginPage extends React.Component {
                         )
                       }}
                     />
+                    <Typography className={classes.error}>{context.errormsg}</Typography>
                   </CardBody>
-                  <Typography color='red'>{context.erromsg}</Typography>
+                  
 
                   <CardFooter className={classes.justifyContentCenter}>
-         
-                  {this.state.loggingIn ?<CircularProgress size={50} />:
                   
+                  {this.state.loggingIn ?<CircularProgress size={50} />:
+                    
                     <Button disabled={this.state.loggingIn} onClick={() => this.login(context)} color="rose" simple size="lg" block>
                       Let's Go
                     </Button>}

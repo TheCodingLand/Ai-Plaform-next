@@ -46,6 +46,9 @@ const loginPageStyle = {
   cardHeader: {
     marginBottom: "20px"
   },
+  error : {
+    color : "red",
+  },
   socialLine: {
     padding: "0.9375rem 0"
   }
