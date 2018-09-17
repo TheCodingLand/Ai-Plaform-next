@@ -16,7 +16,7 @@ PASSWORD = "Ctgsup*0322"
 SERVER = "sqlrcsl01"
 DB = "OmniProd"
 TABLE = "dbo.incidents"
-ROWS="Title;Description;AssociatedCategory;SolutionDescription;CreationDate"
+ROWS="Subject;Body_Plain_Text"
 FILENAME = "EMAILS"
 SELECT_ROWS = ROWS.split(';')
 
@@ -28,7 +28,7 @@ query = "SELECT"
 for ROW in SELECT_ROWS:
     query = f"{query!s} {ROW!s},"
 query = query[:-1] #remove last comma
-query = f"{query} FROM {TABLE!s} where Source='E-Mail'"
+query = f"{query} FROM {TABLE!s}"
 
 print (query)
 cursor.execute(query)
