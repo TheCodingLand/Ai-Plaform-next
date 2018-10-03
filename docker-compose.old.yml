@@ -3,46 +3,56 @@ version: "3"
 services:
   #####PROXY#####
   tina-traefik:
-    image: traefik:1.7
+    image: traefik:latest
     restart: always
     ports:
       - 80:80
       - 443:443
+      - 8081:8081
       - 8082:8082
 
     labels:
       - "traefik.backend=proxy"
       - "traefik.frontend.rule=Host:proxy.${D_HOST}"
-      - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
+      - "traefik.frontend.entryPoints=http"
       - "traefik.port=8081"
       - "traefik.enable=true"
-      - "traefik.docker.domain=${D_HOST}"
-      
 
     networks:
       - ai-web
       - ai-internal
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik/traefik-${HTTPMODE}.toml:/etc/traefik/traefik.toml
-      - ./traefik/acme/:/etc/traefik/
+      - ./traefik/traefik.toml:/etc/traefik/traefik.toml
+      - ./traefik/acme.json:/etc/traefik/acme.json
   #####CONTAINER MANAGEMENT#####
   tina-portainer:
-    image: portainer/portainer:1.19.2
+    image: portainer/portainer
     labels:
       - "traefik.backend=portainer"
       - "traefik.docker.network=ai-web"
       - "traefik.enable=true"
       - "traefik.port=9000"
       - "traefik.frontend.rule=Host:portainer.${D_HOST}"
-      - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
+      - "traefik.frontend.entryPoints=http"
     volumes:
       - portainer_data:/data
       - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9000:9000
 
     networks:
       - ai-internal
       - ai-web
+
+  #####Automatic rolling updates for containers#####
+  #  watchtower:
+  #     image: v2tec/watchtower
+  #     command: --cleanup portainer-app portainer-watchtower portainer/templates
+  #     networks:
+  #       - ai-internal
+  #     volumes:
+  #       - /var/run/docker.sock:/var/run/docker.sock
 
   tina-mongodb:
     image: mongo
@@ -72,7 +82,7 @@ services:
       - "traefik.enable=true"
       - "traefik.port=3001"
       - "traefik.frontend.rule=Host:ws.${D_HOST}"
-      - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
+      - "traefik.frontend.entryPoints=http"
     #test debug ws and traefik
     expose:
       - "3001"
@@ -107,14 +117,14 @@ services:
       - ME_CONFIG_BASICAUTH_PASSWORD=${ME_CONFIG_BASICAUTH_PASSWORD}
       - ME_CONFIG_MONGODB_ADMINPASSWORD=${ME_CONFIG_MONGODB_ADMINPASSWORD}
       - ME_CONFIG_MONGODB_ADMINUSERNAME=${ME_CONFIG_MONGODB_ADMINUSERNAME}
-    restart: always
+
     labels:
-      - "traefik.backend=mongo-express"
+      - "traefik.backend=mongo"
       - "traefik.docker.network=ai-web"
       - "traefik.enable=true"
       - "traefik.port=8081"
-      - "traefik.frontend.rule=Host:mongo-express.${D_HOST}"
-      - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
+      - "traefik.frontend.rule=Host:mongo.${D_HOST}"
+      - "traefik.frontend.entryPoints=http"
     expose:
       - "8081"
     depends_on:
@@ -133,7 +143,7 @@ services:
       - "traefik.enable=true"
       - "traefik.port=8080"
       - "traefik.frontend.rule=Host:rest.${D_HOST}"
-      - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
+      - "traefik.frontend.entryPoints=http"
 
     depends_on:
       - tina-mongodb
@@ -157,7 +167,7 @@ services:
       - "traefik.enable=true"
       - "traefik.port=80"
       - "traefik.frontend.rule=Host:pra.${D_HOST}"
-      - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
+      - "traefik.frontend.entryPoints=http"
     expose:
       - "80"
 
@@ -198,6 +208,7 @@ services:
       - tina-redis
     networks:
       - ai-internal
+
 
   data-worker:
     build: ./tina-worker
@@ -251,14 +262,15 @@ services:
     environment:
       - REDIS_HOST=${REDIS_HOST}
       - MONGODB_SERVER=${MONGODB_SERVER}
-
+      - DOMAIN=${DOMAIN}
+      - LDAP_SESSION_EXPIRE_TIME=${LDAP_SESSION_EXPIRE_TIME}
     labels:
       - "traefik.backend=api"
       - "traefik.docker.network=ai-web"
       - "traefik.enable=true"
       - "traefik.port=5000"
       - "traefik.frontend.rule=Host:api.${D_HOST}"
-      - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
+      - "traefik.frontend.entryPoints=http"
     links:
       - tina-redis
     networks:
@@ -270,17 +282,14 @@ services:
     restart: always
     labels:
       - "traefik.backend=console"
-      - "traefik.docker.network=ai-web"
+      - "traefik.docker.network=web"
       - "traefik.enable=true"
-      - "traefik.port=80"
-      - "traefik.frontend.rule=Host:${D_HOST}"
-      - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
-    environment:
-      - HTTPS=${HTTPS}
-      - LOGINREQUIRED=${LOGINREQUIRED}
-      - D_HOST=${D_HOST}
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:console.${D_HOST}"
+      - "traefik.frontend.entryPoints=http"
+
     expose:
-      - 80
+      - "8080"
     networks:
       - ai-web
 
@@ -292,11 +301,11 @@ services:
     restart: always
     labels:
       - "traefik.backend=upload"
-      - "traefik.docker.network=ai-web"
+      - "traefik.docker.network=web"
       - "traefik.enable=true"
       - "traefik.port=8080"
       - "traefik.frontend.rule=Host:upload.${D_HOST}"
-      - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
+      - "traefik.frontend.entryPoints=http"
     expose:
       - "8080"
     volumes:
