@@ -2,3 +2,6 @@
 # misc
 ./.env
 *.pyc
+./src/config.js
+./tina-console/src/config.js
+.env

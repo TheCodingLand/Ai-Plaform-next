@@ -1,2 +1,2 @@
-const config = { https: true, apiRoot : "julien.tech", loginRequired : false }
+const config = { https: false, apiRoot : "tina.lbr.lu", loginRequired : true }
 export default config

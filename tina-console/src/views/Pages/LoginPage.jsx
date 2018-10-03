@@ -9,7 +9,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
 import LockOutline from "@material-ui/icons/LockOutlined";
-
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
@@ -21,7 +23,7 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import {UserContext} from 'components/Context/UserProvider'
 import loginPageStyle from "assets/jss/ctg-ai-lab/views/loginPageStyle.jsx";
-import { Typography } from "@material-ui/core";
+import { Typography, TextField } from "@material-ui/core";
 
 
 class LoginPage extends React.Component {
@@ -35,10 +37,14 @@ class LoginPage extends React.Component {
       email:"",
       loggingIn:false,
       erromsg:"",
-      full_name: ""
+      full_name: "",
+      showPassword: false,
     };
   }
-  
+  handleClickShowPassword = () => {
+    this.setState(state => ({ showPassword: !state.showPassword }));
+  };
+
 
   login = (context) => {
     context.login({username: this.state.username, password : this.state.password} )
@@ -62,6 +68,13 @@ class LoginPage extends React.Component {
       700
     );
   }
+
+  _handleKeyPress = (context) => (e) => {
+    if (e.key === 'Enter') {
+      this.login(context)
+    }
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -78,7 +91,7 @@ class LoginPage extends React.Component {
                     className={`${classes.cardHeader} ${classes.textCenter}`}
                     color="ctg"
                   >
-                    <h5 className={classes.cardTitle}>Log in With your CTG Windows account</h5>
+                    <h5 className={classes.cardTitle}>Log in With your Windows account</h5>
                     <div className={classes.socialLine}>
                       {[
                         "fab fa-windows"
@@ -116,6 +129,8 @@ class LoginPage extends React.Component {
                     />
                     <CustomInput
                       labelText="Password"
+                      onKeyPress={this._handleKeyPress(context)} 
+                      type={this.state.showPassword ? 'text' : 'password'}
                       id="password"
                       onChange={this.handleChange('password')}
                       formControlProps={{
@@ -124,19 +139,24 @@ class LoginPage extends React.Component {
                       inputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
-                            <LockOutline
-                              className={classes.inputAdornmentIcon}
-                            />
+                            <IconButton className={classes.iconButton}
+                  aria-label="Toggle password visibility"
+                  onClick={this.handleClickShowPassword}
+                >
+                  {this.state.showPassword ? <VisibilityOff className={classes.inputAdornmentIcon} /> : <Visibility className={classes.inputAdornmentIcon} />}
+                </IconButton>
                           </InputAdornment>
                         )
                       }}
                     />
+                    <Typography className={classes.error}>{context.errormsg}</Typography>
                   </CardBody>
-                  <Typography>{context.erromsg}</Typography>
+                  
 
                   <CardFooter className={classes.justifyContentCenter}>
-                  {this.state.loggingIn ?<CircularProgress size={50} />:
                   
+                  {this.state.loggingIn ?<CircularProgress size={50} />:
+                    
                     <Button disabled={this.state.loggingIn} onClick={() => this.login(context)} color="rose" simple size="lg" block>
                       Let's Go
                     </Button>}

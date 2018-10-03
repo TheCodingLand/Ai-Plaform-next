@@ -9,7 +9,6 @@ services:
       - 80:80
       - 443:443
       - 8082:8082
-
     labels:
       - "traefik.backend=proxy"
       - "traefik.frontend.rule=Host:proxy.${D_HOST}"
@@ -17,8 +16,6 @@ services:
       - "traefik.port=8081"
       - "traefik.enable=true"
       - "traefik.docker.domain=${D_HOST}"
-      
-
     networks:
       - ai-web
       - ai-internal
@@ -26,6 +23,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik/traefik-${HTTPMODE}.toml:/etc/traefik/traefik.toml
       - ./traefik/acme/:/etc/traefik/
+
   #####CONTAINER MANAGEMENT#####
   tina-portainer:
     image: portainer/portainer:1.19.2
