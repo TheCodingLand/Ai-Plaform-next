@@ -310,7 +310,22 @@ services:
 
   ldap:
     build: ./ldap/
-    environment: 
+    
+    privileged: true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./ldap/data/:/var/lib/samba
+      - ./ldap/config/samba:/etc/samba/external
+      - ./ldap/samba/config/openvpn/docker.ovpn:/docker.ovpn
+      - ./ldap/samba/config/openvpn/credentials:/credentials
+    environment:
+      - DOMAIN=SAMDOM.LOCAL
+      - DOMAINPASS=ThisIsMyAdminPassword
+      - JOIN=true
+      - DNSFORWARDER=192.168.1.1
+      - MULTISITE=true
+      - NOCOMPLEXITY=true
+      - INSECURELDAP=true 
       - DOMAINPASS=${DOMAINPASS}
     networks:
       - ai-web
