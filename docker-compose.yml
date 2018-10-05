@@ -320,10 +320,8 @@ services:
       - ./ldap/samba/config/openvpn/credentials:/credentials
     environment:
       - DOMAIN=ldap
-      - DOMAINPASS=ThisIsMyAdminPassword
       - JOIN=true
       - DNSFORWARDER=192.168.1.1
-      - MULTISITE=true
       - NOCOMPLEXITY=true
       - INSECURELDAP=true 
       - DOMAINPASS=${DOMAINPASS}
