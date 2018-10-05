@@ -79,7 +79,7 @@ export class AppProvider extends React.Component {
          // console.log(res);
           if (res.data.length > 0) {
             let keys = Object.getOwnPropertyNames(res.data[0]);
-            this.setState({ rawdataColumns: { [coll._id]: keys } });
+            this.setState( {  rawdataColumns: { ...this.state.rawdataColumns, [coll._id]: keys } });
           }
         });
       });

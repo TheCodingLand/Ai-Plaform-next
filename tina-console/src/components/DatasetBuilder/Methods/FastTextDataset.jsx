@@ -83,7 +83,7 @@ class HorizontalLinearStepper extends React.Component {
   }
   setCollection = data => {
     if (data) {
-      // console.log(data);
+      console.log(data);
 
       let newstate = { ...this.state, data };
       if (this.validate(newstate)) {
