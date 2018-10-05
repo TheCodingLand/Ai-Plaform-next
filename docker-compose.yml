@@ -320,7 +320,7 @@ services:
       - ./ldap/samba/config/openvpn/credentials:/credentials
     environment:
       - DOMAIN=ldap
-      - JOIN=true
+      #- JOIN=true
       - DNSFORWARDER=192.168.1.1
       - NOCOMPLEXITY=true
       - INSECURELDAP=true 
