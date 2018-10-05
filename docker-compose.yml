@@ -319,7 +319,7 @@ services:
       - ./ldap/samba/config/openvpn/docker.ovpn:/docker.ovpn
       - ./ldap/samba/config/openvpn/credentials:/credentials
     environment:
-      - DOMAIN=SAMDOM.LOCAL
+      - DOMAIN=ldap
       - DOMAINPASS=ThisIsMyAdminPassword
       - JOIN=true
       - DNSFORWARDER=192.168.1.1
