@@ -310,6 +310,8 @@ services:
 
   ldap:
     build: ./ldap/
+    environment: 
+      - DOMAINPASS=${DOMAINPASS}
     networks:
       - ai-web
       - ai-internal
