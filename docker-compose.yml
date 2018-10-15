@@ -18,7 +18,6 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.domain=${D_HOST}"
       
-
     networks:
       - ai-web
       - ai-internal
@@ -28,7 +27,7 @@ services:
       - ./traefik/acme/:/etc/traefik/
   #####CONTAINER MANAGEMENT#####
   tina-portainer:
-    image: portainer/portainer:1.19.2
+    image: portainer/portainer:pr2336
     labels:
       - "traefik.backend=portainer"
       - "traefik.docker.network=ai-web"

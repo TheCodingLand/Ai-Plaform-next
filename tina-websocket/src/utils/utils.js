@@ -12,12 +12,8 @@ const getRedisKey = (redisClient, key) => {
     })
 }
 
-
 const getKeys = (redisClient, keyglob, objname, objclass) => {
     var promise = new Promise((resolve, reject) => {
-
-
-
             console.log('inside promise 1')
             redisClient.keys(keyglob, function (err, replies) {
                 console.log(replies.length + " replies:");
@@ -41,12 +37,9 @@ const getKeys = (redisClient, keyglob, objname, objclass) => {
                 }).catch((err) => console.log(err))
             })
 
-
-
         }
 
     )
-
 
     return promise
 }
