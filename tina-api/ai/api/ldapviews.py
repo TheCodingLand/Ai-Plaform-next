@@ -26,7 +26,7 @@ except:
 DOMAIN = os.getenv('DOMAIN')
 
 def get_ldap_connection():
-    conn = ldap.initialize(f'ldap://{DOMAIN}:389/')
+    conn = ldap.initialize(f'ldap://{DOMAIN!s}:389/')
     conn.protocol_version = 3
     conn.set_option(ldap.OPT_REFERRALS, 0)
     return conn
