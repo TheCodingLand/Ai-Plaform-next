@@ -330,7 +330,9 @@ services:
 
   tina-webdav:
     image: morrisjobke/webdav:latest
-    
+    networks:
+      - ai-web
+      - ai-internal
     environment:
       - PASSWORD=${WEBDAV_PASSWORD}
       - USERNAME=${WEBDAV_USERNAME}
@@ -348,8 +350,8 @@ services:
       - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
     volumes:
       - registry_data:/var/lib/registry
-   
-      
+
+
 
   # ldap:
   #   build: ./ldap/
