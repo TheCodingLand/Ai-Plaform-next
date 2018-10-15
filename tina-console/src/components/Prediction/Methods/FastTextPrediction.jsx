@@ -49,6 +49,7 @@ const styles = theme => ({
     position: "relative"
   },
   textFields: {
+    marginTop: "27px",
     paddingBottom: "10px",
     margin: theme.spacing.unit,
     width: "100%",
@@ -152,7 +153,9 @@ class FastTextPrediction extends React.Component {
   getResult = (context) => {
     
     console.log(context.predictions);
+    console.log(context.lastTaskId)
     let prediction = context.predictions.filter(
+     
      prediction => prediction.id === context.lastTaskId
     );
     console.log(prediction);

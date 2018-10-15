@@ -110,7 +110,7 @@ class EventsProvider extends React.Component {
   
       let tasks = this.state.activeTasks;
       tasks.push({ id: id });
-      this.setState({ tasks });
+      this.setState({ tasks, lastTaskId:id });
   
       this.props.websocket.emit("message", e);
   

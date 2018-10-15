@@ -132,7 +132,7 @@ class HorizontalLinearStepper extends React.Component {
     const { activeStep } = this.state;
 
     if (activeStep === 0) {
-      if (this.validate1) {
+      if (this.validate1()) {
         this.setState({
           activeStep: activeStep + 1
         });

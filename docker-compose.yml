@@ -9,7 +9,6 @@ services:
       - 80:80
       - 443:443
       - 8082:8082
-
     labels:
       - "traefik.backend=proxy"
       - "traefik.frontend.rule=Host:proxy.${D_HOST}"
@@ -133,7 +132,7 @@ services:
       - "traefik.docker.network=ai-web"
       - "traefik.enable=true"
       - "traefik.port=8081"
-      - "traefik.frontend.rule=Host:mongo-express.${D_HOST}"
+      - "traefik.frontend.rule=Host:data.${D_HOST}"
       - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
     expose:
       - "8081"
