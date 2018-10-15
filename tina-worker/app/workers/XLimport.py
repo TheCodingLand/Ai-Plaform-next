@@ -11,10 +11,6 @@ class worker():
 
     def __init__(self, task, thread):
         db = client['rawdata']
-        
-        
-   
-        
         self.thread = thread
         self.task = task
         self.collection_rawdata = db[self.task['data']['name']]

@@ -329,6 +329,15 @@ services:
     working_dir: /usr/src/app
     command: sh -c 'node ./src/index.js'
 
+  tina-webdav:
+    image: morrisjobke/webdav:latest
+    
+    environment:
+      - PASSWORD=${WEBDAV_PASSWORD}
+      - USERNAME=${WEBDAV_USERNAME}
+    volumes: 
+      - /data:/var/webdav
+
 
   # ldap:
   #   build: ./ldap/
