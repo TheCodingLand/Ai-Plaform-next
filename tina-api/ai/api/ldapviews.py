@@ -16,6 +16,7 @@ import ldap
 import time
 import redis
 import os
+
 import jwt
 from random import randint, choice
 redis_host = os.getenv('REDIS_HOST')
@@ -23,7 +24,10 @@ try:
     LDAP_SESSION_EXPIRE_TIME = int(os.getenv('LDAP_SESSION_EXPIRE_TIME'))
 except:
     LDAP_SESSION_EXPIRE_TIME = 3600
+
 DOMAIN = os.getenv('DOMAIN')
+AD_SRV = os.getenv('AD_SRV')
+BASE_DN = os.getenv('BASE_DN')
 
 def get_ldap_connection():
     conn = ldap.initialize(f'ldap://{DOMAIN!s}:389/')
@@ -95,7 +99,7 @@ class Login(Resource):
 
         try:
             conn.simple_bind_s(username + "@" + domain, password)
-            base_dn = 'dc=ctg,dc=lu'
+            base_dn = BASEDN
             filter = f'(&(objectClass=user)(sAMAccountName={username}))'
             attrs = ['sAMAccountName','memberOf', 'displayName', 'userAccountControl', 'accountExpires']
             result = conn.search_s(base_dn, ldap.SCOPE_SUBTREE, filter, attrs)
