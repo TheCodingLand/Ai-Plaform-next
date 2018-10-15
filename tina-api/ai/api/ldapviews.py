@@ -95,7 +95,7 @@ class Login(Resource):
 
         try:
             conn.simple_bind_s(username + "@" + domain, password)
-            base_dn = 'dc=rcsl,dc=lu'
+            base_dn = 'dc=ctg,dc=lu'
             filter = f'(&(objectClass=user)(sAMAccountName={username}))'
             attrs = ['sAMAccountName','memberOf', 'displayName', 'userAccountControl', 'accountExpires']
             result = conn.search_s(base_dn, ldap.SCOPE_SUBTREE, filter, attrs)
