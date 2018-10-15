@@ -8,7 +8,6 @@ services:
     ports:
       - 80:80
       - 443:443
-      - 8082:8082
     labels:
       - "traefik.backend=proxy"
       - "traefik.frontend.rule=Host:proxy.${D_HOST}"
@@ -338,6 +337,19 @@ services:
     volumes: 
       - /data:/var/webdav
 
+  tina-registry:
+    image: registry:latest
+    labels:
+      - "traefik.backend=registry"
+      - "traefik.docker.network=ai-web"
+      - "traefik.enable=true"
+      - "traefik.port=5000"
+      - "traefik.frontend.rule=Host:registry.${D_HOST}"
+      - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
+    volumes:
+      - registry_data:/var/lib/registry
+   
+      
 
   # ldap:
   #   build: ./ldap/
