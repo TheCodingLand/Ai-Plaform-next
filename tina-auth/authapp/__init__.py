@@ -2,11 +2,14 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
+import os
+
+LDAP_DOMAIN = os.getenv('LDAP_DOMAIN')
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 app.config['WTF_CSRF_SECRET_KEY'] = 'random key for form'
-app.config['LDAP_PROVIDER_URL'] = 'ldap://dcrcsl01.rcsl.lu:389/'
+app.config['LDAP_PROVIDER_URL'] = f'ldap://{LDAP_DOMAIN}:389/'
 app.config['LDAP_PROTOCOL_VERSION'] = 3
 db = SQLAlchemy(app)
 
