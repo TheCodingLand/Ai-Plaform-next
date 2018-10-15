@@ -95,7 +95,7 @@ var dashboardRoutes = [
     sidebarName: "Settings",
     navbarName: "Settings",
     icon: Settings,
-    component: SettingsPage
+    component: Debug
   },
   {
     path: "/documentation",

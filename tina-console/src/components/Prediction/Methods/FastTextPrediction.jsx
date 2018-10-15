@@ -211,7 +211,7 @@ class FastTextPrediction extends React.Component {
         </CardHeader>
         <CardBody>
           <GridContainer>
-            <GridItem xs={12} sm={12} md={3}>
+            <GridItem xs={12} sm={12} md={6}>
               <FormControl
                 className={classes.formControl}
                 error={this.state.modelErrorText != ""}
