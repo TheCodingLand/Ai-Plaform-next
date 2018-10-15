@@ -270,6 +270,9 @@ services:
       - tina_data:/data/
     environment:
       - REDIS_HOST=${REDIS_HOST}
+      - BASE_DN=${BASE_DN}
+      - DOMAIN=${DOMAIN}
+      - AD_SRV=${AD_SRV}
       - MONGODB_SERVER=${MONGODB_SERVER}
 
     labels:
