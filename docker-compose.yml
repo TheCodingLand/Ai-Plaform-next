@@ -328,26 +328,26 @@ services:
     command: sh -c 'node ./src/index.js'
 
 
-  ldap:
-    build: ./ldap/
+  # ldap:
+  #   build: ./ldap/
     
-    privileged: true
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./ldap/data/:/var/lib/samba
-      - ./ldap/config/samba:/etc/samba/external
-      - ./ldap/samba/config/openvpn/docker.ovpn:/docker.ovpn
-      - ./ldap/samba/config/openvpn/credentials:/credentials
-    environment:
-      - DOMAIN=${DOMAIN}
-      #- JOIN=true
-      - DNSFORWARDER=192.168.1.1
-      - NOCOMPLEXITY=true
-      - INSECURELDAP=true 
-      - DOMAINPASS=${DOMAINPASS}
-    networks:
-      - ai-web
-      - ai-internal
+  #   privileged: true
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - ./ldap/data/:/var/lib/samba
+  #     - ./ldap/config/samba:/etc/samba/external
+  #     - ./ldap/samba/config/openvpn/docker.ovpn:/docker.ovpn
+  #     - ./ldap/samba/config/openvpn/credentials:/credentials
+  #   environment:
+  #     - DOMAIN=${DOMAIN}
+  #     #- JOIN=true
+  #     - DNSFORWARDER=192.168.1.1
+  #     - NOCOMPLEXITY=true
+  #     - INSECURELDAP=true 
+  #     - DOMAINPASS=${DOMAINPASS}
+  #   networks:
+  #     - ai-web
+  #     - ai-internal
   
 
 

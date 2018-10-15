@@ -306,6 +306,7 @@ class FastTextPrediction extends React.Component {
                     className={classes.textFields}
                     label="Results"
                     id="result"
+                    disabled
                     multiline
                     rows={10}
                     value={this.getResult(context)}
