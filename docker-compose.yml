@@ -26,23 +26,23 @@ services:
       - ./traefik/traefik-${HTTPMODE}.toml:/etc/traefik/traefik.toml
       - ./traefik/acme/:/etc/traefik/
   
-  tina-auth:
-    build: ./tina-auth
-    restart: always
-    environment:
-      - LDAP_DOMAIN=${DOMAIN}
+  # tina-auth:
+  #   build: ./tina-auth
+  #   restart: always
+  #   environment:
+  #     - LDAP_DOMAIN=${DOMAIN}
 
-    labels:
-      - "traefik.backend=auth"
-      - "traefik.docker.network=web"
-      - "traefik.enable=true"
-      - "traefik.port=3000"
-      - "traefik.frontend.rule=Host:auth.${D_HOST}"
-      - "traefik.frontend.entryPoints=http"
+  #   labels:
+  #     - "traefik.backend=auth"
+  #     - "traefik.docker.network=web"
+  #     - "traefik.enable=true"
+  #     - "traefik.port=3000"
+  #     - "traefik.frontend.rule=Host:auth.${D_HOST}"
+  #     - "traefik.frontend.entryPoints=http"
 
-    networks:
-      - ai-internal
-      - ai-web
+  #   networks:
+  #     - ai-internal
+  #     - ai-web
       
   
   
