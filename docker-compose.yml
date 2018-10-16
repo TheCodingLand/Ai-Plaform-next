@@ -326,16 +326,16 @@ services:
     working_dir: /usr/src/app
     command: sh -c 'node ./src/index.js'
 
-  tina-webdav:
-    image: morrisjobke/webdav:latest
-    networks:
-      - ai-web
-      - ai-internal
-    environment:
-      - PASSWORD=${WEBDAV_PASSWORD}
-      - USERNAME=${WEBDAV_USERNAME}
-    volumes: 
-      - /data:/var/webdav
+  # tina-webdav:
+  #   image: morrisjobke/webdav:latest
+  #   networks:
+  #     - ai-web
+  #     - ai-internal
+  #   environment:
+  #     - PASSWORD=${WEBDAV_PASSWORD}
+  #     - USERNAME=${WEBDAV_USERNAME}
+  #   volumes: 
+  #     - /data:/var/webdav
 
   tina-registry:
     image: registry:latest
@@ -379,6 +379,7 @@ volumes:
   tina_data:
   mongo_db:
   redis_data:
+  registry_data:
 
 networks:
   ai-web:
