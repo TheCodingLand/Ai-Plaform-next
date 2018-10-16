@@ -92,10 +92,8 @@ services:
       - "traefik.frontend.rule=Host:ws.${D_HOST}"
       - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
     #test debug ws and traefik
-    expose:
-      - "3001"
-    ports:
-      - "3001:3001"
+
+ 
     depends_on:
       - tina-redis
     networks:
