@@ -1,0 +1,88 @@
+version: '3.7'
+services:
+  ft-predict:
+    image: registry.tina.ctg.lu:80/ft:1
+    depends_on:
+      - tina-redis
+    volumes:
+      -  nfs_tina_data_1:/data/
+    environment:
+      - REDIS_HOST=tina-redis
+      - WORKER=predict
+      - MONGODB_SERVER=tina-mongo
+      - LOGLEVEL=INFO
+    
+    networks:
+      - internal
+
+  ft-train:
+    image: registry.tina.ctg.lu:80/ft:1
+    volumes:
+      -  nfs_tina_data_1:/data/
+    environment:
+      - REDIS_HOST=tina-redis
+      - WORKER=training
+      - MONGODB_SERVER=tina-mongo
+      - LOGLEVEL=INFO
+    depends_on:
+      - tina-redis
+    networks:
+      - internal
+
+  ft-test:
+    image: registry.tina.ctg.lu:80/ft:1
+    depends_on:
+      - tina-redis
+    volumes:
+      -  nfs_tina_data_1:/data/
+    environment:
+      - REDIS_HOST=tina-redis
+      - WORKER=test
+      - MONGODB_SERVER=tina-mongo
+      - LOGLEVEL=INFO
+   
+    networks:
+      - internal
+
+  ft-upload:
+    image: registry.tina.ctg.lu:80/ft:1
+    depends_on:
+      - tina-redis
+    volumes:
+      -  nfs_tina_data_1:/data/
+    environment:
+      - REDIS_HOST=tina-redis
+      - WORKER=upload
+      - MONGODB_SERVER=tina-mongo
+      - LOGLEVEL=INFO
+ 
+    networks:
+      - internal
+ 
+  ft-data:
+    image: registry.tina.ctg.lu:80/ft:1
+    depends_on:
+      - tina-redis
+    volumes:
+      -  nfs_tina_data_1:/data/
+    environment:
+      - REDIS_HOST=tina-redis
+      - WORKER=datasetbuilder
+      - MONGODB_SERVER=tina-mongo
+      - LOGLEVEL=INFO
+
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: overlay
+    external: true
+
+
+volumes:
+  nfs_tina_data_1:
+    driver_opts:
+      type: "nfs"
+      o: "addr=tina.ctg.lu,nolock,soft,rw"
+      device: ":/data/tina"

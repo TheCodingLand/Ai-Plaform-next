@@ -1,0 +1,100 @@
+version: '3.7'
+services:
+  tina-websocket:
+    image: registry.tina.ctg.lu:80/tina-websocket:1
+    environment:
+      - REDIS_HOST=tina-redis
+    deploy: 
+      labels:
+        - "traefik.backend=websocket"
+        - "traefik.docker.network=proxy"
+        - "traefik.enable=true"
+        - "traefik.port=3001"
+        - "traefik.frontend.rule=Host:ws.tina.ctg.lu"
+        - "traefik.frontend.entryPoints=http, https"
+    networks:
+      - proxy
+
+  tina-web:
+    image: registry.tina.ctg.lu:80/tina-web:1
+
+    deploy:
+      labels:
+        - "traefik.backend=console"
+        - "traefik.docker.network=proxy"
+        - "traefik.enable=true"
+        - "traefik.port=80"
+        - "traefik.frontend.rule=Host:tina.ctg.lu"
+        - "traefik.frontend.entryPoints=http, https"
+    networks:
+      - proxy
+
+
+  tina-upload:
+    environment:
+      - REDIS_HOST=tina-redis
+      - DESTINATION=/data
+    image: registry.tina.ctg.lu:80/tina-upload:1
+    deploy:
+      labels:
+        - "traefik.backend=upload"
+        - "traefik.docker.network=proxy"
+        - "traefik.enable=true"
+        - "traefik.port=8080"
+        - "traefik.frontend.rule=Host:upload.tina.ctg.lu"
+        - "traefik.frontend.entryPoints=http" 
+    volumes:
+      - nfs_tina_data_1:/data/
+    networks:
+      - proxy
+      - internal
+    working_dir: /usr/src/app
+    command: sh -c 'node ./src/index.js'
+
+  tina-mongo-rest:
+    ### Change the tag below to run a different version of RESTHeart
+    image: softinstigate/restheart
+    ### Uncomment to name the container explicitly
+    deploy:
+      labels:
+        - "traefik.backend=rest"
+        - "traefik.docker.network=proxy"
+        - "traefik.enable=true"
+        - "traefik.port=8080"
+        - "traefik.frontend.rule=Host:rest.tina.ctg.lu"
+        - "traefik.frontend.entryPoints=http, https"
+    depends_on:
+      - tina-mongodb
+    networks:
+      - proxy
+      - internal
+    
+    configs:
+      - source: restheart-security
+        target: /opt/restheart/etc/security.yml
+        mode: 0440
+      - source: restheart-conf
+        target: /opt/restheart/etc/restheart.yml
+        mode: 0440
+      
+configs:
+  restheart-conf:
+    file: ./tina-restheart/restheart.yml
+  restheart-security:
+    file: ./tina-restheart/security.yml
+
+networks:
+  proxy:
+    driver: overlay
+    external: true
+  internal:
+    driver: overlay
+    external: true
+
+
+volumes:
+  nfs_tina_data_1:
+    driver_opts:
+      type: "nfs"
+      o: "addr=tina.ctg.lu,nolock,soft,rw"
+      device: ":/data/tina"
