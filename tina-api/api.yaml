@@ -1,0 +1,40 @@
+version: '3.7'
+services:
+
+  tina-api:
+    image: registry.tina.ctg.lu:80/tina-api:1
+    restart: always
+    volumes:
+      - nfs_tina_data:/data/
+    environment:
+      - REDIS_HOST=tina-redis
+      - BASE_DN=${BASE_DN}
+      - DOMAIN=${DOMAIN}
+      - AD_SRV=${AD_SRV}
+      - MONGODB_SERVER=tina-mongo
+    deploy:  
+      labels:
+        - "traefik.backend=api"
+        - "traefik.docker.network=ai-proxy"
+        - "traefik.enable=true"
+        - "traefik.port=5000"
+        - "traefik.frontend.rule=Host:api.tina.ctg.lu"
+        - "traefik.frontend.entryPoints=http, https"
+    networks:
+      - ai-internal
+      - ai-proxy    
+
+networks:
+  proxy:
+    driver: overlay
+    external: true
+  internal:
+    driver: overlay
+    external: true
+
+volumes:
+  nfs_tina_data:
+    driver_opts:
+      type: "nfs"
+      o: "addr=tina.ctg.lu,nolock,soft,rw"
+      device: ":/data/tina"

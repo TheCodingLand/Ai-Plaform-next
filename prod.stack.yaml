@@ -1,0 +1,103 @@
+version: "3"
+
+services:
+  #####PROXY#####
+  tina-traefik:
+    image: traefik:1.7
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    labels:
+      - "traefik.backend=proxy"
+      - "traefik.frontend.rule=Host:proxy.${D_HOST}"
+      - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
+      - "traefik.port=8081"
+      - "traefik.enable=true"
+      - "traefik.docker.domain=${D_HOST}"
+    networks:
+      - ai-web
+      - ai-internal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/traefik-${HTTPMODE}.toml:/etc/traefik/traefik.toml
+      - ./traefik/acme/:/etc/traefik/
+    
+  tina-mongodb:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+
+    volumes:
+      - mongo_db:/data/db
+    logging:
+      driver: "none"
+    networks:
+      - ai-internal
+      - ai-web 
+
+  #####REDIS MESSAGE QUEUE#####
+  tina-redis:
+    restart: always
+    image: redis:latest
+    volumes:
+      - redis_data:/data
+    networks:
+      - ai-internal
+
+ 
+
+  prediction-worker:
+    build: ./tina-worker
+    restart: always
+    volumes:
+      - tina_data:/data/
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - WORKER=predict
+      - MONGODB_SERVER=${MONGODB_SERVER}
+      - LOGLEVEL=${PRED_LOGLEVEL}
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
+
+  tina-api:
+    build: ./tina-api
+    restart: always
+    volumes:
+      - tina_data:/data/
+    environment: 
+      - REDIS_HOST=${REDIS_HOST}
+      - BASE_DN=${BASE_DN}
+      - DOMAIN=${DOMAIN}
+      - AD_SRV=${AD_SRV}
+      - MONGODB_SERVER=${MONGODB_SERVER}
+    labels:
+      - "traefik.backend=api"
+      - "traefik.docker.network=ai-web"
+      - "traefik.enable=true"
+      - "traefik.port=5000"
+      - "traefik.frontend.rule=Host:api.${D_HOST}"
+      - "traefik.frontend.entryPoints=${ENTRYPOINTS}"
+    links:
+      - tina-redis
+    networks:
+      - ai-internal
+      - ai-web
+
+ 
+#CONFIGURE NFS HERE 
+volumes:
+  tina_data:
+  mongo_db:
+  redis_data:
+
+
+networks:
+  ai-web:
+    external: true
+  ai-internal:
+    external: false
