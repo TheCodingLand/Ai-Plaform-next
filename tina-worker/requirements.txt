@@ -6,3 +6,4 @@ pybind11
 Cython
 xlrd
 lxml
+pyyaml
