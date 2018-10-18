@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import os, logging
 import yaml
 
-with open("../config.yml", 'r') as ymlfile:
+with open("config.yml", 'r') as ymlfile:
     try:
         cfg = yaml.load(ymlfile)
     except FileNotFoundError:
