@@ -23,7 +23,7 @@ PASSWORD = cfg['mongo']['password']
 
 mongohost = os.environ.get('MONGODB_SERVER')
 try:
-    client = MongoClient(mongohost, 27017,username='mongo', password='B186o73l7a')
+    client = MongoClient(mongohost, 27017,username=USER, password=PASSWORD)
 except:
     logging.error('connexion failed')
     raise
