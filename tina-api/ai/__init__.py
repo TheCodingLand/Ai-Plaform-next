@@ -10,9 +10,6 @@ from ai.api.ldapviews import ns as login_events_namespace
 
 from flask_cors import CORS
 
-
-
-
 import logging
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
